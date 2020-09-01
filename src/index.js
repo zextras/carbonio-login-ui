@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import './index.css';
 
-const Test = styled.h1`
-    transform: translateX(50px);
+const H1 = styled.h1`
+    color: red;
 `;
-render(<Test>Hello World</Test>, document.getElementById('app'));
+render(<H1>Hello World</H1>, document.getElementById('app'));
