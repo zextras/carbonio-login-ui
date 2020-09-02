@@ -1,18 +1,28 @@
-// const path = require('path');
+const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
-// const pathsToCopy = [
-// 	{ from: 'assets', to: 'assets' }
-// ];
+const pathsToCopy = [
+	{ from: 'translations', to: 'i18n' }
+];
 
 module.exports = {
 	devtool: 'source-map',
+	entry: {
+		index: path.resolve(process.cwd(), 'src', 'index.jsx')
+	},
 	output: {
 		path: __dirname + '/build',
 	},
 	target: 'web',
+	resolve: {
+		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+		alias: {
+			'@zextras/zapp-ui': path.resolve(process.cwd(), 'zapp-ui', 'src', 'index'),
+			'assets': path.resolve(process.cwd(), 'assets'),
+		}
+	},
 	module: {
 		rules: [
 			{
@@ -56,21 +66,23 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpg|gif|woff2?|svg|eot|ttf|ogg|mp3)$/,
-				exclude: /assets/,
+				//exclude: /assets/,
 				use: [
 					{
 						loader: "file-loader",
-						options: {}
+						options: {
+							outputPath: 'assets'
+						}
 					}
 				]
-			},
+			}
 		]
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
-		// new CopyPlugin({
-		// 	patterns: pathsToCopy,
-		// }),
+		new CopyPlugin({
+			patterns: pathsToCopy,
+		}),
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: "./src/index.html",
