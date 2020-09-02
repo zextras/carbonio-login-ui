@@ -16,7 +16,6 @@ import {
 	Button,
 	Checkbox,
 	Container,
-	extendTheme,
 	Input,
 	Link,
 	Logo,
@@ -24,10 +23,8 @@ import {
 	Row,
 	Padding,
 	PasswordInput,
-	SnackbarManager,
 	Text,
 	Tooltip,
-	ThemeProvider,
 	useScreenMode,
 	useSnackbar,
 	Paragraph

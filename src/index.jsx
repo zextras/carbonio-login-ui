@@ -5,9 +5,9 @@ import {
 	Switch,
 	Route
 } from 'react-router-dom';
-import { extendTheme, SnackbarManager, ThemeProvider } from "../zapp-ui/src";
+import { extendTheme, SnackbarManager, ThemeProvider } from "@zextras/zapp-ui";
 
-import LoginView from './components/login.jsx';
+import LoginView from './components/login';
 import './index.css';
 import './i18n/i18n.config';
 

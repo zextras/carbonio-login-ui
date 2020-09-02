@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -29,14 +29,14 @@ module.exports = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: {
-					loader: "babel-loader"
+					loader: 'babel-loader'
 				}
 			},
 			{
 				test: /\.html$/,
 				use: [
 					{
-						loader: "html-loader"
+						loader: 'html-loader'
 					}
 				]
 			},
@@ -47,17 +47,17 @@ module.exports = {
 				],
 				use: [
 					{
-						loader: "style-loader"
+						loader: 'style-loader'
 					},
 					{
-						loader: "css-loader",
+						loader: 'css-loader',
 						options: {
 							importLoaders: 1,
 							sourceMap: true
 						}
 					},
 					{
-						loader: "postcss-loader",
+						loader: 'postcss-loader',
 						options: {
 							sourceMap: true
 						}
@@ -69,7 +69,7 @@ module.exports = {
 				//exclude: /assets/,
 				use: [
 					{
-						loader: "file-loader",
+						loader: 'file-loader',
 						options: {
 							outputPath: 'assets'
 						}
@@ -85,8 +85,8 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			inject: true,
-			template: "./src/index.html",
-			filename: "./index.html"
+			template: './src/index.html',
+			filename: './index.html'
 		})
 	]
 };
