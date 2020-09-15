@@ -11,13 +11,11 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-// import { useShellDb, useShellNetworkService } from '../bootstrap/bootstrapper-context';
+import {postV1Login} from "../../services/v1-service";
 
 export default function useLoginView() {
 	const history = useHistory();
 	const location = useLocation();
-	// const db = useShellDb();
-	// const network = useShellNetworkService();
 
 	const [from, setFrom] = useState();
 	useEffect(() => {
@@ -32,17 +30,25 @@ export default function useLoginView() {
 	}, [history, from]);
 
 	const doLogin = useCallback((ev) => {
-		/*ev.preventDefault();
+		ev.preventDefault();
 		return new Promise(function(resolve, reject) {
-			network.doLogin(
+			postV1Login(
+				"PASSWORD",
 				usernameRef.current.value,
 				passwordRef.current.value
 			)
-				.then((account) => db.accounts.add(account))
-				.then(() => resolve())
+				//.then((account) => db.accounts.add(account))
+				.then(res => {
+					console.log(res);
+					if(res.status === 401)
+						throw Error('Unauthorized');
+					if (res.status >= 500)
+						throw Error('Network Error');
+					return res;
+				})
 				.then(() => returnToPage())
 				.catch((err) => reject(err));
-		});*/
+		});
 	}, [returnToPage, usernameRef, passwordRef]);
 
 	return {

@@ -16,6 +16,14 @@ module.exports = {
 		path: __dirname + '/build',
 	},
 	target: 'web',
+	devServer: {
+		proxy: {
+			'/zx': {
+				target: 'https://infra-27852980.testarea.zextras.com/',
+				secure: false
+			}
+		}
+	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {
