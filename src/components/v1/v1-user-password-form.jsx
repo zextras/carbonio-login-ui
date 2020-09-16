@@ -7,11 +7,22 @@ export default function V1UserPasswordForm({setOpenGenericModal, setOpenOfflineM
     const {
         doLogin,
         usernameRef,
+        rememberMe,
+        setRememberMe,
         passwordRef
     } = useLoginView();
+
+    const updateRememberMe = useCallback(() => {
+        setRememberMe((c) => !c);
+        localStorage.setItem('rememberMe', rememberMe);
+    }, []);
+
     const {t} = useTranslation();
     const createSnackbar = useSnackbar();
     const [showAuthError, setShowAuthError] = useState(false);
+
+    const [username, setUsername] = useState(localStorage.getItem('username' || ''));
+    const [password, setPassword] = useState(localStorage.getItem('password' || ''));
 
     const onSubmit = useCallback((e) => {
         setShowAuthError(false);
@@ -42,13 +53,17 @@ export default function V1UserPasswordForm({setOpenGenericModal, setOpenOfflineM
         <>
             <form onSubmit={onSubmit} style={{width: '100%'}}>
                 <Row padding={{bottom: 'large'}}>
-                    <Input inputRef={usernameRef} label={t('Username')} backgroundColor="gray5"/>
+                    <Input inputRef={usernameRef} value={username} onChange={(ev) => {
+                        setUsername(ev.target.value);
+                    }} label={t('Username')} backgroundColor="gray5"/>
                 </Row>
                 <Row>
-                    <PasswordInput inputRef={passwordRef} label={t('Password')} backgroundColor="gray5"/>
+                    <PasswordInput inputRef={passwordRef} value={password} onChange={(ev) => {
+                        setPassword(ev.target.value);
+                    }} label={t('Password')} backgroundColor="gray5"/>
                 </Row>
                 <Row padding={{vertical: 'extralarge'}} mainAlignment="space-between">
-                    <Checkbox label={t('Remember me')}/>
+                    <Checkbox value={rememberMe} onClick={updateRememberMe} label={t('Remember me')}/>
                 </Row>
                 <Row orientation="vertical" crossAlignment="flex-start" padding={{bottom: 'extralarge'}}>
                     <Button onClick={onSubmit} label={t('Login')} size="fill"/>

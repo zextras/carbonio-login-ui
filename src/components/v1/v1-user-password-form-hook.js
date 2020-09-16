@@ -9,52 +9,59 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
 import {postV1Login} from "../../services/v1-service";
 
 export default function useLoginView() {
-	const history = useHistory();
-	const location = useLocation();
+    const history = useHistory();
+    const location = useLocation();
 
-	const [from, setFrom] = useState();
-	useEffect(() => {
-		setFrom(location.state || { from: { pathname: '/' } });
-	}, [location, setFrom]);
+    const [from, setFrom] = useState();
+    useEffect(() => {
+        setFrom(location.state || {from: {pathname: '/'}});
+    }, [location, setFrom]);
 
-	const usernameRef = useRef();
-	const passwordRef = useRef();
+    const usernameRef = useRef();
+    const passwordRef = useRef();
+    const [rememberMe, setRememberMe] = useState(localStorage.getItem('rememberMe') === 'true');
 
-	const returnToPage = useCallback(() => {
-		history.replace(from);
-	}, [history, from]);
+    const returnToPage = useCallback(() => {
+        history.replace(from);
+    }, [history, from]);
 
-	const doLogin = useCallback((ev) => {
-		ev.preventDefault();
-		return new Promise(function(resolve, reject) {
-			postV1Login(
-				"PASSWORD",
-				usernameRef.current.value,
-				passwordRef.current.value
-			)
-				//.then((account) => db.accounts.add(account))
-				.then(res => {
-					console.log(res);
-					if(res.status === 401)
-						throw Error('Unauthorized');
-					if (res.status >= 500)
-						throw Error('Network Error');
-					return res;
-				})
-				.then(() => returnToPage())
-				.catch((err) => reject(err));
-		});
-	}, [returnToPage, usernameRef, passwordRef]);
+    const doLogin = useCallback((ev) => {
+        ev.preventDefault();
+        return new Promise(function (resolve, reject) {
+            if (rememberMe === true) {
+                localStorage.setItem('username', usernameRef.current.value);
+                localStorage.setItem('password', passwordRef.current.value);
+                localStorage.setItem('rememberMe', rememberMe);
+            }
+            postV1Login(
+                "PASSWORD",
+                usernameRef.current.value,
+                passwordRef.current.value
+            )
+                .then(res => {
+                    if (res.status === 401)
+                        throw Error('Unauthorized');
+                    if (res.status >= 500)
+                        throw Error('Network Error');
+                    return res;
+                })
+                .then(() => returnToPage())
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }, [returnToPage, usernameRef, passwordRef, rememberMe]);
 
-	return {
-		doLogin,
-		usernameRef,
-		passwordRef,
-		returnToPage
-	};
+    return {
+        doLogin,
+        usernameRef,
+        passwordRef,
+        rememberMe, setRememberMe,
+        returnToPage
+    };
 }
