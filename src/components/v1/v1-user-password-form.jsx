@@ -13,8 +13,10 @@ export default function V1UserPasswordForm({setOpenGenericModal, setOpenOfflineM
     } = useLoginView();
 
     const updateRememberMe = useCallback(() => {
-        setRememberMe((c) => !c);
-        localStorage.setItem('rememberMe', rememberMe);
+        setRememberMe((c) => {
+            localStorage.setItem('rememberMe', !c);
+            return !c;
+        });
     }, []);
 
     const {t} = useTranslation();

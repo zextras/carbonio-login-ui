@@ -36,7 +36,6 @@ export default function useLoginView() {
             if (rememberMe === true) {
                 localStorage.setItem('username', usernameRef.current.value);
                 localStorage.setItem('password', passwordRef.current.value);
-                localStorage.setItem('rememberMe', rememberMe);
             }
             postV1Login(
                 "PASSWORD",
