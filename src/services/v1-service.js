@@ -2,7 +2,7 @@ import {browserName, browserVersion, isMobile, mobileModel, mobileVendor, osName
 
 export function postV1Login(auth_method, user, password, service) {
     let deviceModel = isMobile ? mobileVendor + ' ' + mobileModel : browserName + ' ' + browserVersion;
-    deviceModel = deviceModel + "/" + osName + " " + osVersion
+    deviceModel = deviceModel + "/" + osName + " " + osVersion;
     return fetch('/zx/auth/v1/login', {
         method: 'POST',
         headers: {

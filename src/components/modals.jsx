@@ -30,7 +30,7 @@ export function OfflineModal({ open, onClose }) {
     );
 }
 
-export function GenericErrorModal({ open, onClose }) {
+export function GenericErrorModal({ open, onClose, message}) {
     const { t } = useTranslation();
     return (
         <Modal
@@ -38,7 +38,7 @@ export function GenericErrorModal({ open, onClose }) {
             open={open}
             onClose={onClose}
         >
-            <Paragraph>Generic error text placeholder.</Paragraph>
+            <Paragraph>{ t(message) }</Paragraph>
         </Modal>
     );
 }

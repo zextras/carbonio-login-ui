@@ -1,73 +1,75 @@
-import useLoginView from "./v1-user-password-form-hook";
 import {useTranslation} from "react-i18next";
 import React, {useCallback, useState} from "react";
-import {Button, Checkbox, Input, Padding, PasswordInput, Row, Text, useSnackbar} from '@zextras/zapp-ui';
+import {Button, Checkbox, Input, Padding, PasswordInput, Row, Snackbar, Text} from '@zextras/zapp-ui';
+import {postV1Login} from "../../services/v1-service";
+import {OfflineModal} from "../modals";
 
-export default function V1UserPasswordForm({setOpenGenericModal, setOpenOfflineModal}) {
-    const {
-        doLogin,
-        usernameRef,
-        rememberMe,
-        setRememberMe,
-        passwordRef
-    } = useLoginView();
-
-    const updateRememberMe = useCallback(() => {
-        setRememberMe((c) => {
-            localStorage.setItem('rememberMe', !c);
-            return !c;
-        });
-    }, []);
-
+export default function V1UserPasswordForm() {
     const {t} = useTranslation();
-    const createSnackbar = useSnackbar();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
+    const [detailNetworkModal, setDetailNetworkModal] = useState(false);
+
     const [showAuthError, setShowAuthError] = useState(false);
 
-    const [username, setUsername] = useState(localStorage.getItem('username' || ''));
-    const [password, setPassword] = useState(localStorage.getItem('password' || ''));
 
-    const onSubmit = useCallback((e) => {
+    const onSubmit = useCallback((ev) => {
+        ev.preventDefault();
         setShowAuthError(false);
-        doLogin(e)
-            .catch((err) => {
-                if (err.message.startsWith('Unauthorized'))
-                    setShowAuthError(true);
-                else {
-                    const snackbarRef = createSnackbar(
-                        {
-                            key: String(Date.now()),
-                            type: 'error',
-                            label: `${t('Can not do the login now')}.`,
-                            actionLabel: 'Details',
-                            replace: true,
-                            onActionClick: () => {
-                                window.top.navigator.onLine ? setOpenGenericModal(true) : setOpenOfflineModal(true);
-                                snackbarRef();
-                            },
-                            autoHideTimeout: 5000,
-                        }
-                    );
-                }
+
+        // TODO: Move after a successful login
+        // It's here for testing (I don't have successful credentials)
+        if (window.PasswordCredential) {
+            const cred = new PasswordCredential({
+                id: username,
+                password: password,
+                name: password
             });
-    }, [doLogin, createSnackbar, setShowAuthError, setOpenGenericModal, setOpenOfflineModal]);
+            navigator.credentials.store(cred);
+        }
+
+        postV1Login(
+            "PASSWORD",
+            username,
+            password
+        )
+            .then(res => {
+                if (res.status === 401)
+                    setShowAuthError(true);
+                if (res.status >= 500)
+                    setSnackbarNetworkError(true);
+                // TODO: handle successful case: redirect to source?
+                return res;
+            })
+    }, [username, password]);
 
     return (
         <>
             <form onSubmit={onSubmit} style={{width: '100%'}}>
                 <Row padding={{bottom: 'large'}}>
-                    <Input inputRef={usernameRef} value={username} onChange={(ev) => {
-                        setUsername(ev.target.value);
-                    }} label={t('Username')} backgroundColor="gray5"/>
+                    <Input
+                        value={username}
+                        onChange={(ev) => setUsername(ev.target.value)}
+                        hasError={showAuthError}
+                        autocomplete="username"
+                        label={t('Username')}
+                        backgroundColor="gray5"
+                    />
                 </Row>
                 <Row>
-                    <PasswordInput inputRef={passwordRef} value={password} onChange={(ev) => {
-                        setPassword(ev.target.value);
-                    }} label={t('Password')} backgroundColor="gray5"/>
+                    <PasswordInput
+                        value={password}
+                        onChange={(ev) => setPassword(ev.target.value)}
+                        hasError={showAuthError}
+                        autocomplete="password"
+                        label={t('Password')}
+                        backgroundColor="gray5"
+                    />
                 </Row>
-                <Row padding={{vertical: 'extralarge'}} mainAlignment="space-between">
-                    <Checkbox value={rememberMe} onClick={updateRememberMe} label={t('Remember me')}/>
-                </Row>
-                <Row orientation="vertical" crossAlignment="flex-start" padding={{bottom: 'extralarge'}}>
+                <Row orientation="vertical" crossAlignment="flex-start" padding={{vertical: 'extralarge'}}>
                     <Button onClick={onSubmit} label={t('Login')} size="fill"/>
                     {showAuthError && (
                         <Padding top="small">
@@ -80,6 +82,16 @@ export default function V1UserPasswordForm({setOpenGenericModal, setOpenOfflineM
                 </Row>
                 <input type="submit" style={{display: 'none'}}/>
             </form>
+            <Snackbar
+                open={snackbarNetworkError}
+                label={t('Can not do the login now')}
+                actionLabel="Details"
+                onActionClick={() => setDetailNetworkModal(true)}
+                onClose={() => setSnackbarNetworkError(false)}
+                autoHideTimeout={10000}
+                type="error"
+            />
+            <OfflineModal open={detailNetworkModal} onClose={()=> setDetailNetworkModal(false)} />
         </>
     );
 }

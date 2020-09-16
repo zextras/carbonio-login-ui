@@ -23,10 +23,9 @@ import logoSafari from 'assets/logo-safari.svg';
 import logoOpera from 'assets/logo-opera.svg';
 import logoYandex from 'assets/logo-yandex.svg';
 import logoUC from 'assets/logo-ucbrowser.svg';
-
+import {getConfig, getSupported} from '../services/configuration-service';
+import FormSelector from './form-selector';
 import {GenericErrorModal, HelpModal, OfflineModal} from './modals'
-import {getConfig, getSupported} from "../services/configuration-service";
-import FormSelector from "./form-selector";
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -40,11 +39,13 @@ const LoginContainer = styled(Container)`
 		align-items: center;	
 	`}
 `;
+
 const FormContainer = styled.div`
 	max-width: 100%;
 	max-height: 100vh;
 	box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.3);
 `;
+
 const FormWrapper = styled(Container)`
 	width: auto;
 	height: auto;
@@ -62,6 +63,7 @@ const FormWrapper = styled(Container)`
 		height: auto;
 	`}
 `;
+
 const Separator = styled.div`
 	width: 1px;
 	height: 16px;
@@ -78,7 +80,6 @@ export default function LoginView({theme, setTheme}) {
     const [openHelpModal, setOpenHelpModal] = useState(false);
     const [openOfflineModal, setOpenOfflineModal] = useState(false);
     const [openGenericModal, setOpenGenericModal] = useState(false);
-    const [snackbarNetError, setSnackbarNetError] = useState(false);
     const [snackbarThemeError, setSnackbarThemeError] = useState(false);
 
     const domain = window.location.hostname;
@@ -153,7 +154,7 @@ export default function LoginView({theme, setTheme}) {
                     setTheme({
                         loginBackground: "assets/bg.jpg"
                     });
-                    setSnackbarNetError(true);
+                    setOpenGenericModal(true);
                 }
             });
         return () => {
@@ -163,66 +164,80 @@ export default function LoginView({theme, setTheme}) {
 
     return (
         <>
-            <LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
-                <FormContainer>
-                    <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
-                        <Container mainAlignment="flex-start" height="auto">
-                            <Padding value="38px 0 38px">
-                                <img src={logo} style={{ maxWidth: '100%', maxHeight: '150px' }} />
-                            </Padding>
-                            <Padding bottom="extralarge" style={{width: '100%'}}>
-                                <FormSelector configuration={config}/>
-                                <Container orientation="horizontal" height="auto" mainAlignment="space-between">
-                                    <Row mainAlignment="flex-start">
-                                        <Link color="primary" size="medium"
-                                              onClick={() => setOpenHelpModal(true)}>{t('Help')}?</Link>
-                                        <Separator/>
-                                        <Link as={RouterLink} to="/" size="medium"
-                                              color="primary">{t('Privacy policy')}</Link>
-                                    </Row>
-                                    {false &&
-                                    <Row mainAlignment="flex-end">
-                                        <Button type="outlined" label={t('Login SAML')} color="primary" onClick={() => {
-                                            console.log('Login SAML TODO')
-                                        } /* TODO */}/>
-                                    </Row>
-                                    }
+            {
+                config &&
+                <>
+                    <LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
+                        <FormContainer>
+                            <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
+                                <Container mainAlignment="flex-start" height="auto">
+                                    <Padding value="38px 0 38px">
+                                        <img src={logo} style={{maxWidth: '100%', maxHeight: '150px'}}/>
+                                    </Padding>
+                                    <Padding bottom="extralarge" style={{width: '100%'}}>
+                                        <FormSelector configuration={config}/>
+                                        <Container orientation="horizontal" height="auto" mainAlignment="space-between">
+                                            <Row mainAlignment="flex-start">
+                                                <Link color="primary" size="medium"
+                                                      onClick={() => setOpenHelpModal(true)}>{t('Help')}?</Link>
+                                                <Separator/>
+                                                <Link as={RouterLink} to="/" size="medium"
+                                                      color="primary">{t('Privacy policy')}</Link>
+                                            </Row>
+                                            {false &&
+                                            <Row mainAlignment="flex-end">
+                                                <Button type="outlined" label={t('Login SAML')} color="primary"
+                                                        onClick={() => {
+                                                            console.log('Login SAML TODO')
+                                                        } /* TODO */}/>
+                                            </Row>
+                                            }
+                                        </Container>
+                                    </Padding>
                                 </Container>
-                            </Padding>
-                        </Container>
-                        <Container crossAlignment="flex-start" height="auto" padding={{bottom: 'extralarge'}}>
-                            <Text>{t('Supported browsers')}</Text>
-                            <Row padding={{top: 'medium', bottom: 'extralarge'}} wrap="nowrap">
-                                <Padding all="extrasmall" right="small"><Tooltip label="Chrome"><img src={logoChrome}
-                                                                                                     width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Firefox"><img src={logoFirefox}
-                                                                                                      width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Internet Explorer 11+"><img
-                                    src={logoIE} width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Edge"><img src={logoEdge}
-                                                                                                   width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Safari"><img src={logoSafari}
-                                                                                                     width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Opera"><img src={logoOpera}
-                                                                                                    width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="Yandex"><img src={logoYandex}
-                                                                                                     width="18px"/></Tooltip></Padding>
-                                <Padding all="extrasmall" right="small"><Tooltip label="UC"><img src={logoUC}
-                                                                                                 width="18px"/></Tooltip></Padding>
-                            </Row>
-                            <Text size="small"
-                                  overflow="break-word">Copyright &copy; {new Date().getFullYear()} Zextras, {t('All rights reserved')}</Text>
-                        </Container>
-                    </FormWrapper>
-                </FormContainer>
-            </LoginContainer>
-            <HelpModal open={openHelpModal} onClose={() => setOpenHelpModal(false)}/>
-            <OfflineModal open={openOfflineModal} onClose={() => setOpenOfflineModal(false)}/>
-            <GenericErrorModal open={openGenericModal} onClose={() => setOpenGenericModal(false)}/>
-            <Snackbar open={snackbarNetError} onClose={() => setSnackbarNetError(false)} type="error"
-                      label={`${t('Failed to fetch the authentication methods')}.`}/>
-            <Snackbar open={snackbarThemeError} onClose={() => setSnackbarThemeError(false)} type="error"
-                      label={`${t('Failed to fetch the application theme')}.`}/>
+                                <Container crossAlignment="flex-start" height="auto" padding={{bottom: 'extralarge'}}>
+                                    <Text>{t('Supported browsers')}</Text>
+                                    <Row padding={{top: 'medium', bottom: 'extralarge'}} wrap="nowrap">
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Chrome"><img
+                                            src={logoChrome}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Firefox"><img
+                                            src={logoFirefox}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip
+                                            label="Internet Explorer 11+"><img
+                                            src={logoIE} width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Edge"><img
+                                            src={logoEdge}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Safari"><img
+                                            src={logoSafari}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Opera"><img
+                                            src={logoOpera}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="Yandex"><img
+                                            src={logoYandex}
+                                            width="18px"/></Tooltip></Padding>
+                                        <Padding all="extrasmall" right="small"><Tooltip label="UC"><img src={logoUC}
+                                                                                                         width="18px"/></Tooltip></Padding>
+                                    </Row>
+                                    <Text size="small"
+                                          overflow="break-word">Copyright &copy; {new Date().getFullYear()} Zextras, {t('All rights reserved')}</Text>
+                                </Container>
+                            </FormWrapper>
+                        </FormContainer>
+                    </LoginContainer>
+                    <HelpModal open={openHelpModal} onClose={() => setOpenHelpModal(false)}/>
+                    <Snackbar open={snackbarThemeError} onClose={() => setSnackbarThemeError(false)} type="error"
+                              label={`${t('Failed to fetch the application theme')}.`}/>
+                </>
+            }
+            <GenericErrorModal
+                open={openGenericModal}
+                onClose={() => setOpenOfflineModal(false)}
+                message='Cannot connect to the authentication server.'
+            />
         </>
     );
 }
