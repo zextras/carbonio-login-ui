@@ -69,7 +69,7 @@ const TabContainer = styled(Container)`
 
 function selectedReducer(state, action) {
   if (!action.multiple) {
-    action.onChange(action.item.value);
+    action.onChange(action.item ? action.item.value : null);
     return action.item ? [action.item] : [];
   }
   switch (action.type) {
@@ -93,6 +93,10 @@ function selectedReducer(state, action) {
       action.onChange(newState);
       return newState;
     }
+    case 'set': {
+      action.onChange(action.item);
+      return action.item;
+    }
     default:
       throw new Error();
   }
@@ -109,12 +113,19 @@ const Select = React.forwardRef(function({
   display,
   dropdownWidth,
   dropdownMaxWidth,
-  LabelFactory
+  LabelFactory,
+  selection,
+  ...rest
 }, ref) {
   const [selected, dispatchSelected] = useReducer(selectedReducer, defaultSelection ? (multiple ? defaultSelection : [defaultSelection]) : []);
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState(false);
 
+  useEffect(() => {
+    if (selection) {
+      dispatchSelected({ multiple, onChange, item: selection, type: 'set' })
+    }
+  }, [multiple, selection]);
   const mappedItems = useMemo(() => {
     return items.map(
       (item, index) => {
@@ -171,6 +182,7 @@ const Select = React.forwardRef(function({
       onOpen={onOpen}
       onClose={onClose}
       placement="bottom-end"
+      {...rest}
     >
       <TabContainer
         ref={ref}
@@ -200,7 +212,13 @@ Select.propTypes = {
   ]),
   disabled: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })),
+  /** Initial selection value */
   defaultSelection: PropTypes.oneOfType([
+    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
+    PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }))
+  ]),
+  /** Selection value (controlled mode) */
+  selection: PropTypes.oneOfType([
     PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
     PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }))
   ]),
@@ -217,6 +235,7 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
+  defaultSelection: [],
   disabled: false,
   background: 'gray5',
   multiple: false,
