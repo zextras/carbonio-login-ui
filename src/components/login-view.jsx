@@ -25,7 +25,7 @@ import logoYandex from 'assets/logo-yandex.svg';
 import logoUC from 'assets/logo-ucbrowser.svg';
 import {getConfig, getSupported} from '../services/configuration-service';
 import FormSelector from './form-selector';
-import {GenericErrorModal, HelpModal, OfflineModal} from './modals'
+import {GenericErrorModal, HelpModal} from './modals'
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -53,7 +53,7 @@ const FormWrapper = styled(Container)`
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
-	max-height: 720px;
+	max-height: 620px;
 	height: 100vh;
 	overflow-y: auto;
 	${({screenMode, theme}) => screenMode === 'mobile' && css`
@@ -72,13 +72,17 @@ const Separator = styled.div`
 `;
 
 export default function LoginView({theme, setTheme}) {
+    const [retryConfig, setRetryConfig] = useState(false);
+
     const {t} = useTranslation();
     const screenMode = useScreenMode();
     const [config, setConfig] = useState(null);
     const [logo, setLogo] = useState(null);
 
+    const [showSamlButton, setShowSamlButton] = useState(true);
+    const hideSamlButton = () => setShowSamlButton(false);
+
     const [openHelpModal, setOpenHelpModal] = useState(false);
-    const [openOfflineModal, setOpenOfflineModal] = useState(false);
     const [openGenericModal, setOpenGenericModal] = useState(false);
     const [snackbarThemeError, setSnackbarThemeError] = useState(false);
 
@@ -91,7 +95,8 @@ export default function LoginView({theme, setTheme}) {
                 if (componentIsMounted) {
                     const version = res.minApiVersion;
                     setConfig({
-                        version: version
+                        version: version,
+                        disableInputs: false,
                     });
                     getConfig(version, domain, domain)
                         .then((res) => {
@@ -110,7 +115,7 @@ export default function LoginView({theme, setTheme}) {
                                 if (res.hasOwnProperty('loginPageLogo' && res.loginPageLogo)) {
                                     // TODO: edited_theme.logo = res.loginPageLogo;
                                 } else {
-                                    setLogo('https://f0xqhztc8f3dlju13uzd0o1e-wpengine.netdna-ssl.com/wp-content/uploads/2019/08/zimbra-mail-iphone-tablet.png');
+                                    setLogo('https://pbs.twimg.com/profile_images/1168532927157850115/AOW7Piif_400x400.png');
                                 }
 
                                 if (res.hasOwnProperty('loginPageColorSet' && res.loginPageColorSet)) {
@@ -129,10 +134,10 @@ export default function LoginView({theme, setTheme}) {
 
                                 // USED TO TEST THE CUSTOMIZATION OF THE THEME
                                 // edited_theme.palette.light.primary = {
-                                //     regular: '#FF0000'
+                                //     regular: '#0000FF'
                                 // };
                                 // edited_theme.palette.light.secondary = {
-                                //     regular: '#111111'
+                                //     regular: '#1111AA'
                                 // };
                                 // edited_theme.loginBackground = 'https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
 
@@ -144,6 +149,7 @@ export default function LoginView({theme, setTheme}) {
                                 setTheme({
                                     loginBackground: "assets/bg.jpg"
                                 });
+                                setLogo('https://pbs.twimg.com/profile_images/1168532927157850115/AOW7Piif_400x400.png');
                                 setSnackbarThemeError(true);
                             }
                         });
@@ -151,16 +157,29 @@ export default function LoginView({theme, setTheme}) {
             })
             .catch((err) => {
                 if (componentIsMounted) {
+                    setConfig({
+                        version: 1,
+                        disableInputs: true,
+                    });
                     setTheme({
                         loginBackground: "assets/bg.jpg"
                     });
+                    setLogo('assets/logo-zextras.png');
                     setOpenGenericModal(true);
+
+                    function sleep(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                    }
+                    // retry get the configuration after 20 seconds
+                    sleep(20000).then(()=>{
+                        setRetryConfig(true);
+                    });
                 }
             });
         return () => {
             componentIsMounted = false;
         };
-    }, []);
+    }, [retryConfig]);
 
     return (
         <>
@@ -171,28 +190,30 @@ export default function LoginView({theme, setTheme}) {
                         <FormContainer>
                             <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
                                 <Container mainAlignment="flex-start" height="auto">
-                                    <Padding value="38px 0 38px">
+                                    <Padding value="28px 0 28px">
                                         <img src={logo} style={{maxWidth: '100%', maxHeight: '150px'}}/>
                                     </Padding>
                                     <Padding bottom="extralarge" style={{width: '100%'}}>
                                         <FormSelector configuration={config}/>
+                                        {true &&
                                         <Container orientation="horizontal" height="auto" mainAlignment="space-between">
                                             <Row mainAlignment="flex-start">
-                                                <Link color="primary" size="medium"
+                                                <Link color="primary" size="large"
                                                       onClick={() => setOpenHelpModal(true)}>{t('Help')}?</Link>
                                                 <Separator/>
-                                                <Link as={RouterLink} to="/" size="medium"
+                                                <Link as={RouterLink} to="/" size="large"
                                                       color="primary">{t('Privacy policy')}</Link>
                                             </Row>
-                                            {false &&
-                                            <Row mainAlignment="flex-end">
-                                                <Button type="outlined" label={t('Login SAML')} color="primary"
-                                                        onClick={() => {
-                                                            console.log('Login SAML TODO')
-                                                        } /* TODO */}/>
-                                            </Row>
+                                            {showSamlButton &&
+                                                <Row mainAlignment="flex-end">
+                                                    <Button type="outlined" label={t('Login SAML')} color="primary"
+                                                            onClick={() => {
+                                                                console.log('Login SAML TODO')
+                                                            } /* TODO: SAML */}/>
+                                                </Row>
                                             }
                                         </Container>
+                                        }
                                     </Padding>
                                 </Container>
                                 <Container crossAlignment="flex-start" height="auto" padding={{bottom: 'extralarge'}}>
@@ -235,7 +256,7 @@ export default function LoginView({theme, setTheme}) {
             }
             <GenericErrorModal
                 open={openGenericModal}
-                onClose={() => setOpenOfflineModal(false)}
+                onClose={() => setOpenGenericModal(false)}
                 message='Cannot connect to the authentication server.'
             />
         </>
