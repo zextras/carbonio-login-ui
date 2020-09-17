@@ -5,6 +5,7 @@ import Container from '../layout/Container';
 import Icon from '../basic/Icon';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import defaultTheme from '../../theme/Theme';
+import { pseudoClasses } from '../utilities/functions';
 
 const ContainerEl = styled(Container)`
 	${(props) => props.disabled && css`
@@ -16,33 +17,37 @@ const ContainerEl = styled(Container)`
 		&:focus {
 			outline: none;
 			background: ${theme.palette[background].focus};
+			& input {
+				background: ${theme.palette[background].focus};
+			}
 		}
 		&:hover {
 			outline: none;
 			background: ${theme.palette[background].hover};
+			& input {
+				background: ${theme.palette[background].hover};
+			}
 		}
 		&:active {
 			outline: none;
 			background: ${theme.palette[background].active};
+			& input {
+				background: ${theme.palette[background].active};
+			}
 		}
 	`};
 `;
 const InputEl = styled.input`
-	border: none !important;
-	height: auto !important;
+	border: none;
 	width: 100%;
 	outline: 0;
-	background: transparent !important;
+	background: ${({theme, background}) => theme.palette[background].regular};
 	font-size: ${({theme}) => theme.sizes.font.medium};
 	font-weight: ${({theme}) => theme.fonts.weight.regular};
 	font-family: ${({theme}) => theme.fonts.default};
 	color: ${({theme, color}) => theme.palette[color].regular};
+	padding-top: ${({theme}) => theme.sizes.padding.medium};
 	transition: background 0.2s ease-out;
-	padding: ${({theme}) => `calc(${theme.sizes.padding.large} + ${theme.sizes.padding.extrasmall}) ${theme.sizes.padding.large} ${theme.sizes.padding.small}`}!important;
-	${({ hasIcon, theme }) => hasIcon && css`
-		padding-right: calc(${theme.sizes.padding.large} * 2 + ${theme.sizes.icon.large})!important;
-	`}
-	
 `;
 
 const Label = styled.label`
@@ -52,7 +57,7 @@ const Label = styled.label`
 	font-size: ${({theme, active}) => theme.sizes.font[active ? 'small' : 'medium']};
 	font-weight: ${({theme}) => theme.fonts.weight.regular};
 	font-family: ${({theme}) => theme.fonts.default};
-	color: ${({theme, hasError, hasFocus}) => theme.palette[hasError ? 'error' : (hasFocus ? 'primary' : 'secondary')].regular};
+	color: ${({theme, hasFocus}) => theme.palette[hasFocus ? 'primary' : 'secondary'].regular};
 	transform: translateY(${({active}) => active ? '0': '-50%'});
 	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out, left 150ms ease-out;
 	pointer-events: none;
@@ -65,11 +70,6 @@ const InputUnderline = styled.div`
 	height: 1px;
 	background: ${({theme, color}) => theme.palette[color].regular};
 `;
-const IconContainer = styled(Container)`
-	position: absolute;
-	right: ${({theme}) => theme.sizes.padding.large};
-	cursor: pointer;
-`;
 
 const Input = React.forwardRef(function({
 	borderColor,
@@ -79,8 +79,7 @@ const Input = React.forwardRef(function({
 	label,
 	inputRef,
 	value,
-	onChange,
-	hasError
+	onChange
 }, ref) {
 
 	const [active, setActive] = useState(false);
@@ -105,6 +104,10 @@ const Input = React.forwardRef(function({
 			height="fit"
 			borderRadius="half"
 			background={backgroundColor}
+			padding={{
+				vertical: 'small',
+				horizontal: 'large'
+			}}
 			style={{
 				cursor: 'text',
 				position: 'relative',
@@ -115,7 +118,6 @@ const Input = React.forwardRef(function({
 			<Label
 				htmlFor={id}
 				hasFocus={active}
-				hasError={hasError}
 				active={active || (comboRef.current && comboRef.current.value !== '') || !(comboRef.current || !value)}
 				style={{userSelect: 'none'}}
 			>
@@ -134,7 +136,7 @@ const Input = React.forwardRef(function({
 				onChange={onChange}
 				disabled={disabled}
 			/>
-			<InputUnderline color={hasError ? 'error' : (active ? 'primary' : borderColor)} />
+			<InputUnderline color={active ? 'primary' : borderColor} />
 		</ContainerEl>
 	);
 });
@@ -164,17 +166,14 @@ Input.propTypes = {
 	/** ref to the input element */
 	inputRef: PropTypes.object,
 	/** value of the input */
-	value: PropTypes.string,
-	/** Whether or not the input has an error */
-	hasError: PropTypes.bool
+	value: PropTypes.string
 };
 
 Input.defaultProps = {
 	backgroundColor: 'gray6',
 	disabled: false,
 	textColor: 'text',
-	borderColor: 'gray2',
-	hasError: false
+	borderColor: 'gray2'
 };
 
 Input._newId = 0;
@@ -187,8 +186,7 @@ const PasswordInput = React.forwardRef(function({
 	label,
 	inputRef,
 	value,
-	onChange,
-	hasError
+	onChange
 }, ref) {
 
 	const [active, setActive] = useState(false);
@@ -206,6 +204,7 @@ const PasswordInput = React.forwardRef(function({
 
 	const onShowClick = useCallback((ev) => {
 		ev.stopPropagation();
+		setActive(true);
 		setShow(!show);
 	}, [setActive, setShow, show]);
 
@@ -219,6 +218,10 @@ const PasswordInput = React.forwardRef(function({
 			height="fit"
 			borderRadius="half"
 			background={backgroundColor}
+			padding={{
+				vertical: 'small',
+				horizontal: 'large'
+			}}
 			style={{
 				cursor: 'text',
 				position: 'relative',
@@ -238,16 +241,14 @@ const PasswordInput = React.forwardRef(function({
 				value={value}
 				onChange={onChange}
 				disabled={disabled}
-				hasIcon={true}
 			/>
-			<IconContainer onClick={onShowClick} width="fit" height="fit">
-				<Icon icon={show ? "Eye" : "EyeOff"} size="large" color={hasError ? 'error' : (active ? 'primary' : 'secondary')} />
-			</IconContainer>
-			<InputUnderline color={hasError ? 'error' : (active ? 'primary' : borderColor)} />
+			<Container onClick={onShowClick} width="fit" height="fit" style={{ cursor: 'pointer'}}>
+				<Icon icon={show ? "Eye" : "EyeOff"} size="large" color={active ? 'primary' : 'secondary'} />
+			</Container>
+			<InputUnderline color={active ? 'primary' : borderColor} />
 			<Label
 				htmlFor={label}
 				hasFocus={active}
-				hasError={hasError}
 				active={active || (comboRef.current && comboRef.current.value !== '')}
 				style={{userSelect: 'none'}}
 			>
