@@ -191,12 +191,14 @@ export default function LoginView({theme, setTheme}) {
                         <FormContainer>
                             <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
                                 <Container mainAlignment="flex-start" height="auto">
-                                    <Padding value="28px 0 28px">
-                                        <img src={logo} style={{maxWidth: '100%', maxHeight: '150px'}}/>
+                                    <Padding value="28px 0 28px"  crossAlignment="center">
+                                        <Container crossAlignment="center">
+                                            <img src={logo} style={{maxWidth: '60%', maxHeight: '150px', display: 'block'}}/>
+                                        </Container>
                                     </Padding>
                                     <Padding bottom="extralarge" style={{width: '100%'}}>
                                         <FormSelector configuration={config} hideSamlButton={hideSamlButton}/>
-                                        {true &&
+                                        {false &&
                                         <Container orientation="horizontal" height="auto" mainAlignment="space-between">
                                             <Row mainAlignment="flex-start">
                                                 <Link color="primary" size="large"

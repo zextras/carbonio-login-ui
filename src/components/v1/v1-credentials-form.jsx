@@ -54,7 +54,7 @@ export default function V1CredentialsForm({
                 backgroundColor="gray5"
             />
         </Row>
-        <Row>
+        <Row padding={{bottom: 'small'}}>
             <PasswordInput
                 value={password}
                 disabled={disabled}
@@ -65,15 +65,15 @@ export default function V1CredentialsForm({
                 backgroundColor="gray5"
             />
         </Row>
-        <Row orientation="vertical" crossAlignment="flex-start" padding={{vertical: 'extralarge'}}>
+        {showAuthError && (
+            <Text color="error" size="medium" overflow="break-word">
+                {t('Credentials are not valid. Please check data and try again')}.
+            </Text>
+        )}
+        {!showAuthError && <Text color="error" size="medium" overflow="break-word">&nbsp;</Text>}
+        <Row orientation="vertical" crossAlignment="flex-start" padding={{bottom: 'extralarge', top:'large'}}>
             <Button onClick={submitUserPassword} disabled={disabled} label={t('Login')} size="fill"/>
-            {showAuthError && (
-                <Padding top="small">
-                    <Text color="error" size="medium" overflow="break-word">
-                        {t('Credentials are not valid. Please check data and try again')}.
-                    </Text>
-                </Padding>
-            )}
+
         </Row>
     </form>
 }

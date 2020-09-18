@@ -60,18 +60,11 @@ export default function V1Login({disabled, hideSamlButton}) {
                             value={otp}
                             disabled={disabled}
                             onChange={(ev) => setOtp(ev.target.value)}
-                            hasError={showAuthError}
+                            hasError={showOtpError}
                             label={t('Type here One-Time-Password')}
                             backgroundColor="gray5"
                         />
                     </Row>
-                    {showOtpError && (
-                        <Padding top="small">
-                            <Text color="error" overflow="break-word" size="small">
-                                {t('Wrong password, please check the the data and try again.')}
-                            </Text>
-                        </Padding>
-                    )}
                     <Row orientation="vertical" crossAlignment="flex-start" padding={{vertical: 'small'}}>
                         <Button onClick={submitOtp} disabled={disabled} label={t('Login')} size="fill"/>
                     </Row>
