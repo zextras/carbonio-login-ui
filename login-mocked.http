@@ -1,6 +1,6 @@
 ### login SUPPORTED
 GET /zx/login/supported HTTP/1.1
-Host: infra-27852980.testarea.zextras.com
+Host: {{host}}
 
 > {%
 client.test("'supported' executed successfully", function() {
@@ -13,7 +13,8 @@ client.global.set("version", response.body.minApiVersion);
 %}
 
 ### auth SUPPORTED
-GET infra-27852980.testarea.zextras.com/zx/auth/supported?domain=zimbra.com HTTP/1.1
+GET /zx/auth/supported?domain=zimbra.com HTTP/1.1
+Host: {{host}}
 
 > {%
 
@@ -23,14 +24,14 @@ client.test("'supported' executed successfully", function() {
   client.assert(response.body.hasOwnProperty("minApiVersion"), "Response don't have minApiVersion");
   client.assert(response.body.hasOwnProperty("maxApiVersion"), "Response don't have maxApiVersion");
 });
-if(response.body.hasOwnProperty("version")) {
+if(response.body.hasOwnProperty("minApiVersion")) {
     client.global.set("version", response.body.minApiVersion);
 }
 %}
 
 ###
 GET /zx/login/v{{version}}/config?domain=zimbra.com HTTP/1.1
-Host: infra-27852980.testarea.zextras.com
+Host: {{host}}
 
 > {%
 client.test("'supported' executed successfully", function() {
@@ -52,8 +53,9 @@ client.test("'supported' executed successfully", function() {
 });
 %}
 
-### V1 LOGIN
-POST https://infra-27852980.testarea.zextras.com/zx/auth/v{{version}}/login
+### V1 LOGIN successful
+POST /zx/auth/v{{version}}/login
+Host: {{host}}
 Content-Type: application/json
 X-Device-Model: Apple iPhone/iOS 13.2.3
 X-Service: ZimbraUI
@@ -61,7 +63,27 @@ X-Device-Id: 1231231231412
 
 {
   "auth_method": "PASSWORD",
-  "user": "luca.allegro@zextras.com",
+  "user": "luca.allegro",
+  "password": "ciaociaociao"
+}
+
+> {%
+client.test("'auth v1 LOGIN' executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not OK");
+});
+ %}
+
+### V1 LOGIN not successful
+POST /zx/auth/v{{version}}/login
+Host: {{host}}
+Content-Type: application/json
+X-Device-Model: Apple iPhone/iOS 13.2.3
+X-Service: ZimbraUI
+X-Device-Id: 1231231231412
+
+{
+  "auth_method": "PASSWORD",
+  "user": "not luca.allegro",
   "password": "at362LZPC"
 }
 

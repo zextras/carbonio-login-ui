@@ -8,7 +8,8 @@ export function postV1Login(auth_method, user, password, service) {
         headers: {
             'X-Device-Model': deviceModel,
             'X-Device-Id': 1,
-            'X-Service': 'ZimbraUI'
+            'X-Service': 'ZimbraUI',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             auth_method: auth_method,

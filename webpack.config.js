@@ -19,7 +19,7 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/zx': {
-				target: 'https://infra-27852980.testarea.zextras.com/',
+				target: 'http://localhost:3000/',
 				secure: false
 			}
 		}

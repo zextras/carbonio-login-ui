@@ -1,6 +1,9 @@
 {
   "All rights reserved": "",
   "Can not do the login now": "",
+  "Credentials are not valid": {
+    " Please check data and try again": ""
+  },
   "Do you need help": "",
   "Failed to fetch the application theme": "",
   "Failed to fetch the authentication method": "",
@@ -18,5 +21,12 @@
   "Type here One-Time-Password": "",
   "Username": "",
   "Verify that CAPS LOCK is not on, and then retype the current username and password": "",
+  "Wrong": "",
+  "Wrong password": {
+    " ": ""
+  },
+  "Wrong password, please check the the data and try again": {
+    "": ""
+  },
   "You are currently offline, please check your internet connection": ""
 }

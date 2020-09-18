@@ -106,26 +106,26 @@ export default function LoginView({theme, setTheme}) {
                                         light: {}
                                     }
                                 };
-                                if (res.hasOwnProperty('loginPageBackgroundImage' && res.loginPageBackgroundImage)) {
+                                if (res.hasOwnProperty('loginPageBackgroundImage') && res.loginPageBackgroundImage) {
                                     edited_theme.loginBackground = res.loginPageBackgroundImage;
                                 } else {
                                     edited_theme.loginBackground = "assets/bg.jpg";
                                 }
 
-                                if (res.hasOwnProperty('loginPageLogo' && res.loginPageLogo)) {
+                                if (res.hasOwnProperty('loginPageLogo') && res.loginPageLogo) {
                                     // TODO: edited_theme.logo = res.loginPageLogo;
                                 } else {
-                                    setLogo('https://pbs.twimg.com/profile_images/1168532927157850115/AOW7Piif_400x400.png');
+                                    setLogo('assets/logo-zextras.png');
                                 }
 
-                                if (res.hasOwnProperty('loginPageColorSet' && res.loginPageColorSet)) {
+                                if (res.hasOwnProperty('loginPageColorSet') && res.loginPageColorSet) {
                                     const color_set = res.loginPageColorSet;
-                                    if (color_set.hasOwnProperty('primary' && color_set.primary)) {
+                                    if (color_set.hasOwnProperty('primary') && color_set.primary) {
                                         edited_theme.palette.light.primary = {
                                             regular: color_set.primary
                                         };
                                     }
-                                    if (color_set.hasOwnProperty('secondary' && color_set.secondary)) {
+                                    if (color_set.hasOwnProperty('secondary') && color_set.secondary) {
                                         edited_theme.palette.light.secondary = {
                                             regular: color_set.secondary
                                         };
@@ -149,7 +149,7 @@ export default function LoginView({theme, setTheme}) {
                                 setTheme({
                                     loginBackground: "assets/bg.jpg"
                                 });
-                                setLogo('https://pbs.twimg.com/profile_images/1168532927157850115/AOW7Piif_400x400.png');
+                                setLogo('assets/logo-zextras.png');
                                 setSnackbarThemeError(true);
                             }
                         });
@@ -158,7 +158,7 @@ export default function LoginView({theme, setTheme}) {
             .catch((err) => {
                 if (componentIsMounted) {
                     setConfig({
-                        version: 1,
+                        version: null,
                         disableInputs: true,
                     });
                     setTheme({
@@ -172,7 +172,7 @@ export default function LoginView({theme, setTheme}) {
                     }
                     // retry get the configuration after 20 seconds
                     sleep(20000).then(()=>{
-                        setRetryConfig(true);
+                        setRetryConfig((c) => !c);
                     });
                 }
             });
@@ -194,7 +194,7 @@ export default function LoginView({theme, setTheme}) {
                                         <img src={logo} style={{maxWidth: '100%', maxHeight: '150px'}}/>
                                     </Padding>
                                     <Padding bottom="extralarge" style={{width: '100%'}}>
-                                        <FormSelector configuration={config}/>
+                                        <FormSelector configuration={config} hideSamlButton={hideSamlButton}/>
                                         {true &&
                                         <Container orientation="horizontal" height="auto" mainAlignment="space-between">
                                             <Row mainAlignment="flex-start">
@@ -206,7 +206,7 @@ export default function LoginView({theme, setTheme}) {
                                             </Row>
                                             {showSamlButton &&
                                                 <Row mainAlignment="flex-end">
-                                                    <Button type="outlined" label={t('Login SAML')} color="primary"
+                                                    <Button type="outlined" label={t('Login SAML')} color="primary" disabled={config.disableInputs}
                                                             onClick={() => {
                                                                 console.log('Login SAML TODO')
                                                             } /* TODO: SAML */}/>
