@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const pathsToCopy = [
 	{ from: 'translations', to: 'i18n' }
@@ -19,7 +20,7 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/zx': {
-				target: 'http://localhost:3000/',
+				target: 'https://infra-35eba87b.testarea.zextras.com/',
 				secure: false
 			}
 		}

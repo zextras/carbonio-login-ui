@@ -4,11 +4,11 @@ import {postV1Login} from "../../services/v1-service";
 import {useTranslation} from "react-i18next";
 
 
-export default function V1UserPasswordForm({
-                                               disabled,
-                                               showAuthError,
-                                               handleSubmitCredentialsResponse
-                                           }) {
+export default function V1CredentialsForm({
+                                              disabled,
+                                              showAuthError,
+                                              handleSubmitCredentialsResponse
+                                          }) {
     const {t} = useTranslation();
 
     const [username, setUsername] = useState('');

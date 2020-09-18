@@ -170,8 +170,9 @@ export default function LoginView({theme, setTheme}) {
                     function sleep(ms) {
                         return new Promise(resolve => setTimeout(resolve, ms));
                     }
+
                     // retry get the configuration after 20 seconds
-                    sleep(20000).then(()=>{
+                    sleep(20000).then(() => {
                         setRetryConfig((c) => !c);
                     });
                 }
@@ -205,12 +206,13 @@ export default function LoginView({theme, setTheme}) {
                                                       color="primary">{t('Privacy policy')}</Link>
                                             </Row>
                                             {showSamlButton &&
-                                                <Row mainAlignment="flex-end">
-                                                    <Button type="outlined" label={t('Login SAML')} color="primary" disabled={config.disableInputs}
-                                                            onClick={() => {
-                                                                console.log('Login SAML TODO')
-                                                            } /* TODO: SAML */}/>
-                                                </Row>
+                                            <Row mainAlignment="flex-end">
+                                                <Button type="outlined" label={t('Login SAML')} color="primary"
+                                                        disabled={config.disableInputs}
+                                                        onClick={() => {
+                                                            console.log('Login SAML TODO')
+                                                        } /* TODO: SAML */}/>
+                                            </Row>
                                             }
                                         </Container>
                                         }

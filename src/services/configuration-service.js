@@ -27,5 +27,3 @@ export function getAsset(version, path) {
         method: 'GET'
     });
 }
-
-

@@ -4,7 +4,7 @@ import {Button, Input, Padding, PasswordInput, Row, Snackbar, Text} from '@zextr
 import {postV1Login} from "../../services/v1-service";
 import {OfflineModal} from "../modals";
 import Spinner from "./Spinner";
-import V1UserPasswordForm from "./v1-user-password-form";
+import V1CredentialsForm from "./v1-credentials-form";
 
 export default function V1Login({disabled, hideSamlButton}) {
     const {t} = useTranslation();
@@ -37,7 +37,7 @@ export default function V1Login({disabled, hideSamlButton}) {
     return (
         <>
             {progress === 'credentials' &&
-                <V1UserPasswordForm
+                <V1CredentialsForm
                     disabled={disabled}
                     showAuthError={showAuthError}
                     handleSubmitCredentialsResponse={handleSubmitCredentialsResponse}
