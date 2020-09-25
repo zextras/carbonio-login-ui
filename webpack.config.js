@@ -11,7 +11,8 @@ const pathsToCopy = [
 module.exports = {
 	devtool: 'source-map',
 	entry: {
-		index: path.resolve(process.cwd(), 'src', 'index.jsx')
+		index: path.resolve(process.cwd(), 'src', 'index.js'),
+		v1: path.resolve(process.cwd(), 'src', 'v1', 'index.jsx')
 	},
 	output: {
 		path: __dirname + '/build',
@@ -19,6 +20,11 @@ module.exports = {
 	target: 'web',
 	devServer: {
 		proxy: {
+//			'/zx/login/supported': {
+//				bypass: (req, res) => res.send({
+//					minApiVersion: 1
+//				}),
+//			},
 			'/zx': {
 				target: 'https://infra-35eba87b.testarea.zextras.com/',
 				secure: false
@@ -95,7 +101,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: './src/index.html',
-			filename: './index.html'
+			filename: './index.html',
+			chunks: ['index']
 		})
 	]
 };

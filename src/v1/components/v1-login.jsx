@@ -1,8 +1,7 @@
 import {useTranslation} from "react-i18next";
 import React, {useCallback, useState} from "react";
-import {Button, Input, Padding, PasswordInput, Row, Snackbar, Text} from '@zextras/zapp-ui';
-import {postV1Login} from "../../services/v1-service";
-import {OfflineModal} from "../modals";
+import {Button, Snackbar, Text} from '@zextras/zapp-ui';
+import {OfflineModal} from "./modals";
 import Spinner from "./Spinner";
 import V1CredentialsForm from "./v1-credentials-form";
 

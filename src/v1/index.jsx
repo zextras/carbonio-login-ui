@@ -4,10 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {extendTheme, SnackbarManager, ThemeProvider} from "@zextras/zapp-ui";
 
 import LoginView from './components/login-view';
-import './index.css';
 import './i18n/i18n.config';
-
-render(<App/>, document.getElementById('app'));
 
 function App() {
     const [theme, setTheme] = useState({});
@@ -28,3 +25,5 @@ function App() {
         </>
     );
 }
+
+render(<App/>, document.getElementById('app'));

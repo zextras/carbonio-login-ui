@@ -1,8 +1,7 @@
 import React, {useCallback, useState} from "react";
-import {Button, Input, Padding, PasswordInput, Row, Text} from '@zextras/zapp-ui';
-import {postV1Login} from "../../services/v1-service";
 import {useTranslation} from "react-i18next";
-
+import {Button, Input, PasswordInput, Row, Text} from '@zextras/zapp-ui';
+import {postV1Login} from "../services/v1-service";
 
 export default function V1CredentialsForm({
                                               disabled,

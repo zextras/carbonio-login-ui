@@ -1,4 +1,4 @@
-import V1Login from "./v1/v1-login";
+import V1Login from "./v1-login";
 import React from "react";
 
 export default function FormSelector({configuration, hideSamlButton}) {
