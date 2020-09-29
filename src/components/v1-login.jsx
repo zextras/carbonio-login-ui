@@ -5,7 +5,7 @@ import {OfflineModal} from "./modals";
 import Spinner from "./Spinner";
 import V1CredentialsForm from "./v1-credentials-form";
 
-export default function V1Login({disabled, hideSamlButton}) {
+export default function V1Login({configuration, hideSamlButton}) {
     const {t} = useTranslation();
 
     const [progress, setProgress] = useState('credentials');
@@ -37,7 +37,7 @@ export default function V1Login({disabled, hideSamlButton}) {
         <>
             {progress === 'credentials' &&
                 <V1CredentialsForm
-                    disabled={disabled}
+                    configuration={configuration}
                     showAuthError={showAuthError}
                     handleSubmitCredentialsResponse={handleSubmitCredentialsResponse}
                 />
@@ -57,7 +57,7 @@ export default function V1Login({disabled, hideSamlButton}) {
                     <Row padding={{top: 'large'}}>
                         <Input
                             value={otp}
-                            disabled={disabled}
+                            disabled={configuration.disableInputs}
                             onChange={(ev) => setOtp(ev.target.value)}
                             hasError={showOtpError}
                             label={t('Type here One-Time-Password')}
@@ -65,7 +65,7 @@ export default function V1Login({disabled, hideSamlButton}) {
                         />
                     </Row>
                     <Row orientation="vertical" crossAlignment="flex-start" padding={{vertical: 'small'}}>
-                        <Button onClick={submitOtp} disabled={disabled} label={t('Login')} size="fill"/>
+                        <Button onClick={submitOtp} disabled={configuration.disableInputs} label={t('Login')} size="fill"/>
                     </Row>
                 </form>
             }

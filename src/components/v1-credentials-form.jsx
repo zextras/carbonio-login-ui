@@ -4,9 +4,9 @@ import {Button, Input, PasswordInput, Row, Text} from '@zextras/zapp-ui';
 import {postV1Login} from "../services/v1-service";
 
 export default function V1CredentialsForm({
-                                              disabled,
                                               showAuthError,
-                                              handleSubmitCredentialsResponse
+                                              handleSubmitCredentialsResponse,
+                                              configuration
                                           }) {
     const {t} = useTranslation();
 
@@ -34,7 +34,7 @@ export default function V1CredentialsForm({
                     navigator.credentials.store(cred);
                 }
                 // TODO: redirect, setCoockie or token
-                window.location.href = 'http://www.google.com';
+                window.location.href = configuration.destinationUrl;
             } else {
                 handleSubmitCredentialsResponse(res);
             }
@@ -45,7 +45,7 @@ export default function V1CredentialsForm({
         <Row padding={{bottom: 'large'}}>
             <Input
                 value={username}
-                disabled={disabled}
+                disabled={configuration.disableInputs}
                 onChange={(ev) => setUsername(ev.target.value)}
                 hasError={showAuthError}
                 autocomplete="username"
@@ -56,7 +56,7 @@ export default function V1CredentialsForm({
         <Row padding={{bottom: 'small'}}>
             <PasswordInput
                 value={password}
-                disabled={disabled}
+                disabled={configuration.disableInputs}
                 onChange={(ev) => setPassword(ev.target.value)}
                 hasError={showAuthError}
                 autocomplete="password"
@@ -71,8 +71,7 @@ export default function V1CredentialsForm({
         )}
         {!showAuthError && <Text color="error" size="medium" overflow="break-word">&nbsp;</Text>}
         <Row orientation="vertical" crossAlignment="flex-start" padding={{bottom: 'extralarge', top:'large'}}>
-            <Button onClick={submitUserPassword} disabled={disabled} label={t('Login')} size="fill"/>
-
+            <Button onClick={submitUserPassword} disabled={configuration.disableInputs} label={t('Login')} size="fill"/>
         </Row>
     </form>
 }

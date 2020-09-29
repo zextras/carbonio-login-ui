@@ -11,26 +11,12 @@ const pathsToCopy = [
 module.exports = {
 	devtool: 'source-map',
 	entry: {
-		index: path.resolve(process.cwd(), 'src', 'index.js'),
-		v1: path.resolve(process.cwd(), 'src', 'v1', 'index.jsx')
+		index: path.resolve(process.cwd(), 'src', 'index.js')
 	},
 	output: {
 		path: __dirname + '/build',
 	},
 	target: 'web',
-	devServer: {
-		proxy: {
-//			'/zx/login/supported': {
-//				bypass: (req, res) => res.send({
-//					minApiVersion: 1
-//				}),
-//			},
-			'/zx': {
-				target: 'https://infra-35eba87b.testarea.zextras.com/',
-				secure: false
-			}
-		}
-	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {

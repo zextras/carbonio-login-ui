@@ -23,9 +23,12 @@ import logoSafari from 'assets/logo-safari.svg';
 import logoOpera from 'assets/logo-opera.svg';
 import logoYandex from 'assets/logo-yandex.svg';
 import logoUC from 'assets/logo-ucbrowser.svg';
-import {getConfig, getSupported} from '../services/configuration-service';
+import bakgoundImage from 'assets/bg.jpg';
+import logoZextras from 'assets/logo-zextras.png';
+import {getLoginConfig, getLoginSupported} from '../services/login-page-services';
 import FormSelector from './form-selector';
 import {GenericErrorModal, HelpModal} from './modals'
+import {getAuthSupported} from "../services/auth-configuration-service";
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -86,20 +89,61 @@ export default function LoginView({theme, setTheme}) {
     const [openGenericModal, setOpenGenericModal] = useState(false);
     const [snackbarThemeError, setSnackbarThemeError] = useState(false);
 
-    const domain = window.location.hostname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const domain = urlParams.get('domain');
+    const destinationUrl = urlParams.get('destinationUrl');
+
+    const setError = () => {
+        setConfig({
+            maxApiVersion: 0,
+            disableInputs: true,
+            destinationUrl: ''
+        });
+
+        setTheme({
+            loginBackground: bakgoundImage
+        });
+        setLogo({image: logoZextras});
+        setOpenGenericModal(true);
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // retry get the configuration after 20 seconds
+        sleep(20000).then(() => {
+            setRetryConfig((c) => !c);
+        });
+    };
 
     useEffect(() => {
         let componentIsMounted = true;
-        getSupported(domain)
+
+        getAuthSupported(domain)
+            .then((res)=>{
+                if(componentIsMounted) {
+                    res.destinationUrl = destinationUrl;
+                    res.disableInputs = false;
+                    setConfig(res);
+
+                    if(! res.authMethods.includes('SAML')) {
+                        setShowSamlButton(false);
+                    }
+                }
+            })
+            .catch(() => {
+                if(componentIsMounted)
+                    setError();
+            });
+
+        getLoginSupported(domain)
             .then((res) => {
                 if (componentIsMounted) {
-                    const version = res.minApiVersion;
-                    setConfig({
-                        version: version,
-                        disableInputs: false,
-                    });
-                    getConfig(version, domain, domain)
+                    const frontEndVersion = res.maxApiVersion;
+                    getLoginConfig(frontEndVersion, domain, domain)
                         .then((res) => {
+                            const logo = {};
+
                             if (componentIsMounted) {
                                 let edited_theme = {
                                     palette: {
@@ -109,13 +153,27 @@ export default function LoginView({theme, setTheme}) {
                                 if (res.hasOwnProperty('loginPageBackgroundImage') && res.loginPageBackgroundImage) {
                                     edited_theme.loginBackground = res.loginPageBackgroundImage;
                                 } else {
-                                    edited_theme.loginBackground = "assets/bg.jpg";
+                                    edited_theme.loginBackground = bakgoundImage;
                                 }
 
                                 if (res.hasOwnProperty('loginPageLogo') && res.loginPageLogo) {
-                                    // TODO: edited_theme.logo = res.loginPageLogo;
+                                    logo.image = res.loginPageLogo;
                                 } else {
-                                    setLogo('assets/logo-zextras.png');
+                                    logo.image = logoZextras;
+                                }
+
+                                if (res.hasOwnProperty('zimbraSkinLogoURL') && res.zimbraSkinLogoURL) {
+                                    logo.url = res.zimbraSkinLogoURL;
+                                } else {
+                                    logo.url = "";
+                                }
+
+                                if (res.hasOwnProperty('favicon') && res.favicon) {
+                                    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                                    link.type = 'image/x-icon';
+                                    link.rel = 'shortcut icon';
+                                    link.href = res.favicon;
+                                    document.getElementsByTagName('head')[0].appendChild(link);
                                 }
 
                                 if (res.hasOwnProperty('loginPageColorSet') && res.loginPageColorSet) {
@@ -131,51 +189,15 @@ export default function LoginView({theme, setTheme}) {
                                         };
                                     }
                                 }
-
-                                // USED TO TEST THE CUSTOMIZATION OF THE THEME
-                                // edited_theme.palette.light.primary = {
-                                //     regular: '#0000FF'
-                                // };
-                                // edited_theme.palette.light.secondary = {
-                                //     regular: '#1111AA'
-                                // };
-                                // edited_theme.loginBackground = 'https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
-
+                                setLogo(logo);
                                 setTheme(edited_theme);
-                            }
-                        })
-                        .catch((err) => {
-                            if (componentIsMounted) {
-                                setTheme({
-                                    loginBackground: "assets/bg.jpg"
-                                });
-                                setLogo('assets/logo-zextras.png');
-                                setSnackbarThemeError(true);
                             }
                         });
                 }
             })
             .catch((err) => {
-                if (componentIsMounted) {
-                    setConfig({
-                        version: null,
-                        disableInputs: true,
-                    });
-                    setTheme({
-                        loginBackground: "assets/bg.jpg"
-                    });
-                    setLogo('assets/logo-zextras.png');
-                    setOpenGenericModal(true);
-
-                    function sleep(ms) {
-                        return new Promise(resolve => setTimeout(resolve, ms));
-                    }
-
-                    // retry get the configuration after 20 seconds
-                    sleep(20000).then(() => {
-                        setRetryConfig((c) => !c);
-                    });
-                }
+                if(componentIsMounted)
+                    setError();
             });
         return () => {
             componentIsMounted = false;
@@ -185,7 +207,7 @@ export default function LoginView({theme, setTheme}) {
     return (
         <>
             {
-                config &&
+                config && logo &&
                 <>
                     <LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
                         <FormContainer>
@@ -193,19 +215,22 @@ export default function LoginView({theme, setTheme}) {
                                 <Container mainAlignment="flex-start" height="auto">
                                     <Padding value="28px 0 28px"  crossAlignment="center">
                                         <Container crossAlignment="center">
-                                            <img src={logo} style={{maxWidth: '60%', maxHeight: '150px', display: 'block'}}/>
+                                            <a href={logo.url}>
+                                                <img src={logo.image} style={{maxWidth: '60%', maxHeight: '150px', display: 'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+                                            </a>
                                         </Container>
                                     </Padding>
                                     <Padding bottom="extralarge" style={{width: '100%'}}>
                                         <FormSelector configuration={config} hideSamlButton={hideSamlButton}/>
-                                        {false &&
                                         <Container orientation="horizontal" height="auto" mainAlignment="space-between">
+                                            {/*<Row mainAlignment="flex-start">*/}
+                                            {/*    <Link color="primary" size="large"*/}
+                                            {/*          onClick={() => setOpenHelpModal(true)}>{t('Help')}?</Link>*/}
+                                            {/*    <Separator/>*/}
+                                            {/*    <Link as={RouterLink} to="/" size="large"*/}
+                                            {/*          color="primary">{t('Privacy policy')}</Link>*/}
+                                            {/*</Row>*/}
                                             <Row mainAlignment="flex-start">
-                                                <Link color="primary" size="large"
-                                                      onClick={() => setOpenHelpModal(true)}>{t('Help')}?</Link>
-                                                <Separator/>
-                                                <Link as={RouterLink} to="/" size="large"
-                                                      color="primary">{t('Privacy policy')}</Link>
                                             </Row>
                                             {showSamlButton &&
                                             <Row mainAlignment="flex-end">
@@ -217,7 +242,6 @@ export default function LoginView({theme, setTheme}) {
                                             </Row>
                                             }
                                         </Container>
-                                        }
                                     </Padding>
                                 </Container>
                                 <Container crossAlignment="flex-start" height="auto" padding={{bottom: 'extralarge'}}>

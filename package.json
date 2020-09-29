@@ -2,7 +2,7 @@
   "name": "@zextras/zapp-auth",
   "version": "0.0.0",
   "description": "Zextras autentication app",
-  "main": "src/index.jsx",
+  "main": "src/index.html",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
     "build": "webpack --mode production",
@@ -65,6 +65,7 @@
     "@testing-library/react-hooks": "3.2.1",
     "@tinymce/tinymce-react": "3.5.0",
     "core-js": "3.6.4",
+    "device-uuid": "^1.0.4",
     "i18next": "19.0.1",
     "i18next-browser-languagedetector": "4.0.1",
     "i18next-http-backend": "^1.0.20",

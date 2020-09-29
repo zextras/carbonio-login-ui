@@ -4,7 +4,7 @@ import React from "react";
 export default function FormSelector({configuration, hideSamlButton}) {
     return <>
         {
-            configuration && (configuration.version == 1 || configuration.version == null) && <V1Login disabled={configuration.disableInputs} hideSamlButton={hideSamlButton} />
+            configuration && (configuration.maxApiVersion === 1 || configuration.disableInputs === true) && <V1Login configuration={configuration} hideSamlButton={hideSamlButton} />
         }
         </>;
 }
