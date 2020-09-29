@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'zapp-ui.js',
@@ -12,8 +12,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      '@zextras/zapp-ui': path.resolve(__dirname, './src/index.js'),
-      'zapp-ui-icons': path.resolve(__dirname, './src/icons/index.js')
+      '@zextras/zapp-ui': path.resolve(__dirname, './src/index.jsx'),
+      'zapp-ui-icons': path.resolve(__dirname, './src/icons/index.jsx')
     }
   },
   externals: [

@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const babelRCApp = require('./babel.config.app.js');
+
 
 const pathsToCopy = [
 	{ from: 'translations', to: 'i18n' }
@@ -11,7 +13,7 @@ const pathsToCopy = [
 module.exports = {
 	devtool: 'source-map',
 	entry: {
-		index: path.resolve(process.cwd(), 'src', 'index.js')
+		index: path.resolve(process.cwd(), 'src', 'index.jsx')
 	},
 	output: {
 		path: __dirname + '/build',
@@ -27,11 +29,10 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
+				test: /\.[jt]sx?$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader'
-				}
+				loader: require.resolve('babel-loader'),
+				options: babelRCApp
 			},
 			{
 				test: /\.html$/,

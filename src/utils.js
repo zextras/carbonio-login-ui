@@ -1,13 +1,20 @@
-import {browserName, browserVersion, isMobile, mobileModel, mobileVendor, osName, osVersion, u} from "react-device-detect";
+import {
+	browserName,
+	browserVersion,
+	isMobile,
+	mobileModel,
+	mobileVendor,
+	osName,
+	osVersion
+} from 'react-device-detect';
+import DeviceUUID from 'device-uuid';
 
-const deviceUuid = require("device-uuid");
-
-export function deviceModel() {
-    let deviceModel = isMobile ? mobileVendor + ' ' + mobileModel : browserName + ' ' + browserVersion;
-    deviceModel = deviceModel + "/" + osName + " " + osVersion;
-    return deviceModel;
+export function getDeviceModel() {
+	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
+	deviceModel = `${deviceModel}/${osName} ${osVersion}`;
+	return deviceModel;
 }
 
-export function deviceId() {
-    return new deviceUuid.DeviceUUID().get();
+export function getDeviceId() {
+	return new DeviceUUID().get();
 }
