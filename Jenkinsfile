@@ -195,9 +195,9 @@ pipeline {
 					steps {
 						executeNpmLogin()
 						nodeCmd 'npm install'
-						nodeCmd 'NODE_ENV="production" npn run build'
-						archiveArtifacts artifacts: 'pkg/com_zextras_zapp_mails.zip', fingerprint: true
-
+						nodeCmd 'NODE_ENV="production" npm run build'
+						sh 'mkdir -p pkg && cd build && zip -r ../pkg/zextras-login-page.zip .'
+						stash includes: 'pkg/zextras-login-page.zip', name: 'package_unsigned'
 					}
 				}
 // 				stage('Build documentation') {
@@ -224,34 +224,34 @@ pipeline {
 			}
 		}
 
-// 		stage('Sign Zimlet Package') {
-// 			agent {
-// 				node {
-// 					label 'nodejs-agent-v2'
-// 				}
-// 			}
-// 			when {
-// 				beforeAgent true
-// 				not {
-// 					allOf {
-// 						expression { BRANCH_NAME ==~ /(release|beta)/ }
-// 						environment name: 'COMMIT_PARENTS_COUNT', value: '2'
-// 					}
-// 				}
-// 			}
-// 			steps {
-// 				dir('artifact-deployer') {
-// 					git branch: 'master',
-// 							credentialsId: 'tarsier_bot-ssh-key',
-// 							url: 'git@bitbucket.org:zextras/artifact-deployer.git'
-// 					unstash "zimlet_package_unsigned"
-// 					sh './sign-zextras-zip pkg/com_zextras_zapp_mails.zip'
-// 					stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package'
-// 					archiveArtifacts artifacts: 'pkg/com_zextras_zapp_mails.zip', fingerprint: true
-// 				}
-// 			}
-// 		}
-//
+ 		stage('Sign Package') {
+ 			agent {
+ 				node {
+ 					label 'nodejs-agent-v2'
+ 				}
+ 			}
+ 			when {
+ 				beforeAgent true
+ 				not {
+ 					allOf {
+ 						expression { BRANCH_NAME ==~ /(release|beta)/ }
+ 						environment name: 'COMMIT_PARENTS_COUNT', value: '2'
+ 					}
+ 				}
+ 			}
+ 			steps {
+ 				dir('artifact-deployer') {
+ 					git branch: 'master',
+ 							credentialsId: 'tarsier_bot-ssh-key',
+ 							url: 'git@bitbucket.org:zextras/artifact-deployer.git'
+ 					unstash "package_unsigned"
+ 					sh './sign-zextras-zip pkg/zextras-login-page.zip'
+ 					stash includes: 'pkg/zextras-login-page.zip', name: 'package'
+ 					archiveArtifacts artifacts: 'pkg/zextras-login-page.zip', fingerprint: true
+				}
+ 			}
+ 		}
+
 // 		stage('Deploy') {
 // 			parallel {
 // 				stage('Deploy documentation') {
