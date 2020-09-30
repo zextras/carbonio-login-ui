@@ -117,7 +117,7 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME.git
+								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git
 								git subtree pull --squash --prefix translations/ translations master
 								git add --force translations
 								git commit -m \"Updated translations\"
@@ -130,7 +130,7 @@ pipeline {
 								git push origin HEAD:refs/heads/$tempBranchName
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
-								sh(script: """
+								sh(script: """#!/bin/bash
 									curl https://api.bitbucket.org/2.0/repositories/$REPOSITORY_NAME/pullrequests \
 									-u '$PR_ACCESS' \
 									--request POST \
@@ -180,7 +180,7 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME.git
+								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git
 								git add --force translations
 								git commit -m \"Extracted translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
@@ -193,7 +193,7 @@ pipeline {
 								git subtree push --prefix translations/ translations $tempBranchName
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
-								sh(script: """
+								sh(script: """#!/bin/bash
 									curl https://api.bitbucket.org/2.0/repositories/$REPOSITORY_NAME/pullrequests \
 									-u '$PR_ACCESS' \
 									--request POST \
@@ -213,7 +213,7 @@ pipeline {
 											\"close_source_branch\": true
 										}'
 								""")
-								sh(script: """
+								sh(script: """#!/bin/bash
 									curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
 									-u '$PR_ACCESS' \
 									--request POST \
