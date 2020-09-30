@@ -242,17 +242,17 @@ pipeline {
 // 					}
 // 				}
 				stage('Linting') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v2'
-                        }
-                    }
-                    steps {
-                        executeNpmLogin()
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					steps {
+						executeNpmLogin()
 						nodeCmd 'npm install'
 						nodeCmd 'npm run lint'
-                    }
-                }
+					}
+				}
 			}
 		}
 
@@ -283,82 +283,82 @@ pipeline {
 						stash includes: 'pkg/zextras-login-page.zip', name: 'package_unsigned'
 					}
 				}
- 				stage('Build documentation') {
- 					agent {
- 						node {
- 							label 'nodejs-agent-v2'
- 						}
- 					}
- 					when {
- 						beforeAgent true
- 						allOf {
- 							expression { BRANCH_NAME ==~ /(release|beta)/ }
- 							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
- 						}
- 					}
- 					steps {
- 						script {
- 							nodeCmd 'cd docs/website && npm install'
- 							nodeCmd 'cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build'
- 							stash includes: 'docs/website/build/com_zextras_zapp_login/', name: 'doc'
- 						}
- 					}
- 				}
+				stage('Build documentation') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(release|beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					steps {
+						script {
+							nodeCmd 'cd docs/website && npm install'
+							nodeCmd 'cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build'
+							stash includes: 'docs/website/build/com_zextras_zapp_login/', name: 'doc'
+						}
+					}
+				}
 			}
 		}
 
- 		stage('Sign Package') {
- 			agent {
- 				node {
- 					label 'nodejs-agent-v2'
- 				}
- 			}
- 			when {
- 				beforeAgent true
- 				not {
- 					allOf {
- 						expression { BRANCH_NAME ==~ /(release|beta)/ }
- 						environment name: 'COMMIT_PARENTS_COUNT', value: '2'
- 					}
- 				}
- 			}
- 			steps {
- 				dir('artifact-deployer') {
- 					git branch: 'master',
- 							credentialsId: 'tarsier_bot-ssh-key',
- 							url: 'git@bitbucket.org:zextras/artifact-deployer.git'
- 					unstash "package_unsigned"
- 					sh './sign-zextras-zip pkg/zextras-login-page.zip'
- 					stash includes: 'pkg/zextras-login-page.zip', name: 'package'
- 					archiveArtifacts artifacts: 'pkg/zextras-login-page.zip', fingerprint: true
+		stage('Sign Package') {
+			agent {
+				node {
+					label 'nodejs-agent-v2'
 				}
- 			}
- 		}
+			}
+			when {
+				beforeAgent true
+				not {
+					allOf {
+						expression { BRANCH_NAME ==~ /(release|beta)/ }
+						environment name: 'COMMIT_PARENTS_COUNT', value: '2'
+					}
+				}
+			}
+			steps {
+				dir('artifact-deployer') {
+					git branch: 'master',
+							credentialsId: 'tarsier_bot-ssh-key',
+							url: 'git@bitbucket.org:zextras/artifact-deployer.git'
+					unstash "package_unsigned"
+					sh './sign-zextras-zip pkg/zextras-login-page.zip'
+					stash includes: 'pkg/zextras-login-page.zip', name: 'package'
+					archiveArtifacts artifacts: 'pkg/zextras-login-page.zip', fingerprint: true
+				}
+			}
+		}
 
- 		stage('Deploy') {
- 			parallel {
- 				stage('Deploy documentation') {
- 					agent {
- 						node {
- 							label 'nodejs-agent-v2'
- 						}
- 					}
- 					when {
- 						beforeAgent true
- 						allOf {
- 							expression { BRANCH_NAME ==~ /(release|beta)/ }
- 							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
- 						}
- 					}
- 					steps {
- 						script {
- 							unstash 'doc'
- 							doc.rm file: "iris/zapp-login/${BRANCH_NAME}"
- 							doc.mkdir folder: "iris/zapp-login/${BRANCH_NAME}"
- 							doc.upload file: "docs/website/build/com_zextras_zapp_login/**", destination: "iris/zapp-login/${BRANCH_NAME}"
- 						}
- 					}
- 				}
+		stage('Deploy') {
+			parallel {
+				stage('Deploy documentation') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(release|beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					steps {
+						script {
+							unstash 'doc'
+							doc.rm file: "iris/zapp-login/${BRANCH_NAME}"
+							doc.mkdir folder: "iris/zapp-login/${BRANCH_NAME}"
+							doc.upload file: "docs/website/build/com_zextras_zapp_login/**", destination: "iris/zapp-login/${BRANCH_NAME}"
+						}
+					}
+				}
 // 				stage('Deploy Beta on demo server') {
 // 					agent {
 // 						node {
@@ -382,7 +382,7 @@ pipeline {
 // 						}
 // 					}
 // 				}
- 			}
- 		}
+			}
+		}
 	}
 }
