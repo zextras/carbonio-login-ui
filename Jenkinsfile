@@ -173,6 +173,9 @@ pipeline {
 							def tempBranchName = sh(script: """#!/bin/bash
 									echo \"version-bumper/v$nextVersion\"\$( { [[ $BRANCH_NAME == 'beta' ]] && echo '-beta'; } || echo '' )
 								""", returnStdout: true).trim()
+							def tempTranslationsBranchName = sh(script: """#!/bin/bash
+									echo \"translations-updater/v$nextVersion\"\$( { [[ $BRANCH_NAME == 'beta' ]] && echo '-beta'; } || echo '' )
+								""", returnStdout: true).trim()
 							executeNpmLogin()
 							nodeCmd 'npm install'
 							nodeCmd 'NODE_ENV="production" npm run build'
@@ -190,7 +193,7 @@ pipeline {
 								git push --tags
 								git push origin HEAD:$BRANCH_NAME
 								git push origin HEAD:refs/heads/$tempBranchName
-								git subtree push --prefix translations/ translations $tempBranchName
+								git subtree push --prefix translations/ translations $tempTranslationsBranchName
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
 								sh(script: """#!/bin/bash
@@ -222,7 +225,7 @@ pipeline {
 											\"title\": \"Updated translations in $nextVersion\",
 											\"source\": {
 												\"branch\": {
-													\"name\": \"$tempBranchName\"
+													\"name\": \"$tempTranslationsBranchName\"
 												}
 											},
 											\"destination\": {
