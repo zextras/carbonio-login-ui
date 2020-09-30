@@ -28,7 +28,7 @@ for the build. The commit will be also sent to the `devel` branch.
 ## Subtree setup
 ### Add the subtree
 ```shell script
-git subtree add --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master 
+git subtree add --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 ```
 ### Push translations
 ```shell script
