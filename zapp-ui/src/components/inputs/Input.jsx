@@ -80,7 +80,8 @@ const Input = React.forwardRef(function({
 	inputRef,
 	value,
 	onChange,
-	hasError
+	hasError,
+	...rest
 }, ref) {
 
 	const [active, setActive] = useState(false);
@@ -111,6 +112,7 @@ const Input = React.forwardRef(function({
 			}}
 			onClick={onInputFocus}
 			disabled={disabled}
+			{...rest}
 		>
 			<Label
 				htmlFor={id}
@@ -188,7 +190,8 @@ const PasswordInput = React.forwardRef(function({
 	inputRef,
 	value,
 	onChange,
-	hasError
+	hasError,
+	...rest
 }, ref) {
 
 	const [active, setActive] = useState(false);
@@ -225,6 +228,7 @@ const PasswordInput = React.forwardRef(function({
 			}}
 			onClick={onInputFocus}
 			disabled={disabled}
+			{...rest}
 		>
 			<InputEl
 				background={backgroundColor}

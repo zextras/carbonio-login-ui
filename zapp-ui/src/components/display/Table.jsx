@@ -171,7 +171,8 @@ const Table = React.forwardRef(function({
 	onSelectionChange,
 	defaultSelection,
 	selectedRows,
-	multiSelect
+	multiSelect,
+	...rest
 }, ref) {
 	const [selected, dispatchSelected] = useReducer(selectedReducer, defaultSelection || selectedRows || []);
 
@@ -216,7 +217,7 @@ const Table = React.forwardRef(function({
 	}, [controlledMode, selectedRows]);
 
 	return (
-		<TableContainer>
+		<TableContainer {...rest}>
 			<StyledTable ref={ref}>
 				<thead>
 					<HeaderFactory

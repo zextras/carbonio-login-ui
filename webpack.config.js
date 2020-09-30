@@ -2,6 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const babelRCApp = require('./babel.config.app.js');
+
 
 const pathsToCopy = [
 	{ from: 'translations', to: 'i18n' }
@@ -26,11 +29,10 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
+				test: /\.[jt]sx?$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader'
-				}
+				loader: require.resolve('babel-loader'),
+				options: babelRCApp
 			},
 			{
 				test: /\.html$/,
@@ -86,7 +88,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: './src/index.html',
-			filename: './index.html'
+			filename: './index.html',
+			chunks: ['index']
 		})
 	]
 };

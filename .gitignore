@@ -2,3 +2,7 @@
 /pkg/
 /build/
 /.idea/workspace.xml
+
+/coverage/
+
+package.lock.json
