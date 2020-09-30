@@ -120,7 +120,6 @@ pipeline {
 								git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
 								git add translations
 								git commit -m \"Updated translations\"
-								git subtree pull --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
 								git add package.json
 								git commit -m \"Bumped version to $nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo ' Beta'; } || echo '' )\"
@@ -193,7 +192,7 @@ pipeline {
 								git push origin HEAD:$BRANCH_NAME
 								git push origin HEAD:refs/heads/$tempBranchName
 								git fetch --unshallow
-								git subtree push --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git $tempTranslationsBranchName
+								git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
 								sh(script: """#!/bin/bash

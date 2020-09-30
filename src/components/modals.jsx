@@ -12,7 +12,7 @@ export function HelpModal({ open, onClose }) {
 			onClose={onClose}
 		>
 			<Paragraph>
-				{ t('Do you need help') }
+				{ t('do_you_need_help_message', 'Do you need help') }
 ?
 			</Paragraph>
 			<Paragraph>
