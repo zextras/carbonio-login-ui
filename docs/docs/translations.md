@@ -32,7 +32,7 @@ git subtree add --squash --prefix translations/ git@bitbucket.org:zextras/com_ze
 ```
 ### Push translations
 ```shell script
-git subtree push --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
+git subtree push --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 ```
 ### Pull translations
 ```shell script
