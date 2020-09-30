@@ -19,6 +19,14 @@ module.exports = {
 		path: __dirname + '/build',
 	},
 	target: 'web',
+	// devServer: {
+	// 	proxy: {
+	// 		'/zx': {
+	// 			target: 'http://localhost:3000',
+	// 			secure: false
+	// 		}
+	// 	}
+	// },
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {

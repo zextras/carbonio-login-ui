@@ -1,11 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-	Button, Input, PasswordInput, Row, Text
-} from '@zextras/zapp-ui';
+import { Button, Container, Input, PasswordInput, Row, Text } from '@zextras/zapp-ui';
 import { postV1Login } from '../services/v1-service';
 
-export default function V1CredentialsForm({
+export default function CredentialsForm ({
 	showAuthError,
 	handleSubmitCredentialsResponse,
 	configuration
@@ -34,9 +32,8 @@ export default function V1CredentialsForm({
 					});
 					navigator.credentials.store(cred);
 				}
-				window.location.href = configuration.destinationUrl;
-			}
-			else {
+				window.location.assign(configuration.destinationUrl);
+			} else {
 				handleSubmitCredentialsResponse(res);
 			}
 		});
@@ -66,15 +63,22 @@ export default function V1CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			{showAuthError && (
-				<Text color="error" size="medium" overflow="break-word">
-					{t('Credentials are not valid. Please check data and try again')}
-.
-				</Text>
-			)}
-			{!showAuthError && <Text color="error" size="medium" overflow="break-word">&nbsp;</Text>}
-			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'extralarge', top: 'large' }}>
-				<Button onClick={submitUserPassword} disabled={configuration.disableInputs} label={t('Login')} size="fill" />
+			<Text color="error" size="medium" overflow="break-word">
+				{showAuthError && t('Credentials are not valid, please check data and try again')}
+				{!showAuthError && <br/>}
+			</Text>
+			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'large', top: 'small' }}>
+				<Button onClick={submitUserPassword} disabled={configuration.disableInputs} label={t('Login')} size="fill"/>
+			</Row>
+			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
+				{configuration.authMethods.includes('SAML') &&
+				<Button type="outlined" label={t('Login SAML')} color="primary" disabled={configuration.disableInputs}
+								onClick={() => { window.location.assign(`/zx/auth/startSamlWorkflow?destinationUrl=${configuration.destinationUrl}`);}}/>
+				}
+				{
+					!configuration.authMethods.includes('SAML') && <div style={{ minHeight: '20px' }}/>
+					// used to keep the correct space where or not SAML is shown
+				}
 			</Row>
 		</form>
 	);
