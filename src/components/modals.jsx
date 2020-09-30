@@ -16,7 +16,7 @@ export function HelpModal({ open, onClose }) {
 ?
 			</Paragraph>
 			<Paragraph>
-				{ t('Please call this number') }
+				{ t('help.phone.number', 'Please call this number') }
 :
 				{' '}
 				<Link href="tel:+123445678910">1234 - 45678910</Link>

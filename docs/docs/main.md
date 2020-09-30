@@ -1,5 +1,5 @@
 ---
-title: Zextras Auth
+title: Zextras Login
 ---
 
-Zextras authentication App
+Zextras Login App
