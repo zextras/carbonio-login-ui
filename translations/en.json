@@ -13,7 +13,7 @@
   "Supported browsers": "Supported browsers",
   "Type here One-Time-Password": "",
   "Username": "Username",
-  "You are currently offline, please check your internet connection": "You are currently offline, please check your internet connection",
+  "currently_offline_message": "You are currently offline, please check your internet connection",
   "help_modal_title": "Help",
   "help_phone_number": "Please call this number"
 }
