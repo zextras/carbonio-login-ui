@@ -26,22 +26,17 @@ dedicated repository.
 for the build. The commit will be also sent to the `devel` branch.
 
 ## Subtree setup
-### Add the remote for the subtree
-```shell script
-git remote add -f translations git@bitbucket.org:zextras/com_zextras_iris_login.git
-```
 ### Add the subtree
 ```shell script
-git subtree add --squash --prefix translations/ translations master 
+git subtree add --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master 
 ```
 ### Push translations
 ```shell script
-git subtree push --prefix translations/ translations master
+git subtree push --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 ```
 ### Pull translations
 ```shell script
-git fetch
-git subtree pull --squash --prefix translations/ translations master
+git subtree pull --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 ```
 
 [1]: https://bitbucket.org/zextras/com_zextras_iris_login`
