@@ -6,7 +6,6 @@
   },
   "Do you need help": "Do you need help",
   "Failed to fetch the application theme": "",
-  "Help": "Help",
   "Login": "Login",
   "Login SAML": "",
   "Or write an email to": "Or write an email to",
@@ -15,9 +14,6 @@
   "Type here One-Time-Password": "",
   "Username": "Username",
   "You are currently offline, please check your internet connection": "You are currently offline, please check your internet connection",
-  "help": {
-    "phone": {
-      "number": "Please call this number"
-    }
-  }
+  "help_modal_title": "Help",
+  "help_phone_number": "Please call this number"
 }
