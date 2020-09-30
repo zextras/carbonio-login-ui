@@ -22,7 +22,7 @@ export function HelpModal({ open, onClose }) {
 				<Link href="tel:+123445678910">1234 - 45678910</Link>
 			</Paragraph>
 			<Paragraph>
-				{ t('Or write an email to') }
+				{ t('or_write_message_to_message', 'Or write an email to') }
 :
 				{' '}
 				<Link href="mailto:help.assistance@iris.com" target="_blank">help.assistance@iris.com</Link>
