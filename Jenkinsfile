@@ -187,6 +187,7 @@ pipeline {
 								git push --tags
 								git push origin HEAD:$BRANCH_NAME
 								git push origin HEAD:refs/heads/$tempBranchName
+								git subtree push --prefix translations/ translations master
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
 								sh(script: """
