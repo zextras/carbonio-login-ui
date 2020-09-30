@@ -117,15 +117,12 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-<<<<<<< HEAD
 								git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
-								git add --force translations
+								git add translations
 								git commit -m \"Updated translations\"
-=======
 								git subtree pull --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
-								git add translations package.json
->>>>>>> c3b780f2dca31085b87c3eba4d1b68762275f494
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
+								git add package.json
 								git commit -m \"Bumped version to $nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo ' Beta'; } || echo '' )\"
 								git tag -a v$nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo '-beta'; } || echo '' ) -m \"Version $nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo ' Beta'; } || echo '' )\"
 								git push --tags
@@ -186,7 +183,7 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-								git add --force translations
+								git add translations
 								git commit -m \"Extracted translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
 								git add package.json
