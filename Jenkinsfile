@@ -193,7 +193,7 @@ pipeline {
 								git push origin HEAD:$BRANCH_NAME
 								git push origin HEAD:refs/heads/$tempBranchName
 								git fetch --unshallow
-								git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
+								git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git $tempTranslationsBranchName
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
 								sh(script: """#!/bin/bash
