@@ -117,8 +117,7 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git
-								git subtree pull --squash --prefix translations/ translations master
+								git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
 								git add --force translations
 								git commit -m \"Updated translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
@@ -183,7 +182,6 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-								git remote add -f translations git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git
 								git add --force translations
 								git commit -m \"Extracted translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
@@ -193,7 +191,7 @@ pipeline {
 								git push --tags
 								git push origin HEAD:$BRANCH_NAME
 								git push origin HEAD:refs/heads/$tempBranchName
-								git subtree push --prefix translations/ translations $tempTranslationsBranchName
+								git subtree push --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git $tempTranslationsBranchName
 							""")
 							withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
 								sh(script: """#!/bin/bash
