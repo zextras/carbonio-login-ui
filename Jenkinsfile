@@ -117,10 +117,10 @@ pipeline {
 								git config user.email \"bot@zextras.com\"
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
+								git fetch --unshallow
 								git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
 								git add translations
 								git commit -m \"Updated translations\"
-								git subtree pull --squash --prefix translations/ git@bitbucket.org:zextras/com_zextras_iris_login.git master
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
 								git add package.json
 								git commit -m \"Bumped version to $nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo ' Beta'; } || echo '' )\"
