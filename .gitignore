@@ -2,7 +2,6 @@
 /pkg/
 /build/
 /.idea/workspace.xml
-
+/translations
 /coverage/
-
 package.lock.json

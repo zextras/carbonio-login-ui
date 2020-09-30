@@ -118,6 +118,8 @@ pipeline {
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
 								git remote add -f translations git@bitbucket.org:zextras/com_zextras_iris_login.git
 								git subtree pull --squash --prefix translations/ translations master
+								git add --force translations
+								git commit -m \"Updated translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
 								git add package.json
 								git commit -m \"Bumped version to $nextVersion\$( { [[ $BRANCH_NAME == 'beta' ]] && echo ' Beta'; } || echo '' )\"
@@ -178,7 +180,7 @@ pipeline {
 								git config user.name \"Tarsier Bot\"
 								git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
 								git remote add -f translations git@bitbucket.org:zextras/com_zextras_iris_login.git
-								git add translations
+								git add --force translations
 								git commit -m \"Extracted translations\"
 								sed --in-place --regexp-extended 's/\"version\": +\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"version\": \"$nextVersion\"/' package.json
 								git add package.json
