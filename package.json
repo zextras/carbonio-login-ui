@@ -1,6 +1,6 @@
 {
   "name": "@zextras/zapp-auth",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Zextras autentication app",
   "main": "src/index.html",
   "scripts": {
