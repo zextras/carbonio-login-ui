@@ -26,6 +26,7 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 			case 202:
 				hideSamlButton();
 				setProgress('two-factor');
+				break;
 			default:
 				setSnackbarNetworkError(true);
 		}

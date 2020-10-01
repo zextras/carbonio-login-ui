@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Snackbar } from '../../zapp-ui/src';
+import { Snackbar } from '@zextras/zapp-ui';
 
 export default function NotSupportedVersion() {
 	const { t } = useTranslation();

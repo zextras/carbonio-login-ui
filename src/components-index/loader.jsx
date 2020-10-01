@@ -11,27 +11,21 @@ const Loader = lazy(() => {
 
       let version = maxApiVersion;
       if (version > maxSupportedVersion) {
-        version -= maxSupportedVersion;
+        version = maxSupportedVersion;
       }
 
       if (version < minApiVersion) {
-        return new Promise((resolve) => {
-          resolve({ default: NotSupportedVersion });
-        });
+        return ({ 'default': NotSupportedVersion });
       }
 
       switch (version) {
         case 1:
           return import(/* webpackChunkName: "v1" */ '../components-v1/page-layout');
         default:
-          return new Promise((resolve) => {
-            resolve({ default: NotSupportedVersion });
-          });
+          return ({ 'default': NotSupportedVersion });
       }
     })
-    .catch(() => new Promise((resolve) => {
-      resolve({ default: ServerNotResponding });
-    }));
+    .catch(() => ({ 'default': ServerNotResponding }));
 });
 
 export default Loader;

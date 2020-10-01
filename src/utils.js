@@ -8,8 +8,7 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
-
-const deviceUuid = require('device-uuid');
+import { DeviceUUID } from 'device-uuid';
 
 export function getDeviceModel() {
 	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
@@ -18,5 +17,5 @@ export function getDeviceModel() {
 }
 
 export function deviceId() {
-	return new deviceUuid.DeviceUUID().get();
+	return (new DeviceUUID()).get();
 }

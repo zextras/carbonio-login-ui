@@ -3,7 +3,7 @@ import V1LoginManager from './v1-login-manager';
 import { getAuthSupported } from '../services/auth-configuration-service';
 import ServerNotResponding from '../components-index/server-not-responding';
 
-export default function FormSelector ({}) {
+export default function FormSelector () {
 	const [configuration, setConfiguration] = useState(null);
 	const [error, setError] = useState(false);
 
