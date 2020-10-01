@@ -10,8 +10,8 @@ const Loader = lazy(() => {
       const maxSupportedVersion = 1; // to keep updated adding new versions
 
       let version = maxApiVersion;
-      while (version > maxSupportedVersion) {
-        version -= 1;
+      if (version > maxSupportedVersion) {
+        version -= maxSupportedVersion;
       }
 
       if (version < minApiVersion) {

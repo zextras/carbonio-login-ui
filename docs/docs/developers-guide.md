@@ -48,7 +48,7 @@ The repository contains the fallowing sub-folders:
 - `zapp-ui` contains the design system of Zextras
 
 ## Application workflow
-When loaded, the login page read from Url parameters:
+When loaded, the login page read from Url GET parameters:
 
 - `destinationUrl` the url to be redirected to after the successful authentication;
 - `domain` the domain used to configure the page.
@@ -57,7 +57,10 @@ Then:
 
 1. It calls `/zx/login/supported` to get the supported versions of Zextras Login (this app) in the 
     cluster, and It loads the bundle (html/javascript source code) of the maximum supported version
-1. It calls `/zx/login/v{{version}}/config`, passing the domain, to get the customization to apply
+2. Here the flows split according to version chosen
+
+### Workflow v1
+1. It calls `/zx/login/v1/config`, passing the domain, to get the customization to apply
     to the login page
 1. It calls `/zx/auth/supported` to get the authentication methods and versions supported by
     the backend; based on this response the component `FormSelector` show the correct form 
