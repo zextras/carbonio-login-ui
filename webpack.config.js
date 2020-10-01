@@ -2,6 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const babelRCApp = require('./babel.config.app.js');
+
 
 const pathsToCopy = [
 	{ from: 'translations', to: 'i18n' }
@@ -13,24 +16,30 @@ module.exports = {
 		index: path.resolve(process.cwd(), 'src', 'index.jsx')
 	},
 	output: {
-		path: __dirname + '/build',
+		path: __dirname + '/build'
 	},
 	target: 'web',
+	// devServer: {
+	// 	proxy: {
+	// 		'/zx': {
+	// 			target: 'http://localhost:3000',
+	// 			secure: false
+	// 		}
+	// 	}
+	// },
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {
-			'@zextras/zapp-ui': path.resolve(process.cwd(), 'zapp-ui', 'src', 'index'),
-			'assets': path.resolve(process.cwd(), 'assets'),
+			'assets': path.resolve(process.cwd(), 'assets')
 		}
 	},
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
+				test: /\.[jt]sx?$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader'
-				}
+				loader: require.resolve('babel-loader'),
+				options: babelRCApp
 			},
 			{
 				test: /\.html$/,
@@ -43,7 +52,7 @@ module.exports = {
 			{
 				test: /\.(css)$/,
 				exclude: [
-					/node_modules\/tinymce/,
+					/node_modules\/tinymce/
 				],
 				use: [
 					{
@@ -86,7 +95,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: './src/index.html',
-			filename: './index.html'
+			filename: './index.html',
+			chunks: ['index']
 		})
 	]
 };

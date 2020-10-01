@@ -1,5 +1,5 @@
 ---
-title: Zextras Auth
+title: Zextras Login
 ---
 
-Zextras authentication App
+It's the unique entry point to login to Zextras services.

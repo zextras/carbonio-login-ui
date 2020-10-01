@@ -2,3 +2,4 @@
 /pkg/
 /build/
 /.idea/workspace.xml
+/coverage/

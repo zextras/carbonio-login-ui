@@ -1,7 +1,9 @@
 {
   "docs": {
     "Main": [
-      "main"
+      "main",
+      "translations",
+      "developers-guide"
     ]
   }
 }

@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { Suspense, useState } from 'react';
 import { render } from 'react-dom';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route
-} from 'react-router-dom';
-import { extendTheme, SnackbarManager, ThemeProvider } from "@zextras/zapp-ui";
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { extendTheme, SnackbarManager, ThemeProvider } from '@zextras/zapp-ui';
 
-import LoginView from './components/login';
+import '../i18n/i18n.config';
 import './index.css';
-import './i18n/i18n.config';
+import Loader from './components-index/loader';
+import { useTranslation } from 'react-i18next';
 
-render(<App />, document.getElementById('app'));
+function App () {
+	const [theme, setTheme] = useState({});
+	const {t} = useTranslation();
 
-function App() {
+	document.title = t('zextras_authentication', 'Zextras Authentication');
+
 	return (
-		<ThemeProvider theme={extendTheme({ palette: {light: {}, dark: {}}})}>
+		<ThemeProvider theme={extendTheme(theme)}>
 			<SnackbarManager>
-				<Router>
-					<Switch>
-						<Route path="/">
-							<LoginView />
-						</Route>
-					</Switch>
-				</Router>
+				<Suspense fallback={
+					<div></div>
+				}>
+					<Router>
+						<Switch>
+							<Loader theme={theme} setTheme={setTheme}/>
+						</Switch>
+					</Router>
+				</Suspense>
 			</SnackbarManager>
 		</ThemeProvider>
 	);
 }
+
+render(
+	<App/>
+	, document.getElementById('app'));
