@@ -9,7 +9,7 @@
 // site configuration options.
 
 const siteConfig = {
-  title: 'Zextras Auth', // Title for your website.
+  title: 'Zextras Login', // Title for your website.
   tagline: '',
   url: 'https://doc.dev.zextras.com/', // Your website URL
   baseUrl: '/iris/zapp-login/' + (process.env.BRANCH_NAME ? `${process.env.BRANCH_NAME}/` : ''), // Base URL for your project */
