@@ -9,7 +9,7 @@ export default function ServerNotResponding() {
 	return (
 		<Snackbar
 			open={isOpen}
-			label={t('server_not_responding', 'The server is not responding. Please contact your server administators')}
+			label={t('server_not_responding', 'The server is not responding. Please contact your server administrator')}
 			onClose={() => setOpen(false)}
 			autoHideTimeout={10000}
 			type="error"

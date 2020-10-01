@@ -12,7 +12,7 @@ export function OfflineModal ({ open, onClose }) {
 			onClose={onClose}
 		>
 			<Paragraph>
-				{t('You are currently offline, please check your internet connection')}
+				{t('offline', 'You are currently offline, please check your internet connection')}
 			</Paragraph>
 		</Modal>
 	);

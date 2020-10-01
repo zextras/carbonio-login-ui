@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 import { Button, Row, Snackbar, Text } from '@zextras/zapp-ui';
 import { OfflineModal } from './modals';
-import Spinner from './Spinner';
+import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 
 export default function V1LoginManager ({ configuration, hideSamlButton }) {
@@ -56,7 +56,7 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 				<form style={{ width: '100%' }}>
 					<Row padding={{ bottom: 'large' }}>
 						<Text size="large" color="text" weight="bold">
-							Two-Step-Authentication
+							{t('two_step_authentication', 'Two-Step-Authentication') }
 						</Text>
 					</Row>
 					<Row padding={{ top: 'large' }}>
@@ -65,19 +65,19 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 							disabled={configuration.disableInputs}
 							onChange={(ev) => setOtp(ev.target.value)}
 							hasError={showOtpError}
-							label={t('Type here One-Time-Password')}
+							label={t('type_otp','Type here One-Time-Password')}
 							backgroundColor="gray5"
 						/>
 					</Row>
 					<Row orientation="vertical" crossAlignment="flex-start" padding={{ vertical: 'small' }}>
-						<Button onClick={submitOtp} disabled={configuration.disableInputs} label={t('Login')} size="fill"/>
+						<Button onClick={submitOtp} disabled={configuration.disableInputs} label={t('login', 'Login')} size="fill"/>
 					</Row>
 				</form>
 			)}
 			<Snackbar
 				open={snackbarNetworkError}
-				label={t('Can not do the login now')}
-				actionLabel={t('Details')}
+				label={t('cant_login', 'Can not do the login now')}
+				actionLabel={t('details', 'Details')}
 				onActionClick={() => setDetailNetworkModal(true)}
 				onClose={() => setSnackbarNetworkError(false)}
 				autoHideTimeout={10000}

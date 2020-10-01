@@ -9,7 +9,7 @@ export default function NotSupportedVersion() {
 	return (
 		<Snackbar
 			open={isOpen}
-			label={t('unsupported_version', 'The server is not responding. Please contact your server administators')}
+			label={t('unsupported_version', 'The server sent a not valid response. Please contact your server administrator')}
 			onClose={() => setOpen(false)}
 			autoHideTimeout={10000}
 			type="error"

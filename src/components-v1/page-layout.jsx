@@ -26,6 +26,7 @@ import bakgoundImage from 'assets/bg.jpg';
 import logoZextras from 'assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
+import ServerNotResponding from '../components-index/server-not-responding';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -73,6 +74,7 @@ export default function PageLayout ({ theme, setTheme }) {
   const { t } = useTranslation();
   const screenMode = useScreenMode();
   const [logo, setLogo] = useState(null);
+  const [serverError, setServerError] = useState(false);
 
   const domain = new URLSearchParams(window.location.search).get('domain');
 
@@ -134,12 +136,16 @@ export default function PageLayout ({ theme, setTheme }) {
       })
       .catch(() => {
         // It should never happen, If the server doesn't respond this page will not be loaded
-        alert('The server is not responding. Please contact your server administrator');
+        if (componentIsMounted)
+          setServerError(true);
       });
     return () => {
       componentIsMounted = false;
     };
   }, []);
+
+  if (serverError)
+    return <ServerNotResponding/>;
 
   return (
     <>
@@ -167,8 +173,9 @@ export default function PageLayout ({ theme, setTheme }) {
                   </Padding>
                 </Container>
                 <FormSelector></FormSelector>
-                <Container crossAlignment="flex-start" height="auto" padding={{ bottom: 'extralarge', top:'extralarge' }}>
-                  <Text>{t('Supported browsers')}</Text>
+                <Container crossAlignment="flex-start" height="auto"
+                           padding={{ bottom: 'extralarge', top: 'extralarge' }}>
+                  <Text>{t('supported_browsers', 'Supported browsers')}</Text>
                   <Row padding={{ top: 'medium', bottom: 'extralarge' }} wrap="nowrap">
                     <Padding all="extrasmall" right="small">
                       <Tooltip label="Chrome">
@@ -244,7 +251,7 @@ export default function PageLayout ({ theme, setTheme }) {
                     {' '}
                     Zextras,
                     {' '}
-                    {t('All rights reserved')}
+                    {t('all_rights_reserved', 'All rights reserved')}
                   </Text>
                 </Container>
               </FormWrapper>

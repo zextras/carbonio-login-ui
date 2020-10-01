@@ -48,7 +48,7 @@ export default function CredentialsForm ({
 					onChange={(ev) => setUsername(ev.target.value)}
 					hasError={showAuthError}
 					autocomplete="username"
-					label={t('Username')}
+					label={t('username','Username')}
 					backgroundColor="gray5"
 				/>
 			</Row>
@@ -59,20 +59,20 @@ export default function CredentialsForm ({
 					onChange={(ev) => setPassword(ev.target.value)}
 					hasError={showAuthError}
 					autocomplete="password"
-					label={t('Password')}
+					label={t('password', 'Password')}
 					backgroundColor="gray5"
 				/>
 			</Row>
 			<Text color="error" size="medium" overflow="break-word">
-				{showAuthError && t('Credentials are not valid, please check data and try again')}
+				{showAuthError && t('credentials_not_valid','Credentials are not valid, please check data and try again')}
 				{!showAuthError && <br/>}
 			</Text>
 			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'large', top: 'small' }}>
-				<Button onClick={submitUserPassword} disabled={configuration.disableInputs} label={t('Login')} size="fill"/>
+				<Button onClick={submitUserPassword} disabled={configuration.disableInputs} label={t('login','Login')} size="fill"/>
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{configuration.authMethods.includes('SAML') &&
-				<Button type="outlined" label={t('Login SAML')} color="primary" disabled={configuration.disableInputs}
+				<Button type="outlined" label={t('login_saml', 'Login SAML')} color="primary" disabled={configuration.disableInputs}
 								onClick={() => { window.location.assign(`/zx/auth/startSamlWorkflow?destinationUrl=${configuration.destinationUrl}`);}}/>
 				}
 				{
