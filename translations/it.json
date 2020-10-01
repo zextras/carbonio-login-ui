@@ -13,5 +13,6 @@
     "Help": "Aiuto",
     "Do you need help": "Hai bisogno di aiuto",
     "Can not do the login now": "Impossibile effettuare l'accesso ora",
-    "All rights reserved": "Tutti i diritti riservati"
+    "All rights reserved": "Tutti i diritti riservati",
+    "currently_offline_message": "Scollegato, per favore controlla la tua connessione"
 }

@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import {
 	browserName,
 	browserVersion,
@@ -7,7 +8,7 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
-import DeviceUUID from 'device-uuid';
+import { DeviceUUID } from 'device-uuid';
 
 export function getDeviceModel() {
 	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
@@ -15,6 +16,6 @@ export function getDeviceModel() {
 	return deviceModel;
 }
 
-export function getDeviceId() {
-	return new DeviceUUID().get();
+export function deviceId() {
+	return (new DeviceUUID()).get();
 }
