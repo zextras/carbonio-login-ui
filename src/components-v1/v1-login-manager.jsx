@@ -77,7 +77,7 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 			<Snackbar
 				open={snackbarNetworkError}
 				label={t('Can not do the login now')}
-				actionLabel="Details"
+				actionLabel={t('Details')}
 				onActionClick={() => setDetailNetworkModal(true)}
 				onClose={() => setSnackbarNetworkError(false)}
 				autoHideTimeout={10000}
