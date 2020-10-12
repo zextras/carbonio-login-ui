@@ -2,4 +2,4 @@
 title: Zextras Login
 ---
 
-Zextras Login App
+It's the unique entry point to login to Zextras services.

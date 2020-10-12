@@ -2,7 +2,8 @@
   "docs": {
     "Main": [
       "main",
-      "translations"
+      "translations",
+      "developers-guide"
     ]
   }
 }

@@ -1,19 +1,17 @@
 {
-  "All rights reserved": "All rights reserved",
-  "Can not do the login now": "Can not do the login now",
-  "Credentials are not valid": {
-    " Please check data and try again": ""
-  },
-  "Failed to fetch the application theme": "",
-  "Login": "Login",
-  "Login SAML": "",
-  "Password": "Password",
-  "Supported browsers": "Supported browsers",
-  "Type here One-Time-Password": "",
-  "Username": "Username",
-  "currently_offline_message": "You are currently offline, please check your internet connection",
-  "do_you_need_help_message": "Do you need help",
-  "help_modal_title": "Help",
-  "help_phone_number": "Please call this number",
-  "or_write_message_to_message": "Or write an email to"
+  "all_rights_reserved": "All rights reserved",
+  "cant_login": "Can not do the login now",
+  "credentials_not_valid": "Credentials are not valid, please check data and try again",
+  "details": "Details",
+  "login": "Login",
+  "login_saml": "Login SAML",
+  "offline": "You are currently offline, please check your internet connection",
+  "password": "Password",
+  "server_not_responding": "The server is not responding. Please contact your server administators",
+  "supported_browsers": "Supported browsers",
+  "two_step_authentication": "Two-Step-Authentication",
+  "type_otp": "Type here One-Time-Password",
+  "unsupported_version": "The server sent a not valid response. Please contact your server administrator",
+  "username": "Username",
+  "zextras_authentication": "Zextras Authentication"
 }
