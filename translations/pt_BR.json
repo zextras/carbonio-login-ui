@@ -2,5 +2,9 @@
     "Username": "Nome de usuário",
     "Password": "Senha",
     "Login": "Login",
-    "Help": "Ajuda"
+    "Help": "Ajuda",
+    "username": "Nome de usuário",
+    "password": "Senha",
+    "login": "Iniciar sessão",
+    "details": "Detalhes"
 }

@@ -2,5 +2,9 @@
     "Username": "Benutzername",
     "Password": "Passwort",
     "Login": "Login",
-    "Help": "Hilfe"
+    "Help": "Hilfe",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "login": "Login",
+    "details": "Details"
 }
