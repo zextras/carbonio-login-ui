@@ -1,5 +1,8 @@
 {
     "Username": "Nume utilizator",
     "Password": "Parola",
-    "Login": "Autentificare"
+    "Login": "Autentificare",
+    "login": "Autentificare",
+    "username": "Nume utilizator",
+    "password": "Parola"
 }

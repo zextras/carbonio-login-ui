@@ -2,5 +2,9 @@
     "Username": "用户名",
     "Password": "密码",
     "Login": "登录",
-    "Help": "帮助"
+    "Help": "帮助",
+    "username": "用户名",
+    "password": "密码",
+    "login": "登录",
+    "details": "详情"
 }
