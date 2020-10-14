@@ -14,5 +14,20 @@
     "Do you need help": "Hai bisogno di aiuto",
     "Can not do the login now": "Impossibile effettuare l'accesso ora",
     "All rights reserved": "Tutti i diritti riservati",
-    "currently_offline_message": "Scollegato, per favore controlla la tua connessione"
+    "currently_offline_message": "Scollegato, per favore controlla la tua connessione",
+    "server_not_responding": "Il server non risponde. Contatta l'amministratore del server",
+    "unsupported_version": "Il server ha inviato una risposta non valida. Contatta l'amministratore del server",
+    "type_otp": "Digita qui la One-Time-Password",
+    "credentials_not_valid": "Credenziali non valide, controlla i dati inseriti e riprova",
+    "zextras_authentication": "Autenticazione Zextras",
+    "username": "Nome utente",
+    "two_step_authentication": "Autenticazione a Due Fattori",
+    "supported_browsers": "Browser supportati",
+    "password": "Password",
+    "offline": "Sei attualmente offline, controlla la tua connessione Internet",
+    "login_saml": "Accedi con SAML",
+    "login": "Accedi",
+    "details": "Dettagli",
+    "cant_login": "Impossibile effettuare l'accesso ora",
+    "all_rights_reserved": "Tutti i diritti riservati"
 }

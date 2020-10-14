@@ -2,5 +2,9 @@
     "Username": "Gebruikersnaam",
     "Password": "Wachtwoord",
     "Login": "Inloggen",
-    "Help": "Help"
+    "Help": "Help",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord",
+    "login": "Inloggen",
+    "details": "Gegevens"
 }
