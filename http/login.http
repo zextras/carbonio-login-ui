@@ -13,7 +13,7 @@ client.global.set("version", response.body.minApiVersion);
 %}
 
 ###
-GET /zx/login/v{{version}}/config?domain=zimbra.com HTTP/1.1
+GET /zx/login/v{{version}}/config HTTP/1.1
 Host: {{host}}
 
 > {%
@@ -25,6 +25,7 @@ client.test("'supported' executed successfully", function() {
   client.assert(response.body.hasOwnProperty("zimbraPublicServicePort"), "Response don't have zimbraPublicServicePort");
   client.assert(response.body.hasOwnProperty("zimbraPublicServiceProtocol"), "Response don't have zimbraPublicServiceProtocol");
   client.assert(response.body.hasOwnProperty("zimbraSkinLogoURL"), "Response don't have zimbraSkinLogoURL");
+  client.assert(response.body.hasOwnProperty("publicUrl"), "Response don't have publicUrl");
 
   // https://zextras.atlassian.net/wiki/spaces/COR/pages/826212445/Zextras+Login+Page
 
