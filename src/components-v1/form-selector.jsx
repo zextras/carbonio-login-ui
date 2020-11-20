@@ -3,7 +3,7 @@ import V1LoginManager from './v1-login-manager';
 import { getAuthSupported } from '../services/auth-configuration-service';
 import ServerNotResponding from '../components-index/server-not-responding';
 
-export default function FormSelector () {
+export default function FormSelector ({ publicUrl }) {
 	const [configuration, setConfiguration] = useState(null);
 	const [error, setError] = useState(false);
 
@@ -16,7 +16,7 @@ export default function FormSelector () {
 		getAuthSupported(domain)
 			.then((res) => {
 				if (componentIsMounted) {
-					res.destinationUrl = destinationUrl;
+					res.destinationUrl = destinationUrl || publicUrl;
 					res.disableInputs = false;
 					setConfiguration(res);
 				}

@@ -2,5 +2,9 @@
     "Username": "ユーザー名",
     "Password": "パスワード",
     "Login": "ログイン",
-    "Help": "ヘルプ"
+    "Help": "ヘルプ",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "login": "ログイン",
+    "details": "詳細"
 }

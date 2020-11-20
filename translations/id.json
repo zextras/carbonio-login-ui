@@ -2,5 +2,9 @@
     "Username": "Nama pengguna",
     "Password": "Kata sandi",
     "Login": "Masuk",
-    "Help": "Bantuan"
+    "Help": "Bantuan",
+    "username": "Nama pengguna",
+    "password": "Kata sandi",
+    "login": "Masuk",
+    "details": "Detail"
 }
