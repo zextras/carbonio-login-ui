@@ -75,6 +75,7 @@ export default function PageLayout ({ theme, setTheme }) {
   const screenMode = useScreenMode();
   const [logo, setLogo] = useState(null);
   const [serverError, setServerError] = useState(false);
+  const [publicUrl, setPublicUrl]  = useState('');
 
   const domain = new URLSearchParams(window.location.search).get('domain');
 
@@ -83,6 +84,7 @@ export default function PageLayout ({ theme, setTheme }) {
 
     getLoginConfig(1, domain, domain)
       .then((res) => {
+        setPublicUrl(res.publicUrl);
         const logo = {};
 
         if (componentIsMounted) {
@@ -172,7 +174,7 @@ export default function PageLayout ({ theme, setTheme }) {
                     </Container>
                   </Padding>
                 </Container>
-                <FormSelector></FormSelector>
+                <FormSelector publicUrl={publicUrl} />
                 <Container crossAlignment="flex-start" height="auto"
                            padding={{ bottom: 'extralarge', top: 'extralarge' }}>
                   <Text>{t('supported_browsers', 'Supported browsers')}</Text>
