@@ -65,4 +65,4 @@ Then:
 1. It calls `/zx/auth/supported` to get the authentication methods and versions supported by
     the backend; based on this response the component `FormSelector` show the correct form 
     (currently only v1 is defined)
-    - if `SAML` is present in field `authMethods` the button will be visible.
+    - if `saml` is present in field `authMethods` the button will be visible.
