@@ -17,10 +17,10 @@ i18n
 			escapeValue: false // react already safes from xss
 		},
 		missingKeyHandler: (lng, ns, key, fallbackValue) => {
-			console.warn(`Missing translation with key`, key);
+			console.warn('Missing translation with key', key);
 		},
 		backend: {
-			loadPath: `i18n/{{lng}}.json`,
+			loadPath: 'i18n/{{lng}}.json',
 		}
 	});
 
