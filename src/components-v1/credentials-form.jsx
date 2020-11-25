@@ -73,7 +73,7 @@ export default function CredentialsForm ({
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{configuration.authMethods.includes('saml')
 					? <Button type="outlined" label={t('login_saml', 'Login SAML')} color="primary" disabled={configuration.disableInputs}
-										onClick={() => { window.location.assign(`/zx/auth/startSamlWorkflow/redirectUrl=${configuration.destinationUrl}`);}}/>
+										onClick={() => { window.location.assign(`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`);}}/>
 					: <div style={{ minHeight: '20px' }}/>
 					// used to keep the correct space where or not SAML is shown
 				}
