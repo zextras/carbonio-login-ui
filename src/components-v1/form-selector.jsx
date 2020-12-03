@@ -34,7 +34,8 @@ export default function FormSelector ({ publicUrl }) {
 	if (configuration === null)
 		return <div></div>;
 
-	if (configuration.maxApiVersion === 1)
+	if (1 <= configuration.maxApiVersion  &&  1 >= configuration.minApiVersion)
 		return <V1LoginManager configuration={configuration}/>;
 
+	return <NotSupportedVersion />
 }
