@@ -105,22 +105,22 @@ export default function PageLayout ({ theme, setTheme }) {
             logo.image = logoZextras;
           }
 
-          if (res.hasOwnProperty('zimbraSkinLogoURL') && res.zimbraSkinLogoURL) {
-            logo.url = res.zimbraSkinLogoURL;
+          if (res.hasOwnProperty('loginPageSkinLogoUrl') && res.loginPageSkinLogoUrl) {
+            logo.url = res.loginPageSkinLogoUrl;
           } else {
             logo.url = '';
           }
 
-          if (res.hasOwnProperty('favicon') && res.favicon) {
+          if (res.hasOwnProperty('loginPageFavicon') && res.loginPageFavicon) {
             const link = document.querySelector('link[rel*=\'icon\']') || document.createElement('link');
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
-            link.href = res.favicon;
+            link.href = res.loginPageFavicon;
             document.getElementsByTagName('head')[0].appendChild(link);
           }
 
-          if (res.hasOwnProperty('loginPageColorSet') && res.loginPageColorSet) {
-            const color_set = res.loginPageColorSet;
+          if (res.hasOwnProperty('loginPageColorPalette') && res.loginPageColorPalette) {
+            const color_set = res.loginPageColorPalette;
             if (color_set.hasOwnProperty('primary') && color_set.primary) {
               edited_theme.palette.light.primary = {
                 regular: color_set.primary
@@ -175,7 +175,7 @@ export default function PageLayout ({ theme, setTheme }) {
                 </Container>
               </Padding>
             </Container>
-            <FormSelector public_url={public_url}/>
+            <FormSelector publicUrl={publicUrl}/>
             <Container crossAlignment="flex-start" height="auto"
                        padding={{ bottom: 'extralarge', top: 'extralarge' }}>
               <Text>{t('supported_browsers', 'Supported browsers')}</Text>
