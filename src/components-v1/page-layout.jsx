@@ -105,22 +105,22 @@ export default function PageLayout ({ theme, setTheme }) {
             logo.image = logoZextras;
           }
 
-          if (res.hasOwnProperty('zimbraSkinLogoURL') && res.zimbraSkinLogoURL) {
-            logo.url = res.zimbraSkinLogoURL;
+          if (res.hasOwnProperty('loginPageSkinLogoUrl') && res.loginPageSkinLogoUrl) {
+            logo.url = res.loginPageSkinLogoUrl;
           } else {
             logo.url = '';
           }
 
-          if (res.hasOwnProperty('favicon') && res.favicon) {
+          if (res.hasOwnProperty('loginPageFavicon') && res.loginPageFavicon) {
             const link = document.querySelector('link[rel*=\'icon\']') || document.createElement('link');
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
-            link.href = res.favicon;
+            link.href = res.loginPageFavicon;
             document.getElementsByTagName('head')[0].appendChild(link);
           }
 
-          if (res.hasOwnProperty('loginPageColorSet') && res.loginPageColorSet) {
-            const color_set = res.loginPageColorSet;
+          if (res.hasOwnProperty('loginPageColorPalette') && res.loginPageColorPalette) {
+            const color_set = res.loginPageColorPalette;
             if (color_set.hasOwnProperty('primary') && color_set.primary) {
               edited_theme.palette.light.primary = {
                 regular: color_set.primary
@@ -149,118 +149,114 @@ export default function PageLayout ({ theme, setTheme }) {
   if (serverError)
     return <ServerNotResponding/>;
 
-  return (
-    <>
-      {
-        logo
-        && (
-          <LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
-            <FormContainer>
-              <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
-                <Container mainAlignment="flex-start" height="auto">
-                  <Padding value="28px 0 28px" crossAlignment="center">
-                    <Container crossAlignment="center">
-                      <a href={logo.url}>
-                        <img
-                          src={logo.image} style={{
-                          maxWidth: '65%',
-                          maxHeight: '150px',
-                          display: 'block',
-                          marginLeft: 'auto',
-                          marginRight: 'auto'
-                        }}
-                        />
-                      </a>
-                    </Container>
-                  </Padding>
+  if (logo) {
+    const logoHtml = <img
+      src={logo.image}
+      style={{
+        maxWidth: '65%',
+        maxHeight: '150px',
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}
+    />;
+
+    return (
+      <LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
+        <FormContainer>
+          <FormWrapper mainAlignment="space-between" screenMode={screenMode}>
+            <Container mainAlignment="flex-start" height="auto">
+              <Padding value="28px 0 28px" crossAlignment="center">
+                <Container crossAlignment="center">
+                  {logo.url
+                    ? <a href={logo.url}>{logoHtml}</a>
+                    : logoHtml
+                  }
                 </Container>
-                <FormSelector publicUrl={publicUrl} />
-                <Container crossAlignment="flex-start" height="auto"
-                           padding={{ bottom: 'extralarge', top: 'extralarge' }}>
-                  <Text>{t('supported_browsers', 'Supported browsers')}</Text>
-                  <Row padding={{ top: 'medium', bottom: 'extralarge' }} wrap="nowrap">
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Chrome">
-                        <img
-                          src={logoChrome}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Firefox">
-                        <img
-                          src={logoFirefox}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip
-                        label="Internet Explorer 11+"
-                      ><img
-                        src={logoIE} width="18px"
-                      />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Edge">
-                        <img
-                          src={logoEdge}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Safari">
-                        <img
-                          src={logoSafari}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Opera">
-                        <img
-                          src={logoOpera}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="Yandex">
-                        <img
-                          src={logoYandex}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                    <Padding all="extrasmall" right="small">
-                      <Tooltip label="UC">
-                        <img
-                          src={logoUC}
-                          width="18px"
-                        />
-                      </Tooltip>
-                    </Padding>
-                  </Row>
-                  <Text
-                    size="small"
-                    overflow="break-word"
-                  >Copyright &copy;
-                    {' '}
-                    {new Date().getFullYear()}
-                    {' '}
-                    Zextras,
-                    {' '}
-                    {t('all_rights_reserved', 'All rights reserved')}
-                  </Text>
-                </Container>
-              </FormWrapper>
-            </FormContainer>
-          </LoginContainer>
-        )
-      }
-    </>
-  );
+              </Padding>
+            </Container>
+            <FormSelector publicUrl={publicUrl}/>
+            <Container crossAlignment="flex-start" height="auto"
+                       padding={{ bottom: 'extralarge', top: 'extralarge' }}>
+              <Text>{t('supported_browsers', 'Supported browsers')}</Text>
+              <Row padding={{ top: 'medium', bottom: 'extralarge' }} wrap="nowrap">
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Chrome">
+                    <img
+                      src={logoChrome}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Firefox">
+                    <img
+                      src={logoFirefox}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip
+                    label="Internet Explorer 11+"
+                  ><img
+                    src={logoIE} width="18px"
+                  />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Edge">
+                    <img
+                      src={logoEdge}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Safari">
+                    <img
+                      src={logoSafari}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Opera">
+                    <img
+                      src={logoOpera}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="Yandex">
+                    <img
+                      src={logoYandex}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+                <Padding all="extrasmall" right="small">
+                  <Tooltip label="UC">
+                    <img
+                      src={logoUC}
+                      width="18px"
+                    />
+                  </Tooltip>
+                </Padding>
+              </Row>
+              <Text
+                size="small"
+                overflow="break-word"
+              >Copyright &copy;
+                {` ${new Date().getFullYear()} Zextras, `}
+                {t('all_rights_reserved', 'All rights reserved')}
+              </Text>
+            </Container>
+          </FormWrapper>
+        </FormContainer>
+      </LoginContainer>
+    );
+  }
+  return null;
 }

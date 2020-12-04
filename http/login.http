@@ -1,6 +1,5 @@
 ### login SUPPORTED
-GET /zx/login/supported HTTP/1.1
-Host: {{host}}
+GET {{host}}/zx/login/supported HTTP/1.1
 
 > {%
 client.test("'supported' executed successfully", function() {
@@ -24,14 +23,14 @@ client.test("'supported' executed successfully", function() {
   client.assert(response.body.hasOwnProperty("zimbraPublicServiceHostname"), "Response don't have zimbraPublicServiceHostname");
   client.assert(response.body.hasOwnProperty("zimbraPublicServicePort"), "Response don't have zimbraPublicServicePort");
   client.assert(response.body.hasOwnProperty("zimbraPublicServiceProtocol"), "Response don't have zimbraPublicServiceProtocol");
-  client.assert(response.body.hasOwnProperty("zimbraSkinLogoURL"), "Response don't have zimbraSkinLogoURL");
+  client.assert(response.body.hasOwnProperty("loginPageSkinLogoUrl"), "Response don't have loginPageSkinLogoUrl");
   client.assert(response.body.hasOwnProperty("publicUrl"), "Response don't have publicUrl");
 
   // https://zextras.atlassian.net/wiki/spaces/COR/pages/826212445/Zextras+Login+Page
 
   client.assert(response.body.hasOwnProperty("loginPageBackgroundImage"), "Response don't have loginPageBackgroundImage");
   client.assert(response.body.hasOwnProperty("loginPageLogo"), "Response don't have loginPageLogo");
-  client.assert(response.body.hasOwnProperty("loginPageColorSet"), "Response don't have loginPageColorSet");
+  client.assert(response.body.hasOwnProperty("loginPageColorPalette"), "Response don't have loginPageColorPalette");
 
   // some field are missing w.r.t. documentation
 });
