@@ -1,28 +1,22 @@
 module.exports = {
-	clearMocks: true,
 	transform: {
-		"^.+\\.[t|j]sx?$": ['babel-jest', { configFile: './babel.config.app.js' }]
+		"^.+\\.[t|j]sx?$": ['babel-jest', { configFile: './babel.config.jest.js' }]
 	},
 	moduleDirectories: [
 		'node_modules',
 		// add the directory with the test-utils.js file:
+		'test/utils' // a utility folder
 	],
-	testEnvironment: "jsdom",
 	collectCoverage: true,
 	collectCoverageFrom: ['src/**/*.js', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.tsx'],
-	coverageDirectory: 'test/coverage',
+	// coverageDirectory: 'test/coverage',
 	coverageReporters: ['text'],
-	coveragePathIgnorePatterns: [
-		"/node_modules/", '<rootDir>/zapp-ui/src/'
-	],
-	moduleNameMapper: {
-		'^@zextras/zapp-ui$': '<rootDir>/zapp-ui/src/',
-	},
-	reporters: [ "default", "jest-junit" ],
-	roots: [
-	  "<rootDir>/src"
-	],
+	reporters: ['default', 'jest-junit'],
+	// testMatch: ['/test/**/*.js?(x)'],
 	setupFilesAfterEnv: [
-		"<rootDir>/src/setupTest.js"
+		"<rootDir>/src/jest-env-setup.js"
 	],
+	setupFiles: [
+		"<rootDir>/src/jest-polyfills.js"
+	]
 };

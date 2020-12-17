@@ -4,7 +4,7 @@ import React from 'react';
 import { Modal, Paragraph } from '@zextras/zapp-ui';
 
 export function OfflineModal ({ open, onClose }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	return (
 		<Modal
 			title="Offline"
