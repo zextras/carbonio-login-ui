@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/camelcase: "off" */
 import { getDeviceModel, deviceId } from '../utils';
 
 export function postV1Login(authMethod, user, password, service) {

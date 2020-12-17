@@ -1,22 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
-import { Button, Row, Snackbar, Text } from '@zextras/zapp-ui';
+import { Button, Row, Snackbar, Text, Input } from '@zextras/zapp-ui';
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 
-export default function V1LoginManager ({ configuration, hideSamlButton }) {
-	const { t } = useTranslation();
+export default function V1LoginManager({ configuration, disableInputs }) {
+	const [ t ] = useTranslation();
 
-	const [progress, setProgress] = useState('credentials');
+	const [ progress, setProgress ] = useState('credentials');
 
-	const [showAuthError, setShowAuthError] = useState(false);
+	const [ showAuthError, setShowAuthError ] = useState(false);
 
-	const [otp, setOtp] = useState('');
-	const [showOtpError, setOtpError] = useState(true);
+	const [ otp, setOtp ] = useState('');
 
-	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
-	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
+	const [ snackbarNetworkError, setSnackbarNetworkError ] = useState(false);
+	const [ detailNetworkModal, setDetailNetworkModal ] = useState(false);
 
 	const handleSubmitCredentialsResponse = (res) => {
 		switch (res.status) {
@@ -24,7 +23,6 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 				setShowAuthError(true);
 				break;
 			case 202:
-				hideSamlButton();
 				setProgress('two-factor');
 				break;
 			default:
@@ -36,19 +34,28 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 		// TODO: submitOtp, call Api?
 	}, []);
 
+	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
+	const onSnackbarActionCbk = useCallback(() => setDetailNetworkModal(true), [setDetailNetworkModal]);
+	const onCloseSnackbarCbk = useCallback(() => setSnackbarNetworkError(false), [setSnackbarNetworkError]);
+
 	return (
 		<>
 			{progress === 'credentials'
 			&& (
 				<CredentialsForm
 					configuration={configuration}
+					disableInputs={disableInputs}
 					showAuthError={showAuthError}
 					handleSubmitCredentialsResponse={handleSubmitCredentialsResponse}
 				/>
 			)}
 			{progress === 'waiting'
 			&& (
-				<Row orientation="vertical" crossAlignment="center" padding={{ vertical: 'extralarge' }}>
+				<Row
+					orientation="vertical"
+					crossAlignment="center"
+					padding={{ vertical: 'extralarge' }}
+				>
 					<Spinner/>
 				</Row>
 			)}
@@ -63,15 +70,23 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 					<Row padding={{ top: 'large' }}>
 						<Input
 							value={otp}
-							disabled={configuration.disableInputs}
+							disabled={disableInputs}
 							onChange={(ev) => setOtp(ev.target.value)}
-							hasError={showOtpError}
 							label={t('type_otp','Type here One-Time-Password')}
 							backgroundColor="gray5"
 						/>
 					</Row>
-					<Row orientation="vertical" crossAlignment="flex-start" padding={{ vertical: 'small' }}>
-						<Button onClick={submitOtp} disabled={configuration.disableInputs} label={t('login', 'Login')} size="fill"/>
+					<Row
+						orientation="vertical"
+						crossAlignment="flex-start"
+						padding={{ vertical: 'small' }}
+					>
+						<Button
+							onClick={submitOtp}
+							disabled={disableInputs}
+							label={t('login', 'Login')}
+							size="fill"
+						/>
 					</Row>
 				</form>
 			)}
@@ -79,12 +94,15 @@ export default function V1LoginManager ({ configuration, hideSamlButton }) {
 				open={snackbarNetworkError}
 				label={t('cant_login', 'Can not do the login now')}
 				actionLabel={t('details', 'Details')}
-				onActionClick={() => setDetailNetworkModal(true)}
-				onClose={() => setSnackbarNetworkError(false)}
+				onActionClick={onSnackbarActionCbk}
+				onClose={onCloseSnackbarCbk}
 				autoHideTimeout={10000}
 				type="error"
 			/>
-			<OfflineModal open={detailNetworkModal} onClose={() => setDetailNetworkModal(false)}/>
+			<OfflineModal
+				open={detailNetworkModal}
+				onClose={onCloseCbk}
+			/>
 		</>
 	);
 }

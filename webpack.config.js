@@ -2,12 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const babelRCApp = require('./babel.config.app.js');
 
 
 const pathsToCopy = [
-	{ from: 'translations', to: 'i18n' }
+	{ from: 'translations', to: 'i18n' },
+	{ from: 'src/mockServiceWorker.js', to: 'mockServiceWorker.js' }
 ];
 
 module.exports = {
