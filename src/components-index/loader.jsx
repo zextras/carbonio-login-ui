@@ -4,28 +4,28 @@ import ServerNotResponding from './server-not-responding';
 import NotSupportedVersion from './not-supported-version';
 
 const Loader = lazy(() => {
-  const domain = new URLSearchParams(window.location.search).get('domain');
-  return getLoginSupported(domain)
-    .then(({ minApiVersion, maxApiVersion }) => {
-      const maxSupportedVersion = 1; // to keep updated adding new versions
+	const domain = new URLSearchParams(window.location.search).get('domain');
+	return getLoginSupported(domain)
+		.then(({ minApiVersion, maxApiVersion }) => {
+			const maxSupportedVersion = 1; // to keep updated adding new versions
 
-      let version = maxApiVersion;
-      if (version > maxSupportedVersion) {
-        version = maxSupportedVersion;
-      }
+			let version = maxApiVersion;
+			if (version > maxSupportedVersion) {
+				version = maxSupportedVersion;
+			}
 
-      if (version < minApiVersion) {
-        return ({ 'default': NotSupportedVersion });
-      }
+			if (version < minApiVersion) {
+				return ({ 'default': NotSupportedVersion });
+			}
 
-      switch (version) {
-        case 1:
-          return import(/* webpackChunkName: "v1" */ '../components-v1/page-layout');
-        default:
-          return ({ 'default': NotSupportedVersion });
-      }
-    })
-    .catch(() => ({ 'default': ServerNotResponding }));
+			switch (version) {
+				case 1:
+					return import(/* webpackChunkName: "v1" */ '../components-v1/page-layout');
+				default:
+					return ({ 'default': NotSupportedVersion });
+			}
+		})
+		.catch(() => ({ 'default': ServerNotResponding }));
 });
 
 export default Loader;
