@@ -52,17 +52,18 @@ def createRelease(branchName) {
 		git fetch --unshallow
 	""")
 	executeNpmLogin()
-	nodeCmd "npm install"
 	if (isRelease) {
 		sh(script: """#!/bin/bash
 			git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
 		""")
+		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"
 		nodeCmd "npm run release -- --no-verify"
 	} else {
-		nodeCmd "NODE_ENV='production' npm run build"
+		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"
-		nodeCmd "npm run release -- --no-verify --prerelease beta"
+        nodeCmd "npm run release -- --no-verify --prerelease beta"
+		nodeCmd "NODE_ENV='production' npm run build"
 		sh(script: """#!/bin/bash
 			git add translations
 			git commit --no-verify -m 'chore(i18n): extracted translations'
