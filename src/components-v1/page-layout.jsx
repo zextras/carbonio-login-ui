@@ -75,16 +75,19 @@ export default function PageLayout ({ theme, setTheme }) {
 	const screenMode = useScreenMode();
 	const [ logo, setLogo ] = useState(null);
 	const [ serverError, setServerError ] = useState(false);
-	const [ publicUrl, setPublicUrl ]  = useState('');
 
-	const domain = new URLSearchParams(window.location.search).get('domain');
+	const urlParams = new URLSearchParams(window.location.search);
+	const [destinationUrl, setDestinationUrl] = useState(urlParams.get('destinationUrl'));
+	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
 	useEffect(() => {
 		let componentIsMounted = true;
 
 		getLoginConfig(1, domain, domain)
 			.then((res) => {
-				setPublicUrl(res.publicUrl);
+				if(!destinationUrl) setDestinationUrl(res.publicUrl);
+				if(!domain) setDomain(res.zimbraDomainName);
+
 				const _logo = {};
 
 				if (componentIsMounted) {
@@ -181,7 +184,7 @@ export default function PageLayout ({ theme, setTheme }) {
 								</Container>
 							</Padding>
 						</Container>
-						<FormSelector publicUrl={publicUrl}/>
+						<FormSelector domain={domain} destinationUrl={destinationUrl} />
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
 							<Text>{t('supported_browsers', 'Supported browsers')}</Text>

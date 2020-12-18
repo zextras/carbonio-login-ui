@@ -4,23 +4,20 @@ import { getAuthSupported } from '../services/auth-configuration-service';
 import ServerNotResponding from '../components-index/server-not-responding';
 import NotSupportedVersion from '../components-index/not-supported-version';
 
-export default function FormSelector ({ publicUrl }) {
+export default function FormSelector({ destinationUrl, domain }) {
 	const [ configuration, setConfiguration ] = useState(null);
 	const [ error, setError ] = useState(false);
 	const [ disableInputs, setDisableInputs ] = useState(true);
 
 	useEffect(() => {
 		let componentIsMounted = true;
-		const urlParams = new URLSearchParams(window.location.search);
-		const domain = urlParams.get('domain');
-		const destinationUrl = urlParams.get('destinationUrl');
 
 		getAuthSupported(domain)
 			.then((res) => {
 				if (componentIsMounted) {
 					setConfiguration({
 						...res,
-						destinationUrl: destinationUrl || publicUrl
+						destinationUrl
 					});
 					setDisableInputs(false);
 				}
@@ -32,7 +29,7 @@ export default function FormSelector ({ publicUrl }) {
 		return () => {
 			componentIsMounted = false;
 		}
-	}, [publicUrl]);
+	}, [destinationUrl, domain]);
 
 	if(error)
 		return <ServerNotResponding />

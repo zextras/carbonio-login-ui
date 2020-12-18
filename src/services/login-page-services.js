@@ -1,5 +1,7 @@
 export function getLoginSupported(domain) {
-	return fetch(`/zx/login/supported?${new URLSearchParams({ domain })}`, {
+	const urlParams = new URLSearchParams();
+	if(domain) urlParams.append("domain", domain);
+	return fetch(`/zx/login/supported?${urlParams}`, {
 		method: 'GET',
 	})
 		.then((res) => {
@@ -9,7 +11,10 @@ export function getLoginSupported(domain) {
 }
 
 export function getLoginConfig(version, domain, host) {
-	return fetch(`/zx/login/v${version}/config?${new URLSearchParams({ domain, host })}`, {
+	const urlParams = new URLSearchParams();
+	if(domain) urlParams.append("domain", domain);
+	if(host) urlParams.append("host", host);
+	return fetch(`/zx/login/v${version}/config?${urlParams}`, {
 		method: 'GET'
 	})
 		.then((res) => {

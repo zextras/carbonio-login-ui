@@ -65,13 +65,16 @@ export default function CredentialsForm({
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
 
+	const onChangeUsername = useCallback((ev) => setUsername(ev.target.value), [setUsername]);
+	const onChangePassword = useCallback((ev) => setPassword(ev.target.value), [setPassword]);
+
 	return (
 		<form style={{ width: '100%' }}>
 			<Row padding={{ bottom: 'large' }}>
 				<Input
-					value={username}
+					defaultValue={username}
 					disabled={disableInputs}
-					onChange={(ev) => setUsername(ev.target.value)}
+					onChange={onChangeUsername}
 					hasError={showAuthError}
 					autocomplete="username"
 					label={t('username','Username')}
@@ -80,9 +83,9 @@ export default function CredentialsForm({
 			</Row>
 			<Row padding={{ bottom: 'small' }}>
 				<PasswordInput
-					value={password}
+					defaultValue={password}
 					disabled={disableInputs}
-					onChange={(ev) => setPassword(ev.target.value)}
+					onChange={onChangePassword}
 					hasError={showAuthError}
 					autocomplete="password"
 					label={t('password', 'Password')}
