@@ -33,7 +33,7 @@ const LoginContainer = styled(Container)`
 	background: url(${(props) => props.backgroundImage}) no-repeat 75% center/cover;
 	justify-content: center;
 	align-items: flex-start;
-	${({ screenMode, theme }) => screenMode === 'mobile' && css`
+	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 0 12px;
 		align-items: center;	
 	`}
@@ -150,7 +150,7 @@ export default function PageLayout ({ theme, setTheme }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [setLogo, setTheme]);
+	}, [setLogo, setTheme, destinationUrl, domain]);
 
 	if (serverError)
 		return <ServerNotResponding/>;

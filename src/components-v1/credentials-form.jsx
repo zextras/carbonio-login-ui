@@ -2,11 +2,10 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { find } from 'lodash';
 import { Button, Input, PasswordInput, Row, Text } from '@zextras/zapp-ui';
-import { postV1Login } from '../services/v1-service';
 
 export default function CredentialsForm({
 	showAuthError,
-	handleSubmitCredentialsResponse,
+	submitCredentials,
 	configuration,
 	disableInputs
 }) {
@@ -20,28 +19,8 @@ export default function CredentialsForm({
 
 		if (!username || !password) return;
 
-		postV1Login(
-			'PASSWORD',
-			username,
-			password
-		).then((res) => {
-			if (res.status === 200) {
-				if (window.PasswordCredential) {
-					// eslint-disable-next-line no-undef
-					const cred = new PasswordCredential({
-						id: username,
-						password,
-						name: password
-					});
-					navigator.credentials.store(cred);
-				}
-				window.location.assign(configuration.destinationUrl);
-			}
-			else {
-				handleSubmitCredentialsResponse(res);
-			}
-		});
-	}, [username, password, configuration.destinationUrl, handleSubmitCredentialsResponse]);
+		submitCredentials(username, password);
+	}, [username, password, submitCredentials]);
 
 	const samlButtonCbk = useCallback(() => {
 		window.location.assign(`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`);
