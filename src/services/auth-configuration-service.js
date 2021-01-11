@@ -1,5 +1,7 @@
 export function getAuthSupported(domain) {
-	return fetch(`/zx/auth/supported?${new URLSearchParams({ domain })}`, {
+	const urlParams = new URLSearchParams();
+	if(domain) urlParams.append("domain", domain);
+	return fetch(`/zx/auth/supported?${urlParams}`, {
 		method: 'GET',
 	})
 		.then((res) => {
