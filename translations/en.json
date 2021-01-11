@@ -1,6 +1,7 @@
 {
     "all_rights_reserved": "All rights reserved",
     "cant_login": "Can not do the login now",
+    "choose_otp": "Choose the OTP method",
     "credentials_not_valid": "Credentials are not valid, please check data and try again",
     "details": "Details",
     "login": "Login",
@@ -8,6 +9,7 @@
     "offline": "You are currently offline, please check your internet connection",
     "password": "Password",
     "remember_device": "Remember this device",
+    "select_otp": "",
     "server_not_responding": "The server is not responding. Please contact your server administator",
     "supported_browsers": "Supported browsers",
     "two_step_authentication": "Two-Step-Authentication",

@@ -22,7 +22,7 @@ module.exports = {
 	// devServer: {
 	// 	proxy: {
 	// 		'/zx': {
-	// 			target: 'http://localhost:3000',
+	// 			target: 'https://infra-344da6d0.testarea.zextras.com',
 	// 			secure: false
 	// 		}
 	// 	}

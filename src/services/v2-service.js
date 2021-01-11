@@ -6,7 +6,7 @@ export function postV2Login(authMethod, user, password, service) {
 		headers: {
 			'X-Device-Model': getDeviceModel(),
 			'X-Device-Id': deviceId(),
-			'X-Service': 'webUI',
+			'X-Service': 'WebUI',
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
@@ -23,7 +23,7 @@ export function submitOtp(id, code, rememberDevice) {
 		headers: {
 			'X-Device-Model': getDeviceModel(),
 			'X-Device-Id': deviceId(),
-			'X-Service': 'webUI',
+			'X-Service': 'WebUI',
 			'Content-Type': 'application/json',
 			version: '2'
 		},

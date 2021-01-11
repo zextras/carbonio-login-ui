@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
-import { Button, Row, Snackbar, Text, Input, Checkbox } from '@zextras/zapp-ui';
+import { map } from	'lodash';
+import { Button, Row, Snackbar, Text, Input, Checkbox, Select } from '@zextras/zapp-ui';
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
@@ -15,6 +16,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [ showAuthError, setShowAuthError ] = useState(false);
 	const [ showOtpError, setShowOtpError ] = useState(false);
 
+	const [ otpList, setOtpList ] = useState([]);
 	const [ otpId, setOtpId ] = useState('');
 	const [ otp, setOtp ] = useState('');
 	const onChangeOtp = useCallback((ev) => {
@@ -31,14 +33,22 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 			.then(res => {
 				switch (res.status) {
 					case 200:
-						saveCredentials(username, password);
-						if(res?.['2FA'] === true) {
-							setOtpId(res?.otp?.[0].id);
-							setProgress('two-factor');
-						}
-						else {
-							window.location.assign(configuration.destinationUrl);
-						}
+						res.json().then(response => {
+							saveCredentials(username, password);
+							if(response?.['2FA'] === true) {
+								setOtpList(
+									map(
+										response?.otp ?? [],
+										obj => ({ label: obj.label, value: obj.id })
+									)
+								);
+								setOtpId(response?.otp?.[0].id);
+								setProgress('two-factor');
+							}
+							else {
+								window.location.assign(configuration.destinationUrl);
+							}
+						});
 						break;
 					case 401:
 						setShowAuthError(true);
@@ -92,6 +102,15 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						<Text size="large" color="text" weight="bold">
 							{t('two_step_authentication', 'Two-Step-Authentication') }
 						</Text>
+					</Row>
+					<Row padding={{ top: 'large' }}>
+						<Select
+							items={otpList}
+							background="gray5"
+							label={ t('choose_otp', 'Choose the OTP method') }
+							onChange={setOtpId}
+							defaultSelection={otpList[0]}
+						/>
 					</Row>
 					<Row padding={{ top: 'large' }}>
 						<Input
