@@ -4,7 +4,10 @@ import ServerNotResponding from './server-not-responding';
 import NotSupportedVersion from './not-supported-version';
 
 const Loader = lazy(() => {
-	const domain = new URLSearchParams(window.location.search).get('domain');
+	const urlParams = new URLSearchParams(window.location.search);
+	const destinationUrl = urlParams.get('destinationUrl');
+	const domain = urlParams.get('domain') ?? destinationUrl;
+
 	return getLoginSupported(domain)
 		.then(({ minApiVersion, maxApiVersion }) => {
 			const maxSupportedVersion = 1; // to keep updated adding new versions

@@ -19,3 +19,15 @@ export function getDeviceModel() {
 export function deviceId() {
 	return (new DeviceUUID()).get();
 }
+
+export function saveCredentials(username, password) {
+	if (window.PasswordCredential) {
+		// eslint-disable-next-line no-undef
+		const cred = new PasswordCredential({
+			id: username,
+			password,
+			name: password
+		});
+		navigator.credentials.store(cred);
+	}
+}
