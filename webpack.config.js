@@ -19,14 +19,14 @@ module.exports = {
 		path: __dirname + '/build'
 	},
 	target: 'web',
-	// devServer: {
-	// 	proxy: {
-	// 		'/zx': {
-	// 			target: 'https://infra-344da6d0.testarea.zextras.com',
-	// 			secure: false
-	// 		}
-	// 	}
-	// },
+	devServer: {
+		proxy: {
+			'/zx': {
+				target: 'https://infra-848931f5.testarea.zextras.com',
+				secure: false
+			}
+		}
+	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {
