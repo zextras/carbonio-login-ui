@@ -87,7 +87,7 @@ const PhotoCredits = styled(Text)`
 	 }
 `;
 
-export default function PageLayout ({ theme, setTheme }) {
+export default function PageLayout({ version, theme, setTheme }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
@@ -102,7 +102,7 @@ export default function PageLayout ({ theme, setTheme }) {
 	useEffect(() => {
 		let componentIsMounted = true;
 
-		getLoginConfig(1, domain, domain)
+		getLoginConfig(version, domain, domain)
 			.then((res) => {
 				if(!destinationUrl) setDestinationUrl(res.publicUrl);
 				if(!domain) setDomain(res.zimbraDomainName);
@@ -135,6 +135,13 @@ export default function PageLayout ({ theme, setTheme }) {
 					}
 					else {
 						_logo.url = '';
+					}
+
+					if (res.loginPageTitle) {
+						document.title = res.loginPageTitle;
+					}
+					else {
+						document.title = t('zextras_authentication', 'Zextras Authentication');
 					}
 
 					if (res.loginPageFavicon) {
