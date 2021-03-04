@@ -30,7 +30,7 @@ export default function FormSelector({ destinationUrl, domain }) {
 		return () => {
 			componentIsMounted = false;
 		}
-	}, [destinationUrl, domain]);
+	}, []);
 
 	if(error)
 		return <ServerNotResponding />

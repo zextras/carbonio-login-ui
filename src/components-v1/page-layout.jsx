@@ -177,7 +177,7 @@ export default function PageLayout({ version, theme, setTheme }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [setLogo, setTheme, setIsDefaultBg, destinationUrl, domain]);
+	}, []);
 
 	if (serverError)
 		return <ServerNotResponding/>;
