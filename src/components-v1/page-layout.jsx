@@ -125,16 +125,16 @@ export default function PageLayout ({ theme, setTheme }) {
 						document.getElementsByTagName('head')[0].appendChild(link);
 					}
 
-					if (res.loginPageColorPalette) {
-						const colorSet = res.loginPageColorPalette;
+					if (res.loginPageColorSet) {
+						const colorSet = res.loginPageColorSet;
 						if (colorSet.primary) {
 							editedTheme.palette.light.primary = {
-								regular: colorSet.primary
+								regular: `#${colorSet.primary}`
 							};
 						}
 						if (colorSet.secondary) {
 							editedTheme.palette.light.secondary = {
-								regular: colorSet.secondary
+								regular: `#${colorSet.secondary}`
 							};
 						}
 					}
