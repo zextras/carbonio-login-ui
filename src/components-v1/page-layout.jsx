@@ -11,7 +11,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Padding, Row, Text, Tooltip, useScreenMode } from '@zextras/zapp-ui';
+import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode } from '@zextras/zapp-ui';
 
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
@@ -22,7 +22,8 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import bakgoundImage from '../../assets/bg.jpg';
+import bakgoundImage from '../../assets/bg-wood-dock.jpg';
+import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
@@ -36,6 +37,11 @@ const LoginContainer = styled(Container)`
 	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 0 12px;
 		align-items: center;	
+	`}
+	${({ isDefaultBg }) => isDefaultBg && css`
+		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { 
+			background: url(${bakgoundImageRetina}) no-repeat 75% center/cover;
+		}
 	`}
 `;
 
@@ -70,20 +76,33 @@ const Separator = styled.div`
 	background-color: #828282;
 `;
 
-export default function PageLayout ({ theme, setTheme }) {
-	const [ t ] = useTranslation();
+const PhotoCredits = styled(Text)`
+	 position: absolute;
+	 bottom: ${({ theme }) => theme.sizes.padding.large};
+	 right: ${({ theme }) => theme.sizes.padding.large};
+	 opacity: 50%;
+	 
+	 @media(max-width: 767px) {
+	 	display: none;
+	 }
+`;
+
+export default function PageLayout({ version, theme, setTheme }) {
+	const [t] = useTranslation();
 	const screenMode = useScreenMode();
-	const [ logo, setLogo ] = useState(null);
-	const [ serverError, setServerError ] = useState(false);
+	const [logo, setLogo] = useState(null);
+	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const [destinationUrl, setDestinationUrl] = useState(urlParams.get('destinationUrl'));
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
+	const [isDefaultBg, setIsDefaultBg] = useState(true);
+
 	useEffect(() => {
 		let componentIsMounted = true;
 
-		getLoginConfig(1, domain, domain)
+		getLoginConfig(version, domain, domain)
 			.then((res) => {
 				if(!destinationUrl) setDestinationUrl(res.publicUrl);
 				if(!domain) setDomain(res.zimbraDomainName);
@@ -98,6 +117,7 @@ export default function PageLayout ({ theme, setTheme }) {
 					};
 					if (res.loginPageBackgroundImage) {
 						editedTheme.loginBackground = res.loginPageBackgroundImage;
+						setIsDefaultBg(false);
 					}
 					else {
 						editedTheme.loginBackground = bakgoundImage;
@@ -115,6 +135,13 @@ export default function PageLayout ({ theme, setTheme }) {
 					}
 					else {
 						_logo.url = '';
+					}
+
+					if (res.loginPageTitle) {
+						document.title = res.loginPageTitle;
+					}
+					else {
+						document.title = t('zextras_authentication', 'Zextras Authentication');
 					}
 
 					if (res.loginPageFavicon) {
@@ -150,7 +177,7 @@ export default function PageLayout ({ theme, setTheme }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [setLogo, setTheme, destinationUrl, domain]);
+	}, []);
 
 	if (serverError)
 		return <ServerNotResponding/>;
@@ -171,7 +198,7 @@ export default function PageLayout ({ theme, setTheme }) {
 		);
 
 		return (
-			<LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
+			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={theme.loginBackground}>
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
@@ -273,6 +300,13 @@ export default function PageLayout ({ theme, setTheme }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
+				{
+					isDefaultBg && (
+						<PhotoCredits color="gray6">
+							Photo by Pok Rie from <Link href="https://www.pexels.com/" target="_blank" rel="nofollow" color="gray6">Pexels</Link>
+						</PhotoCredits>
+					)
+				}
 			</LoginContainer>
 		);
 	}
