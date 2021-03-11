@@ -94,7 +94,7 @@
     "@reduxjs/toolkit": "1.4.0",
     "@types/react-redux": "7.1.12",
     "@zextras/zapp-shell": "^0.0.102-beta.34",
-    "@zextras/zapp-ui": "^0.0.64-beta.6",
+    "@zextras/zapp-ui": "0.1.0-beta.5",
     "core-js": "3.7.0",
     "device-uuid": "1.0.4",
     "formik": "2.1.4",

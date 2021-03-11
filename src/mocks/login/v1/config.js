@@ -15,8 +15,8 @@ export default rest.get(
 				loginPageSkinLogoUrl: 'https://banner2.cleanpng.com/20180513/fpq/kisspng-royalty-free-logo-dragon-5af7c7407136a9.1946411915261878404637.jpg',
 				loginPageFavicon: '',
 				loginPageColorSet: {
-					primary: '',
-					secondary: ''
+					primary: 'ff0000',
+					secondary: '666666'
 				},
 				zimbraPublicServiceHostname: "infra-6f4c8e62.testarea.zextras.com",
 				zimbraPublicServicePort: "443",

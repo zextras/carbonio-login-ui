@@ -38,12 +38,12 @@ export default function FormSelector({ destinationUrl, domain }) {
 	if (configuration === null)
 		return <div></div>;
 
-	if (configuration.maxApiVersion >= 2  &&  configuration.minApiVersion <= 2)
+	if (configuration.maxApiVersion >= 2 && configuration.minApiVersion <= 2)
 		return <V2LoginManager
 			configuration={configuration}
 			disableInputs={disableInputs}
 		/>;
-	if (configuration.maxApiVersion >= 1  &&  configuration.minApiVersion <= 1)
+	if (configuration.maxApiVersion >= 1 && configuration.minApiVersion <= 1)
 		return <V1LoginManager
 			configuration={configuration}
 			disableInputs={disableInputs}

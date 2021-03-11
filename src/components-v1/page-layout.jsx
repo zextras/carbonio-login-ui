@@ -9,9 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode } from '@zextras/zapp-ui';
+import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
+import { forEach, set } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
@@ -28,6 +29,17 @@ import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
+
+function modifyTheme(draft, variant, changes) {
+	forEach(changes, (v, k) => set(draft, k, v));
+}
+
+function ModifiedTheme({ changes }) {
+	const proxyFn = useCallback((draft, variant) => modifyTheme(draft, variant, changes), []);
+	useSetCustomTheme(proxyFn);
+
+	return null;
+}
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -54,14 +66,14 @@ const FormContainer = styled.div`
 const FormWrapper = styled(Container)`
 	width: auto;
 	height: auto;
-	background-color: #fff;
+	background-color: ${({ theme }) => theme.palette.gray6.regular};
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
 	max-height: 620px;
 	height: 100vh;
 	overflow-y: auto;
-	${({ screenMode, theme }) => screenMode === 'mobile' && css`
+	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 20px 20px 0;
 		width: 360px;
 		max-height: 100%;
@@ -69,25 +81,22 @@ const FormWrapper = styled(Container)`
 	`}
 `;
 
-const Separator = styled.div`
-	width: 1px;
-	height: 16px;
-	margin: 0 10px 0 12px;
-	background-color: #828282;
-`;
-
+const PhotoLink = styled(Link)``;
 const PhotoCredits = styled(Text)`
-	 position: absolute;
-	 bottom: ${({ theme }) => theme.sizes.padding.large};
-	 right: ${({ theme }) => theme.sizes.padding.large};
-	 opacity: 50%;
+	position: absolute;
+	bottom: ${({ theme }) => theme.sizes.padding.large};
+	right: ${({ theme }) => theme.sizes.padding.large};
+	opacity: 50%;
+	&, ${PhotoLink} {
+	 	color: #fff;
+	}
 	 
-	 @media(max-width: 767px) {
-	 	display: none;
-	 }
+	@media(max-width: 767px) {
+		display: none;
+	}
 `;
 
-export default function PageLayout({ version, theme, setTheme }) {
+export default function PageLayout({ version }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
@@ -97,9 +106,11 @@ export default function PageLayout({ version, theme, setTheme }) {
 	const [destinationUrl, setDestinationUrl] = useState(urlParams.get('destinationUrl'));
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
+	const [bg, setBg] = useState(bakgoundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
+	const [editedTheme, setEditedTheme] = useState({});
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let componentIsMounted = true;
 
 		getLoginConfig(version, domain, domain)
@@ -110,17 +121,9 @@ export default function PageLayout({ version, theme, setTheme }) {
 				const _logo = {};
 
 				if (componentIsMounted) {
-					const editedTheme = {
-						palette: {
-							light: {}
-						}
-					};
 					if (res.loginPageBackgroundImage) {
-						editedTheme.loginBackground = res.loginPageBackgroundImage;
+						setBg(res.loginPageBackgroundImage);
 						setIsDefaultBg(false);
-					}
-					else {
-						editedTheme.loginBackground = bakgoundImage;
 					}
 
 					if (res.loginPageLogo) {
@@ -155,18 +158,19 @@ export default function PageLayout({ version, theme, setTheme }) {
 					if (res.loginPageColorSet) {
 						const colorSet = res.loginPageColorSet;
 						if (colorSet.primary) {
-							editedTheme.palette.light.primary = {
-								regular: `#${colorSet.primary}`
-							};
+							setEditedTheme((et) => ({
+								...et,
+								'palette.primary.regular': `#${colorSet.primary}`
+							}));
 						}
 						if (colorSet.secondary) {
-							editedTheme.palette.light.secondary = {
-								regular: `#${colorSet.secondary}`
-							};
+							setEditedTheme((et) => ({
+								...et,
+								'palette.secondary.regular': `#${colorSet.secondary}`
+							}));
 						}
 					}
 					setLogo(_logo);
-					setTheme(editedTheme);
 				}
 			})
 			.catch(() => {
@@ -198,7 +202,8 @@ export default function PageLayout({ version, theme, setTheme }) {
 		);
 
 		return (
-			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={theme.loginBackground}>
+			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
+				<ModifiedTheme changes={editedTheme} />
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
@@ -302,8 +307,8 @@ export default function PageLayout({ version, theme, setTheme }) {
 				</FormContainer>
 				{
 					isDefaultBg && (
-						<PhotoCredits color="gray6">
-							Photo by Pok Rie from <Link href="https://www.pexels.com/" target="_blank" rel="nofollow" color="gray6">Pexels</Link>
+						<PhotoCredits>
+							Photo by Pok Rie from <PhotoLink href="https://www.pexels.com/" target="_blank" rel="nofollow">Pexels</PhotoLink>
 						</PhotoCredits>
 					)
 				}

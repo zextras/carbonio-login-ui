@@ -12,10 +12,14 @@ import loginSupported from './login/supported';
 import authSupported from './auth/supported';
 import v1config from './login/v1/config';
 import v1login from './auth/v1/login';
+import v2login from './auth/v2/login';
+import v2OTPValidate from './auth/v2/otp_validate';
 
 export const handlers = [
 	loginSupported,
 	authSupported,
 	v1config,
-	v1login
+	v1login,
+	v2login,
+	v2OTPValidate
 ];
