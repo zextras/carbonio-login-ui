@@ -10,6 +10,7 @@ import { saveCredentials } from '../utils';
 export default function V1LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
 
+	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState('credentials');
 
 	const [authError, setAuthError] = useState();
@@ -18,6 +19,7 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
 	const submitCredentials = useCallback((username, password) => {
+		setLoading(true);
 		return postV1Login('password', username, password)
 			.then(res => {
 				switch (res.status) {
@@ -27,14 +29,18 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 						break;
 					case 401:
 						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
+						setLoading(false);
 						break;
 					case 403:
 						setAuthError(t('auth_not_valid','The authentication policy needs more steps: please contact your administrator for more information'));
+						setLoading(false);
 						break;
 					default:
 						setSnackbarNetworkError(true);
+						setLoading(false);
 				}
-			});
+			})
+			.catch(() => setLoading(false));
 	}, [configuration.destinationUrl]);
 
 	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
@@ -50,6 +56,7 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 					disableInputs={disableInputs}
 					authError={authError}
 					submitCredentials={submitCredentials}
+					loading={loading}
 				/>
 			)}
 			{progress === 'waiting'

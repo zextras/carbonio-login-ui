@@ -6,20 +6,18 @@ export default function CredentialsForm({
 	authError,
 	submitCredentials,
 	configuration,
-	disableInputs
+	disableInputs,
+	loading = false
 }) {
 	const [t] = useTranslation();
 
-	const [loading, setLoading] = useState(false);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
 	const submitUserPassword = useCallback((e) => {
 		e.preventDefault();
 		if (username && password) {
-			setLoading(true);
-			submitCredentials(username, password)
-				.finally(() => setLoading(false));
+			submitCredentials(username, password);
 		}
 	}, [username, password, submitCredentials]);
 

@@ -4,6 +4,7 @@ export default rest.post(
 	'/zx/auth/v2/login',
 	(req, res, ctx) => {
 		return res(
+			ctx.delay(3000),
 			ctx.status(200),
 			ctx.json({
 				otp: [
