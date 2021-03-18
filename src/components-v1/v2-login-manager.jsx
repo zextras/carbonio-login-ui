@@ -9,27 +9,30 @@ import { postV2Login, submitOtp } from '../services/v2-service';
 import { saveCredentials } from '../utils';
 
 export default function V2LoginManager({ configuration, disableInputs }) {
-	const [ t ] = useTranslation();
+	const [t] = useTranslation();
 
-	const [ progress, setProgress ] = useState('credentials');
+	const [loadingCredentials, setLoadingCredentials] = useState(false);
+	const [loadingOtp, setLoadingOtp] = useState(false);
+	const [progress, setProgress] = useState('credentials');
 
-	const [ showAuthError, setShowAuthError ] = useState(false);
-	const [ showOtpError, setShowOtpError ] = useState(false);
+	const [authError, setAuthError] = useState(false);
+	const [showOtpError, setShowOtpError] = useState(false);
 
-	const [ otpList, setOtpList ] = useState([]);
-	const [ otpId, setOtpId ] = useState('');
-	const [ otp, setOtp ] = useState('');
+	const [otpList, setOtpList] = useState([]);
+	const [otpId, setOtpId] = useState('');
+	const [otp, setOtp] = useState('');
 	const onChangeOtp = useCallback((ev) => {
 		setOtp(ev.target.value);
 	}, [setOtp]);
 	const [rememberDevice, setRememberDevice] = useState(true);
 	const toggleRememberDevice = useCallback(() => setRememberDevice(v => !v), [setRememberDevice]);
 
-	const [ snackbarNetworkError, setSnackbarNetworkError ] = useState(false);
-	const [ detailNetworkModal, setDetailNetworkModal ] = useState(false);
+	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
+	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
 	const submitCredentials = useCallback((username, password) => {
-		postV2Login('password', username, password)
+		setLoadingCredentials(true);
+		return postV2Login('password', username, password)
 			.then(res => {
 				switch (res.status) {
 					case 200:
@@ -44,6 +47,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 								);
 								setOtpId(response?.otp?.[0].id);
 								setProgress('two-factor');
+								setLoadingCredentials(false);
 							}
 							else {
 								window.location.assign(configuration.destinationUrl);
@@ -51,23 +55,35 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						});
 						break;
 					case 401:
-						setShowAuthError(true);
+						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
+						setLoadingCredentials(false);
+						break;
+					case 403:
+						setAuthError(t('auth_not_valid','The authentication policy needs more steps: please contact your administrator for more information'));
+						setLoadingCredentials(false);
 						break;
 					default:
 						setSnackbarNetworkError(true);
+						setLoadingCredentials(false);
 				}
-			});
-	}, [setShowAuthError, setSnackbarNetworkError, configuration.destinationUrl, setOtpId, setProgress]);
+			})
+			.catch(() => setLoadingCredentials(false));
+	}, [configuration.destinationUrl]);
 
-	const submitOtpCb = useCallback(() => {
-		submitOtp(otpId, otp, rememberDevice).then(res => {
-			if (res.status === 200) {
-				window.location.assign(configuration.destinationUrl);
-			}
-			else {
-				setShowOtpError(true)
-			}
-		});
+	const submitOtpCb = useCallback((e) => {
+		e.preventDefault();
+		setLoadingOtp(true);
+		submitOtp(otpId, otp, rememberDevice)
+			.then(res => {
+				if (res.status === 200) {
+					window.location.assign(configuration.destinationUrl);
+				}
+				else {
+					setLoadingOtp(false);
+					setShowOtpError(true);
+				}
+			})
+			.catch(() => setLoadingOtp(false));
 	}, [otpId, otp, rememberDevice, configuration.destinationUrl]);
 
 	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
@@ -81,8 +97,9 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				<CredentialsForm
 					configuration={configuration}
 					disableInputs={disableInputs}
-					showAuthError={showAuthError}
+					authError={authError}
 					submitCredentials={submitCredentials}
+					loading={loadingCredentials}
 				/>
 			)}
 			{progress === 'waiting'
@@ -97,7 +114,8 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 			)}
 			{progress === 'two-factor'
 			&& (
-				<form style={{ width: '100%' }}>
+				<form onSubmit={submitOtpCb} style={{ width: '100%' }}>
+					<input type="submit" style={{ display: 'none' }}/>
 					<Row padding={{ bottom: 'large' }}>
 						<Text size="large" color="text" weight="bold">
 							{t('two_step_authentication', 'Two-Step-Authentication') }
@@ -138,6 +156,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							disabled={disableInputs}
 							label={t('login', 'Login')}
 							size="fill"
+							loading={loadingOtp}
 						/>
 					</Row>
 					<Row mainAlignment="flex-start">

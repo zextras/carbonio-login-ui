@@ -1,8 +1,7 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import { useTranslation } from 'react-i18next';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { extendTheme, SnackbarManager, ThemeProvider } from '@zextras/zapp-ui';
+import { SnackbarManager, ThemeContextProvider } from '@zextras/zapp-ui';
 
 import './i18n/i18n.config';
 import './index.css';
@@ -16,7 +15,6 @@ const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 const MAX_SUPPORTED_VERSION = 2; // to keep updated adding new versions
 
 function App () {
-	const [theme, setTheme] = useState({});
 	const [versions, setVersions] = useState();
 
 	useEffect(() => {
@@ -46,17 +44,13 @@ function App () {
 	}, []);
 
 	return (
-		<ThemeProvider theme={extendTheme(theme)}>
+		<ThemeContextProvider>
 			<SnackbarManager>
 				<Suspense fallback={<div></div>}>
 					<Router>
 						<Switch>
 							{versions && versions.version >= versions.minApiVersion && (
-								<PageLayoutV1
-									theme={theme}
-									setTheme={setTheme}
-									version={versions.version}
-								/>
+								<PageLayoutV1 version={versions.version} />
 							)}
 							{versions && versions.version < versions.minApiVersion && <NotSupportedVersion />}
 							{versions && versions.error && <ServerNotResponding />}
@@ -64,7 +58,7 @@ function App () {
 					</Router>
 				</Suspense>
 			</SnackbarManager>
-		</ThemeProvider>
+		</ThemeContextProvider>
 	);
 }
 

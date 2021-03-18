@@ -13,7 +13,7 @@ export default rest.get(
 				minApiVersion: 1,
 				maxApiVersion: 2,
 				destinationUrl: '',
-				authMethods: ['password']
+				authMethods: ['password', 'saml']
 			}),
 		)
 	}

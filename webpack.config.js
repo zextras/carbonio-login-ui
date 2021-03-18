@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const babelRCApp = require('./babel.config.app.js');
-
+const pkg = require('./package.json');
 
 const pathsToCopy = [
 	{ from: 'translations', to: 'i18n' },
@@ -96,7 +96,10 @@ module.exports = {
 			inject: true,
 			template: './src/index.html',
 			filename: './index.html',
-			chunks: ['index']
+			chunks: ['index'],
+			meta: {
+				'app-version': pkg.version
+			}
 		})
 	]
 };
