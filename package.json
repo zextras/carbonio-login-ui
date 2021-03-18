@@ -93,7 +93,6 @@
     "@zextras/zapp-shell": "^0.0.102-beta.34",
     "@zextras/zapp-ui": "0.1.0-beta.5",
     "core-js": "3.7.0",
-    "device-uuid": "1.0.4",
     "formik": "2.1.4",
     "i18next-browser-languagedetector": "6.0.1",
     "i18next-http-backend": "1.0.21",
