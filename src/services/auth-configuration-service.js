@@ -9,3 +9,13 @@ export function getAuthSupported(domain) {
 			throw Error('Notwork Error');
 		});
 }
+
+export function doAuthLogout(configuration) {
+	return fetch(`/zx/auth/v${configuration.maxApiVersion}/logout`, {
+		method: 'GET',
+	})
+		.then((res) => {
+			if (res.status !== 200)
+				throw Error('Notwork Error');
+		});
+}
