@@ -29,6 +29,7 @@ import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
+import { prepareUrlForForward, generateColorSet } from '../utils';
 
 function modifyTheme(draft, variant, changes) {
 	forEach(changes, (v, k) => set(draft, k, v));
@@ -103,7 +104,7 @@ export default function PageLayout({ version }) {
 	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const [destinationUrl, setDestinationUrl] = useState(urlParams.get('destinationUrl'));
+	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
 	const [bg, setBg] = useState(bakgoundImage);
@@ -115,7 +116,7 @@ export default function PageLayout({ version }) {
 
 		getLoginConfig(version, domain, domain)
 			.then((res) => {
-				if(!destinationUrl) setDestinationUrl(res.publicUrl);
+				if(!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
 				if(!domain) setDomain(res.zimbraDomainName);
 
 				const _logo = {};
@@ -128,9 +129,11 @@ export default function PageLayout({ version }) {
 
 					if (res.loginPageLogo) {
 						_logo.image = res.loginPageLogo;
+						_logo.width = '100%';
 					}
 					else {
 						_logo.image = logoZextras;
+						_logo.width = '221px';
 					}
 
 					if (res.loginPageSkinLogoUrl) {
@@ -160,13 +163,13 @@ export default function PageLayout({ version }) {
 						if (colorSet.primary) {
 							setEditedTheme((et) => ({
 								...et,
-								'palette.primary.regular': `#${colorSet.primary}`
+								'palette.primary': generateColorSet({ regular: `#${colorSet.primary}` })
 							}));
 						}
 						if (colorSet.secondary) {
 							setEditedTheme((et) => ({
 								...et,
-								'palette.secondary.regular': `#${colorSet.secondary}`
+								'palette.secondary': generateColorSet({ regular: `#${colorSet.secondary}` })
 							}));
 						}
 					}
@@ -191,8 +194,9 @@ export default function PageLayout({ version }) {
 			<img
 				alt="Logo"
 				src={logo.image}
+				width={logo.width}
 				style={{
-					maxWidth: '65%',
+					maxWidth: '100%',
 					maxHeight: '150px',
 					display: 'block',
 					marginLeft: 'auto',
@@ -305,13 +309,11 @@ export default function PageLayout({ version }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{
-					isDefaultBg && (
-						<PhotoCredits>
-							Photo by Pok Rie from <PhotoLink href="https://www.pexels.com/" target="_blank" rel="nofollow">Pexels</PhotoLink>
-						</PhotoCredits>
-					)
-				}
+				{ isDefaultBg && (
+					<PhotoCredits>
+						Photo by Pok Rie from <PhotoLink href="https://www.pexels.com/" target="_blank" rel="nofollow">Pexels</PhotoLink>
+					</PhotoCredits>
+				)}
 			</LoginContainer>
 		);
 	}

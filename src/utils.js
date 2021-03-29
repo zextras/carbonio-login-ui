@@ -8,6 +8,7 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
+import { darken, desaturate, lighten, setLightness } from 'polished';
 
 export function getDeviceModel() {
 	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
@@ -34,4 +35,43 @@ export function saveCredentials(username, password) {
 		});
 		navigator.credentials.store(cred);
 	}
+}
+
+export function prepareUrlForForward(oUrl) {
+	if (typeof oUrl !== 'string') return oUrl;
+	const url = new URL(oUrl);
+	const urlParams = new URLSearchParams(window.location.search);
+	const blackListedQueryStrings = [
+		'loginOp',
+		'loginNewPassword',
+		'totpcode',
+		'loginConfirmNewPassword',
+		'loginErrorCode',
+		'username',
+		'email',
+		'password',
+		'zrememberme',
+		'ztrusteddevice',
+		'zlastserver',
+		'client',
+		'login_csrf',
+		'ignoreLoginURL',
+		'soo',
+		'destinationUrl'
+	];
+	blackListedQueryStrings.map((queryString) => urlParams.has(queryString) && urlParams.delete(queryString));
+	urlParams.forEach((value, key) => {
+		url.searchParams.set(key, value);
+	});
+	return url.toString();
+}
+
+export function generateColorSet({ regular, hover, active, disabled, focus }, dark = false) {
+	return {
+		regular,
+		hover: hover ?? dark ? lighten(0.1, regular) : darken(0.1, regular),
+		focus: focus ?? dark ? lighten(0.1, regular) : darken(0.1, regular),
+		active: active ?? dark ? lighten(0.15, regular) : darken(0.15, regular),
+		disabled: disabled ?? dark ? setLightness(0.8, regular) : desaturate(0.3, darken(0.3, regular))
+	};
 }

@@ -13,6 +13,8 @@ import authSupported from './auth/supported';
 import v1config from './login/v1/config';
 import v1login from './auth/v1/login';
 import v2login from './auth/v2/login';
+import v1logout from './auth/v1/logout';
+import v2logout from './auth/v2/logout';
 import v2OTPValidate from './auth/v2/otp_validate';
 
 export const handlers = [
@@ -21,5 +23,7 @@ export const handlers = [
 	v1config,
 	v1login,
 	v2login,
+	v1logout,
+	v2logout,
 	v2OTPValidate
 ];

@@ -2,6 +2,8 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Input, PasswordInput, Row, Text } from '@zextras/zapp-ui';
 
+const urlParams = new URLSearchParams(window.location.search);
+
 export default function CredentialsForm({
 	authError,
 	submitCredentials,
@@ -11,13 +13,20 @@ export default function CredentialsForm({
 }) {
 	const [t] = useTranslation();
 
-	const [username, setUsername] = useState('');
+	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 
 	const submitUserPassword = useCallback((e) => {
 		e.preventDefault();
 		if (username && password) {
-			submitCredentials(username, password);
+			let usernameModified = username;
+			if (urlParams.has('virtualacctdomain')) {
+				usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get('virtualacctdomain')}`;
+			}
+			else if (urlParams.has('customerDomain')){
+				usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
+			}
+			submitCredentials(usernameModified, password);
 		}
 	}, [username, password, submitCredentials]);
 
