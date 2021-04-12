@@ -30,7 +30,7 @@ client.test("'supported' executed successfully", function() {
 
   client.assert(response.body.hasOwnProperty("loginPageBackgroundImage"), "Response don't have loginPageBackgroundImage");
   client.assert(response.body.hasOwnProperty("loginPageLogo"), "Response don't have loginPageLogo");
-  client.assert(response.body.hasOwnProperty("loginPageColorPalette"), "Response don't have loginPageColorPalette");
+  client.assert(response.body.hasOwnProperty("loginPageColorSet"), "Response don't have loginPageColorSet");
 
   // some field are missing w.r.t. documentation
 });

@@ -1,38 +1,47 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
-import { Button, Row, Snackbar, Text, Input } from '@zextras/zapp-ui';
+import { Row, Snackbar } from '@zextras/zapp-ui';
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
+import { postV1Login } from '../services/v1-service';
+import { saveCredentials } from '../utils';
 
 export default function V1LoginManager({ configuration, disableInputs }) {
-	const [ t ] = useTranslation();
+	const [t] = useTranslation();
 
-	const [ progress, setProgress ] = useState('credentials');
+	const [loading, setLoading] = useState(false);
+	const [progress, setProgress] = useState('credentials');
 
-	const [ showAuthError, setShowAuthError ] = useState(false);
+	const [authError, setAuthError] = useState();
 
-	const [ otp, setOtp ] = useState('');
+	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
+	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
-	const [ snackbarNetworkError, setSnackbarNetworkError ] = useState(false);
-	const [ detailNetworkModal, setDetailNetworkModal ] = useState(false);
-
-	const handleSubmitCredentialsResponse = (res) => {
-		switch (res.status) {
-			case 401:
-				setShowAuthError(true);
-				break;
-			case 202:
-				setProgress('two-factor');
-				break;
-			default:
-				setSnackbarNetworkError(true);
-		}
-	};
-
-	const submitOtp = useCallback((ev) => {
-		// TODO: submitOtp, call Api?
-	}, []);
+	const submitCredentials = useCallback((username, password) => {
+		setLoading(true);
+		return postV1Login('password', username, password)
+			.then(res => {
+				switch (res.status) {
+					case 200:
+						saveCredentials(username, password);
+						window.location.assign(configuration.destinationUrl);
+						break;
+					case 401:
+						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
+						setLoading(false);
+						break;
+					case 403:
+						setAuthError(t('auth_not_valid','The authentication policy needs more steps: please contact your administrator for more information'));
+						setLoading(false);
+						break;
+					default:
+						setSnackbarNetworkError(true);
+						setLoading(false);
+				}
+			})
+			.catch(() => setLoading(false));
+	}, [configuration.destinationUrl]);
 
 	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
 	const onSnackbarActionCbk = useCallback(() => setDetailNetworkModal(true), [setDetailNetworkModal]);
@@ -45,8 +54,9 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 				<CredentialsForm
 					configuration={configuration}
 					disableInputs={disableInputs}
-					showAuthError={showAuthError}
-					handleSubmitCredentialsResponse={handleSubmitCredentialsResponse}
+					authError={authError}
+					submitCredentials={submitCredentials}
+					loading={loading}
 				/>
 			)}
 			{progress === 'waiting'
@@ -58,37 +68,6 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 				>
 					<Spinner/>
 				</Row>
-			)}
-			{progress === 'two-factor'
-			&& (
-				<form style={{ width: '100%' }}>
-					<Row padding={{ bottom: 'large' }}>
-						<Text size="large" color="text" weight="bold">
-							{t('two_step_authentication', 'Two-Step-Authentication') }
-						</Text>
-					</Row>
-					<Row padding={{ top: 'large' }}>
-						<Input
-							value={otp}
-							disabled={disableInputs}
-							onChange={(ev) => setOtp(ev.target.value)}
-							label={t('type_otp','Type here One-Time-Password')}
-							backgroundColor="gray5"
-						/>
-					</Row>
-					<Row
-						orientation="vertical"
-						crossAlignment="flex-start"
-						padding={{ vertical: 'small' }}
-					>
-						<Button
-							onClick={submitOtp}
-							disabled={disableInputs}
-							label={t('login', 'Login')}
-							size="fill"
-						/>
-					</Row>
-				</form>
 			)}
 			<Snackbar
 				open={snackbarNetworkError}

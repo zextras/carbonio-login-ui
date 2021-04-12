@@ -9,9 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Padding, Row, Text, Tooltip, useScreenMode } from '@zextras/zapp-ui';
+import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
+import { forEach, set } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
@@ -22,20 +23,38 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import bakgoundImage from '../../assets/bg.jpg';
+import bakgoundImage from '../../assets/bg-wood-dock.jpg';
+import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
+import { prepareUrlForForward, generateColorSet } from '../utils';
+
+function modifyTheme(draft, variant, changes) {
+	forEach(changes, (v, k) => set(draft, k, v));
+}
+
+function ModifiedTheme({ changes }) {
+	const proxyFn = useCallback((draft, variant) => modifyTheme(draft, variant, changes), []);
+	useSetCustomTheme(proxyFn);
+
+	return null;
+}
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
 	background: url(${(props) => props.backgroundImage}) no-repeat 75% center/cover;
 	justify-content: center;
 	align-items: flex-start;
-	${({ screenMode, theme }) => screenMode === 'mobile' && css`
+	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 0 12px;
 		align-items: center;	
+	`}
+	${({ isDefaultBg }) => isDefaultBg && css`
+		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { 
+			background: url(${bakgoundImageRetina}) no-repeat 75% center/cover;
+		}
 	`}
 `;
 
@@ -48,14 +67,14 @@ const FormContainer = styled.div`
 const FormWrapper = styled(Container)`
 	width: auto;
 	height: auto;
-	background-color: #fff;
+	background-color: ${({ theme }) => theme.palette.gray6.regular};
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
 	max-height: 620px;
 	height: 100vh;
 	overflow-y: auto;
-	${({ screenMode, theme }) => screenMode === 'mobile' && css`
+	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 20px 20px 0;
 		width: 360px;
 		max-height: 100%;
@@ -63,48 +82,58 @@ const FormWrapper = styled(Container)`
 	`}
 `;
 
-const Separator = styled.div`
-	width: 1px;
-	height: 16px;
-	margin: 0 10px 0 12px;
-	background-color: #828282;
+const PhotoLink = styled(Link)``;
+const PhotoCredits = styled(Text)`
+	position: absolute;
+	bottom: ${({ theme }) => theme.sizes.padding.large};
+	right: ${({ theme }) => theme.sizes.padding.large};
+	opacity: 50%;
+	&, ${PhotoLink} {
+	 	color: #fff;
+	}
+	 
+	@media(max-width: 767px) {
+		display: none;
+	}
 `;
 
-export default function PageLayout ({ theme, setTheme }) {
-	const [ t ] = useTranslation();
+export default function PageLayout({ version }) {
+	const [t] = useTranslation();
 	const screenMode = useScreenMode();
-	const [ logo, setLogo ] = useState(null);
-	const [ serverError, setServerError ] = useState(false);
-	const [ publicUrl, setPublicUrl ]  = useState('');
+	const [logo, setLogo] = useState(null);
+	const [serverError, setServerError] = useState(false);
 
-	const domain = new URLSearchParams(window.location.search).get('domain');
+	const urlParams = new URLSearchParams(window.location.search);
+	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
+	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
-	useEffect(() => {
+	const [bg, setBg] = useState(bakgoundImage);
+	const [isDefaultBg, setIsDefaultBg] = useState(true);
+	const [editedTheme, setEditedTheme] = useState({});
+
+	useLayoutEffect(() => {
 		let componentIsMounted = true;
 
-		getLoginConfig(1, domain, domain)
+		getLoginConfig(version, domain, domain)
 			.then((res) => {
-				setPublicUrl(res.publicUrl);
+				if(!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
+				if(!domain) setDomain(res.zimbraDomainName);
+
 				const _logo = {};
 
 				if (componentIsMounted) {
-					const editedTheme = {
-						palette: {
-							light: {}
-						}
-					};
 					if (res.loginPageBackgroundImage) {
-						editedTheme.loginBackground = res.loginPageBackgroundImage;
-					}
-					else {
-						editedTheme.loginBackground = bakgoundImage;
+						setBg(res.loginPageBackgroundImage);
+						setIsDefaultBg(false);
 					}
 
 					if (res.loginPageLogo) {
 						_logo.image = res.loginPageLogo;
+						_logo.width = '100%';
 					}
 					else {
 						_logo.image = logoZextras;
+						_logo.width = '221px';
 					}
 
 					if (res.loginPageSkinLogoUrl) {
@@ -112,6 +141,13 @@ export default function PageLayout ({ theme, setTheme }) {
 					}
 					else {
 						_logo.url = '';
+					}
+
+					if (res.loginPageTitle) {
+						document.title = res.loginPageTitle;
+					}
+					else {
+						document.title = t('zextras_authentication', 'Zextras Authentication');
 					}
 
 					if (res.loginPageFavicon) {
@@ -122,21 +158,22 @@ export default function PageLayout ({ theme, setTheme }) {
 						document.getElementsByTagName('head')[0].appendChild(link);
 					}
 
-					if (res.loginPageColorPalette) {
-						const colorSet = res.loginPageColorPalette;
+					if (res.loginPageColorSet) {
+						const colorSet = res.loginPageColorSet;
 						if (colorSet.primary) {
-							editedTheme.palette.light.primary = {
-								regular: colorSet.primary
-							};
+							setEditedTheme((et) => ({
+								...et,
+								'palette.primary': generateColorSet({ regular: `#${colorSet.primary}` })
+							}));
 						}
 						if (colorSet.secondary) {
-							editedTheme.palette.light.secondary = {
-								regular: colorSet.secondary
-							};
+							setEditedTheme((et) => ({
+								...et,
+								'palette.secondary': generateColorSet({ regular: `#${colorSet.secondary}` })
+							}));
 						}
 					}
 					setLogo(_logo);
-					setTheme(editedTheme);
 				}
 			})
 			.catch(() => {
@@ -147,7 +184,7 @@ export default function PageLayout ({ theme, setTheme }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [setLogo, setTheme]);
+	}, []);
 
 	if (serverError)
 		return <ServerNotResponding/>;
@@ -157,8 +194,9 @@ export default function PageLayout ({ theme, setTheme }) {
 			<img
 				alt="Logo"
 				src={logo.image}
+				width={logo.width}
 				style={{
-					maxWidth: '65%',
+					maxWidth: '100%',
 					maxHeight: '150px',
 					display: 'block',
 					marginLeft: 'auto',
@@ -168,7 +206,8 @@ export default function PageLayout ({ theme, setTheme }) {
 		);
 
 		return (
-			<LoginContainer screenMode={screenMode} backgroundImage={theme.loginBackground}>
+			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
+				<ModifiedTheme changes={editedTheme} />
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
@@ -181,7 +220,7 @@ export default function PageLayout ({ theme, setTheme }) {
 								</Container>
 							</Padding>
 						</Container>
-						<FormSelector publicUrl={publicUrl}/>
+						<FormSelector domain={domain} destinationUrl={destinationUrl} />
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
 							<Text>{t('supported_browsers', 'Supported browsers')}</Text>
@@ -270,6 +309,11 @@ export default function PageLayout ({ theme, setTheme }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
+				{ isDefaultBg && (
+					<PhotoCredits>
+						Photo by Pok Rie from <PhotoLink href="https://www.pexels.com/" target="_blank" rel="nofollow">Pexels</PhotoLink>
+					</PhotoCredits>
+				)}
 			</LoginContainer>
 		);
 	}
