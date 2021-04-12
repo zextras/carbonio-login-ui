@@ -228,7 +228,7 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Chrome">
 										<img
-											alt=""
+											alt="Logo Chrome"
 											src={logoChrome}
 											width="18px"
 										/>
@@ -237,25 +237,16 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Firefox">
 										<img
-											alt=""
+											alt="Logo Firefox"
 											src={logoFirefox}
 											width="18px"
 										/>
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
-									<Tooltip label="Internet Explorer 11+">
+									<Tooltip label="Edge Chromium">
 										<img
-											alt=""
-											src={logoIE}
-											width="18px"
-										/>
-									</Tooltip>
-								</Padding>
-								<Padding all="extrasmall" right="small">
-									<Tooltip label="Edge">
-										<img
-											alt=""
+											alt="Logo Edge Chromium"
 											src={logoEdge}
 											width="18px"
 										/>
@@ -264,7 +255,7 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Safari">
 										<img
-											alt=""
+											alt="Logo Safari"
 											src={logoSafari}
 											width="18px"
 										/>
@@ -273,7 +264,7 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Opera">
 										<img
-											alt=""
+											alt="Logo Opera"
 											src={logoOpera}
 											width="18px"
 										/>
@@ -282,7 +273,7 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Yandex">
 										<img
-											alt=""
+											alt="Logo Yandex"
 											src={logoYandex}
 											width="18px"
 										/>
@@ -291,7 +282,7 @@ export default function PageLayout({ version }) {
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="UC">
 										<img
-											alt=""
+											alt="Logo UC"
 											src={logoUC}
 											width="18px"
 										/>
