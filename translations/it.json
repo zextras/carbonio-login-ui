@@ -32,5 +32,6 @@
     "all_rights_reserved": "Tutti i diritti riservati",
     "wrong_password": "Password errata, controlla i dati e riprova",
     "remember_device": "Ricorda questo dispositivo",
-    "choose_otp": "Scegli il metodo OTP"
+    "choose_otp": "Scegli il metodo OTP",
+    "auth_not_valid": "La politica di autenticazione richiede più passaggi: per maggiori informazioni contatta il tuo amministratore"
 }
