@@ -23,7 +23,7 @@ export default function CredentialsForm({
 			if (urlParams.has('virtualacctdomain')) {
 				usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get('virtualacctdomain')}`;
 			}
-			else if (urlParams.has('customerDomain') && !username.includes("@")) {
+			else if (urlParams.has('customerDomain') && !username.includes('@')) {
 				usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 			}
 			submitCredentials(usernameModified, password);
