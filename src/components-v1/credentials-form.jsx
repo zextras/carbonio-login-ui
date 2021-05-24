@@ -23,7 +23,7 @@ export default function CredentialsForm({
 			if (urlParams.has('virtualacctdomain')) {
 				usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get('virtualacctdomain')}`;
 			}
-			else if (urlParams.has('customerDomain')){
+			else if (urlParams.has('customerDomain') && !username.includes('@')) {
 				usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 			}
 			submitCredentials(usernameModified, password);
@@ -49,7 +49,7 @@ export default function CredentialsForm({
 
 		return (
 			// used to keep the correct space where or not SAML is shown
-			<div style={{ minHeight: '20px' }}/>
+			<div style={{ minHeight: '20px' }} />
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
 
@@ -58,7 +58,7 @@ export default function CredentialsForm({
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
-			<input type="submit" style={{ display: 'none' }}/>
+			<input type="submit" style={{ display: 'none' }} />
 			<Row padding={{ bottom: 'large' }}>
 				<Input
 					defaultValue={username}
@@ -66,7 +66,7 @@ export default function CredentialsForm({
 					onChange={onChangeUsername}
 					hasError={!!authError}
 					autocomplete="username"
-					label={t('username','Username')}
+					label={t('username', 'Username')}
 					backgroundColor="gray5"
 				/>
 			</Row>
@@ -82,10 +82,10 @@ export default function CredentialsForm({
 				/>
 			</Row>
 			<Text color="error" size="medium" overflow="break-word">
-				{authError || <br/>}
+				{authError || <br />}
 			</Text>
 			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'large', top: 'small' }}>
-				<Button loading={loading} onClick={submitUserPassword} disabled={disableInputs} label={t('login','Login')} size="fill" />
+				<Button loading={loading} onClick={submitUserPassword} disabled={disableInputs} label={t('login', 'Login')} size="fill" />
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{samlButton}
