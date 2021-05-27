@@ -24,7 +24,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const onChangeOtp = useCallback((ev) => {
 		setOtp(ev.target.value);
 	}, [setOtp]);
-	const [rememberDevice, setRememberDevice] = useState(true);
+	const [rememberDevice, setRememberDevice] = useState(false);
 	const toggleRememberDevice = useCallback(() => setRememberDevice(v => !v), [setRememberDevice]);
 
 	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
@@ -160,7 +160,11 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						/>
 					</Row>
 					<Row mainAlignment="flex-start">
-						<Checkbox value={rememberDevice} label={t('remember_device', 'Remember this device')} onClick={toggleRememberDevice} />
+						<Checkbox
+							value={rememberDevice}
+							label={t('trust_device_and_ip', 'Trust this device and IP address')}
+							onClick={toggleRememberDevice}
+						/>
 					</Row>
 				</form>
 			)}
