@@ -24,8 +24,8 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const onChangeOtp = useCallback((ev) => {
 		setOtp(ev.target.value);
 	}, [setOtp]);
-	const [rememberDevice, setRememberDevice] = useState(false);
-	const toggleRememberDevice = useCallback(() => setRememberDevice(v => !v), [setRememberDevice]);
+	const [trustDevice, setTrustDevice] = useState(false);
+	const toggleTrustDevice = useCallback(() => setTrustDevice(v => !v), [setTrustDevice]);
 
 	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
 	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
@@ -73,7 +73,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const submitOtpCb = useCallback((e) => {
 		e.preventDefault();
 		setLoadingOtp(true);
-		submitOtp(otpId, otp, rememberDevice)
+		submitOtp(otpId, otp, trustDevice)
 			.then(res => {
 				if (res.status === 200) {
 					window.location.assign(configuration.destinationUrl);
@@ -84,7 +84,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				}
 			})
 			.catch(() => setLoadingOtp(false));
-	}, [otpId, otp, rememberDevice, configuration.destinationUrl]);
+	}, [otpId, otp, trustDevice, configuration.destinationUrl]);
 
 	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
 	const onSnackbarActionCbk = useCallback(() => setDetailNetworkModal(true), [setDetailNetworkModal]);
@@ -161,9 +161,9 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					</Row>
 					<Row mainAlignment="flex-start">
 						<Checkbox
-							value={rememberDevice}
+							value={trustDevice}
 							label={t('trust_device_and_ip', 'Trust this device and IP address')}
-							onClick={toggleRememberDevice}
+							onClick={toggleTrustDevice}
 						/>
 					</Row>
 				</form>
