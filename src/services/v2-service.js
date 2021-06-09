@@ -17,7 +17,7 @@ export function postV2Login(authMethod, user, password, service) {
 	});
 }
 
-export function submitOtp(id, code, rememberDevice) {
+export function submitOtp(id, code, trustDevice) {
 	return fetch('/zx/auth/v2/otp/validate', {
 		method: 'POST',
 		headers: {
@@ -30,7 +30,7 @@ export function submitOtp(id, code, rememberDevice) {
 		body: JSON.stringify({
 			id,
 			code,
-			unsecure_device: !rememberDevice
+			unsecure_device: !trustDevice
 		})
 	});
 }
