@@ -16,6 +16,8 @@ import v2login from './auth/v2/login';
 import v1logout from './auth/v1/logout';
 import v2logout from './auth/v2/logout';
 import v2OTPValidate from './auth/v2/otp_validate';
+import zimbraLogin from './login/zimbra';
+import irisStatus from './login/iris';
 
 export const handlers = [
 	loginSupported,
@@ -25,5 +27,7 @@ export const handlers = [
 	v2login,
 	v1logout,
 	v2logout,
-	v2OTPValidate
+	v2OTPValidate,
+	zimbraLogin,
+	irisStatus
 ];

@@ -6,9 +6,9 @@ import ServerNotResponding from '../components-index/server-not-responding';
 import NotSupportedVersion from '../components-index/not-supported-version';
 
 export default function FormSelector({ destinationUrl, domain }) {
-	const [ configuration, setConfiguration ] = useState(null);
-	const [ error, setError ] = useState(false);
-	const [ disableInputs, setDisableInputs ] = useState(true);
+	const [configuration, setConfiguration] = useState(null);
+	const [error, setError] = useState(false);
+	const [disableInputs, setDisableInputs] = useState(true);
 
 	useEffect(() => {
 		let componentIsMounted = true;

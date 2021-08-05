@@ -1,12 +1,13 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 import { map } from	'lodash';
+import { useTranslation } from 'react-i18next';
 import { Button, Row, Snackbar, Text, Input, Checkbox, Select } from '@zextras/zapp-ui';
+
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 import { postV2Login, submitOtp } from '../services/v2-service';
-import { saveCredentials } from '../utils';
+import { saveCredentials, addUiParameters } from '../utils';
 
 export default function V2LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
@@ -76,7 +77,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		submitOtp(otpId, otp, trustDevice)
 			.then(res => {
 				if (res.status === 200) {
-					window.location.assign(configuration.destinationUrl);
+					window.location.assign(addUiParameters(configuration.destinationUrl));
 				}
 				else {
 					setLoadingOtp(false);

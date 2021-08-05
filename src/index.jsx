@@ -6,38 +6,37 @@ import { SnackbarManager, ThemeContextProvider } from '@zextras/zapp-ui';
 import './i18n/i18n.config';
 import './index.css';
 import { getLoginSupported } from './services/login-page-services';
-
-import ServerNotResponding from './components-index/server-not-responding';
 import NotSupportedVersion from './components-index/not-supported-version';
+import { MAX_SUPPORTED_VERSION } from './constants';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
-const MAX_SUPPORTED_VERSION = 2; // to keep updated adding new versions
-
 function App () {
 	const [versions, setVersions] = useState();
+	const [hasBackendApi, setHasBackendApi] = useState(true);
 
 	useEffect(() => {
 		let canceled = false;
 		const urlParams = new URLSearchParams(window.location.search);
-		const destinationUrl = urlParams.get('destinationUrl');
-		const domain = urlParams.get('domain') ?? destinationUrl;
+		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
 
-		getLoginSupported(domain)
-			.then(({ minApiVersion, maxApiVersion }) => {
-				if (!canceled) {
-					let v = maxApiVersion;
-					if (v > MAX_SUPPORTED_VERSION) {
-						v = MAX_SUPPORTED_VERSION;
+		if (hasBackendApi) {
+			getLoginSupported(domain)
+				.then(({ minApiVersion, maxApiVersion }) => {
+					if (!canceled) {
+						let v = maxApiVersion;
+						if (v > MAX_SUPPORTED_VERSION) {
+							v = MAX_SUPPORTED_VERSION;
+						}
+						setVersions({
+							minApiVersion,
+							maxApiVersion,
+							version: v
+						});
 					}
-					setVersions({
-						minApiVersion,
-						maxApiVersion,
-						version: v
-					});
-				}
-			})
-			.catch((err) => setVersions({ error: err }));
+				})
+				.catch(() => setHasBackendApi(false));
+		}
 		return () => {
 			canceled = true
 		};
@@ -49,11 +48,10 @@ function App () {
 				<Suspense fallback={<div></div>}>
 					<Router>
 						<Switch>
-							{versions && versions.version >= versions.minApiVersion && (
-								<PageLayoutV1 version={versions.version} />
+							{(!hasBackendApi || (versions && versions.version >= versions.minApiVersion)) && (
+								<PageLayoutV1 version={versions?.version} hasBackendApi={hasBackendApi} />
 							)}
 							{versions && versions.version < versions.minApiVersion && <NotSupportedVersion />}
-							{versions && versions.error && <ServerNotResponding />}
 						</Switch>
 					</Router>
 				</Suspense>
