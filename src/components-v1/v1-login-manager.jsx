@@ -25,7 +25,7 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 				switch (res.status) {
 					case 200:
 						saveCredentials(username, password);
-						window.location.assign(addUiParameters(configuration.destinationUrl));
+						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
 						break;
 					case 401:
 						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));

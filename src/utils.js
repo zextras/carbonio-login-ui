@@ -84,7 +84,8 @@ export function generateColorSet({ regular, hover, active, disabled, focus }, da
 	};
 }
 
-export function addUiParameters(destinationUrl) {
+export function addUiParameters(destinationUrl, hasIris) {
+	if (!hasIris) return destinationUrl;
 	// Get selected ui from current url
 	const urlParams = new URLSearchParams(window.location.search);
 	const ui = urlParams.get('ui') || DEFAULT_UI;

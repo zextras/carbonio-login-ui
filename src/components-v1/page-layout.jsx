@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useLayoutEffect, useState, useCallback } from 'react';
+import React, { useLayoutEffect, useState, useCallback, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
 import { forEach, set } from 'lodash';
@@ -25,7 +25,7 @@ import logoUC from '../../assets/logo-ucbrowser.svg';
 import bakgoundImage from '../../assets/bg-wood-dock.jpg';
 import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
-import { getLoginConfig } from '../services/login-page-services';
+import { getIrisStatus, getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
@@ -102,6 +102,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
+	const [hasIris, setHasIris] = useState(undefined);
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
@@ -193,6 +194,17 @@ export default function PageLayout({ version, hasBackendApi }) {
 		};
 	}, []);
 
+	useEffect(() => {
+		let componentIsMounted = true;
+
+		getIrisStatus()
+			.then((valid) => componentIsMounted && setHasIris(valid))
+			.catch(() => componentIsMounted && setHasIris(false));
+		return () => {
+			componentIsMounted = false;
+		}
+	}, []);
+
 	if (serverError)
 		return <ServerNotResponding/>;
 
@@ -228,8 +240,8 @@ export default function PageLayout({ version, hasBackendApi }) {
 							</Padding>
 						</Container>
 						{hasBackendApi
-							? <FormSelector domain={domain} destinationUrl={destinationUrl} />
-							: <ZimbraForm destinationUrl={destinationUrl} />
+							? <FormSelector domain={domain} destinationUrl={destinationUrl} hasIris={hasIris} />
+							: <ZimbraForm destinationUrl={destinationUrl} hasIris={hasIris} />
 						}
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>

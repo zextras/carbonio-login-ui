@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
 import { useHistory } from 'react-router-dom';
 
-import { getIrisStatus } from '../services/login-page-services';
 import { DEFAULT_UI } from '../constants';
 import { addUiParameters } from '../utils';
 
@@ -21,7 +20,6 @@ export default function CredentialsForm({
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
-	const [showSelect, setShowSelect] = useState(false);
 
 	const uiList = useMemo(() => [
 		{ label: 'Classic', value: 'classic' },
@@ -48,7 +46,7 @@ export default function CredentialsForm({
 	const samlButtonCbk = useCallback(() => {
 		window.location.assign(
 			`/zx/auth/startSamlWorkflow?redirectUrl=${
-				addUiParameters(configuration.destinationUrl)
+				addUiParameters(configuration.destinationUrl, configuration.hasIris)
 			}`
 		);
 	}, [configuration]);
@@ -74,17 +72,17 @@ export default function CredentialsForm({
 	const onChangeUsername = useCallback((ev) => setUsername(ev.target.value), [setUsername]);
 	const onChangePassword = useCallback((ev) => setPassword(ev.target.value), [setPassword]);
 
-	useEffect(() => {
-		let componentIsMounted = true;
-
-		getIrisStatus()
-			.then((valid) => {
-				componentIsMounted && valid && setShowSelect(true);
-			});
-		return () => {
-			componentIsMounted = false;
-		}
-	}, []);
+	// useEffect(() => {
+	// 	let componentIsMounted = true;
+	//
+	// 	getIrisStatus()
+	// 		.then((valid) => {
+	// 			componentIsMounted && valid && setShowSelect(true);
+	// 		});
+	// 	return () => {
+	// 		componentIsMounted = false;
+	// 	}
+	// }, []);
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
@@ -111,7 +109,7 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			{showSelect && (
+			{configuration.hasIris && (
 				<Row padding={{ vertical: 'small' }}>
 					<Select
 						label={t('select_ui', 'Select UI')}

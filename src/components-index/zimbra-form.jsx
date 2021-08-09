@@ -32,7 +32,7 @@ const zimbraLogin = (username, password) => {
 	});
 };
 
-export function ZimbraForm({ destinationUrl }) {
+export function ZimbraForm({ destinationUrl, hasIris }) {
 	const { t } = useTranslation();
 	const [authError, setAuthError] = useState();
 	const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ export function ZimbraForm({ destinationUrl }) {
 				}
 				switch (res.status) {
 					case 200:
-						window.location.assign(destinationUrl || addUiParameters(window.location.href));
+						window.location.assign(destinationUrl || addUiParameters(window.location.href, hasIris));
 						break;
 					case 401:
 					case 500:
@@ -69,11 +69,11 @@ export function ZimbraForm({ destinationUrl }) {
 				else
 					setAuthError(err.message);
 			});
-	}, []);
+	}, [hasIris]);
 
 	return (
 		<CredentialsForm
-			configuration={{ destinationUrl, authMethods: ['zimbra'] }}
+			configuration={{ destinationUrl, authMethods: ['zimbra'], hasIris }}
 			disableInputs={false}
 			authError={authError}
 			submitCredentials={submitCredentials}

@@ -77,7 +77,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		submitOtp(otpId, otp, trustDevice)
 			.then(res => {
 				if (res.status === 200) {
-					window.location.assign(addUiParameters(configuration.destinationUrl));
+					window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
 				}
 				else {
 					setLoadingOtp(false);
