@@ -1,9 +1,9 @@
 import { rest } from 'msw';
 
-import { IRIS_URL } from '../../constants';
+import { IRIS_CHECK_URL } from '../../constants';
 
 export default rest.get(
-	`${IRIS_URL}commit`,
+	IRIS_CHECK_URL,
 	(req, res, ctx) => {
 		return res(
 			ctx.delay(1000),

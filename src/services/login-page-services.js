@@ -1,4 +1,4 @@
-import { IRIS_URL } from '../constants';
+import { IRIS_CHECK_URL } from '../constants';
 
 export function getLoginSupported(domain) {
 	const urlParams = new URLSearchParams();
@@ -26,7 +26,7 @@ export function getLoginConfig(version, domain, host) {
 }
 
 export function getIrisStatus() {
-	return fetch(`${IRIS_URL}commit`, {
+	return fetch(IRIS_CHECK_URL, {
 		method: 'GET',
 	})
 		.then((res) => {

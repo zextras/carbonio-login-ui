@@ -4,6 +4,7 @@ import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-u
 import { useHistory } from 'react-router-dom';
 
 import { getIrisStatus } from '../services/login-page-services';
+import { DEFAULT_UI } from '../constants';
 import { addUiParameters } from '../utils';
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -27,7 +28,7 @@ export default function CredentialsForm({
 		{ label: 'Iris', value: 'iris' }
 	], []);
 	const defaultUi = useMemo(() => uiList.find(
-		(ui) => ui.value === (urlParams.get('ui') || 'classic')
+		(ui) => ui.value === (urlParams.get('ui') || DEFAULT_UI)
 	), []);
 
 	const submitUserPassword = useCallback((e) => {
