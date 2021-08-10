@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useLayoutEffect, useState, useCallback } from 'react';
+import React, { useLayoutEffect, useState, useCallback, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
 import { forEach, set } from 'lodash';
@@ -17,7 +17,6 @@ import { forEach, set } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
 import logoFirefox from '../../assets/logo-firefox.svg';
-import logoIE from '../../assets/logo-internet-explorer.svg';
 import logoEdge from '../../assets/logo-edge.svg';
 import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
@@ -26,9 +25,10 @@ import logoUC from '../../assets/logo-ucbrowser.svg';
 import bakgoundImage from '../../assets/bg-wood-dock.jpg';
 import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
-import { getLoginConfig } from '../services/login-page-services';
+import { getIrisStatus, getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
+import { ZimbraForm } from '../components-index/zimbra-form';
 import { prepareUrlForForward, generateColorSet } from '../utils';
 
 function modifyTheme(draft, variant, changes) {
@@ -97,11 +97,12 @@ const PhotoCredits = styled(Text)`
 	}
 `;
 
-export default function PageLayout({ version }) {
+export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
+	const [hasIris, setHasIris] = useState(undefined);
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
@@ -114,76 +115,94 @@ export default function PageLayout({ version }) {
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
 
-		getLoginConfig(version, domain, domain)
-			.then((res) => {
-				if(!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
-				if(!domain) setDomain(res.zimbraDomainName);
+		if (hasBackendApi) {
+			getLoginConfig(version, domain, domain)
+				.then((res) => {
+					if (!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
+					if (!domain) setDomain(res.zimbraDomainName);
 
-				const _logo = {};
+					const _logo = {};
 
-				if (componentIsMounted) {
-					if (res.loginPageBackgroundImage) {
-						setBg(res.loginPageBackgroundImage);
-						setIsDefaultBg(false);
-					}
-
-					if (res.loginPageLogo) {
-						_logo.image = res.loginPageLogo;
-						_logo.width = '100%';
-					}
-					else {
-						_logo.image = logoZextras;
-						_logo.width = '221px';
-					}
-
-					if (res.loginPageSkinLogoUrl) {
-						_logo.url = res.loginPageSkinLogoUrl;
-					}
-					else {
-						_logo.url = '';
-					}
-
-					if (res.loginPageTitle) {
-						document.title = res.loginPageTitle;
-					}
-					else {
-						document.title = t('zextras_authentication', 'Zextras Authentication');
-					}
-
-					if (res.loginPageFavicon) {
-						const link = document.querySelector('link[rel*=\'icon\']') || document.createElement('link');
-						link.type = 'image/x-icon';
-						link.rel = 'shortcut icon';
-						link.href = res.loginPageFavicon;
-						document.getElementsByTagName('head')[0].appendChild(link);
-					}
-
-					if (res.loginPageColorSet) {
-						const colorSet = res.loginPageColorSet;
-						if (colorSet.primary) {
-							setEditedTheme((et) => ({
-								...et,
-								'palette.primary': generateColorSet({ regular: `#${colorSet.primary}` })
-							}));
+					if (componentIsMounted) {
+						if (res.loginPageBackgroundImage) {
+							setBg(res.loginPageBackgroundImage);
+							setIsDefaultBg(false);
 						}
-						if (colorSet.secondary) {
-							setEditedTheme((et) => ({
-								...et,
-								'palette.secondary': generateColorSet({ regular: `#${colorSet.secondary}` })
-							}));
+
+						if (res.loginPageLogo) {
+							_logo.image = res.loginPageLogo;
+							_logo.width = '100%';
 						}
+						else {
+							_logo.image = logoZextras;
+							_logo.width = '221px';
+						}
+
+						if (res.loginPageSkinLogoUrl) {
+							_logo.url = res.loginPageSkinLogoUrl;
+						}
+						else {
+							_logo.url = '';
+						}
+
+						if (res.loginPageTitle) {
+							document.title = res.loginPageTitle;
+						}
+						else {
+							document.title = t('zextras_authentication', 'Zextras Authentication');
+						}
+
+						if (res.loginPageFavicon) {
+							const link = document.querySelector('link[rel*=\'icon\']') || document.createElement('link');
+							link.type = 'image/x-icon';
+							link.rel = 'shortcut icon';
+							link.href = res.loginPageFavicon;
+							document.getElementsByTagName('head')[0].appendChild(link);
+						}
+
+						if (res.loginPageColorSet) {
+							const colorSet = res.loginPageColorSet;
+							if (colorSet.primary) {
+								setEditedTheme((et) => ({
+									...et,
+									'palette.primary': generateColorSet({ regular: `#${colorSet.primary}` })
+								}));
+							}
+							if (colorSet.secondary) {
+								setEditedTheme((et) => ({
+									...et,
+									'palette.secondary': generateColorSet({ regular: `#${colorSet.secondary}` })
+								}));
+							}
+						}
+						setLogo(_logo);
 					}
-					setLogo(_logo);
-				}
-			})
-			.catch(() => {
-				// It should never happen, If the server doesn't respond this page will not be loaded
-				if (componentIsMounted)
-					setServerError(true);
-			});
+				})
+				.catch(() => {
+					// It should never happen, If the server doesn't respond this page will not be loaded
+					if (componentIsMounted)
+						setServerError(true);
+				});
+		}
+		else {
+			setLogo({ image: logoZextras, width: '221px' });
+			document.title = t('zextras_authentication', 'Zextras Authentication');
+		}
+
 		return () => {
 			componentIsMounted = false;
 		};
+	}, []);
+
+	useEffect(() => {
+		let componentIsMounted = true;
+
+		getIrisStatus()
+			.then((valid) => componentIsMounted && setHasIris(valid))
+			.catch(() => componentIsMounted && setHasIris(false));
+		return () => {
+			componentIsMounted = false;
+		}
 	}, []);
 
 	if (serverError)
@@ -220,7 +239,10 @@ export default function PageLayout({ version }) {
 								</Container>
 							</Padding>
 						</Container>
-						<FormSelector domain={domain} destinationUrl={destinationUrl} />
+						{hasBackendApi
+							? <FormSelector domain={domain} destinationUrl={destinationUrl} hasIris={hasIris} />
+							: <ZimbraForm destinationUrl={destinationUrl} hasIris={hasIris} />
+						}
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
 							<Text>{t('supported_browsers', 'Supported browsers')}</Text>

@@ -1,3 +1,5 @@
+import { IRIS_CHECK_URL } from '../constants';
+
 export function getLoginSupported(domain) {
 	const urlParams = new URLSearchParams();
 	if(domain) urlParams.append("domain", domain);
@@ -20,5 +22,14 @@ export function getLoginConfig(version, domain, host) {
 		.then((res) => {
 			if (res.status === 200) return res.json();
 			throw Error('Notwork Error');
+		});
+}
+
+export function getIrisStatus() {
+	return fetch(IRIS_CHECK_URL, {
+		method: 'GET',
+	})
+		.then((res) => {
+			return res.status === 200;
 		});
 }

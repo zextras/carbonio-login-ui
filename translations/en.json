@@ -9,6 +9,7 @@
     "login_saml": "Login SAML",
     "offline": "You are currently offline, please check your internet connection",
     "password": "Password",
+    "select_ui": "Select UI",
     "server_not_responding": "The server is not responding. Please contact your server administator",
     "supported_browsers": "Supported browsers",
     "trust_device_and_ip": "Trust this device and IP address",
