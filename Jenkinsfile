@@ -187,6 +187,9 @@ pipeline {
 			label 'nodejs-agent-v2'
 		}
 	}
+    parameters {
+        booleanParam defaultValue: false, description: 'Whether to upload the packages in playground repositories', name: 'PLAYGROUND'
+    }
 	options {
 		timeout(time: 20, unit: 'MINUTES')
 		buildDiscarder(logRotator(numToKeepStr: '50'))
@@ -310,141 +313,122 @@ pipeline {
 				// publishOnNpm("$BRANCH_NAME")
 			}
 		}
+        stage('Build deb/rpm') {
+            when {
+                anyOf {
+                    branch 'release/*'
+                    branch 'custom/*'
+                    branch 'beta/*'
+                    branch 'playground/*'
+                    buildingTag()
+                    expression { params.PLAYGROUND == true }
+                }
+            }
+            stages {
+                stage('Build') {
+                    steps {
+                    	executeNpmLogin()
+                    	nodeCmd "npm install"
+                    	nodeCmd "NODE_ENV=production npm run build"
+                    }
+                }
+                stage('Stash') {
+                    steps {
+                        stash includes: "pacur.json,PKGBUILD,build/**", name: 'binaries'
+                    }
+                }
+                stage('pacur') {
+                    parallel {
+                        stage('Ubuntu 16.04') {
+                            agent {
+                                node {
+                                    label 'pacur-agent-ubuntu-16.04-v1'
+                                }
+                            }
+                            options {
+                                skipDefaultCheckout()
+                            }
+                            steps {
+                                unstash 'binaries'
+                                sh 'sudo cp -r * /tmp'
+                                sh 'sudo pacur build ubuntu'
+                                stash includes: 'artifacts/', name: 'artifacts-deb'
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: "artifacts/*.deb", fingerprint: true
+                                }
+                            }
+                        }
 
-		// stage("Version Bump for DEB/RPM") {
-		// 	when {
-		// 		beforeAgent(true)
-		// 		allOf {
-		// 			expression { BRANCH_NAME ==~ /(release|beta)/ }
-		// 			environment(
-		// 				name: "COMMIT_PARENTS_COUNT",
-		// 				value: "2"
-		// 			)
-		// 		}
-		// 	}
-		// 	steps {
-		// 		script {
-		// 			currentVersion = getCurrentVersion()
-		// 			containerId1 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} ubuntu:18.04').trim()
-		// 		}
-		// 		sh "docker cp ${WORKSPACE} ${containerId1}:/u"
-		// 		sh "docker exec -t ${containerId1} bash -c \"cd /u; ./build-pkgs.sh bump v${currentVersion} ${BRANCH_NAME} login\""
-		// 		sh "docker cp ${containerId1}:/u/. ${WORKSPACE}"
+                        stage('Centos 7') {
+                            agent {
+                                node {
+                                    label 'pacur-agent-centos-7-v1'
+                                }
+                            }
+                            options {
+                                skipDefaultCheckout()
+                            }
+                            steps {
+                                unstash 'binaries'
+                                sh 'sudo cp -r * /tmp'
+                                sh 'sudo pacur build centos'
+                                dir("artifacts/") {
+                                    sh 'echo zextras-login* | sed -E "s#(zextras-login-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
+                                }
+                                stash includes: 'artifacts/', name: 'artifacts-rpm'
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: "artifacts/*.rpm", fingerprint: true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		// 		// BEGIN: Stashes for deb and rpm generation
-		// 		stash(
-		// 			includes: ".git,build-pkgs.sh,*.spec,debian/**",
-		// 			name: "debrpm_workspace"
-		// 		)
-		// 		// END: Stashes for deb and rpm generation
-		// 	}
-		// 	post {
-		// 		always {
-		// 			sh "docker kill ${containerId1}"
-		// 		}
-		// 	}
-		// }
+        stage('Upload To Playground') {
+            when {
+                anyOf {
+                    branch 'playground/*'
+                    expression { params.PLAYGROUND == true }
+                }
+            }
+            steps {
+                unstash 'artifacts-deb'
+                unstash 'artifacts-rpm'
+                script {
+                    def server = Artifactory.server 'zextras-artifactory'
+                    def buildInfo
+                    def uploadSpec
 
-		// stage("Build DEB/RPM packages") {
-		// 	when {
-		// 		beforeAgent(true)
-		// 		allOf {
-		// 			expression { BRANCH_NAME ==~ /(release|beta)/ }
-		// 			environment(
-		// 				name: "COMMIT_PARENTS_COUNT",
-		// 				value: "2"
-		// 			)
-		// 		}
-		// 	}
-		// 	parallel {
-		// 		stage("Ubuntu") {
-		// 			agent {
-		// 				node {
-		// 					label "base-agent-v1"
-		// 				}
-		// 			}
-		// 			options {
-		// 				skipDefaultCheckout(true)
-		// 			}
-		// 			steps {
-		// 				unstash "zimlet_package"
-		// 				unstash "debrpm_workspace"
-		// 				script {
-		// 					containerId2 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} ubuntu:18.04').trim()
-		// 				}
-		// 				sh "docker cp ${WORKSPACE} ${containerId2}:/u"
-		// 				sh "docker exec -t ${containerId2} bash -c \"cd /u; ./build-pkgs.sh build login\""
-		// 				sh "docker cp ${containerId2}:/u/artifacts/. ${WORKSPACE}"
-		// 				script {
-		// 					def server = Artifactory.server 'zextras-artifactory'
-		// 					def buildInfo = Artifactory.newBuildInfo()
-		// 					def uploadSpec = """{
-		// 						"files": [
-		// 							{
-		// 								"pattern": "*.deb",
-		// 								"target": "debian-local/pool/",
-		// 								"props": "deb.distribution=bionic;deb.component=main;deb.architecture=amd64"
-		// 							}
-		// 						]
-		// 					}"""
-		// 					server.upload spec: uploadSpec, buildInfo: buildInfo
-		// 					server.publishBuildInfo buildInfo
-		// 				}
-		// 			}
-		// 			post {
-		// 				success {
-		// 					archiveArtifacts artifacts: "*.deb", fingerprint: true
-		// 				}
-		// 				always {
-		// 					sh "docker kill ${containerId2}"
-		// 				}
-		// 			}
-		// 		}
-		// 		stage("CentOS") {
-		// 			agent {
-		// 				node {
-		// 					label "base-agent-v1"
-		// 				}
-		// 			}
-		// 			options {
-		// 				skipDefaultCheckout(true)
-		// 			}
-		// 			steps {
-		// 				unstash "zimlet_package"
-		// 				unstash "debrpm_workspace"
-		// 				script {
-		// 					containerId3 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} centos:7').trim()
-		// 				}
-		// 				sh "docker cp ${WORKSPACE} ${containerId3}:/r"
-		// 				sh "docker exec -t ${containerId3} bash -c \"cd /r; ./build-pkgs.sh build login\""
-		// 				sh "docker cp ${containerId3}:/r/artifacts/. ${WORKSPACE}"
-		// 				script {
-		// 					def server = Artifactory.server 'zextras-artifactory'
-		// 					def buildInfo = Artifactory.newBuildInfo()
-		// 					def uploadSpec = """{
-		// 						"files": [
-		// 							{
-		// 								"pattern": "(*)-(*)-(*).rpm",
-		// 								"target": "rpm-local/zextras/{1}/{1}-{2}-{3}.rpm",
-		// 								"props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=Zextras"
-		// 							}
-		// 						]
-		// 					}"""
-		// 					server.upload spec: uploadSpec, buildInfo: buildInfo
-		// 					server.publishBuildInfo buildInfo
-		// 				}
-		// 			}
-		// 			post {
-		// 				success {
-		// 					archiveArtifacts artifacts: "*.rpm", fingerprint: true
-		// 				}
-		// 				always {
-		// 					sh "docker kill ${containerId3}"
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
+                    buildInfo = Artifactory.newBuildInfo()
+                    uploadSpec = """{
+                        "files": [
+                            {
+                                "pattern": "artifacts/zextras-login*.deb",
+                                "target": "ubuntu-playground/pool/",
+                                "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                            },
+                            {
+                                "pattern": "artifacts/(zextras-login)-(*).rpm",
+                                "target": "centos7-playground/zextras/{1}/{1}-{2}.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            },
+                            {
+                                "pattern": "artifacts/(zextras-login)-(*).rpm",
+                                "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            }
+                        ]
+                    }"""
+                    server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
+                }
+            }
+        }
 
 		// ===== Deploy =====
 
