@@ -5,6 +5,18 @@ sidebar_label: Change Log
 ---
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.26-beta.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.25...v0.0.26-beta.0) (2021-08-13)
+
+
+### Features
+
+* allowed zimbra without zextras to work with login page ([92aebee](https://bitbucket.org/zextras/zapp-login/commit/92aebee98a9c79919c41ff5d4db70d5f08fa275c))
+
+
+### Bug Fixes
+
+* remember me toggle defaulted to false and label update ([e921563](https://bitbucket.org/zextras/zapp-login/commit/e92156328da1a422fd4daa2ee562e4dfd277c6f1))
+
 ### [0.0.25](https://bitbucket.org/zextras/zapp-login/compare/v0.0.25-beta.0...v0.0.25) (2021-06-08)
 
 ### [0.0.25-beta.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.24...v0.0.25-beta.0) (2021-05-25)
