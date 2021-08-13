@@ -1,0 +1,11 @@
+{
+  "name": "zextras-login",
+  "description": "Zextras Login Page",
+  "build_dir": "/tmp/",
+  "output": "artifacts",
+  "projects": [
+    {
+      "name": "."
+    }
+  ]
+}

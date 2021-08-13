@@ -1,4 +1,4 @@
 Zextras Auth
 ============
 
-Zextras authentication app.
+Zextras authentication app, uses both standard zimbra SOAP APIs and zextras auth APIs.
