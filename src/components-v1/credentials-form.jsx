@@ -1,6 +1,10 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Input, PasswordInput, Row, Text } from '@zextras/zapp-ui';
+import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
+import { useHistory } from 'react-router-dom';
+
+import { DEFAULT_UI } from '../constants';
+import { addUiParameters } from '../utils';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -12,9 +16,18 @@ export default function CredentialsForm({
 	loading = false
 }) {
 	const [t] = useTranslation();
+	const history = useHistory();
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
+
+	const uiList = useMemo(() => [
+		{ label: 'Classic', value: 'classic' },
+		{ label: 'Iris', value: 'iris' }
+	], []);
+	const defaultUi = useMemo(() => uiList.find(
+		(ui) => ui.value === (urlParams.get('ui') || DEFAULT_UI)
+	), []);
 
 	const submitUserPassword = useCallback((e) => {
 		e.preventDefault();
@@ -31,9 +44,12 @@ export default function CredentialsForm({
 	}, [username, password, submitCredentials]);
 
 	const samlButtonCbk = useCallback(() => {
-		window.location.assign(`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`);
+		window.location.assign(
+			`/zx/auth/startSamlWorkflow?redirectUrl=${
+				addUiParameters(configuration.destinationUrl, configuration.hasIris)
+			}`
+		);
 	}, [configuration]);
-
 	const samlButton = useMemo(() => {
 		if (configuration.authMethods.includes('saml')) {
 			return (
@@ -55,6 +71,18 @@ export default function CredentialsForm({
 
 	const onChangeUsername = useCallback((ev) => setUsername(ev.target.value), [setUsername]);
 	const onChangePassword = useCallback((ev) => setPassword(ev.target.value), [setPassword]);
+
+	// useEffect(() => {
+	// 	let componentIsMounted = true;
+	//
+	// 	getIrisStatus()
+	// 		.then((valid) => {
+	// 			componentIsMounted && valid && setShowSelect(true);
+	// 		});
+	// 	return () => {
+	// 		componentIsMounted = false;
+	// 	}
+	// }, []);
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
@@ -81,6 +109,20 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
+			{configuration.hasIris && (
+				<Row padding={{ vertical: 'small' }}>
+					<Select
+						label={t('select_ui', 'Select UI')}
+						items={uiList}
+						onChange={(newUI) => {
+							const searchParams = new URLSearchParams(history.location.search);
+							searchParams.set('ui', newUI);
+							history.replace({ search: searchParams.toString() });
+						}}
+						defaultSelection={defaultUi}
+					/>
+				</Row>
+			)}
 			<Text color="error" size="medium" overflow="break-word">
 				{authError || <br />}
 			</Text>

@@ -5,7 +5,7 @@ import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 import { postV1Login } from '../services/v1-service';
-import { saveCredentials } from '../utils';
+import { saveCredentials, addUiParameters } from '../utils';
 
 export default function V1LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
@@ -25,7 +25,7 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 				switch (res.status) {
 					case 200:
 						saveCredentials(username, password);
-						window.location.assign(configuration.destinationUrl);
+						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
 						break;
 					case 401:
 						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));

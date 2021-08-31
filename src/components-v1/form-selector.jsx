@@ -5,10 +5,10 @@ import { getAuthSupported, doAuthLogout } from '../services/auth-configuration-s
 import ServerNotResponding from '../components-index/server-not-responding';
 import NotSupportedVersion from '../components-index/not-supported-version';
 
-export default function FormSelector({ destinationUrl, domain }) {
-	const [ configuration, setConfiguration ] = useState(null);
-	const [ error, setError ] = useState(false);
-	const [ disableInputs, setDisableInputs ] = useState(true);
+export default function FormSelector({ destinationUrl, domain, hasIris }) {
+	const [configuration, setConfiguration] = useState(null);
+	const [error, setError] = useState(false);
+	const [disableInputs, setDisableInputs] = useState(true);
 
 	useEffect(() => {
 		let componentIsMounted = true;
@@ -16,10 +16,11 @@ export default function FormSelector({ destinationUrl, domain }) {
 		getAuthSupported(domain)
 			.then((res) => {
 				if (componentIsMounted) {
-					setConfiguration({
+					setConfiguration((conf) => ({
+						...conf,
 						...res,
 						destinationUrl
-					});
+					}));
 					setDisableInputs(false);
 				}
 			})
@@ -33,6 +34,15 @@ export default function FormSelector({ destinationUrl, domain }) {
 	}, []);
 
 	useEffect(() => {
+		if (typeof hasIris !== 'undefined') {
+			setConfiguration((conf) => ({
+				...conf,
+				hasIris
+			}))
+		}
+	}, [hasIris])
+
+	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
 		if (configuration && urlParams.has('loginOp') && urlParams.get('loginOp') === 'logout') {
 			doAuthLogout(configuration)
@@ -43,7 +53,7 @@ export default function FormSelector({ destinationUrl, domain }) {
 	if(error)
 		return <ServerNotResponding />
 
-	if (configuration === null)
+	if (configuration === null || !configuration.destinationUrl)
 		return <div></div>;
 
 	if (configuration.maxApiVersion >= 2 && configuration.minApiVersion <= 2)
