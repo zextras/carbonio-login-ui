@@ -19,7 +19,7 @@ section="admin"
 priority="optional"
 url="https://www.zextras.com/"
 depends=(
-  "zextras-nginx"
+  "carbonio-nginx"
 )
 
 build() {
