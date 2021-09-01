@@ -241,7 +241,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 						{hasBackendApi
 							? <FormSelector domain={domain} destinationUrl={destinationUrl} hasIris={hasIris} />
-							: <ZimbraForm destinationUrl="/" hasIris={hasIris} />
+							: <ZimbraForm destinationUrl={destinationUrl} hasIris={hasIris} />
 						}
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
