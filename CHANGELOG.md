@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27-beta.1](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.0...v0.0.27-beta.1) (2021-09-02)
+
+
+### Features
+
+* renamed package to carbonio-login ([a34de0b](https://bitbucket.org/zextras/zapp-login/commit/a34de0b95e12dabe5dab2f3889f016ee5ef165ec))
+
 ### [0.0.27-beta.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.26...v0.0.27-beta.0) (2021-09-01)
 
 ### [0.0.26](https://bitbucket.org/zextras/zapp-login/compare/v0.0.26-beta.0...v0.0.26) (2021-08-31)
