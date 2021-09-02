@@ -1,6 +1,6 @@
 {
-  "name": "zextras-login",
-  "description": "Zextras Login Page",
+  "name": "carbonio-login",
+  "description": "Zextras Carbonio Login Page",
   "build_dir": "/tmp/",
   "output": "artifacts",
   "projects": [
