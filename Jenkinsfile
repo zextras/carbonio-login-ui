@@ -375,7 +375,7 @@ pipeline {
                                 sh 'sudo cp -r * /tmp'
                                 sh 'sudo pacur build centos'
                                 dir("artifacts/") {
-                                    sh 'echo zextras-login* | sed -E "s#(zextras-login-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
+                                    sh 'echo carbonio-login* | sed -E "s#(carbonio-login-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
                                 }
                                 stash includes: 'artifacts/', name: 'artifacts-rpm'
                             }
@@ -409,17 +409,17 @@ pipeline {
                     uploadSpec = """{
                         "files": [
                             {
-                                "pattern": "artifacts/zextras-login*.deb",
+                                "pattern": "artifacts/carbonio-login*.deb",
                                 "target": "ubuntu-playground/pool/",
                                 "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
                             },
                             {
-                                "pattern": "artifacts/(zextras-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
                                 "target": "centos7-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(zextras-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }
