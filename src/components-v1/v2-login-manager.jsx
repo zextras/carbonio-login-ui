@@ -37,23 +37,28 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 			.then(res => {
 				switch (res.status) {
 					case 200:
-						res.json().then(response => {
-							saveCredentials(username, password);
-							if(response?.['2FA'] === true) {
-								setOtpList(
-									map(
-										response?.otp ?? [],
-										obj => ({ label: obj.label, value: obj.id })
-									)
-								);
-								setOtpId(response?.otp?.[0].id);
-								setProgress('two-factor');
-								setLoadingCredentials(false);
-							}
-							else {
-								window.location.assign(configuration.destinationUrl);
-							}
-						});
+						if (res.redirected) {
+							window.location.assign(res.url)
+						}
+						else {
+							res.json().then(response => {
+								saveCredentials(username, password);
+								if(response?.['2FA'] === true) {
+									setOtpList(
+										map(
+											response?.otp ?? [],
+											obj => ({ label: obj.label, value: obj.id })
+										)
+									);
+									setOtpId(response?.otp?.[0].id);
+									setProgress('two-factor');
+									setLoadingCredentials(false);
+								}
+								else {
+									window.location.assign(configuration.destinationUrl);
+								}
+							});
+						}
 						break;
 					case 401:
 						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
@@ -77,7 +82,12 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		submitOtp(otpId, otp, trustDevice)
 			.then(res => {
 				if (res.status === 200) {
-					window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
+					if (res.redirected) {
+						window.location.assign(res.url)
+					}
+					else {
+						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
+					}
 				}
 				else {
 					setLoadingOtp(false);
