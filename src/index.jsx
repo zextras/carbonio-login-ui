@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useState} from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { SnackbarManager, ThemeContextProvider } from '@zextras/zapp-ui';
@@ -11,7 +11,7 @@ import { MAX_SUPPORTED_VERSION } from './constants';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
-function App () {
+function App() {
 	const [versions, setVersions] = useState();
 	const [hasBackendApi, setHasBackendApi] = useState(true);
 
@@ -60,13 +60,15 @@ function App () {
 	);
 }
 
-if (process.env.NODE_ENV === 'development') {
-	// eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-	const { worker } = require('./mocks/browser');
-	worker.start();
-}
+// if (!process.env.PROVA) {
+// 	// eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+// 	const { worker } = require('./mocks/browser');
+// 	worker.start();
+// }	const { worker } = require('./mocks/browser');
+//	worker.start();
+//}
 
 render(
-	<App/>,
+	<App />,
 	document.getElementById('app')
 );
