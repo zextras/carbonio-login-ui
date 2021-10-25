@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Row, Snackbar } from '@zextras/zapp-ui';
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 import { postV1Login } from '../services/v1-service';
-import { saveCredentials, addUiParameters } from '../utils';
+import { addUiParameters, saveCredentials } from '../utils';
 
 export default function V1LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
