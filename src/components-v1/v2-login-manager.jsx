@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { map } from	'lodash';
+import { map } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { Button, Row, Snackbar, Text, Input, Checkbox, Select } from '@zextras/zapp-ui';
+import { Button, Checkbox, Input, Row, Select, Snackbar, Text } from '@zextras/zapp-ui';
 
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 import { postV2Login, submitOtp } from '../services/v2-service';
-import { saveCredentials, addUiParameters } from '../utils';
+import { addUiParameters, saveCredentials } from '../utils';
 
 export default function V2LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();

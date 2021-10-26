@@ -1,24 +1,37 @@
-import React, {Suspense, useEffect, useState} from 'react';
+import React, { Suspense, useEffect, useState, useRef } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { SnackbarManager, ThemeContextProvider } from '@zextras/zapp-ui';
 
 import './i18n/i18n.config';
 import './index.css';
-import { getLoginSupported } from './services/login-page-services';
+import {getIrisStatus, getLoginSupported} from './services/login-page-services';
 import NotSupportedVersion from './components-index/not-supported-version';
 import { MAX_SUPPORTED_VERSION } from './constants';
+import { addUiParameters, prepareUrlForForward } from "./utils";
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
-function App () {
+function App() {
 	const [versions, setVersions] = useState();
 	const [hasBackendApi, setHasBackendApi] = useState(true);
+	const hasIris = useRef();
 
-	useEffect(() => {
+	const urlParams = new URLSearchParams(window.location.search);
+	const destinationUrl = prepareUrlForForward(urlParams.get('destinationUrl'));
+
+	useEffect(async () => {
 		let canceled = false;
-		const urlParams = new URLSearchParams(window.location.search);
 		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
+		hasIris.current = await getIrisStatus()
+			.then((valid) => valid );
+
+		fetch('/zx/auth/v2/myself')
+			.then((res) => {
+				if (res.ok && destinationUrl) {
+					window.location.assign(addUiParameters(destinationUrl, hasIris.current))
+				}
+			})
 
 		if (hasBackendApi) {
 			getLoginSupported(domain)
@@ -49,7 +62,11 @@ function App () {
 					<Router>
 						<Switch>
 							{(!hasBackendApi || (versions && versions.version >= versions.minApiVersion)) && (
-								<PageLayoutV1 version={versions?.version} hasBackendApi={hasBackendApi} />
+								<PageLayoutV1
+									version={versions?.version}
+									hasBackendApi={hasBackendApi}
+									hasIris={hasIris.current}
+								/>
 							)}
 							{versions && versions.version < versions.minApiVersion && <NotSupportedVersion />}
 						</Switch>
@@ -67,6 +84,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 render(
-	<App/>,
+	<App />,
 	document.getElementById('app')
 );
