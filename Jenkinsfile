@@ -28,7 +28,7 @@ def executeNpmLogin() {
 				-H "Accept: application/json" \
 				-H "Content-Type:application/json" \
 				-X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
-				http://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
+				https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
 				\'(?<="token":")[^"]*\';
 			""",
 			returnStdout: true

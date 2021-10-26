@@ -8,7 +8,7 @@ export function getLoginSupported(domain) {
 	})
 		.then((res) => {
 			if (res.status === 200) return res.json();
-			throw Error('Notwork Error');
+			throw Error('Network Error');
 		});
 }
 

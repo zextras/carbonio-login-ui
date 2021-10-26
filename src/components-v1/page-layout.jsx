@@ -9,9 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useLayoutEffect, useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Padding, Row, Text, Tooltip, Link, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
+import { Container, Link, Padding, Row, Text, Tooltip, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
 import { forEach, set } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
@@ -25,11 +25,11 @@ import logoUC from '../../assets/logo-ucbrowser.svg';
 import bakgoundImage from '../../assets/bg-wood-dock.jpg';
 import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
-import { getIrisStatus, getLoginConfig } from '../services/login-page-services';
+import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
-import { prepareUrlForForward, generateColorSet } from '../utils';
+import { generateColorSet, prepareUrlForForward } from '../utils';
 
 function modifyTheme(draft, variant, changes) {
 	forEach(changes, (v, k) => set(draft, k, v));
@@ -97,12 +97,11 @@ const PhotoCredits = styled(Text)`
 	}
 `;
 
-export default function PageLayout({ version, hasBackendApi }) {
+export default function PageLayout({ version, hasBackendApi, hasIris }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
-	const [hasIris, setHasIris] = useState(undefined);
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
@@ -192,17 +191,6 @@ export default function PageLayout({ version, hasBackendApi }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, []);
-
-	useEffect(() => {
-		let componentIsMounted = true;
-
-		getIrisStatus()
-			.then((valid) => componentIsMounted && setHasIris(valid))
-			.catch(() => componentIsMounted && setHasIris(false));
-		return () => {
-			componentIsMounted = false;
-		}
 	}, []);
 
 	if (serverError)
