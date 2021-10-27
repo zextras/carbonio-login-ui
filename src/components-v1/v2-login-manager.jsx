@@ -55,7 +55,8 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 									setLoadingCredentials(false);
 								}
 								else {
-									window.location.assign(configuration.destinationUrl);
+									const newUrl = addUiParameters(configuration.destinationUrl, configuration.hasIris);
+									window.location.assign(newUrl);
 								}
 							});
 						}
