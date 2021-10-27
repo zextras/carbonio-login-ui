@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27-beta.3](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.2...v0.0.27-beta.3) (2021-10-27)
+
+
+### Bug Fixes
+
+* add url parameters in v2 component ([e244e49](https://bitbucket.org/zextras/zapp-login/commit/e244e4965afc3157d963bce24cbafe33445b5080))
+* added window.location.assign ([c3d2b24](https://bitbucket.org/zextras/zapp-login/commit/c3d2b24fb22439e76014a244eed847ac9dea76e2))
+* calculate url correctly in v2-manager component ([93fb1cd](https://bitbucket.org/zextras/zapp-login/commit/93fb1cda682c21cb4c0a105cd595b2133ae1d463))
+
 ### [0.0.27-beta.2](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.1...v0.0.27-beta.2) (2021-10-26)
 
 
