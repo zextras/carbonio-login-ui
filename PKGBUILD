@@ -5,7 +5,7 @@ targets=(
   "centos"
   "ubuntu"
 )
-pkgname="zextras-login"
+pkgname="carbonio-login"
 pkgver="0.9.0"
 pkgrel="1"
 pkgdesc="Zextras login page assets"
@@ -19,7 +19,7 @@ section="admin"
 priority="optional"
 url="https://www.zextras.com/"
 depends=(
-  "zextras-nginx"
+  "carbonio-nginx"
 )
 
 build() {
