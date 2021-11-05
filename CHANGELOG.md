@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27) (2021-11-05)
+
 ### [0.0.27-beta.3](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.2...v0.0.27-beta.3) (2021-10-27)
 
 
