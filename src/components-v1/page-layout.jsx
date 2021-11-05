@@ -218,7 +218,7 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
-							<Padding value="28px 0 28px" crossAlignment="center">
+							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
 								<Container crossAlignment="center">
 									{logo.url
 										? <a href={logo.url}>{logoHtml}</a>
