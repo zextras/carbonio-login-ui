@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
+import React, { useCallback, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { DEFAULT_UI } from '../constants';

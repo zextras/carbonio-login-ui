@@ -71,8 +71,8 @@ const FormWrapper = styled(Container)`
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
-	max-height: 620px;
-	height: 100vh;
+	min-height: 620px;
+	// height: 100vh;
 	overflow-y: auto;
 	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 20px 20px 0;

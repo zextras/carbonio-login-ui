@@ -21,18 +21,18 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 	const submitCredentials = useCallback((username, password) => {
 		setLoading(true);
 		return postV1Login('password', username, password)
-			.then(res => {
+			.then(async res => {
 				switch (res.status) {
 					case 200:
-						saveCredentials(username, password);
+						await saveCredentials(username, password);
 						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
 						break;
 					case 401:
-						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
+						setAuthError(t('credentials_not_valid', 'Credentials are not valid, please check data and try again'));
 						setLoading(false);
 						break;
 					case 403:
-						setAuthError(t('auth_not_valid','The authentication policy needs more steps: please contact your administrator for more information'));
+						setAuthError(t('auth_not_valid', 'The authentication policy needs more steps: please contact your administrator for more information'));
 						setLoading(false);
 						break;
 					default:
