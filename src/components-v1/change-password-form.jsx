@@ -154,7 +154,7 @@ const ChangePasswordForm = ({isLoading, setIsLoading, username, configuration}) 
 									setErrorLabelNewPassword(
 										t('changePassword_error_minNumericChars',
 											{
-												defaultValue: 'Expecting at least {{num}} numerical characters',
+												defaultValue: 'Expecting at least {{num}} numeric characters',
 												replace: {num: currNum._content}
 											})
 									);
