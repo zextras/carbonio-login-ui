@@ -434,7 +434,7 @@ pipeline {
                 when {
                     anyOf {
                        branch 'release'
-                       2 <= getCommitParentsCount()
+                       expression { 2 <= getCommitParentsCount() }
                     }
                 }
                 steps {
@@ -467,7 +467,7 @@ pipeline {
                         server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
                     }
                 }
-            } 
+            }
 
 		// ===== Deploy =====
 
