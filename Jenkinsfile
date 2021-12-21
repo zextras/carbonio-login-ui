@@ -22,24 +22,33 @@ def getRepositoryName() {
 }
 
 def executeNpmLogin() {
-	withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
-		NPM_AUTH_TOKEN = sh(script: """
-			curl -s \
-				-H "Accept: application/json" \
-				-H "Content-Type:application/json" \
-				-X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
-				https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
-				\'(?<="token":")[^"]*\';
-			""",
-			returnStdout: true
-		).trim()
-		sh(script: """
-		   touch .npmrc;
-		   echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-		   """,
-		   returnStdout: true
-		).trim()
-	}
+    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
+//         NPM_AUTH_TOKEN = sh(
+//                 script: """
+//                                             curl -s \
+//                                                 -H "Accept: application/json" \
+//                                                 -H "Content-Type:application/json" \
+//                                                 -X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
+//                                                 https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
+//                                                 \'(?<="token":")[^"]*\';
+//                                             """,
+//                 returnStdout: true
+//         ).trim()
+//         sh(
+//                 script: """
+//                     touch .npmrc;
+//                     echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+//                     """,
+//                 returnStdout: true
+//         ).trim()
+            sh(
+                script: """
+                    touch .npmrc;
+                    echo "//registry.npmjs.org/:_authToken=${AUTH_PASSWORD}" > .npmrc
+                    """,
+                returnStdout: true
+            ).trim()
+    }
 }
 
 def createRelease(branchName) {
