@@ -1,20 +1,39 @@
-import React, { useCallback, useState } from 'react';
+import {
+	Button,
+	Checkbox,
+	Input,
+	Row,
+	Select,
+	Snackbar,
+	Text,
+} from '@zextras/zapp-ui';
 import { map } from 'lodash';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Checkbox, Input, Row, Select, Snackbar, Text } from '@zextras/zapp-ui';
+import {
+	postV2Login,
+	submitOtp
+} from '../services/v2-service';
+import { addUiParameters, saveCredentials } from '../utils';
+import ChangePasswordForm from './change-password-form';
+import CredentialsForm from './credentials-form';
 
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
-import CredentialsForm from './credentials-form';
-import { postV2Login, submitOtp } from '../services/v2-service';
-import { addUiParameters, saveCredentials } from '../utils';
+
+const formState = {
+	credentials: 'credentials',
+	waiting: 'waiting',
+	twoFactor: 'two-factor',
+	changePassword: 'change-password',
+};
 
 export default function V2LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
 
 	const [loadingCredentials, setLoadingCredentials] = useState(false);
 	const [loadingOtp, setLoadingOtp] = useState(false);
-	const [progress, setProgress] = useState('credentials');
+	const [progress, setProgress] = useState(formState.credentials);
 
 	const [authError, setAuthError] = useState(false);
 	const [showOtpError, setShowOtpError] = useState(false);
@@ -22,90 +41,132 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [otpList, setOtpList] = useState([]);
 	const [otpId, setOtpId] = useState('');
 	const [otp, setOtp] = useState('');
-	const onChangeOtp = useCallback((ev) => {
-		setOtp(ev.target.value);
-	}, [setOtp]);
+	const onChangeOtp = useCallback(
+		(ev) => {
+			setOtp(ev.target.value);
+		},
+		[setOtp]
+	);
 	const [trustDevice, setTrustDevice] = useState(false);
-	const toggleTrustDevice = useCallback(() => setTrustDevice(v => !v), [setTrustDevice]);
+	const toggleTrustDevice = useCallback(
+		() => setTrustDevice((v) => !v),
+		[setTrustDevice]
+	);
+
+	const [email, setEmail] = useState('');
+	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
 
 	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
 	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
-	const submitCredentials = useCallback((username, password) => {
-		setLoadingCredentials(true);
-		return postV2Login('password', username, password)
-			.then(res => {
-				switch (res.status) {
-					case 200:
+	const submitCredentials = useCallback(
+		(username, password) => {
+			setLoadingCredentials(true);
+			return postV2Login('password', username, password)
+				.then((res) => {
+					switch (res.status) {
+						case 200:
+							setEmail(username);
+							if (res.redirected) {
+								setProgress(formState.changePassword);
+							}
+							else {
+								res.json().then(async (response) => {
+									await saveCredentials(username, password);
+									if (response?.['2FA'] === true) {
+										setOtpList(
+											map(response?.otp ?? [], (obj) => ({
+												label: obj.label,
+												value: obj.id,
+											}))
+										);
+										setOtpId(response?.otp?.[0].id);
+										setProgress(formState.twoFactor);
+										setLoadingCredentials(false);
+									}
+ 									else {
+										const newUrl = addUiParameters(
+											configuration.destinationUrl,
+											configuration.hasIris
+										);
+										window.location.assign(newUrl);
+									}
+								});
+							}
+							break;
+						case 401:
+							setAuthError(
+								t(
+									'credentials_not_valid',
+									'Credentials are not valid, please check data and try again'
+								)
+							);
+							setLoadingCredentials(false);
+							break;
+						case 403:
+							setAuthError(
+								t(
+									'auth_not_valid',
+									'The authentication policy needs more steps: please contact your administrator for more information'
+								)
+							);
+							setLoadingCredentials(false);
+							break;
+						default:
+							setSnackbarNetworkError(true);
+							setLoadingCredentials(false);
+					}
+				})
+				.catch(() => setLoadingCredentials(false));
+		},
+		[configuration.destinationUrl]
+	);
+
+	const submitOtpCb = useCallback(
+		(e) => {
+			e.preventDefault();
+			setLoadingOtp(true);
+			submitOtp(otpId, otp, trustDevice)
+				.then((res) => {
+					if (res.status === 200) {
 						if (res.redirected) {
-							window.location.assign(res.url)
+							setProgress(formState.changePassword);
 						}
 						else {
-							res.json().then(response => {
-								saveCredentials(username, password);
-								if(response?.['2FA'] === true) {
-									setOtpList(
-										map(
-											response?.otp ?? [],
-											obj => ({ label: obj.label, value: obj.id })
-										)
-									);
-									setOtpId(response?.otp?.[0].id);
-									setProgress('two-factor');
-									setLoadingCredentials(false);
-								}
-								else {
-									const newUrl = addUiParameters(configuration.destinationUrl, configuration.hasIris);
-									window.location.assign(newUrl);
-								}
-							});
+							window.location.assign(
+								addUiParameters(
+									configuration.destinationUrl,
+									configuration.hasIris
+								)
+							);
 						}
-						break;
-					case 401:
-						setAuthError(t('credentials_not_valid','Credentials are not valid, please check data and try again'));
-						setLoadingCredentials(false);
-						break;
-					case 403:
-						setAuthError(t('auth_not_valid','The authentication policy needs more steps: please contact your administrator for more information'));
-						setLoadingCredentials(false);
-						break;
-					default:
-						setSnackbarNetworkError(true);
-						setLoadingCredentials(false);
-				}
-			})
-			.catch(() => setLoadingCredentials(false));
-	}, [configuration.destinationUrl]);
-
-	const submitOtpCb = useCallback((e) => {
-		e.preventDefault();
-		setLoadingOtp(true);
-		submitOtp(otpId, otp, trustDevice)
-			.then(res => {
-				if (res.status === 200) {
-					if (res.redirected) {
-						window.location.assign(res.url)
 					}
 					else {
-						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
+						setLoadingOtp(false);
+						setShowOtpError(true);
 					}
-				}
-				else {
-					setLoadingOtp(false);
-					setShowOtpError(true);
-				}
-			})
-			.catch(() => setLoadingOtp(false));
-	}, [otpId, otp, trustDevice, configuration.destinationUrl]);
+				})
+				.catch(() => setLoadingOtp(false));
+		},
+		[otpId, otp, trustDevice, configuration.destinationUrl]
+	);
 
-	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
-	const onSnackbarActionCbk = useCallback(() => setDetailNetworkModal(true), [setDetailNetworkModal]);
-	const onCloseSnackbarCbk = useCallback(() => setSnackbarNetworkError(false), [setSnackbarNetworkError]);
+	const onCloseCbk = useCallback(
+		() => setDetailNetworkModal(false),
+		[setDetailNetworkModal]
+	);
+	const onSnackbarActionCbk = useCallback(
+		() => setDetailNetworkModal(true),
+		[setDetailNetworkModal]
+	);
+	const onCloseSnackbarCbk = useCallback(
+		() => setSnackbarNetworkError(false),
+		[setSnackbarNetworkError]
+	);
 
 	return (
 		<>
-			{progress === 'credentials'
-			&& (
+			{progress === formState.credentials && (
 				<CredentialsForm
 					configuration={configuration}
 					disableInputs={disableInputs}
@@ -114,30 +175,28 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					loading={loadingCredentials}
 				/>
 			)}
-			{progress === 'waiting'
-			&& (
+			{progress === formState.waiting && (
 				<Row
 					orientation="vertical"
 					crossAlignment="center"
 					padding={{ vertical: 'extralarge' }}
 				>
-					<Spinner/>
+					<Spinner />
 				</Row>
 			)}
-			{progress === 'two-factor'
-			&& (
+			{progress === formState.twoFactor && (
 				<form onSubmit={submitOtpCb} style={{ width: '100%' }}>
-					<input type="submit" style={{ display: 'none' }}/>
+					<input type="submit" style={{ display: 'none' }} />
 					<Row padding={{ bottom: 'large' }}>
 						<Text size="large" color="text" weight="bold">
-							{t('two_step_authentication', 'Two-Step-Authentication') }
+							{t('two_step_authentication', 'Two-Step-Authentication')}
 						</Text>
 					</Row>
 					<Row padding={{ top: 'large' }}>
 						<Select
 							items={otpList}
 							background="gray5"
-							label={ t('choose_otp', 'Choose the OTP Method') }
+							label={t('choose_otp', 'Choose the OTP Method')}
 							onChange={setOtpId}
 							defaultSelection={otpList[0]}
 						/>
@@ -148,14 +207,18 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							hasError={showOtpError}
 							disabled={disableInputs}
 							onChange={onChangeOtp}
-							label={t('type_otp','Type here One-Time-Password')}
+							label={t('type_otp', 'Type here One-Time-Password')}
 							backgroundColor="gray5"
 						/>
 					</Row>
 					<Row padding={{ top: 'extrasmall' }} mainAlignment="flex-start">
 						<Text color="error" size="medium" overflow="break-word">
-							{showOtpError && t('wrong_password','Wrong password, please check data and try again')}
-							{!showOtpError && <br/>}
+							{showOtpError &&
+								t(
+									'wrong_password',
+									'Wrong password, please check data and try again'
+								)}
+							{!showOtpError && <br />}
 						</Text>
 					</Row>
 					<Row
@@ -174,11 +237,22 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					<Row mainAlignment="flex-start">
 						<Checkbox
 							value={trustDevice}
-							label={t('trust_device_and_ip', 'Trust this device and IP address')}
+							label={t(
+								'trust_device_and_ip',
+								'Trust this device and IP address'
+							)}
 							onClick={toggleTrustDevice}
 						/>
 					</Row>
 				</form>
+			)}
+			{progress === formState.changePassword && (
+				<ChangePasswordForm
+					isLoading={loadingChangePassword}
+					setIsLoading={setLoadingChangePassword}
+					configuration={configuration}
+					username={email}
+				/>
 			)}
 			<Snackbar
 				open={snackbarNetworkError}
@@ -189,10 +263,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				autoHideTimeout={10000}
 				type="error"
 			/>
-			<OfflineModal
-				open={detailNetworkModal}
-				onClose={onCloseCbk}
-			/>
+			<OfflineModal open={detailNetworkModal} onClose={onCloseCbk} />
 		</>
 	);
 }
