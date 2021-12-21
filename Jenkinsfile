@@ -22,24 +22,33 @@ def getRepositoryName() {
 }
 
 def executeNpmLogin() {
-	withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
-		NPM_AUTH_TOKEN = sh(script: """
-			curl -s \
-				-H "Accept: application/json" \
-				-H "Content-Type:application/json" \
-				-X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
-				https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
-				\'(?<="token":")[^"]*\';
-			""",
-			returnStdout: true
-		).trim()
-		sh(script: """
-		   touch .npmrc;
-		   echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-		   """,
-		   returnStdout: true
-		).trim()
-	}
+    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
+//         NPM_AUTH_TOKEN = sh(
+//                 script: """
+//                                             curl -s \
+//                                                 -H "Accept: application/json" \
+//                                                 -H "Content-Type:application/json" \
+//                                                 -X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
+//                                                 https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
+//                                                 \'(?<="token":")[^"]*\';
+//                                             """,
+//                 returnStdout: true
+//         ).trim()
+//         sh(
+//                 script: """
+//                     touch .npmrc;
+//                     echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+//                     """,
+//                 returnStdout: true
+//         ).trim()
+            sh(
+                script: """
+                    touch .npmrc;
+                    echo "//registry.npmjs.org/:_authToken=${AUTH_PASSWORD}" > .npmrc
+                    """,
+                returnStdout: true
+            ).trim()
+    }
 }
 
 def createRelease(branchName) {
@@ -429,6 +438,45 @@ pipeline {
                 }
             }
         }
+
+		stage('Upload To RC') {
+                when {
+                    allOf {
+                       branch 'release'
+                       expression { 2 <= ( getCommitParentsCount() as int ) }
+                    }
+                }
+                steps {
+                    unstash 'artifacts-deb'
+                    unstash 'artifacts-rpm'
+                    script {
+                        def server = Artifactory.server 'zextras-artifactory'
+                        def buildInfo
+                        def uploadSpec
+                        buildInfo = Artifactory.newBuildInfo()
+                        uploadSpec = """{
+                            "files": [
+                                {
+                                    "pattern": "artifacts/carbonio-login.deb",
+                                    "target": "ubuntu-rc/pool/",
+                                    "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                                },
+                                {
+                                    "pattern": "artifacts/(carbonio-login)-().rpm",
+                                    "target": "centos7-rc/zextras/{1}/{1}-{2}.rpm",
+                                    "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                },
+                                {
+                                    "pattern": "artifacts/(carbonio-login)-(*).rpm",
+                                    "target": "centos8-rc/zextras/{1}/{1}-{2}.rpm",
+                                    "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                }
+                            ]
+                        }"""
+                        server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
+                    }
+                }
+            }
 
 		// ===== Deploy =====
 
