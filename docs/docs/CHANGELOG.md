@@ -5,6 +5,10 @@ sidebar_label: Change Log
 ---
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27-rc.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.4...v0.0.27-rc.0) (2021-12-21)
+
+### [0.0.27](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27) (2021-11-05)
+
 ### [0.0.27-beta.4](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27-beta.4) (2021-12-21)
 
 
