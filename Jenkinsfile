@@ -434,7 +434,7 @@ pipeline {
                 when {
                     allOf {
                        branch 'release'
-                       expression { 2 <= getCommitParentsCount() as int }
+                       expression { 2 <= ( getCommitParentsCount() as int ) }
                     }
                 }
                 steps {
