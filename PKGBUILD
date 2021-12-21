@@ -5,7 +5,7 @@ targets=(
   "centos"
   "ubuntu"
 )
-pkgname="carbonio-login"
+pkgname="carbonio-login-ui"
 pkgver="0.9.0"
 pkgrel="1"
 pkgdesc="Zextras login page assets"
