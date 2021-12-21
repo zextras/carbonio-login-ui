@@ -71,8 +71,8 @@ const FormWrapper = styled(Container)`
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
-	max-height: 620px;
-	height: 100vh;
+	min-height: 620px;
+	// height: 100vh;
 	overflow-y: auto;
 	${({ screenMode }) => screenMode === 'mobile' && css`
 		padding: 20px 20px 0;
@@ -218,7 +218,7 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
-							<Padding value="28px 0 28px" crossAlignment="center">
+							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
 								<Container crossAlignment="center">
 									{logo.url
 										? <a href={logo.url}>{logoHtml}</a>

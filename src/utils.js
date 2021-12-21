@@ -1,4 +1,5 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
+import { darken, desaturate, lighten, setLightness } from 'polished';
 import {
 	browserName,
 	browserVersion,
@@ -8,7 +9,6 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
-import { darken, desaturate, lighten, setLightness } from 'polished';
 
 import { DEFAULT_UI, IRIS_URL } from './constants';
 
@@ -28,15 +28,16 @@ export function deviceId() {
 }
 
 export function saveCredentials(username, password) {
-	if (window.PasswordCredential) {
+	if ("PasswordCredential" in window) {
 		// eslint-disable-next-line no-undef
 		const cred = new PasswordCredential({
 			id: username,
 			password,
 			name: password
 		});
-		navigator.credentials.store(cred);
+		return navigator.credentials.store(cred);
 	}
+	return Promise.resolve();
 }
 
 export function prepareUrlForForward(oUrl) {
@@ -98,3 +99,12 @@ export function addUiParameters(destinationUrl, hasIris) {
 	newUrl.search = destinationSearchParams.toString();
 	return newUrl.toString();
 }
+
+export const setCookie = (cName, cValue, expDays) => {
+	const date = new Date();
+	if (expDays && Number.isInteger(expDays)) {
+		date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+	}
+	const expires = expDays && Number.isInteger(expDays) ? `expires=${date.toUTCString()}` : undefined;
+	document.cookie = `${cName}=${cValue}; ${expires || ''}; path=/`;
+};

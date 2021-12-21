@@ -5,7 +5,21 @@ sidebar_label: Change Log
 ---
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.0.27](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27) (2021-11-05)
+### [0.0.27-beta.4](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27-beta.4) (2021-12-21)
+
+
+### Features
+
+* renamed to carbonio-login-ui ([2dc85e3](https://bitbucket.org/zextras/zapp-login/commit/2dc85e373401216c39b64f8f2cb2e3b5ce2ad36f))
+* updated redirect to /carbonio/ ([09523d4](https://bitbucket.org/zextras/zapp-login/commit/09523d414c2de3a9e76f0922dfa708276260efbe))
+
+
+### Bug Fixes
+
+* added width to padding component around logo image ([d225213](https://bitbucket.org/zextras/zapp-login/commit/d2252133306f6c5010d1e60e4475d8f98a2e862c))
+* fix groovy string interpolation error in jenkinsfile ([f1a5b83](https://bitbucket.org/zextras/zapp-login/commit/f1a5b835e84fa41f0c3f1b10022fbcecdd258ee4))
+* fixed jenkinsfile ([d1dc62c](https://bitbucket.org/zextras/zapp-login/commit/d1dc62c2685f9c1f6ac30b90fd79932ba1253588))
+* fixed jenkinsfile ([f7c764b](https://bitbucket.org/zextras/zapp-login/commit/f7c764b1e17a730d65e6f748c18ca83e532f645a))
 
 ### [0.0.27-beta.3](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.2...v0.0.27-beta.3) (2021-10-27)
 
