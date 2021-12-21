@@ -1,5 +1,5 @@
 export const MAX_SUPPORTED_VERSION = 2; // to keep updated adding new versions
-export const IRIS_URL = '/static/iris/carbonio-shell/current/';
+export const IRIS_URL = '/carbonio/';
 export const IRIS_CHECK_URL = '/static/iris/components.json';
 export const DEFAULT_UI = 'iris';
 export const ZM_AUTH_TOKEN = 'ZM_AUTH_TOKEN';
