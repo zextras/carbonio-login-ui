@@ -5,6 +5,15 @@ sidebar_label: Change Log
 ---
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27-beta.4](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27-beta.4) (2021-12-21)
+
+
+### Bug Fixes
+
+* added width to padding component around logo image ([d225213](https://bitbucket.org/zextras/zapp-login/commit/d2252133306f6c5010d1e60e4475d8f98a2e862c))
+* fixed jenkinsfile ([d1dc62c](https://bitbucket.org/zextras/zapp-login/commit/d1dc62c2685f9c1f6ac30b90fd79932ba1253588))
+* fixed jenkinsfile ([f7c764b](https://bitbucket.org/zextras/zapp-login/commit/f7c764b1e17a730d65e6f748c18ca83e532f645a))
+
 ### [0.0.27-beta.3](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.2...v0.0.27-beta.3) (2021-10-27)
 
 
