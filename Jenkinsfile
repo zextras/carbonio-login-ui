@@ -22,24 +22,33 @@ def getRepositoryName() {
 }
 
 def executeNpmLogin() {
-	withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
-		NPM_AUTH_TOKEN = sh(script: """
-			curl -s \
-				-H "Accept: application/json" \
-				-H "Content-Type:application/json" \
-				-X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
-				https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
-				\'(?<="token":")[^"]*\';
-			""",
-			returnStdout: true
-		).trim()
-		sh(script: """
-		   touch .npmrc;
-		   echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-		   """,
-		   returnStdout: true
-		).trim()
-	}
+    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
+//         NPM_AUTH_TOKEN = sh(
+//                 script: """
+//                                             curl -s \
+//                                                 -H "Accept: application/json" \
+//                                                 -H "Content-Type:application/json" \
+//                                                 -X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
+//                                                 https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
+//                                                 \'(?<="token":")[^"]*\';
+//                                             """,
+//                 returnStdout: true
+//         ).trim()
+//         sh(
+//                 script: """
+//                     touch .npmrc;
+//                     echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+//                     """,
+//                 returnStdout: true
+//         ).trim()
+            sh(
+                script: """
+                    touch .npmrc;
+                    echo "//registry.npmjs.org/:_authToken=${AUTH_PASSWORD}" > .npmrc
+                    """,
+                returnStdout: true
+            ).trim()
+    }
 }
 
 def createRelease(branchName) {
@@ -58,7 +67,7 @@ def createRelease(branchName) {
 		""")
 		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"
-		nodeCmd "npm run release -- --no-verify"
+		nodeCmd "npm run release -- --no-verify --prerelease rc"
 	} else {
 		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"
@@ -375,7 +384,7 @@ pipeline {
                                 sh 'sudo cp -r * /tmp'
                                 sh 'sudo pacur build centos'
                                 dir("artifacts/") {
-                                    sh 'echo carbonio-login* | sed -E "s#(carbonio-login-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
+                                    sh 'echo carbonio-login-ui* | sed -E "s#(carbonio-login-ui-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
                                 }
                                 stash includes: 'artifacts/', name: 'artifacts-rpm'
                             }
@@ -409,17 +418,17 @@ pipeline {
                     uploadSpec = """{
                         "files": [
                             {
-                                "pattern": "artifacts/carbonio-login*.deb",
+                                "pattern": "artifacts/carbonio-login-ui*.deb",
                                 "target": "ubuntu-playground/pool/",
                                 "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
                                 "target": "centos7-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }
