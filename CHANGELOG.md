@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1-rc.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-rc.0...v0.1.1-rc.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* prerelease step ([8d3c006](https://bitbucket.org/zextras/zapp-login/commit/8d3c006a9ffa97c136f4b22138201edc5b22e9b0))
+
 ### [0.0.27-rc.0](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.4...v0.0.27-rc.0) (2021-12-21)
 
 ### [0.0.27](https://bitbucket.org/zextras/zapp-login/compare/v0.0.27-beta.3...v0.0.27) (2021-11-05)
