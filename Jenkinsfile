@@ -426,8 +426,11 @@ pipeline {
 		stage('Upload To RC') {
                 when {
                     allOf {
-                       branch 'release'
-                       expression { 2 <= ( getCommitParentsCount() as int ) }
+											branch 'release'
+											environment(
+												name: "COMMIT_PARENTS_COUNT",
+												value: "2"
+											)
                     }
                 }
                 steps {
