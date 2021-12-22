@@ -52,7 +52,7 @@ def executeNpmLogin() {
 }
 
 def createRelease(branchName) {
-	def isRelease = branchName ==~ /(release)/
+	// def isRelease = branchName ==~ /(release)/
 	println("Inside createRelease")
 	sh(script: """#!/bin/bash
 		git config user.email \"bot@zextras.com\"
@@ -61,54 +61,48 @@ def createRelease(branchName) {
 		git fetch --unshallow
 	""")
 	executeNpmLogin()
-	if (isRelease) {
+	sh(script: """#!/bin/bash
+		git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
+	""")
+	nodeCmd "npm install"
+	nodeCmd "npx pinst --enable"
+	nodeCmd "npm run release -- --no-verify --prerelease rc"
+	nodeCmd "NODE_ENV='production' npm run build"
+	sh(script: """#!/bin/bash
+		git add translations
+		git commit --no-verify -m 'chore(i18n): extracted translations'
+		git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git translations-updater/v${getCurrentVersion()}
+	""")
+	withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
+		def defaultReviewers = sh(script: """
+			curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
+			-u '$PR_ACCESS' \
+			--request GET \
+			| \
+			jq '.values | map_values({ uuid: .uuid })'
+		""", returnStdout: true).trim()
+		println(defaultReviewers)
 		sh(script: """#!/bin/bash
-			git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
+			curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
+			-u '$PR_ACCESS' \
+			--request POST \
+			--header 'Content-Type: application/json' \
+			--data '{
+				\"title\": \"Updated translations in ${getCurrentVersion()}\",
+				\"source\": {
+					\"branch\": {
+						\"name\": \"translations-updater/v${getCurrentVersion()}\"
+					}
+				},
+				\"destination\": {
+					\"branch\": {
+						\"name\": \"master\"
+					}
+				},
+				\"reviewers\": $defaultReviewers,
+				\"close_source_branch\": true
+			}'
 		""")
-		nodeCmd "npm install"
-		nodeCmd "npx pinst --enable"
-		nodeCmd "npm run release -- --no-verify"
-	} else {
-		nodeCmd "npm install"
-		nodeCmd "npx pinst --enable"
-        nodeCmd "npm run release -- --no-verify --prerelease beta"
-		nodeCmd "NODE_ENV='production' npm run build"
-		sh(script: """#!/bin/bash
-			git add translations
-			git commit --no-verify -m 'chore(i18n): extracted translations'
-			git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git translations-updater/v${getCurrentVersion()}
-		""")
-		withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
-			def defaultReviewers = sh(script: """
-				curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
-				-u '$PR_ACCESS' \
-				--request GET \
-				| \
-				jq '.values | map_values({ uuid: .uuid })'
-			""", returnStdout: true).trim()
-			println(defaultReviewers)
-			sh(script: """#!/bin/bash
-				curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
-				-u '$PR_ACCESS' \
-				--request POST \
-				--header 'Content-Type: application/json' \
-				--data '{
-					\"title\": \"Updated translations in ${getCurrentVersion()}\",
-					\"source\": {
-						\"branch\": {
-							\"name\": \"translations-updater/v${getCurrentVersion()}\"
-						}
-					},
-					\"destination\": {
-						\"branch\": {
-							\"name\": \"master\"
-						}
-					},
-					\"reviewers\": $defaultReviewers,
-					\"close_source_branch\": true
-				}'
-			""")
-		}
 	}
 	sh(script: """#!/bin/bash
 		echo \"---\nid: CHANGELOG\ntitle: Change Log\nsidebar_label: Change Log\n---\" > docs/docs/CHANGELOG.md
@@ -184,9 +178,9 @@ def publishOnNpm(branchName) {
 	executeNpmLogin()
 	nodeCmd "npm install"
 	if (isRelease) {
-		nodeCmd "NODE_ENV='production' npm publish"
+		nodeCmd "NODE_ENV='production' npm publish --tag rc"
 	} else {
-		nodeCmd "NODE_ENV='production' npm publish --tag beta"
+		nodeCmd "NODE_ENV='production' npm publish"
 	}
 }
 
@@ -284,7 +278,7 @@ pipeline {
 			when {
 				beforeAgent(true)
 				allOf {
-					expression { BRANCH_NAME ==~ /(release|beta)/ }
+					expression { BRANCH_NAME ==~ /(release)/ }
 					environment(
 						name: "COMMIT_PARENTS_COUNT",
 						value: "2"
@@ -323,16 +317,6 @@ pipeline {
 			}
 		}
         stage('Build deb/rpm') {
-            when {
-                anyOf {
-                    branch 'release/*'
-                    branch 'custom/*'
-                    branch 'beta/*'
-                    branch 'playground/*'
-                    buildingTag()
-                    expression { params.PLAYGROUND == true }
-                }
-            }
             stages {
                 stage('Build') {
                     steps {
