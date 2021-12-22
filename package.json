@@ -1,6 +1,6 @@
 {
   "name": "carbonio-login-ui",
-  "version": "0.1.0",
+  "version": "0.1.1-rc.0",
   "description": "Zextras authentication App",
   "main": "src/index.html",
   "scripts": {
@@ -13,7 +13,7 @@
     "type-check:watch": "npm run type-check -- --watch",
     "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/zapp-cli src",
-    "_postinstall": "is-ci || husky install",
+    "postinstall": "is-ci || husky install",
     "prepublish": "pinst --disable",
     "postpublish": "pinst --enable"
   },
