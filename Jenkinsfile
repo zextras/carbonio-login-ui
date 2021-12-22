@@ -67,7 +67,7 @@ def createRelease(branchName) {
 		""")
 		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"
-		nodeCmd "npm run release -- --no-verify"
+		nodeCmd "npm run release -- --no-verify --prerelease rc"
 	} else {
 		nodeCmd "npm install"
 		nodeCmd "npx pinst --enable"

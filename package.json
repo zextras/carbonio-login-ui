@@ -1,6 +1,6 @@
 {
   "name": "carbonio-login-ui",
-  "version": "0.0.27-rc.0",
+  "version": "0.1.0",
   "description": "Zextras authentication App",
   "main": "src/index.html",
   "scripts": {
