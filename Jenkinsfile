@@ -22,28 +22,37 @@ def getRepositoryName() {
 }
 
 def executeNpmLogin() {
-	withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
-		NPM_AUTH_TOKEN = sh(script: """
-			curl -s \
-				-H "Accept: application/json" \
-				-H "Content-Type:application/json" \
-				-X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
-				https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
-				\'(?<="token":")[^"]*\';
-			""",
-			returnStdout: true
-		).trim()
-		sh(script: """
-		   touch .npmrc;
-		   echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-		   """,
-		   returnStdout: true
-		).trim()
-	}
+    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
+//         NPM_AUTH_TOKEN = sh(
+//                 script: """
+//                                             curl -s \
+//                                                 -H "Accept: application/json" \
+//                                                 -H "Content-Type:application/json" \
+//                                                 -X PUT --data \'{"name": "${AUTH_USERNAME}", "password": "${AUTH_PASSWORD}"}\' \
+//                                                 https://registry.npmjs.com/-/user/org.couchdb.user:${AUTH_USERNAME} 2>&1 | grep -Po \
+//                                                 \'(?<="token":")[^"]*\';
+//                                             """,
+//                 returnStdout: true
+//         ).trim()
+//         sh(
+//                 script: """
+//                     touch .npmrc;
+//                     echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+//                     """,
+//                 returnStdout: true
+//         ).trim()
+            sh(
+                script: """
+                    touch .npmrc;
+                    echo "//registry.npmjs.org/:_authToken=${AUTH_PASSWORD}" > .npmrc
+                    """,
+                returnStdout: true
+            ).trim()
+    }
 }
 
 def createRelease(branchName) {
-	def isRelease = branchName ==~ /(release)/
+	// def isRelease = branchName ==~ /(release)/
 	println("Inside createRelease")
 	sh(script: """#!/bin/bash
 		git config user.email \"bot@zextras.com\"
@@ -52,54 +61,48 @@ def createRelease(branchName) {
 		git fetch --unshallow
 	""")
 	executeNpmLogin()
-	if (isRelease) {
+	sh(script: """#!/bin/bash
+		git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
+	""")
+	nodeCmd "npm install"
+	nodeCmd "npx pinst --enable"
+	nodeCmd "npm run release -- --no-verify --prerelease rc"
+	nodeCmd "NODE_ENV='production' npm run build"
+	sh(script: """#!/bin/bash
+		git add translations
+		git commit --no-verify -m 'chore(i18n): extracted translations'
+		git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git translations-updater/v${getCurrentVersion()}
+	""")
+	withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
+		def defaultReviewers = sh(script: """
+			curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
+			-u '$PR_ACCESS' \
+			--request GET \
+			| \
+			jq '.values | map_values({ uuid: .uuid })'
+		""", returnStdout: true).trim()
+		println(defaultReviewers)
 		sh(script: """#!/bin/bash
-			git subtree pull --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git master
+			curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
+			-u '$PR_ACCESS' \
+			--request POST \
+			--header 'Content-Type: application/json' \
+			--data '{
+				\"title\": \"Updated translations in ${getCurrentVersion()}\",
+				\"source\": {
+					\"branch\": {
+						\"name\": \"translations-updater/v${getCurrentVersion()}\"
+					}
+				},
+				\"destination\": {
+					\"branch\": {
+						\"name\": \"master\"
+					}
+				},
+				\"reviewers\": $defaultReviewers,
+				\"close_source_branch\": true
+			}'
 		""")
-		nodeCmd "npm install"
-		nodeCmd "npx pinst --enable"
-		nodeCmd "npm run release -- --no-verify"
-	} else {
-		nodeCmd "npm install"
-		nodeCmd "npx pinst --enable"
-        nodeCmd "npm run release -- --no-verify --prerelease beta"
-		nodeCmd "NODE_ENV='production' npm run build"
-		sh(script: """#!/bin/bash
-			git add translations
-			git commit --no-verify -m 'chore(i18n): extracted translations'
-			git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git translations-updater/v${getCurrentVersion()}
-		""")
-		withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
-			def defaultReviewers = sh(script: """
-				curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
-				-u '$PR_ACCESS' \
-				--request GET \
-				| \
-				jq '.values | map_values({ uuid: .uuid })'
-			""", returnStdout: true).trim()
-			println(defaultReviewers)
-			sh(script: """#!/bin/bash
-				curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
-				-u '$PR_ACCESS' \
-				--request POST \
-				--header 'Content-Type: application/json' \
-				--data '{
-					\"title\": \"Updated translations in ${getCurrentVersion()}\",
-					\"source\": {
-						\"branch\": {
-							\"name\": \"translations-updater/v${getCurrentVersion()}\"
-						}
-					},
-					\"destination\": {
-						\"branch\": {
-							\"name\": \"master\"
-						}
-					},
-					\"reviewers\": $defaultReviewers,
-					\"close_source_branch\": true
-				}'
-			""")
-		}
 	}
 	sh(script: """#!/bin/bash
 		echo \"---\nid: CHANGELOG\ntitle: Change Log\nsidebar_label: Change Log\n---\" > docs/docs/CHANGELOG.md
@@ -175,9 +178,9 @@ def publishOnNpm(branchName) {
 	executeNpmLogin()
 	nodeCmd "npm install"
 	if (isRelease) {
-		nodeCmd "NODE_ENV='production' npm publish"
+		nodeCmd "NODE_ENV='production' npm publish --tag rc"
 	} else {
-		nodeCmd "NODE_ENV='production' npm publish --tag beta"
+		nodeCmd "NODE_ENV='production' npm publish"
 	}
 }
 
@@ -275,7 +278,7 @@ pipeline {
 			when {
 				beforeAgent(true)
 				allOf {
-					expression { BRANCH_NAME ==~ /(release|beta)/ }
+					expression { BRANCH_NAME ==~ /(release)/ }
 					environment(
 						name: "COMMIT_PARENTS_COUNT",
 						value: "2"
@@ -314,16 +317,6 @@ pipeline {
 			}
 		}
         stage('Build deb/rpm') {
-            when {
-                anyOf {
-                    branch 'release/*'
-                    branch 'custom/*'
-                    branch 'beta/*'
-                    branch 'playground/*'
-                    buildingTag()
-                    expression { params.PLAYGROUND == true }
-                }
-            }
             stages {
                 stage('Build') {
                     steps {
@@ -375,7 +368,7 @@ pipeline {
                                 sh 'sudo cp -r * /tmp'
                                 sh 'sudo pacur build centos'
                                 dir("artifacts/") {
-                                    sh 'echo carbonio-login* | sed -E "s#(carbonio-login-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
+                                    sh 'echo carbonio-login-ui* | sed -E "s#(carbonio-login-ui-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
                                 }
                                 stash includes: 'artifacts/', name: 'artifacts-rpm'
                             }
@@ -409,17 +402,17 @@ pipeline {
                     uploadSpec = """{
                         "files": [
                             {
-                                "pattern": "artifacts/carbonio-login*.deb",
+                                "pattern": "artifacts/carbonio-login-ui*.deb",
                                 "target": "ubuntu-playground/pool/",
                                 "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
                                 "target": "centos7-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-login)-(*).rpm",
+                                "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }
@@ -429,6 +422,48 @@ pipeline {
                 }
             }
         }
+
+		stage('Upload To RC') {
+                when {
+                    allOf {
+											branch 'release'
+											environment(
+												name: "COMMIT_PARENTS_COUNT",
+												value: "2"
+											)
+                    }
+                }
+                steps {
+                    unstash 'artifacts-deb'
+                    unstash 'artifacts-rpm'
+                    script {
+                        def server = Artifactory.server 'zextras-artifactory'
+                        def buildInfo
+                        def uploadSpec
+                        buildInfo = Artifactory.newBuildInfo()
+                        uploadSpec = """{
+                            "files": [
+                                {
+                                    "pattern": "artifacts/carbonio-login-ui.deb",
+                                    "target": "ubuntu-rc/pool/",
+                                    "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                                },
+                                {
+                                    "pattern": "artifacts/(carbonio-login-ui)-().rpm",
+                                    "target": "centos7-rc/zextras/{1}/{1}-{2}.rpm",
+                                    "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                },
+                                {
+                                    "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
+                                    "target": "centos8-rc/zextras/{1}/{1}-{2}.rpm",
+                                    "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                }
+                            ]
+                        }"""
+                        server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
+                    }
+                }
+            }
 
 		// ===== Deploy =====
 
