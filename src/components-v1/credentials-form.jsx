@@ -1,12 +1,15 @@
 import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 
-import { DEFAULT_UI } from '../constants';
-import { addUiParameters } from '../utils';
+import { getCookieKeys, getCookie, setCookie, addUiParameters } from "../utils";
 
 const urlParams = new URLSearchParams(window.location.search);
+
+const uiList = [
+	{ label: 'Classic', value: 'classic' },
+	{ label: 'Iris', value: 'iris' }
+];
 
 export default function CredentialsForm({
 	authError,
@@ -16,18 +19,19 @@ export default function CredentialsForm({
 	loading = false
 }) {
 	const [t] = useTranslation();
-	const history = useHistory();
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 
-	const uiList = useMemo(() => [
-		{ label: 'Classic', value: 'classic' },
-		{ label: 'Iris', value: 'iris' }
-	], []);
-	const defaultUi = useMemo(() => uiList.find(
-		(ui) => ui.value === (urlParams.get('ui') || DEFAULT_UI)
-	), []);
+	const defaultUi = useMemo(() => {
+		const cookieKeys = getCookieKeys();
+		if ( cookieKeys.includes('UI') ) {
+			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0]
+		}
+
+		setCookie('UI', 'iris');
+		return uiList[1]
+	}, []);
 
 	const submitUserPassword = useCallback((e) => {
 		e.preventDefault();
@@ -62,27 +66,11 @@ export default function CredentialsForm({
 				/>
 			);
 		}
-
 		return (
 			// used to keep the correct space where or not SAML is shown
 			<div style={{ minHeight: '20px' }} />
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
-
-	const onChangeUsername = useCallback((ev) => setUsername(ev.target.value), [setUsername]);
-	const onChangePassword = useCallback((ev) => setPassword(ev.target.value), [setPassword]);
-
-	// useEffect(() => {
-	// 	let componentIsMounted = true;
-	//
-	// 	getIrisStatus()
-	// 		.then((valid) => {
-	// 			componentIsMounted && valid && setShowSelect(true);
-	// 		});
-	// 	return () => {
-	// 		componentIsMounted = false;
-	// 	}
-	// }, []);
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
@@ -91,7 +79,7 @@ export default function CredentialsForm({
 				<Input
 					defaultValue={username}
 					disabled={disableInputs}
-					onChange={onChangeUsername}
+					onChange={(e) => setUsername(e.target.value)}
 					hasError={!!authError}
 					autocomplete="username"
 					label={t('username', 'Username')}
@@ -102,7 +90,7 @@ export default function CredentialsForm({
 				<PasswordInput
 					defaultValue={password}
 					disabled={disableInputs}
-					onChange={onChangePassword}
+					onChange={(e) => setPassword(e.target.value)}
 					hasError={!!authError}
 					autocomplete="password"
 					label={t('password', 'Password')}
@@ -115,9 +103,7 @@ export default function CredentialsForm({
 						label={t('select_ui', 'Select UI')}
 						items={uiList}
 						onChange={(newUI) => {
-							const searchParams = new URLSearchParams(history.location.search);
-							searchParams.set('ui', newUI);
-							history.replace({ search: searchParams.toString() });
+							setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zsc')
 						}}
 						defaultSelection={defaultUi}
 					/>

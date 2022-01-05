@@ -100,6 +100,16 @@ export function addUiParameters(destinationUrl, hasIris) {
 	return newUrl.toString();
 }
 
+export function getCookieKeys() {
+	return document.cookie.split(';').map(v => v.split('=')[0].trim())
+}
+
+export function getCookie(key) {
+	const cookies = document.cookie.split(';').map(v => v.trim());
+	const foundCookie = cookies.find(v => v.split('=')[0] === key);
+	return foundCookie ? foundCookie.split('=')[1] : '';
+}
+
 export const setCookie = (cName, cValue, expDays) => {
 	const date = new Date();
 	if (expDays && Number.isInteger(expDays)) {

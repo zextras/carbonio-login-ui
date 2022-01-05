@@ -22,8 +22,8 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import bakgoundImage from '../../assets/bg-wood-dock.jpg';
-import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
+import backgroundImage from '../../assets/bg-wood-dock.jpg';
+import backgroundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
@@ -53,7 +53,7 @@ const LoginContainer = styled(Container)`
 	`}
 	${({ isDefaultBg }) => isDefaultBg && css`
 		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { 
-			background: url(${bakgoundImageRetina}) no-repeat 75% center/cover;
+			background: url(${backgroundImageRetina}) no-repeat 75% center/cover;
 		}
 	`}
 `;
@@ -107,7 +107,7 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
-	const [bg, setBg] = useState(bakgoundImage);
+	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [editedTheme, setEditedTheme] = useState({});
 
