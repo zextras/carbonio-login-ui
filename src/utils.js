@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import { darken, desaturate, lighten, setLightness } from 'polished';
 import {
