@@ -1,12 +1,8 @@
 /*
- * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2020 ZeXtras
+ * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
  *
- * The contents of this file are subject to the ZeXtras EULA;
- * you may not use this file except in compliance with the EULA.
- * You may obtain a copy of the EULA at
- * http://www.zextras.com/zextras-eula.html
- * *** END LICENSE BLOCK *****
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 import React, { useCallback, useLayoutEffect, useState } from 'react';
@@ -22,8 +18,8 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import bakgoundImage from '../../assets/bg-wood-dock.jpg';
-import bakgoundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
+import backgroundImage from '../../assets/bg-wood-dock.jpg';
+import backgroundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
 import logoZextras from '../../assets/logo-zextras.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
@@ -53,7 +49,7 @@ const LoginContainer = styled(Container)`
 	`}
 	${({ isDefaultBg }) => isDefaultBg && css`
 		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { 
-			background: url(${bakgoundImageRetina}) no-repeat 75% center/cover;
+			background: url(${backgroundImageRetina}) no-repeat 75% center/cover;
 		}
 	`}
 `;
@@ -97,7 +93,7 @@ const PhotoCredits = styled(Text)`
 	}
 `;
 
-export default function PageLayout({ version, hasBackendApi, hasIris }) {
+export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
@@ -107,7 +103,7 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
-	const [bg, setBg] = useState(bakgoundImage);
+	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [editedTheme, setEditedTheme] = useState({});
 
@@ -228,8 +224,8 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 							</Padding>
 						</Container>
 						{hasBackendApi
-							? <FormSelector domain={domain} destinationUrl={destinationUrl} hasIris={hasIris} />
-							: <ZimbraForm destinationUrl={destinationUrl} hasIris={hasIris} />
+							? <FormSelector domain={domain} destinationUrl={destinationUrl}/>
+							: <ZimbraForm destinationUrl={destinationUrl}/>
 						}
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>

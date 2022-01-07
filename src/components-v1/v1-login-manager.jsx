@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Snackbar } from '@zextras/zapp-ui';
@@ -5,7 +11,7 @@ import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';
 import { postV1Login } from '../services/v1-service';
-import { addUiParameters, saveCredentials } from '../utils';
+import { saveCredentials } from '../utils';
 
 export default function V1LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
@@ -25,7 +31,7 @@ export default function V1LoginManager({ configuration, disableInputs }) {
 				switch (res.status) {
 					case 200:
 						await saveCredentials(username, password);
-						window.location.assign(addUiParameters(configuration.destinationUrl, configuration.hasIris));
+						window.location.assign(configuration.destinationUrl);
 						break;
 					case 401:
 						setAuthError(t('credentials_not_valid', 'Credentials are not valid, please check data and try again'));

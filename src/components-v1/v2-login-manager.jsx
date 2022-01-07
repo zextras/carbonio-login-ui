@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import {
 	Button,
 	Checkbox,
@@ -14,7 +20,7 @@ import {
 	postV2Login,
 	submitOtp
 } from '../services/v2-service';
-import { addUiParameters, saveCredentials } from '../utils';
+import { saveCredentials } from '../utils';
 import ChangePasswordForm from './change-password-form';
 import CredentialsForm from './credentials-form';
 
@@ -85,11 +91,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 										setLoadingCredentials(false);
 									}
  									else {
-										const newUrl = addUiParameters(
-											configuration.destinationUrl,
-											configuration.hasIris
-										);
-										window.location.assign(newUrl);
+										window.location.assign(configuration.destinationUrl);
 									}
 								});
 							}
@@ -133,12 +135,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							setProgress(formState.changePassword);
 						}
 						else {
-							window.location.assign(
-								addUiParameters(
-									configuration.destinationUrl,
-									configuration.hasIris
-								)
-							);
+							window.location.assign(configuration.destinationUrl);
 						}
 					}
 					else {

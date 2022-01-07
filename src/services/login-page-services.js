@@ -1,11 +1,9 @@
-import { IRIS_CHECK_URL } from '../constants';
+// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
 
-export function getLoginSupported(domain) {
-	const urlParams = new URLSearchParams();
-	if(domain) urlParams.append("domain", domain);
-	return fetch(`/zx/login/supported?${urlParams}`, {
-		method: 'GET',
-	})
+export function getLoginSupported() {
+	return fetch('/zx/login/supported')
 		.then((res) => {
 			if (res.status === 200) return res.json();
 			throw Error('Network Error');
@@ -21,15 +19,6 @@ export function getLoginConfig(version, domain, host) {
 	})
 		.then((res) => {
 			if (res.status === 200) return res.json();
-			throw Error('Notwork Error');
-		});
-}
-
-export function getIrisStatus() {
-	return fetch(IRIS_CHECK_URL, {
-		method: 'GET',
-	})
-		.then((res) => {
-			return res.status === 200;
+			throw Error('Network Error');
 		});
 }

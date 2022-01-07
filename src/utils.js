@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import { darken, desaturate, lighten, setLightness } from 'polished';
 import {
@@ -9,8 +13,6 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
-
-import { DEFAULT_UI, IRIS_URL } from './constants';
 
 export function getDeviceModel() {
 	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
@@ -85,19 +87,14 @@ export function generateColorSet({ regular, hover, active, disabled, focus }, da
 	};
 }
 
-export function addUiParameters(destinationUrl, hasIris) {
-	if (!hasIris) return destinationUrl;
-	// Get selected ui from current url
-	const urlParams = new URLSearchParams(window.location.search);
-	const ui = urlParams.get('ui') || DEFAULT_UI;
-	// Build url from the destinationUrl and get its search params
-	// to add to final built url
-	const destinationUrlObj = new URL(destinationUrl);
-	const destinationSearchParams = new URLSearchParams(destinationUrlObj.search);
-	destinationSearchParams.delete('ui');
-	const newUrl = new URL(ui === 'iris' ? IRIS_URL : '/', destinationUrl.replace(IRIS_URL, '/'));
-	newUrl.search = destinationSearchParams.toString();
-	return newUrl.toString();
+export function getCookieKeys() {
+	return document.cookie.split(';').map(v => v.split('=')[0].trim())
+}
+
+export function getCookie(key) {
+	const cookies = document.cookie.split(';').map(v => v.trim());
+	const foundCookie = cookies.find(v => v.split('=')[0] === key);
+	return foundCookie ? foundCookie.split('=')[1] : '';
 }
 
 export const setCookie = (cName, cValue, expDays) => {
