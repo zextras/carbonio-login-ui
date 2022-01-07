@@ -5,7 +5,7 @@ import { getAuthSupported, doAuthLogout } from '../services/auth-configuration-s
 import ServerNotResponding from '../components-index/server-not-responding';
 import NotSupportedVersion from '../components-index/not-supported-version';
 
-export default function FormSelector({ destinationUrl, domain, hasIris }) {
+export default function FormSelector({ destinationUrl, domain }) {
 	const [configuration, setConfiguration] = useState(null);
 	const [error, setError] = useState(false);
 	const [disableInputs, setDisableInputs] = useState(true);
@@ -32,15 +32,6 @@ export default function FormSelector({ destinationUrl, domain, hasIris }) {
 			componentIsMounted = false;
 		}
 	}, []);
-
-	useEffect(() => {
-		if (typeof hasIris !== 'undefined') {
-			setConfiguration((conf) => ({
-				...conf,
-				hasIris
-			}))
-		}
-	}, [hasIris])
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);

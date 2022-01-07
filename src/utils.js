@@ -10,8 +10,6 @@ import {
 	osVersion
 } from 'react-device-detect';
 
-import { DEFAULT_UI, IRIS_URL } from './constants';
-
 export function getDeviceModel() {
 	let deviceModel = isMobile ? `${mobileVendor} ${mobileModel}` : `${browserName} ${browserVersion}`;
 	deviceModel = `${deviceModel}/${osName} ${osVersion}`;
@@ -83,21 +81,6 @@ export function generateColorSet({ regular, hover, active, disabled, focus }, da
 		active: active ?? dark ? lighten(0.15, regular) : darken(0.15, regular),
 		disabled: disabled ?? dark ? setLightness(0.8, regular) : desaturate(0.3, darken(0.3, regular))
 	};
-}
-
-export function addUiParameters(destinationUrl, hasIris) {
-	if (!hasIris) return destinationUrl;
-	// Get selected ui from current url
-	const urlParams = new URLSearchParams(window.location.search);
-	const ui = urlParams.get('ui') || DEFAULT_UI;
-	// Build url from the destinationUrl and get its search params
-	// to add to final built url
-	const destinationUrlObj = new URL(destinationUrl);
-	const destinationSearchParams = new URLSearchParams(destinationUrlObj.search);
-	destinationSearchParams.delete('ui');
-	const newUrl = new URL(ui === 'iris' ? IRIS_URL : '/', destinationUrl.replace(IRIS_URL, '/'));
-	newUrl.search = destinationSearchParams.toString();
-	return newUrl.toString();
 }
 
 export function getCookieKeys() {

@@ -2,7 +2,7 @@ import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-u
 import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { getCookieKeys, getCookie, setCookie, addUiParameters } from "../utils";
+import { getCookieKeys, getCookie, setCookie } from "../utils";
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -50,7 +50,7 @@ export default function CredentialsForm({
 	const samlButtonCbk = useCallback(() => {
 		window.location.assign(
 			`/zx/auth/startSamlWorkflow?redirectUrl=${
-				addUiParameters(configuration.destinationUrl, configuration.hasIris)
+				configuration.destinationUrl
 			}`
 		);
 	}, [configuration]);
@@ -97,18 +97,16 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			{configuration.hasIris && (
-				<Row padding={{ vertical: 'small' }}>
-					<Select
-						label={t('select_ui', 'Select UI')}
-						items={uiList}
-						onChange={(newUI) => {
-							setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zsc')
-						}}
-						defaultSelection={defaultUi}
-					/>
-				</Row>
-			)}
+			<Row padding={{ vertical: 'small' }}>
+				<Select
+					label={t('select_ui', 'Select UI')}
+					items={uiList}
+					onChange={(newUI) => {
+						setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zsc')
+					}}
+					defaultSelection={defaultUi}
+				/>
+			</Row>
 			<Text color="error" size="medium" overflow="break-word">
 				{authError || <br />}
 			</Text>

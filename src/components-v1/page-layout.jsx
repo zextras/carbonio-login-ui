@@ -97,7 +97,7 @@ const PhotoCredits = styled(Text)`
 	}
 `;
 
-export default function PageLayout({ version, hasBackendApi, hasIris }) {
+export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
 	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
@@ -228,8 +228,8 @@ export default function PageLayout({ version, hasBackendApi, hasIris }) {
 							</Padding>
 						</Container>
 						{hasBackendApi
-							? <FormSelector domain={domain} destinationUrl={destinationUrl} hasIris={hasIris} />
-							: <ZimbraForm destinationUrl={destinationUrl} hasIris={hasIris} />
+							? <FormSelector domain={domain} destinationUrl={destinationUrl}/>
+							: <ZimbraForm destinationUrl={destinationUrl}/>
 						}
 						<Container crossAlignment="flex-start" height="auto"
 							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
