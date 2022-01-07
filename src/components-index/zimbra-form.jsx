@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import CredentialsForm from '../components-v1/credentials-form';
-import { addUiParameters } from '../utils';
 
 const zimbraLogin = (username, password) => {
 	return fetch('/service/soap/AuthRequest', {
@@ -32,7 +30,7 @@ const zimbraLogin = (username, password) => {
 	});
 };
 
-export function ZimbraForm({ destinationUrl, hasIris }) {
+export function ZimbraForm({ destinationUrl }) {
 	const { t } = useTranslation();
 	const [authError, setAuthError] = useState();
 	const [loading, setLoading] = useState(false);
@@ -47,7 +45,7 @@ export function ZimbraForm({ destinationUrl, hasIris }) {
 				}
 				switch (res.status) {
 					case 200:
-						window.location.assign(destinationUrl || addUiParameters(window.location.href, hasIris));
+						window.location.assign(destinationUrl || window.location.origin);
 						break;
 					case 401:
 					case 500:
@@ -69,11 +67,11 @@ export function ZimbraForm({ destinationUrl, hasIris }) {
 				else
 					setAuthError(err.message);
 			});
-	}, [hasIris]);
+	}, []);
 
 	return (
 		<CredentialsForm
-			configuration={{ destinationUrl, authMethods: ['zimbra'], hasIris }}
+			configuration={{ destinationUrl, authMethods: ['zimbra'] }}
 			disableInputs={false}
 			authError={authError}
 			submitCredentials={submitCredentials}

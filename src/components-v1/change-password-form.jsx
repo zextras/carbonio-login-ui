@@ -11,7 +11,7 @@ import {
 	ZIMBRA_PASSWORD_MIN_UPPERCASE_CHARS_ATTR_NAME,
 	INVALID_PASSWORD_ERR_CODE, PASSWORD_RECENTLY_USED_ERR_CODE
 } from '../constants';
-import { addUiParameters, saveCredentials, setCookie } from '../utils';
+import { saveCredentials, setCookie } from '../utils';
 
 export const submitChangePassword = (username, oldPassword, newPassword) => {
 	return fetch('/service/soap/ChangePasswordRequest', {
@@ -87,10 +87,6 @@ const ChangePasswordForm = ({isLoading, setIsLoading, username, configuration}) 
 			submitChangePassword(username, oldPassword, newPassword)
 				.then(async (res) => {
 					const payload = await res.json();
-					const newUrl = addUiParameters(
-						configuration.destinationUrl,
-						configuration.hasIris
-					);
 					if (res.status === 200) {
 						const authTokenArr = payload.Body.ChangePasswordResponse.authToken;
 						const authToken = authTokenArr && authTokenArr.length > 0 ?
@@ -102,7 +98,7 @@ const ChangePasswordForm = ({isLoading, setIsLoading, username, configuration}) 
 					switch (res.status) {
 						case 200:
 							await saveCredentials(username, newPassword);
-							window.location.assign(newUrl);
+							window.location.assign(configuration.destinationUrl);
 							break;
 						case 401:
 						case 500:
@@ -221,7 +217,7 @@ const ChangePasswordForm = ({isLoading, setIsLoading, username, configuration}) 
 		setIsLoading(false);
 	}, [
 		setIsLoading, newPassword, confirmNewPassword, errorLabelNewPassword, username, oldPassword,
-		configuration.destinationUrl, configuration.hasIris, t
+		configuration.destinationUrl
 	]);
 
 	return (
