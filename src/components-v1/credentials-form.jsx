@@ -102,7 +102,7 @@ export default function CredentialsForm({
 					label={t('select_ui', 'Select UI')}
 					items={uiList}
 					onChange={(newUI) => {
-						setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zsc')
+						setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zcs')
 					}}
 					defaultSelection={defaultUi}
 				/>
