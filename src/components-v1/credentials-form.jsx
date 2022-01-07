@@ -28,7 +28,6 @@ export default function CredentialsForm({
 		if ( cookieKeys.includes('UI') ) {
 			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0]
 		}
-
 		setCookie('UI', 'iris');
 		return uiList[1]
 	}, []);

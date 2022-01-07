@@ -19,7 +19,7 @@ function App() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const destinationUrl = prepareUrlForForward(urlParams.get('destinationUrl'));
 
-	useEffect(async () => {
+	useEffect(() => {
 		let canceled = false;
 		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
 
