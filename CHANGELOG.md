@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1-rc.4](https://bitbucket.org/zextras/zapp-login/compare/v0.1.1-rc.3...v0.1.1-rc.4) (2022-01-10)
+
+
+### Features
+
+* check if classic ui is present and show select accordingly ([fb6a647](https://bitbucket.org/zextras/zapp-login/commit/fb6a647e49219251799f0eab4a1dd27bac0aa88e))
+* set cookie to iris if classic ui is not present ([53f9521](https://bitbucket.org/zextras/zapp-login/commit/53f9521a072486dc64a8a6997deb4de815877148))
+
 ### [0.1.1-rc.3](https://bitbucket.org/zextras/zapp-login/compare/v0.1.1-rc.2...v0.1.1-rc.3) (2022-01-07)
 
 
