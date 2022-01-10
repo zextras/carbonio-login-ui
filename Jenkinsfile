@@ -448,12 +448,12 @@ pipeline {
                         uploadSpec = """{
                             "files": [
                                 {
-                                    "pattern": "artifacts/carbonio-login-ui.deb",
+                                    "pattern": "artifacts/carbonio-login-ui*.deb",
                                     "target": "ubuntu-rc/pool/",
                                     "props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
                                 },
                                 {
-                                    "pattern": "artifacts/(carbonio-login-ui)-().rpm",
+                                    "pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
                                     "target": "centos7-rc/zextras/{1}/{1}-{2}.rpm",
                                     "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                                 },
