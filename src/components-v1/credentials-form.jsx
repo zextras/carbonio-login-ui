@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
-import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { getCookieKeys, getCookie, setCookie } from "../utils";
+import { checkClassicUi } from "../services/login-page-services";
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -28,6 +29,7 @@ export default function CredentialsForm({
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
+	const [hasClassicUi, setHasClassicUi] = useState(false);
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
@@ -75,7 +77,16 @@ export default function CredentialsForm({
 			// used to keep the correct space where or not SAML is shown
 			<div style={{ minHeight: '20px' }} />
 		);
-	}, [configuration, disableInputs, samlButtonCbk, t]);
+	}, [configuration, disableInputs, samlButtonCbk]);
+
+	useEffect(() => {
+		checkClassicUi().then(res => {
+			setHasClassicUi(res.hasClassic);
+			if (!res.hasClassic) {
+				setCookie('UI', 'iris');
+			}
+		})
+	}, [])
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
@@ -102,16 +113,18 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			<Row padding={{ vertical: 'small' }}>
-				<Select
-					label={t('select_ui', 'Select UI')}
-					items={uiList}
-					onChange={(newUI) => {
-						setCookie('UI',newUI === 'iris' ? 'iris' : 'legacy-zcs')
-					}}
-					defaultSelection={defaultUi}
-				/>
-			</Row>
+			{hasClassicUi && (
+				<Row padding={{vertical: 'small'}}>
+					<Select
+						label={t('select_ui', 'Select UI')}
+						items={uiList}
+						onChange={(newUI) => {
+							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs')
+						}}
+						defaultSelection={defaultUi}
+					/>
+				</Row>
+			)}
 			<Text color="error" size="medium" overflow="break-word">
 				{authError || <br />}
 			</Text>
