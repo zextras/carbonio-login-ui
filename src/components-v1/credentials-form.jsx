@@ -81,7 +81,10 @@ export default function CredentialsForm({
 
 	useEffect(() => {
 		checkClassicUi().then(res => {
-			setHasClassicUi(res.hasClassic)
+			setHasClassicUi(res.hasClassic);
+			if (!res.hasClassic) {
+				setCookie('UI', 'iris');
+			}
 		})
 	}, [])
 
