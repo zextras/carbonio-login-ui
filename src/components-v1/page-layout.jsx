@@ -18,8 +18,8 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import backgroundImage from '../../assets/carbonio_dark.jpg';
-import backgroundImageRetina from '../../assets/carbonio_dark-retina.jpg';
+import backgroundImage from '../../assets/carbonio_loginpage.jpg';
+import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
 import logoCarbonio from '../../assets/logo-carbonio.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
@@ -144,7 +144,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 							document.title = res.loginPageTitle;
 						}
 						else {
-							document.title = t('zextras_authentication', 'Zextras Authentication');
+							document.title = t('carbonio_authentication', 'Carbonio Authentication');
 						}
 
 						if (res.loginPageFavicon) {
@@ -181,7 +181,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 		}
 		else {
 			setLogo({ image: logoCarbonio, width: '221px' });
-			document.title = t('zextras_authentication', 'Zextras Authentication');
+			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
 
 		return () => {
