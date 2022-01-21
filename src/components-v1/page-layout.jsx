@@ -18,9 +18,9 @@ import logoSafari from '../../assets/logo-safari.svg';
 import logoOpera from '../../assets/logo-opera.svg';
 import logoYandex from '../../assets/logo-yandex.svg';
 import logoUC from '../../assets/logo-ucbrowser.svg';
-import backgroundImage from '../../assets/bg-wood-dock.jpg';
-import backgroundImageRetina from '../../assets/bg-wood-dock-retina.jpg';
-import logoZextras from '../../assets/logo-zextras.png';
+import backgroundImage from '../../assets/carbonio_loginpage.jpg';
+import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
+import logoCarbonio from '../../assets/logo-carbonio.png';
 import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
@@ -129,7 +129,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 							_logo.width = '100%';
 						}
 						else {
-							_logo.image = logoZextras;
+							_logo.image = logoCarbonio;
 							_logo.width = '221px';
 						}
 
@@ -144,7 +144,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 							document.title = res.loginPageTitle;
 						}
 						else {
-							document.title = t('zextras_authentication', 'Zextras Authentication');
+							document.title = t('carbonio_authentication', 'Carbonio Authentication');
 						}
 
 						if (res.loginPageFavicon) {
@@ -180,8 +180,8 @@ export default function PageLayout({ version, hasBackendApi }) {
 				});
 		}
 		else {
-			setLogo({ image: logoZextras, width: '221px' });
-			document.title = t('zextras_authentication', 'Zextras Authentication');
+			setLogo({ image: logoCarbonio, width: '221px' });
+			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
 
 		return () => {
@@ -306,11 +306,6 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{ isDefaultBg && (
-					<PhotoCredits>
-						Photo by Pok Rie from <PhotoLink href="https://www.pexels.com/" target="_blank" rel="nofollow">Pexels</PhotoLink>
-					</PhotoCredits>
-				)}
 			</LoginContainer>
 		);
 	}
