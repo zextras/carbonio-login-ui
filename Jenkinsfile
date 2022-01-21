@@ -77,37 +77,37 @@ def createRelease(branchName) {
         git commit --no-verify -m 'chore(i18n): extracted translations'
         git subtree push --squash --prefix translations/ git@bitbucket.org:$TRANSLATIONS_REPOSITORY_NAME\\.git translations-updater/v${getCurrentVersion()}
     """)
-    withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-bitbucket', variable: 'PR_ACCESS')]) {
-        def defaultReviewers = sh(script: """
-            curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
-            -u '$PR_ACCESS' \
-            --request GET \
-            | \
-            jq '.values | map_values({ uuid: .uuid })'
-        """, returnStdout: true).trim()
-        println(defaultReviewers)
-        sh(script: """#!/bin/bash
-            curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
-            -u '$PR_ACCESS' \
-            --request POST \
-            --header 'Content-Type: application/json' \
-            --data '{
-                \"title\": \"Updated translations in ${getCurrentVersion()}\",
-                \"source\": {
-                    \"branch\": {
-                        \"name\": \"translations-updater/v${getCurrentVersion()}\"
-                    }
-                },
-                \"destination\": {
-                    \"branch\": {
-                        \"name\": \"master\"
-                    }
-                },
-                \"reviewers\": $defaultReviewers,
-                \"close_source_branch\": true
-            }'
-        """)
-    }
+    // withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-bitbucket', variable: 'PR_ACCESS')]) {
+    //     def defaultReviewers = sh(script: """
+    //         curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/default-reviewers \
+    //         -u '$PR_ACCESS' \
+    //         --request GET \
+    //         | \
+    //         jq '.values | map_values({ uuid: .uuid })'
+    //     """, returnStdout: true).trim()
+    //     println(defaultReviewers)
+    //     sh(script: """#!/bin/bash
+    //         curl https://api.bitbucket.org/2.0/repositories/$TRANSLATIONS_REPOSITORY_NAME/pullrequests \
+    //         -u '$PR_ACCESS' \
+    //         --request POST \
+    //         --header 'Content-Type: application/json' \
+    //         --data '{
+    //             \"title\": \"Updated translations in ${getCurrentVersion()}\",
+    //             \"source\": {
+    //                 \"branch\": {
+    //                     \"name\": \"translations-updater/v${getCurrentVersion()}\"
+    //                 }
+    //             },
+    //             \"destination\": {
+    //                 \"branch\": {
+    //                     \"name\": \"master\"
+    //                 }
+    //             },
+    //             \"reviewers\": $defaultReviewers,
+    //             \"close_source_branch\": true
+    //         }'
+    //     """)
+    // }
     sh(script: """#!/bin/bash
         echo \"---\nid: CHANGELOG\ntitle: Change Log\nsidebar_label: Change Log\n---\" > docs/docs/CHANGELOG.md
         tail -n +3 CHANGELOG.md >> docs/docs/CHANGELOG.md
