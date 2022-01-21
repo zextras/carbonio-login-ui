@@ -5,6 +5,46 @@ sidebar_label: Change Log
 ---
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.1-rc.5 (2022-01-21)
+
+
+### Features
+
+* added otp selector ([2df3090](https://github.com/zextras/carbonio-login-ui/commit/2df30904474dcd12cafd4c27f7239d45dd110104))
+* added two-factor authentication (v2-service) ([3395888](https://github.com/zextras/carbonio-login-ui/commit/33958887adf472cb44428a1167608473d1dae90b))
+* allowed zimbra without zextras to work with login page ([92aebee](https://github.com/zextras/carbonio-login-ui/commit/92aebee98a9c79919c41ff5d4db70d5f08fa275c))
+* check if classic ui is present and show select accordingly ([fb6a647](https://github.com/zextras/carbonio-login-ui/commit/fb6a647e49219251799f0eab4a1dd27bac0aa88e))
+* managed the loginPageTitle attribute ([d949d56](https://github.com/zextras/carbonio-login-ui/commit/d949d569e4c87b5b79c31c22c04b7d27bb94424a))
+* moved redirect logic to index ([76c951d](https://github.com/zextras/carbonio-login-ui/commit/76c951defa1f61a526993d06895e7e248be7c3d3))
+* removed old logic to check if iris is present ([ab882ef](https://github.com/zextras/carbonio-login-ui/commit/ab882ef5cf056e14b3d1c707dc58d562b544338f))
+* renamed package to carbonio-login ([a34de0b](https://github.com/zextras/carbonio-login-ui/commit/a34de0b95e12dabe5dab2f3889f016ee5ef165ec))
+* renamed to carbonio-login-ui ([2dc85e3](https://github.com/zextras/carbonio-login-ui/commit/2dc85e373401216c39b64f8f2cb2e3b5ce2ad36f))
+* set cookie to iris if classic ui is not present ([53f9521](https://github.com/zextras/carbonio-login-ui/commit/53f9521a072486dc64a8a6997deb4de815877148))
+* updated redirect to /carbonio/ ([09523d4](https://github.com/zextras/carbonio-login-ui/commit/09523d414c2de3a9e76f0922dfa708276260efbe))
+* use cookie instead of urlparams for ui selection ([a5971b1](https://github.com/zextras/carbonio-login-ui/commit/a5971b1d553b364378578878bf6eba1d44287907))
+* **login-page:** add redirect on must change password [AUTH-342] ([7e7338f](https://github.com/zextras/carbonio-login-ui/commit/7e7338f83a68c790c646d0bb596a8b686fcee562))
+
+
+### Bug Fixes
+
+* add url parameters in v2 component ([e244e49](https://github.com/zextras/carbonio-login-ui/commit/e244e4965afc3157d963bce24cbafe33445b5080))
+* added width to padding component around logo image ([d225213](https://github.com/zextras/carbonio-login-ui/commit/d2252133306f6c5010d1e60e4475d8f98a2e862c))
+* added window.location.assign ([c3d2b24](https://github.com/zextras/carbonio-login-ui/commit/c3d2b24fb22439e76014a244eed847ac9dea76e2))
+* auth-276 preventing from adding customdomain parameter if username is an email ([5466986](https://github.com/zextras/carbonio-login-ui/commit/5466986f5dc9eb65f268aa44a7db641440d053fb))
+* auth-276 replaced double quotes with single quotes ([fb56612](https://github.com/zextras/carbonio-login-ui/commit/fb566121caad89b9139ccb26883e35aea2fd2951))
+* calculate url correctly in v2-manager component ([93fb1cd](https://github.com/zextras/carbonio-login-ui/commit/93fb1cda682c21cb4c0a105cd595b2133ae1d463))
+* due to mockup release ([270ed82](https://github.com/zextras/carbonio-login-ui/commit/270ed8258a5b9dc692858cce5d60506e3e998db1))
+* fix groovy string interpolation error in jenkinsfile ([f1a5b83](https://github.com/zextras/carbonio-login-ui/commit/f1a5b835e84fa41f0c3f1b10022fbcecdd258ee4))
+* fixed jenkinsfile ([d1dc62c](https://github.com/zextras/carbonio-login-ui/commit/d1dc62c2685f9c1f6ac30b90fd79932ba1253588))
+* fixed jenkinsfile ([f7c764b](https://github.com/zextras/carbonio-login-ui/commit/f7c764b1e17a730d65e6f748c18ca83e532f645a))
+* fixed some issues with the OTP authentication and updated the DS ([4a8b964](https://github.com/zextras/carbonio-login-ui/commit/4a8b964b5b9c3a5631da66dd86ca9439552fc5b6))
+* fixed the device-uuid generation ([3a360e4](https://github.com/zextras/carbonio-login-ui/commit/3a360e482cf39e8756561cd2a40b640d9d48e9c6))
+* not passing 'domain' parameter if domain is missing ([b59f8d2](https://github.com/zextras/carbonio-login-ui/commit/b59f8d214a66a1f7480251b94a10c9f753756ed9))
+* prerelease step ([8d3c006](https://github.com/zextras/carbonio-login-ui/commit/8d3c006a9ffa97c136f4b22138201edc5b22e9b0))
+* remember me toggle defaulted to false and label update ([e921563](https://github.com/zextras/carbonio-login-ui/commit/e92156328da1a422fd4daa2ee562e4dfd277c6f1))
+* removed ie logo from supported browsers ([88b9d1b](https://github.com/zextras/carbonio-login-ui/commit/88b9d1b6191c9bd5d7de6d82932c21de90768a41))
+* renamed loginPageColorPalette to loginPageColorSet and fixed custom color assignment ([670a193](https://github.com/zextras/carbonio-login-ui/commit/670a193599b9cbe9e4e60aa008ba8fbec630a2aa))
+
 ### [0.1.1-rc.4](https://bitbucket.org/zextras/zapp-login/compare/v0.1.1-rc.3...v0.1.1-rc.4) (2022-01-10)
 
 
