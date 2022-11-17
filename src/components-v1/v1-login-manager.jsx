@@ -6,7 +6,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Row, Snackbar } from '@zextras/zapp-ui';
+import { Row, Snackbar } from '@zextras/carbonio-design-system';
 import { OfflineModal } from './modals';
 import Spinner from './spinner';
 import CredentialsForm from './credentials-form';

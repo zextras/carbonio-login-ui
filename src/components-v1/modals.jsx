@@ -7,7 +7,7 @@
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-import { Modal, Paragraph } from '@zextras/zapp-ui';
+import { Modal, Paragraph } from '@zextras/carbonio-design-system';
 
 export function OfflineModal ({ open, onClose }) {
 	const [ t ] = useTranslation();

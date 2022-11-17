@@ -12,7 +12,7 @@ import {
 	Select,
 	Snackbar,
 	Text,
-} from '@zextras/zapp-ui';
+} from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';

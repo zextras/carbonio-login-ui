@@ -7,7 +7,7 @@
 
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Link, Padding, Row, Text, Tooltip, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
+import { Container, Link, Padding, Row, Text, Tooltip, useScreenMode, useSetCustomTheme } from '@zextras/carbonio-design-system';
 import { forEach, set } from 'lodash';
 
 import { useTranslation } from 'react-i18next';

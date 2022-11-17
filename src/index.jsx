@@ -7,7 +7,7 @@
 import React, { Suspense, useEffect, useState, useRef } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { SnackbarManager, ThemeContextProvider } from '@zextras/zapp-ui';
+import { SnackbarManager, ThemeContextProvider } from '@zextras/carbonio-design-system';
 
 import './i18n/i18n.config';
 import './index.css';

@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
+import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
 import { getCookieKeys, getCookie, setCookie } from "../utils";

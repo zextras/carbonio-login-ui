@@ -6,7 +6,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Snackbar } from '@zextras/zapp-ui';
+import { Snackbar } from '@zextras/carbonio-design-system';
 
 export default function ServerNotResponding() {
 	const [ t ] = useTranslation();

@@ -1,0 +1,63 @@
+# This package contains the assets for carbonio ui components (aka zapp)
+
+# the package uses commits paths to reduce caching issues as much as possible
+# but it doesn't support multiple versions installed at the same time
+# this could lead to a loading issue if a user is loading the page exactly during the
+# upgrade, but so far there is nothing we can do about it (we would need to coordinate multiple nginx).
+
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-login-ui"
+pkgver="0.1.1-rc.4"
+pkgrel="1"
+pkgdesc="Zextras authentication App"
+pkgdesclong=(
+  "Zextras authentication App"
+)
+maintainer="Zextras (packages@zextras.com)"
+arch="all"
+license=("spdx:AGPL-3.0-only")
+section="admin"
+priority="optional"
+url="https://www.zextras.com/"
+depends=(
+  "carbonio-nginx"
+  "jq"
+)
+
+build() {
+}
+
+preinst() {
+}
+
+package() {
+  cd "${srcdir}"
+  mkdir -p "${pkgdir}/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e"
+  cp -a  ../dist/* "${pkgdir}/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e" || true
+  chown root:root -R "${pkgdir}/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e"
+  chmod 644 -R "${pkgdir}/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e"
+  find "${pkgdir}/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e" -type d -exec chmod a+x "{}" \;
+}
+
+postinst() {
+  # copy the index.html to the current directory, no redirect is needed
+  mkdir -p "/opt/zextras/web/iris/${pkgname}/current"
+
+  # not every package has a index.html
+  cd "/opt/zextras/web/iris/${pkgname}/d6b047cea80eaf75c1d40964cc87ec189020803e"
+  find . -name "*.html" -exec cp --parents "{}" /opt/zextras/web/iris/${pkgname}/current/ \;
+
+  # re-generate the component list, for every component
+  # depth should be 3 since the path should be iris/NAME/COMMIT/component.json
+  find /opt/zextras/web/iris/ -maxdepth 3 -mindepth 3 -type f -name component.json -print |\
+    xargs jq -s '{"components":.}' > /opt/zextras/web/iris/components.json
+}
+
+prerm() {
+}
+
+postrm() {
+}

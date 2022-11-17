@@ -51,7 +51,7 @@ The repository contains the fallowing sub-folders:
 - `i18n` configuration files for the plugin that handle translations
 - `src` the source code of the application
 - `translations` contains the strings translated in foreign languages
-- `zapp-ui` contains the design system of Zextras
+- `carbonio-design-system` contains the design system of Zextras
 
 ## Application workflow
 When loaded, the login page read from Url GET parameters:
