@@ -51,7 +51,7 @@ module.exports = (conf, pkg, options, mode) => {
 			COMMIT_ID: commitHash
 		})
 	);
-	conf.module = {
+	(conf.module = {
 		rules: [
 			{
 				test: /\.[jt]sx?$/,
@@ -69,9 +69,7 @@ module.exports = (conf, pkg, options, mode) => {
 			},
 			{
 				test: /\.(css)$/,
-				exclude: [
-					/node_modules\/tinymce/
-				],
+				exclude: [/node_modules\/tinymce/],
 				use: [
 					{
 						loader: 'style-loader'
@@ -104,42 +102,42 @@ module.exports = (conf, pkg, options, mode) => {
 				]
 			}
 		]
-	},
-	conf.devServer = {
-		port: 9000,
-		historyApiFallback: {
-			index: `${baseStaticPath}/index.html`,
-			rewrites: [
+	}),
+		(conf.devServer = {
+			port: 9000,
+			historyApiFallback: {
+				index: `${baseStaticPath}/index.html`,
+				rewrites: [
+					{
+						from: new RegExp(`/${root}/*`),
+						to: `${baseStaticPath}/index.html`
+					}
+				]
+			},
+			server: 'https',
+			open: [`/${root}/`],
+			proxy: [
 				{
-					from: new RegExp(`/${root}/*`),
-					to: `${baseStaticPath}/index.html`
+					context: ['/static/login/**'],
+					target: server,
+					secure: false,
+					cookieDomainRewrite: {
+						'*': server,
+						[server]: 'localhost:9000'
+					}
+				},
+				{
+					context: ['!/static/iris/carbonio-login-ui/**/*', `!/${root}/`, `!/${root}/**/*`],
+					target: server,
+					secure: false,
+					logLevel: 'debug',
+					cookieDomainRewrite: {
+						'*': server,
+						[server]: 'localhost:9000'
+					}
 				}
 			]
-		},
-		server: 'https',
-		open: [`/${root}/`],
-		proxy: [
-			{
-				context: ['/static/login/**'],
-				target: server,
-				secure: false,
-				cookieDomainRewrite: {
-					'*': server,
-					[server]: 'localhost:9000'
-				}
-			},
-			{
-				context: ['!/static/iris/carbonio-login-ui/**/*', `!/${root}/`, `!/${root}/**/*`],
-				target: server,
-				secure: false,
-				logLevel: 'debug',
-				cookieDomainRewrite: {
-					'*': server,
-					[server]: 'localhost:9000'
-				}
-			}
-		]
-	};
+		});
 	conf.externals = {};
 	return conf;
 };

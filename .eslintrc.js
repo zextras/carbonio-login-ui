@@ -14,6 +14,9 @@ module.exports = {
   },
   plugins: ["notice"],
   rules: {
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "no-bitwise": ["error", { allow: ["^", "&", ">>"] }],
     "notice/notice": [
       "error",
       {

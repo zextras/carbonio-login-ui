@@ -11,8 +11,7 @@
 /coverage/
 /junit.xml
 /.npmrc
-
+/dist
 LICENSES/*
-.reuse/*
 
-dist
+.DS_Store
