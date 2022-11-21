@@ -15,4 +15,4 @@
 LICENSES/*
 .reuse/*
 
-/dist/
+dist
