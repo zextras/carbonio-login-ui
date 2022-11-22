@@ -7,7 +7,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { SnackbarManager, ThemeContextProvider } from '@zextras/carbonio-design-system';
+import { SnackbarManager, ThemeProvider } from '@zextras/carbonio-design-system';
 
 import './i18n/i18n.config';
 import './index.css';
@@ -59,7 +59,7 @@ function App() {
 	}, []);
 
 	return (
-		<ThemeContextProvider>
+		<ThemeProvider>
 			<SnackbarManager>
 				<Suspense fallback={<div></div>}>
 					<Router>
@@ -72,7 +72,7 @@ function App() {
 					</Router>
 				</Suspense>
 			</SnackbarManager>
-		</ThemeContextProvider>
+		</ThemeProvider>
 	);
 }
 
