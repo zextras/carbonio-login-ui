@@ -374,7 +374,7 @@ pipeline {
 								sh 'sudo cp -r * /tmp'
 								sh 'sudo pacur build rocky'
 								dir("artifacts/") {
-									sh 'echo carbonio-admin-login-ui* | sed -E "s#(carbonio-admin-login-ui-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
+									sh 'echo carbonio-login-ui* | sed -E "s#(carbonio-login-ui-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
 								}
 								stash includes: 'artifacts/', name: 'artifacts-rpm'
 							}
@@ -408,17 +408,17 @@ pipeline {
 					uploadSpec = """{
 						"files": [
 							{
-								"pattern": "artifacts/carbonio-admin-login-ui*.deb",
+								"pattern": "artifacts/carbonio-login-ui*.deb",
 								"target": "ubuntu-playground/pool/",
 								"props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
 							},
 							{
-								"pattern": "artifacts/(carbonio-admin-login-ui)-(*).rpm",
+								"pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
 								"target": "centos7-playground/zextras/{1}/{1}-{2}.rpm",
 								"props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
 							},
 							{
-								"pattern": "artifacts/(carbonio-admin-login-ui)-(*).rpm",
+								"pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
 								"target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
 								"props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
 							}
@@ -449,7 +449,7 @@ pipeline {
 						uploadSpec = """{
 							"files": [
 								{
-									"pattern": "artifacts/carbonio-admin-login-ui*.deb",
+									"pattern": "artifacts/carbonio-login-ui*.deb",
 									"target": "ubuntu-rc/pool/",
 									"props": "deb.distribution=xenial;deb.distribution=bionic;deb.distribution=focal;deb.component=main;deb.architecture=amd64"
 								}
@@ -476,7 +476,7 @@ pipeline {
 						uploadSpec= """{
 							"files": [
 								{
-									"pattern": "artifacts/(carbonio-admin-login-ui)-(*).rpm",
+									"pattern": "artifacts/(carbonio-login-ui)-(*).rpm",
 									"target": "centos7-rc/zextras/{1}/{1}-{2}.rpm",
 									"props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
 								}
