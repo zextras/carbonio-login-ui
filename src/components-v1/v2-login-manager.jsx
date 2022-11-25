@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /*
  * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
  *
@@ -11,15 +12,12 @@ import {
 	Row,
 	Select,
 	Snackbar,
-	Text,
-} from '@zextras/zapp-ui';
+	Text
+} from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-	postV2Login,
-	submitOtp
-} from '../services/v2-service';
+import { postV2Login, submitOtp } from '../services/v2-service';
 import { saveCredentials } from '../utils';
 import ChangePasswordForm from './change-password-form';
 import CredentialsForm from './credentials-form';
@@ -31,7 +29,7 @@ const formState = {
 	credentials: 'credentials',
 	waiting: 'waiting',
 	twoFactor: 'two-factor',
-	changePassword: 'change-password',
+	changePassword: 'change-password'
 };
 
 export default function V2LoginManager({ configuration, disableInputs }) {
@@ -54,10 +52,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		[setOtp]
 	);
 	const [trustDevice, setTrustDevice] = useState(false);
-	const toggleTrustDevice = useCallback(
-		() => setTrustDevice((v) => !v),
-		[setTrustDevice]
-	);
+	const toggleTrustDevice = useCallback(() => setTrustDevice((v) => !v), [setTrustDevice]);
 
 	const [email, setEmail] = useState('');
 	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
@@ -75,22 +70,20 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							setEmail(username);
 							if (res.redirected) {
 								setProgress(formState.changePassword);
-							}
-							else {
+							} else {
 								res.json().then(async (response) => {
 									await saveCredentials(username, password);
 									if (response?.['2FA'] === true) {
 										setOtpList(
 											map(response?.otp ?? [], (obj) => ({
 												label: obj.label,
-												value: obj.id,
+												value: obj.id
 											}))
 										);
 										setOtpId(response?.otp?.[0].id);
 										setProgress(formState.twoFactor);
 										setLoadingCredentials(false);
-									}
- 									else {
+									} else {
 										window.location.assign(configuration.destinationUrl);
 									}
 								});
@@ -121,7 +114,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				})
 				.catch(() => setLoadingCredentials(false));
 		},
-		[configuration.destinationUrl]
+		[configuration.destinationUrl, t]
 	);
 
 	const submitOtpCb = useCallback(
@@ -133,12 +126,10 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					if (res.status === 200) {
 						if (res.redirected) {
 							setProgress(formState.changePassword);
-						}
-						else {
+						} else {
 							window.location.assign(configuration.destinationUrl);
 						}
-					}
-					else {
+					} else {
 						setLoadingOtp(false);
 						setShowOtpError(true);
 					}
@@ -148,10 +139,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		[otpId, otp, trustDevice, configuration.destinationUrl]
 	);
 
-	const onCloseCbk = useCallback(
-		() => setDetailNetworkModal(false),
-		[setDetailNetworkModal]
-	);
+	const onCloseCbk = useCallback(() => setDetailNetworkModal(false), [setDetailNetworkModal]);
 	const onSnackbarActionCbk = useCallback(
 		() => setDetailNetworkModal(true),
 		[setDetailNetworkModal]
@@ -173,11 +161,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				/>
 			)}
 			{progress === formState.waiting && (
-				<Row
-					orientation="vertical"
-					crossAlignment="center"
-					padding={{ vertical: 'extralarge' }}
-				>
+				<Row orientation="vertical" crossAlignment="center" padding={{ vertical: 'extralarge' }}>
 					<Spinner />
 				</Row>
 			)}
@@ -211,18 +195,11 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					<Row padding={{ top: 'extrasmall' }} mainAlignment="flex-start">
 						<Text color="error" size="medium" overflow="break-word">
 							{showOtpError &&
-								t(
-									'wrong_password',
-									'Wrong password, please check data and try again'
-								)}
+								t('wrong_password', 'Wrong password, please check data and try again')}
 							{!showOtpError && <br />}
 						</Text>
 					</Row>
-					<Row
-						orientation="vertical"
-						crossAlignment="flex-start"
-						padding={{ vertical: 'small' }}
-					>
+					<Row orientation="vertical" crossAlignment="flex-start" padding={{ vertical: 'small' }}>
 						<Button
 							onClick={submitOtpCb}
 							disabled={disableInputs}
@@ -234,10 +211,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					<Row mainAlignment="flex-start">
 						<Checkbox
 							value={trustDevice}
-							label={t(
-								'trust_device_and_ip',
-								'Trust this device and IP address'
-							)}
+							label={t('trust_device_and_ip', 'Trust this device and IP address')}
 							onClick={toggleTrustDevice}
 						/>
 					</Row>

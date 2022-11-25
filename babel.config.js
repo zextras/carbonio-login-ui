@@ -3,9 +3,19 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 module.exports = {
-	presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+	presets: [
+		[
+			'@babel/preset-env',
+			{
+				modules: false,
+				useBuiltIns: 'usage',
+				corejs: 3
+			}
+		],
+		'@babel/preset-react',
+		'@babel/preset-typescript'
+	],
 	plugins: [
 		'@babel/plugin-transform-runtime',
 		'@babel/plugin-proposal-class-properties',
@@ -14,7 +24,6 @@ module.exports = {
 			'i18next-extract',
 			{
 				outputPath: 'translations/{{ns}}.json',
-				discardOldKeys: true,
 				defaultNS: 'en',
 				jsonSpace: 4
 			}

@@ -5,11 +5,11 @@
  */
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
+import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
-import { getCookieKeys, getCookie, setCookie } from "../utils";
-import { checkClassicUi } from "../services/login-page-services";
+import { getCookieKeys, getCookie, setCookie } from '../utils';
+import { checkClassicUi } from '../services/login-page-services';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -33,32 +33,34 @@ export default function CredentialsForm({
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
-		if ( cookieKeys.includes('UI') ) {
-			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0]
+		if (cookieKeys.includes('UI')) {
+			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0];
 		}
 		setCookie('UI', 'iris');
-		return uiList[1]
+		return uiList[1];
 	}, []);
 
-	const submitUserPassword = useCallback((e) => {
-		e.preventDefault();
-		if (username && password) {
-			let usernameModified = username;
-			if (urlParams.has('virtualacctdomain')) {
-				usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get('virtualacctdomain')}`;
+	const submitUserPassword = useCallback(
+		(e) => {
+			e.preventDefault();
+			if (username && password) {
+				let usernameModified = username;
+				if (urlParams.has('virtualacctdomain')) {
+					usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get(
+						'virtualacctdomain'
+					)}`;
+				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
+					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
+				}
+				submitCredentials(usernameModified, password);
 			}
-			else if (urlParams.has('customerDomain') && !username.includes('@')) {
-				usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
-			}
-			submitCredentials(usernameModified, password);
-		}
-	}, [username, password, submitCredentials]);
+		},
+		[username, password, submitCredentials]
+	);
 
 	const samlButtonCbk = useCallback(() => {
 		window.location.assign(
-			`/zx/auth/startSamlWorkflow?redirectUrl=${
-				configuration.destinationUrl
-			}`
+			`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`
 		);
 	}, [configuration]);
 	const samlButton = useMemo(() => {
@@ -77,16 +79,16 @@ export default function CredentialsForm({
 			// used to keep the correct space where or not SAML is shown
 			<div style={{ minHeight: '20px' }} />
 		);
-	}, [configuration, disableInputs, samlButtonCbk]);
+	}, [configuration, disableInputs, samlButtonCbk, t]);
 
 	useEffect(() => {
-		checkClassicUi().then(res => {
+		checkClassicUi().then((res) => {
 			setHasClassicUi(res.hasClassic);
 			if (!res.hasClassic) {
 				setCookie('UI', 'iris');
 			}
-		})
-	}, [])
+		});
+	}, []);
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
@@ -114,12 +116,12 @@ export default function CredentialsForm({
 				/>
 			</Row>
 			{hasClassicUi && (
-				<Row padding={{vertical: 'small'}}>
+				<Row padding={{ vertical: 'small' }}>
 					<Select
 						label={t('select_ui', 'Select UI')}
 						items={uiList}
 						onChange={(newUI) => {
-							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs')
+							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs');
 						}}
 						defaultSelection={defaultUi}
 					/>
@@ -128,8 +130,18 @@ export default function CredentialsForm({
 			<Text color="error" size="medium" overflow="break-word">
 				{authError || <br />}
 			</Text>
-			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'large', top: 'small' }}>
-				<Button loading={loading} onClick={submitUserPassword} disabled={disableInputs} label={t('login', 'Login')} size="fill" />
+			<Row
+				orientation="vertical"
+				crossAlignment="flex-start"
+				padding={{ bottom: 'large', top: 'small' }}
+			>
+				<Button
+					loading={loading}
+					onClick={submitUserPassword}
+					disabled={disableInputs}
+					label={t('login', 'Login')}
+					size="fill"
+				/>
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{samlButton}

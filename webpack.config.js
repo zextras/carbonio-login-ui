@@ -1,6 +1,8 @@
-// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -36,7 +38,7 @@ module.exports = (env) => {
 		resolve: {
 			extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 			alias: {
-				'assets': path.resolve(process.cwd(), 'assets')
+				assets: path.resolve(process.cwd(), 'assets')
 			}
 		},
 		module: {
@@ -57,9 +59,7 @@ module.exports = (env) => {
 				},
 				{
 					test: /\.(css)$/,
-					exclude: [
-						/node_modules\/tinymce/
-					],
+					exclude: [/node_modules\/tinymce/],
 					use: [
 						{
 							loader: 'style-loader'
@@ -96,7 +96,7 @@ module.exports = (env) => {
 		plugins: [
 			new CleanWebpackPlugin(),
 			new CopyPlugin({
-				patterns: pathsToCopy,
+				patterns: pathsToCopy
 			}),
 			new HtmlWebpackPlugin({
 				inject: true,
@@ -111,5 +111,5 @@ module.exports = (env) => {
 				ignoreStub: true
 			})
 		]
-	}
-}
+	};
+};

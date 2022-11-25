@@ -1,15 +1,12 @@
-// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable import/no-extraneous-dependencies */
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
-import { rest } from "msw";
+import { rest } from 'msw';
 
-export default rest.get(
-	'/zx/auth/v2/myself',
-	(req, res, ctx) => {
-		return res(
-			ctx.delay(1000),
-			ctx.status(401),
-		);
-	}
-);
+export default rest.get('/zx/auth/v2/myself', (req, res, ctx) => {
+	return res(ctx.delay(1000), ctx.status(401));
+});

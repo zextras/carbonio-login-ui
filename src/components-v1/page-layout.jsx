@@ -1,5 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /*
- * Copyright (C) 2011-2020 ZeXtras
  * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -7,7 +7,16 @@
 
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Container, Link, Padding, Row, Text, Tooltip, useScreenMode, useSetCustomTheme } from '@zextras/zapp-ui';
+import {
+	Container,
+	Link,
+	Padding,
+	Row,
+	Text,
+	Tooltip,
+	useScreenMode,
+	useTheme
+} from '@zextras/carbonio-design-system';
 import { forEach, set } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
@@ -32,8 +41,8 @@ function modifyTheme(draft, variant, changes) {
 }
 
 function ModifiedTheme({ changes }) {
-	const proxyFn = useCallback((draft, variant) => modifyTheme(draft, variant, changes), []);
-	useSetCustomTheme(proxyFn);
+	const proxyFn = useCallback((draft, variant) => modifyTheme(draft, variant, changes), [changes]);
+	// useTheme(proxyFn);
 
 	return null;
 }
@@ -43,21 +52,25 @@ const LoginContainer = styled(Container)`
 	background: url(${(props) => props.backgroundImage}) no-repeat 75% center/cover;
 	justify-content: center;
 	align-items: flex-start;
-	${({ screenMode }) => screenMode === 'mobile' && css`
-		padding: 0 12px;
-		align-items: center;	
-	`}
-	${({ isDefaultBg }) => isDefaultBg && css`
-		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { 
-			background: url(${backgroundImageRetina}) no-repeat 75% center/cover;
-		}
-	`}
+	${({ screenMode }) =>
+		screenMode === 'mobile' &&
+		css`
+			padding: 0 12px;
+			align-items: center;
+		`}
+	${({ isDefaultBg }) =>
+		isDefaultBg &&
+		css`
+			@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+				background: url(${backgroundImageRetina}) no-repeat 75% center/cover;
+			}
+		`}
 `;
 
 const FormContainer = styled.div`
 	max-width: 100%;
 	max-height: 100vh;
-	box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 20px -7px rgba(0, 0, 0, 0.3);
 `;
 
 const FormWrapper = styled(Container)`
@@ -70,25 +83,29 @@ const FormWrapper = styled(Container)`
 	min-height: 620px;
 	// height: 100vh;
 	overflow-y: auto;
-	${({ screenMode }) => screenMode === 'mobile' && css`
-		padding: 20px 20px 0;
-		width: 360px;
-		max-height: 100%;
-		height: auto;
-	`}
+	${({ screenMode }) =>
+		screenMode === 'mobile' &&
+		css`
+			padding: 20px 20px 0;
+			width: 360px;
+			max-height: 100%;
+			height: auto;
+		`}
 `;
 
 const PhotoLink = styled(Link)``;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PhotoCredits = styled(Text)`
 	position: absolute;
 	bottom: ${({ theme }) => theme.sizes.padding.large};
 	right: ${({ theme }) => theme.sizes.padding.large};
 	opacity: 50%;
-	&, ${PhotoLink} {
-	 	color: #fff;
+	&,
+	${PhotoLink} {
+		color: #fff;
 	}
-	 
-	@media(max-width: 767px) {
+
+	@media (max-width: 767px) {
 		display: none;
 	}
 `;
@@ -100,7 +117,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const [destinationUrl, setDestinationUrl] = useState(prepareUrlForForward(urlParams.get('destinationUrl')));
+	const [destinationUrl, setDestinationUrl] = useState(
+		prepareUrlForForward(urlParams.get('destinationUrl'))
+	);
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
 	const [bg, setBg] = useState(backgroundImage);
@@ -127,28 +146,26 @@ export default function PageLayout({ version, hasBackendApi }) {
 						if (res.loginPageLogo) {
 							_logo.image = res.loginPageLogo;
 							_logo.width = '100%';
-						}
-						else {
+						} else {
 							_logo.image = logoCarbonio;
 							_logo.width = '221px';
 						}
 
 						if (res.loginPageSkinLogoUrl) {
 							_logo.url = res.loginPageSkinLogoUrl;
-						}
-						else {
+						} else {
 							_logo.url = '';
 						}
 
 						if (res.loginPageTitle) {
 							document.title = res.loginPageTitle;
-						}
-						else {
+						} else {
 							document.title = t('carbonio_authentication', 'Carbonio Authentication');
 						}
 
 						if (res.loginPageFavicon) {
-							const link = document.querySelector('link[rel*=\'icon\']') || document.createElement('link');
+							const link =
+								document.querySelector("link[rel*='icon']") || document.createElement('link');
 							link.type = 'image/x-icon';
 							link.rel = 'shortcut icon';
 							link.href = res.loginPageFavicon;
@@ -160,13 +177,17 @@ export default function PageLayout({ version, hasBackendApi }) {
 							if (colorSet.primary) {
 								setEditedTheme((et) => ({
 									...et,
-									'palette.primary': generateColorSet({ regular: `#${colorSet.primary}` })
+									'palette.primary': generateColorSet({
+										regular: `#${colorSet.primary}`
+									})
 								}));
 							}
 							if (colorSet.secondary) {
 								setEditedTheme((et) => ({
 									...et,
-									'palette.secondary': generateColorSet({ regular: `#${colorSet.secondary}` })
+									'palette.secondary': generateColorSet({
+										regular: `#${colorSet.secondary}`
+									})
 								}));
 							}
 						}
@@ -175,11 +196,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 				})
 				.catch(() => {
 					// It should never happen, If the server doesn't respond this page will not be loaded
-					if (componentIsMounted)
-						setServerError(true);
+					if (componentIsMounted) setServerError(true);
 				});
-		}
-		else {
+		} else {
 			setLogo({ image: logoCarbonio, width: '221px' });
 			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
@@ -187,10 +206,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, []);
+	}, [t, version, domain, destinationUrl, hasBackendApi]);
 
-	if (serverError)
-		return <ServerNotResponding/>;
+	if (serverError) return <ServerNotResponding />;
 
 	if (logo) {
 		const logoHtml = (
@@ -216,89 +234,59 @@ export default function PageLayout({ version, hasBackendApi }) {
 						<Container mainAlignment="flex-start" height="auto">
 							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
 								<Container crossAlignment="center">
-									{logo.url
-										? <a href={logo.url}>{logoHtml}</a>
-										: logoHtml
-									}
+									{logo.url ? <a href={logo.url}>{logoHtml}</a> : logoHtml}
 								</Container>
 							</Padding>
 						</Container>
-						{hasBackendApi
-							? <FormSelector domain={domain} destinationUrl={destinationUrl}/>
-							: <ZimbraForm destinationUrl={destinationUrl}/>
-						}
-						<Container crossAlignment="flex-start" height="auto"
-							padding={{ bottom: 'extralarge', top: 'extralarge' }}>
+						{hasBackendApi ? (
+							<FormSelector domain={domain} destinationUrl={destinationUrl} />
+						) : (
+							<ZimbraForm destinationUrl={destinationUrl} />
+						)}
+						<Container
+							crossAlignment="flex-start"
+							height="auto"
+							padding={{ bottom: 'extralarge', top: 'extralarge' }}
+						>
 							<Text>{t('supported_browsers', 'Supported browsers')}</Text>
 							<Row padding={{ top: 'medium', bottom: 'extralarge' }} wrap="nowrap">
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Chrome">
-										<img
-											alt="Logo Chrome"
-											src={logoChrome}
-											width="18px"
-										/>
+										<img alt="Logo Chrome" src={logoChrome} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Firefox">
-										<img
-											alt="Logo Firefox"
-											src={logoFirefox}
-											width="18px"
-										/>
+										<img alt="Logo Firefox" src={logoFirefox} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Edge Chromium">
-										<img
-											alt="Logo Edge Chromium"
-											src={logoEdge}
-											width="18px"
-										/>
+										<img alt="Logo Edge Chromium" src={logoEdge} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Safari">
-										<img
-											alt="Logo Safari"
-											src={logoSafari}
-											width="18px"
-										/>
+										<img alt="Logo Safari" src={logoSafari} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Opera">
-										<img
-											alt="Logo Opera"
-											src={logoOpera}
-											width="18px"
-										/>
+										<img alt="Logo Opera" src={logoOpera} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="Yandex">
-										<img
-											alt="Logo Yandex"
-											src={logoYandex}
-											width="18px"
-										/>
+										<img alt="Logo Yandex" src={logoYandex} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
 									<Tooltip label="UC">
-										<img
-											alt="Logo UC"
-											src={logoUC}
-											width="18px"
-										/>
+										<img alt="Logo UC" src={logoUC} width="18px" />
 									</Tooltip>
 								</Padding>
 							</Row>
-							<Text
-								size="small"
-								overflow="break-word"
-							>
+							<Text size="small" overflow="break-word">
 								Copyright &copy;
 								{` ${new Date().getFullYear()} Zextras, `}
 								{t('all_rights_reserved', 'All rights reserved')}

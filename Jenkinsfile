@@ -1,6 +1,8 @@
-// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 @Library("zextras-library@0.5.0") _
 
@@ -370,7 +372,7 @@ pipeline {
 							steps {
 								unstash 'binaries'
 								sh 'sudo cp -r * /tmp'
-								sh 'sudo pacur build centos'
+								sh 'sudo pacur build rocky'
 								dir("artifacts/") {
 									sh 'echo carbonio-login-ui* | sed -E "s#(carbonio-login-ui-[0-9.]*).*#\\0 \\1.x86_64.rpm#" | xargs sudo mv'
 								}

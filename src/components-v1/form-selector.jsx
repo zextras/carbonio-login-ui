@@ -32,37 +32,29 @@ export default function FormSelector({ destinationUrl, domain }) {
 			})
 			.catch(() => {
 				// It should never happen, If the server doesn't respond this page will not be loaded
-				if(componentIsMounted) setError(true);
+				if (componentIsMounted) setError(true);
 			});
 		return () => {
 			componentIsMounted = false;
-		}
-	}, []);
+		};
+	}, [destinationUrl, domain]);
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
 		if (configuration && urlParams.has('loginOp') && urlParams.get('loginOp') === 'logout') {
-			doAuthLogout(configuration)
-				.catch(() => console.log('Logout failed'));
+			// eslint-disable-next-line no-console
+			doAuthLogout(configuration).catch(() => console.log('Logout failed'));
 		}
 	}, [configuration]);
 
-	if(error)
-		return <ServerNotResponding />
+	if (error) return <ServerNotResponding />;
 
-	if (configuration === null || !configuration.destinationUrl)
-		return <div></div>;
+	if (configuration === null || !configuration.destinationUrl) return <div></div>;
 
 	if (configuration.maxApiVersion >= 2 && configuration.minApiVersion <= 2)
-		return <V2LoginManager
-			configuration={configuration}
-			disableInputs={disableInputs}
-		/>;
+		return <V2LoginManager configuration={configuration} disableInputs={disableInputs} />;
 	if (configuration.maxApiVersion >= 1 && configuration.minApiVersion <= 1)
-		return <V1LoginManager
-			configuration={configuration}
-			disableInputs={disableInputs}
-		/>;
+		return <V1LoginManager configuration={configuration} disableInputs={disableInputs} />;
 
-	return <NotSupportedVersion />
+	return <NotSupportedVersion />;
 }

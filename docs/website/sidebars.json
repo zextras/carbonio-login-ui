@@ -1,10 +1,5 @@
 {
-  "docs": {
-    "Main": [
-      "main",
-      "CHANGELOG",
-      "translations",
-      "developers-guide"
-    ]
-  }
+	"docs": {
+		"Main": ["main", "CHANGELOG", "translations", "developers-guide"]
+	}
 }
