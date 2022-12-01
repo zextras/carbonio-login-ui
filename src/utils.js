@@ -119,3 +119,7 @@ export const setCookie = (cName, cValue, expDays) => {
 		expDays && Number.isInteger(expDays) ? `expires=${date.toUTCString()}` : undefined;
 	document.cookie = `${cName}=${cValue}; ${expires || ''}; path=/`;
 };
+
+export const deleteCookie = (name) => {
+	document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;Path=/;`;
+};

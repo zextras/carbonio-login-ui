@@ -8,8 +8,9 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
-import { getCookieKeys, getCookie, setCookie } from '../utils';
+import { getCookieKeys, getCookie, setCookie, deleteCookie } from '../utils';
 import { checkClassicUi } from '../services/login-page-services';
+import { ZM_AUTH_TOKEN } from '../constants';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -33,6 +34,9 @@ export default function CredentialsForm({
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
+		if (cookieKeys.includes(ZM_AUTH_TOKEN)) {
+			deleteCookie(ZM_AUTH_TOKEN);
+		}
 		if (cookieKeys.includes('UI')) {
 			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0];
 		}
