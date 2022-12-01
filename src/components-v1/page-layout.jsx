@@ -191,6 +191,40 @@ export default function PageLayout({ version, hasBackendApi }) {
 								}));
 							}
 						}
+
+						// In case of v3 API response
+						if (res.carbonioWebUiTitle) {
+							document.title = res.carbonioWebUiTitle;
+						}
+						if (res.carbonioWebUiFavicon) {
+							const link =
+								document.querySelector("link[rel*='icon']") || document.createElement('link');
+							link.type = 'image/x-icon';
+							link.rel = 'shortcut icon';
+							link.href = res.carbonioWebUiFavicon;
+							document.getElementsByTagName('head')[0].appendChild(link);
+						}
+						if (res?.carbonioWebUiDarkMode) {
+							if (res?.carbonioWebUiDarkLoginBackground) {
+								setBg(res.carbonioWebUiDarkLoginBackground);
+								setIsDefaultBg(false);
+							}
+
+							if (res?.carbonioWebUiDarkLoginLogo) {
+								_logo.image = res.carbonioWebUiDarkLoginLogo;
+								_logo.width = '100%';
+							}
+						} else {
+							if (res?.carbonioWebUiLoginBackground) {
+								setBg(res.carbonioWebUiLoginBackground);
+								setIsDefaultBg(false);
+							}
+
+							if (res?.carbonioWebUiLoginLogo) {
+								_logo.image = res.carbonioWebUiLoginLogo;
+								_logo.width = '100%';
+							}
+						}
 						setLogo(_logo);
 					}
 				})
