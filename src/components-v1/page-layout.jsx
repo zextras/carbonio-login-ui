@@ -35,6 +35,7 @@ import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
 import { generateColorSet, prepareUrlForForward } from '../utils';
+import { useThemeStore } from '../store/theme/store';
 
 function modifyTheme(draft, variant, changes) {
 	forEach(changes, (v, k) => set(draft, k, v));
@@ -125,6 +126,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [editedTheme, setEditedTheme] = useState({});
+	const setIsDarkMode = useThemeStore((state) => state.setIsDarkMode);
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
@@ -225,6 +227,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 								_logo.width = '100%';
 							}
 						}
+						setIsDarkMode(!!res?.carbonioWebUiDarkMode);
 						setLogo(_logo);
 					}
 				})
@@ -240,7 +243,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [t, version, domain, destinationUrl, hasBackendApi]);
+	}, [t, version, domain, destinationUrl, hasBackendApi, setIsDarkMode]);
 
 	if (serverError) return <ServerNotResponding />;
 
