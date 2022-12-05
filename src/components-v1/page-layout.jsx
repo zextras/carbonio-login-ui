@@ -127,6 +127,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [editedTheme, setEditedTheme] = useState({});
 	const setIsDarkMode = useThemeStore((state) => state.setIsDarkMode);
+	const [copyrightBanner, setCopyrightBanner] = useState('');
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
@@ -195,10 +196,10 @@ export default function PageLayout({ version, hasBackendApi }) {
 						}
 
 						// In case of v3 API response
-						if (res.carbonioWebUiTitle) {
+						if (res?.carbonioWebUiTitle) {
 							document.title = res.carbonioWebUiTitle;
 						}
-						if (res.carbonioWebUiFavicon) {
+						if (res?.carbonioWebUiFavicon) {
 							const link =
 								document.querySelector("link[rel*='icon']") || document.createElement('link');
 							link.type = 'image/x-icon';
@@ -226,6 +227,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 								_logo.image = res.carbonioWebUiLoginLogo;
 								_logo.width = '100%';
 							}
+						}
+						if (res?.carbonioWebUiDescription) {
+							setCopyrightBanner(res.carbonioWebUiDescription);
 						}
 						setIsDarkMode(!!res?.carbonioWebUiDarkMode);
 						setLogo(_logo);
@@ -323,11 +327,17 @@ export default function PageLayout({ version, hasBackendApi }) {
 									</Tooltip>
 								</Padding>
 							</Row>
-							<Text size="small" overflow="break-word">
-								Copyright &copy;
-								{` ${new Date().getFullYear()} Zextras, `}
-								{t('all_rights_reserved', 'All rights reserved')}
-							</Text>
+							{copyrightBanner ? (
+								<Text size="small" overflow="break-word">
+									{copyrightBanner}
+								</Text>
+							) : (
+								<Text size="small" overflow="break-word">
+									Copyright &copy;
+									{` ${new Date().getFullYear()} Zextras, `}
+									{t('all_rights_reserved', 'All rights reserved')}
+								</Text>
+							)}
 						</Container>
 					</FormWrapper>
 				</FormContainer>
