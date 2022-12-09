@@ -35,6 +35,7 @@ import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
 import { generateColorSet, prepareUrlForForward } from '../utils';
+import { useThemeStore } from '../store/theme/store';
 
 function modifyTheme(draft, variant, changes) {
 	forEach(changes, (v, k) => set(draft, k, v));
@@ -125,6 +126,8 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [editedTheme, setEditedTheme] = useState({});
+	const setIsDarkMode = useThemeStore((state) => state.setIsDarkMode);
+	const [copyrightBanner, setCopyrightBanner] = useState('');
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
@@ -191,6 +194,44 @@ export default function PageLayout({ version, hasBackendApi }) {
 								}));
 							}
 						}
+
+						// In case of v3 API response
+						if (res?.carbonioWebUiTitle) {
+							document.title = res.carbonioWebUiTitle;
+						}
+						if (res?.carbonioWebUiFavicon) {
+							const link =
+								document.querySelector("link[rel*='icon']") || document.createElement('link');
+							link.type = 'image/x-icon';
+							link.rel = 'shortcut icon';
+							link.href = res.carbonioWebUiFavicon;
+							document.getElementsByTagName('head')[0].appendChild(link);
+						}
+						if (res?.carbonioWebUiDarkMode) {
+							if (res?.carbonioWebUiDarkLoginBackground) {
+								setBg(res.carbonioWebUiDarkLoginBackground);
+								setIsDefaultBg(false);
+							}
+
+							if (res?.carbonioWebUiDarkLoginLogo) {
+								_logo.image = res.carbonioWebUiDarkLoginLogo;
+								_logo.width = '100%';
+							}
+						} else {
+							if (res?.carbonioWebUiLoginBackground) {
+								setBg(res.carbonioWebUiLoginBackground);
+								setIsDefaultBg(false);
+							}
+
+							if (res?.carbonioWebUiLoginLogo) {
+								_logo.image = res.carbonioWebUiLoginLogo;
+								_logo.width = '100%';
+							}
+						}
+						if (res?.carbonioWebUiDescription) {
+							setCopyrightBanner(res.carbonioWebUiDescription);
+						}
+						setIsDarkMode(!!res?.carbonioWebUiDarkMode);
 						setLogo(_logo);
 					}
 				})
@@ -206,7 +247,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [t, version, domain, destinationUrl, hasBackendApi]);
+	}, [t, version, domain, destinationUrl, hasBackendApi, setIsDarkMode]);
 
 	if (serverError) return <ServerNotResponding />;
 
@@ -286,11 +327,17 @@ export default function PageLayout({ version, hasBackendApi }) {
 									</Tooltip>
 								</Padding>
 							</Row>
-							<Text size="small" overflow="break-word">
-								Copyright &copy;
-								{` ${new Date().getFullYear()} Zextras, `}
-								{t('all_rights_reserved', 'All rights reserved')}
-							</Text>
+							{copyrightBanner ? (
+								<Text size="small" overflow="break-word">
+									{copyrightBanner}
+								</Text>
+							) : (
+								<Text size="small" overflow="break-word">
+									Copyright &copy;
+									{` ${new Date().getFullYear()} Zextras, `}
+									{t('all_rights_reserved', 'All rights reserved')}
+								</Text>
+							)}
 						</Container>
 					</FormWrapper>
 				</FormContainer>
