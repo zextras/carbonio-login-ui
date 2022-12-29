@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { getCookieKeys, getCookie, setCookie, deleteCookie } from '../utils';
 import { checkClassicUi } from '../services/login-page-services';
 import { ZM_AUTH_TOKEN } from '../constants';
+import { logout } from '../services/logout';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -34,8 +35,10 @@ export default function CredentialsForm({
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
+		console.log('[keys]', cookieKeys);
 		if (cookieKeys.includes(ZM_AUTH_TOKEN)) {
-			deleteCookie(ZM_AUTH_TOKEN);
+			console.log('[keys logout]', cookieKeys);
+			logout();
 		}
 		if (cookieKeys.includes('UI')) {
 			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0];
