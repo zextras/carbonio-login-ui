@@ -15,6 +15,7 @@ const zimbraLogin = (username, password) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
+		credentials: 'omit',
 		body: JSON.stringify({
 			Body: {
 				AuthRequest: {
