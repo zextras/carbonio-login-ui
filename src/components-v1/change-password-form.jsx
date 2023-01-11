@@ -26,6 +26,7 @@ export const submitChangePassword = (username, oldPassword, newPassword) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
+		credentials: 'omit',
 		body: JSON.stringify({
 			Body: {
 				ChangePasswordRequest: {
