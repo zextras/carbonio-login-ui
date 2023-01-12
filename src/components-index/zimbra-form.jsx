@@ -49,9 +49,11 @@ export function ZimbraForm({ destinationUrl }) {
 				.then(async (res) => {
 					const payload = await res.json();
 					console.log('[payload]', payload);
+					console.log('[payload][res]', res);
 					if (payload.Body.Fault) {
 						throw new Error(payload.Body.Fault.Reason.Text);
 					}
+					console.log('[payload][comes]', payload);
 					switch (res.status) {
 						case 200:
 							window.location.assign(destinationUrl || window.location.origin);
