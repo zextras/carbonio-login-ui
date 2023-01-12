@@ -261,13 +261,8 @@ pipeline {
 					}
 					steps {
 						executeNpmLogin()
-						nodeCmd 'npm install -D jest-sonar-reporter sonarqube-scanner'
 						nodeCmd "npm install"
 						nodeCmd "npm run lint"
-						nodeCmd "npx jest --coverage --passWithNoTests"
-						withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-							nodeCmd 'npx sonar-scanner'
-						}	
 					}
 				}
 				stage("Build") {
@@ -278,6 +273,23 @@ pipeline {
 					}
 					steps {
 						createBuild(false)
+					}
+				}
+				stage("SonarQube Check"){
+					agent {
+						node{
+							label "nodejs-agent-v2"
+						}
+					}
+					steps {
+						createBuild(false)
+						nodeCmd 'npm install -D jest-sonar-reporter sonarqube-scanner'
+						nodeCmd 'npm install -g npx --force'
+						nodeCmd "npx jest --passWithNoTests"
+						nodeCmd "npx jest --coverage --passWithNoTests"
+						withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+							nodeCmd 'npx sonar-scanner'
+						}
 					}
 				}
 			}
