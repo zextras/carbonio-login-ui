@@ -61,8 +61,6 @@ export function ZimbraForm({ destinationUrl }) {
 			return zimbraLogin(username, password)
 				.then(async (res) => {
 					const payload = await res.json();
-					console.log('[payload]', payload);
-					console.log('[payload][res]', res);
 					setLoadingCredentials(false);
 					setEmail(username);
 					if (payload.Body.Fault) {
@@ -70,13 +68,11 @@ export function ZimbraForm({ destinationUrl }) {
 							payload.Body.Fault?.Detail?.Error?.Code &&
 							payload.Body.Fault?.Detail?.Error?.Code === 'account.CHANGE_PASSWORD'
 						) {
-							console.log('[payload] change password');
 							setProgress(formState.changePassword);
 						} else {
 							throw new Error(payload.Body.Fault.Reason.Text);
 						}
 					}
-					console.log('[payload][comes]', payload);
 					switch (res.status) {
 						case 200:
 							window.location.assign(destinationUrl || window.location.origin);
@@ -136,7 +132,7 @@ export function ZimbraForm({ destinationUrl }) {
 					isLoading={loadingChangePassword}
 					setIsLoading={setLoadingChangePassword}
 					configuration={{
-						destinationUrl: `${window?.location?.protocol}//${window?.location?.host}`,
+						destinationUrl: window.location.origin,
 						authMethods: ['zimbra']
 					}}
 					username={email}
