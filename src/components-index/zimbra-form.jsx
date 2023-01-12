@@ -48,6 +48,7 @@ export function ZimbraForm({ destinationUrl }) {
 			return zimbraLogin(username, password)
 				.then(async (res) => {
 					const payload = await res.json();
+					console.log('[payload]', payload);
 					if (payload.Body.Fault) {
 						throw new Error(payload.Body.Fault.Reason.Text);
 					}
