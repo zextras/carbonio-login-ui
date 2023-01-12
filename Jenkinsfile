@@ -261,8 +261,13 @@ pipeline {
 					}
 					steps {
 						executeNpmLogin()
+						nodeCmd 'npm install -D jest-sonar-reporter sonarqube-scanner'
 						nodeCmd "npm install"
 						nodeCmd "npm run lint"
+						nodeCmd "npx jest --coverage --passWithNoTests"
+						withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+							nodeCmd 'npx sonar-scanner'
+						}	
 					}
 				}
 				stage("Build") {
@@ -387,17 +392,6 @@ pipeline {
 					}
 				}
 			}
-		}
-
-		stage('Test') {
-            environment {
-                SCANNER_HOME = tool 'SonarScanner'
-            }
-            steps {
-                withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-                    mvnCmd('verify sonar:sonar')
-                }
-            }
 		}
 
 		stage('Upload To Playground') {
