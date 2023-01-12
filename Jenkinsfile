@@ -394,7 +394,6 @@ pipeline {
                 SCANNER_HOME = tool 'SonarScanner'
             }
             steps {
-                unstash 'prj'
                 withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
                     mvnCmd('verify sonar:sonar')
                 }
