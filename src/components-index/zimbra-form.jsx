@@ -135,7 +135,10 @@ export function ZimbraForm({ destinationUrl }) {
 				<ChangePasswordForm
 					isLoading={loadingChangePassword}
 					setIsLoading={setLoadingChangePassword}
-					configuration={{ destinationUrl, authMethods: ['zimbra'] }}
+					configuration={{
+						destinationUrl: `${window?.location?.protocol}//${window?.location?.host}`,
+						authMethods: ['zimbra']
+					}}
 					username={email}
 				/>
 			)}
