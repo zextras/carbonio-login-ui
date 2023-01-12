@@ -389,6 +389,18 @@ pipeline {
 			}
 		}
 
+		stage('Test') {
+            environment {
+                SCANNER_HOME = tool 'SonarScanner'
+            }
+            steps {
+                unstash 'prj'
+                withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+                    mvnCmd('verify sonar:sonar')
+                }
+            }
+		}
+
 		stage('Upload To Playground') {
 			when {
 				anyOf {
