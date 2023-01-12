@@ -277,7 +277,7 @@ pipeline {
 				}
 				stage("SonarQube Check"){
 					agent {
-						node{
+						node {
 							label "nodejs-agent-v2"
 						}
 					}
