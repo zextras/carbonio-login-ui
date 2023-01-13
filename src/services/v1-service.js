@@ -10,7 +10,6 @@ import { getDeviceModel, deviceId } from '../utils';
 export function postV1Login(authMethod, user, password, service) {
 	return fetch('/zx/auth/v1/login', {
 		method: 'POST',
-		credentials: 'omit',
 		headers: {
 			'X-Device-Model': getDeviceModel(),
 			'X-Device-Id': deviceId(),
