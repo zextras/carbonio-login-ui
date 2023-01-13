@@ -10,7 +10,6 @@ import { getDeviceModel, deviceId } from '../utils';
 export function postV2Login(authMethod, user, password, service) {
 	return fetch('/zx/auth/v2/login', {
 		method: 'POST',
-		credentials: 'omit',
 		headers: {
 			'X-Device-Model': getDeviceModel(),
 			'X-Device-Id': deviceId(),
@@ -28,7 +27,6 @@ export function postV2Login(authMethod, user, password, service) {
 export function submitOtp(id, code, trustDevice) {
 	return fetch('/zx/auth/v2/otp/validate', {
 		method: 'POST',
-		credentials: 'omit',
 		headers: {
 			'X-Device-Model': getDeviceModel(),
 			'X-Device-Id': deviceId(),
