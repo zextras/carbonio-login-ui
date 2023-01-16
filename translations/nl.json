@@ -1,7 +1,5 @@
 {
-    "Username": "Gebruikersnaam",
     "Password": "Wachtwoord",
-    "Login": "Inloggen",
     "Help": "Help",
     "username": "Gebruikersnaam",
     "password": "Wachtwoord",
@@ -9,10 +7,8 @@
     "details": "Gegevens",
     "choose_otp": "De OTP-methode kiezen",
     "wrong_password": "Verkeerd wachtwoord, controleer de gegevens en probeer het opnieuw",
-    "remember_device": "Onthoud dit apparaat",
     "auth_not_valid": "Het authenticatiebeleid heeft meer stappen nodig: neem contact op met uw administrator voor meer informatie",
     "server_not_responding": "De server reageert niet. Neem contact op met uw serveradministrator",
-    "zextras_authentication": "Zextras Authenticatie",
     "supported_browsers": "Ondersteunde browsers",
     "two_step_authentication": "Twee-stappen-authenticatie",
     "type_otp": "Typ hier eenmalig wachtwoord",
