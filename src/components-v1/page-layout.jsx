@@ -36,6 +36,7 @@ import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
 import { generateColorSet, prepareUrlForForward } from '../utils';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
+import { CARBONIO_LOGO_URL } from '../constants';
 
 function modifyTheme(draft, variant, changes) {
 	forEach(changes, (v, k) => set(draft, k, v));
@@ -231,6 +232,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 						if (res?.carbonioWebUiDescription) {
 							setCopyrightBanner(res.carbonioWebUiDescription);
 						}
+						_logo.url = res?.carbonioLogoUrl ? res.carbonioLogoUrl : CARBONIO_LOGO_URL;
 						setDarkReaderState(res?.carbonioWebUiDarkMode ? 'enabled' : 'disabled');
 						setLogo(_logo);
 					}
@@ -240,7 +242,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 					if (componentIsMounted) setServerError(true);
 				});
 		} else {
-			setLogo({ image: logoCarbonio, width: '221px' });
+			setLogo({ image: logoCarbonio, width: '221px', url: CARBONIO_LOGO_URL });
 			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
 
@@ -275,7 +277,13 @@ export default function PageLayout({ version, hasBackendApi }) {
 						<Container mainAlignment="flex-start" height="auto">
 							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
 								<Container crossAlignment="center">
-									{logo.url ? <a href={logo.url}>{logoHtml}</a> : logoHtml}
+									{logo.url ? (
+										<a target="_blank" href={logo.url} rel="noreferrer">
+											{logoHtml}
+										</a>
+									) : (
+										logoHtml
+									)}
 								</Container>
 							</Padding>
 						</Container>
