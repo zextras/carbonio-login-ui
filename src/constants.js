@@ -29,3 +29,4 @@ export const darkReaderDynamicThemeFixes = {
 	ignoreInlineStyle: ['.tox-menu *'],
 	disableStyleSheetsProxy: false
 };
+export const CARBONIO_LOGO_URL = 'https://www.zextras.com';
