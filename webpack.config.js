@@ -30,7 +30,7 @@ module.exports = (env) => {
 		devServer: {
 			proxy: {
 				'/zx': {
-					target: 'https://infra-848931f5.testarea.zextras.com',
+					target: 'https://np-s04.demo.zextras.io',
 					secure: false
 				}
 			}
