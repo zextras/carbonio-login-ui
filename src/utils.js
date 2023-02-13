@@ -16,7 +16,6 @@ import {
 	osName,
 	osVersion
 } from 'react-device-detect';
-import { BASE_FONT_SIZE, SCALING_LIMIT, SCALING_OPTIONS } from './constants';
 
 export function getDeviceModel() {
 	let deviceModel = isMobile
@@ -119,18 +118,4 @@ export const setCookie = (cName, cValue, expDays) => {
 	const expires =
 		expDays && Number.isInteger(expDays) ? `expires=${date.toUTCString()}` : undefined;
 	document.cookie = `${cName}=${cValue}; ${expires || ''}; path=/`;
-};
-
-export const getAutoScalingFontSize = () => {
-	if (
-		window.screen.width <= SCALING_LIMIT.WIDTH &&
-		window.screen.height <= SCALING_LIMIT.HEIGHT &&
-		window.devicePixelRatio >= SCALING_LIMIT.DPR
-	) {
-		const baseFontIndex = SCALING_OPTIONS.findIndex((option) => option.value === BASE_FONT_SIZE);
-		if (baseFontIndex > 0) {
-			return SCALING_OPTIONS[baseFontIndex - 1].value;
-		}
-	}
-	return BASE_FONT_SIZE;
 };

@@ -18,35 +18,14 @@ import {
 	ThemeProviderProps as UIThemeProviderProps
 } from '@zextras/carbonio-design-system';
 import { auto, disable, enable, setFetchMethod } from 'darkreader';
-import { reduce } from 'lodash';
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
+import { reduce } from 'lodash';
 import { DarkReaderPropValues, ThemeExtension } from '../../types';
-import {
-	darkReaderDynamicThemeFixes,
-	BASE_FONT_SIZE,
-	SCALING_LIMIT,
-	SCALING_OPTIONS
-} from '../constants';
-// import { getAutoScalingFontSize } from '../utils';
-// import { useGetPrimaryColor } from './use-get-primary-color';
+import { darkReaderDynamicThemeFixes } from '../constants';
+import { getAutoScalingFontSize } from './utils';
+import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 
 setFetchMethod(window.fetch);
-
-export const getAutoScalingFontSize = (): number => {
-	if (
-		window.screen.width <= SCALING_LIMIT.WIDTH &&
-		window.screen.height <= SCALING_LIMIT.HEIGHT &&
-		window.devicePixelRatio >= SCALING_LIMIT.DPR
-	) {
-		const baseFontIndex = SCALING_OPTIONS.findIndex((option) => option.value === BASE_FONT_SIZE);
-		if (baseFontIndex > 0) {
-			return SCALING_OPTIONS[baseFontIndex - 1].value;
-		}
-	}
-	console.log('base font size::::', BASE_FONT_SIZE);
-	return BASE_FONT_SIZE;
-};
-
 interface ThemeCallbacks {
 	addExtension: (newExtension: ThemeExtension, id: string) => void;
 	setDarkReaderState: (newState: DarkReaderPropValues) => void;
@@ -117,7 +96,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 		{}
 	);
 
-	const primaryColor = '#FF0000';
+	const primaryColor = useGetPrimaryColor();
 
 	useLayoutEffect(() => {
 		const customThemePalette: Partial<DefaultTheme['palette']> = primaryColor
@@ -187,7 +166,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 	return (
 		<UIThemeProvider extension={aggregatedExtensions}>
 			<ThemeCallbacksContext.Provider value={{ addExtension, setDarkReaderState }}>
-				{/* <GlobalStyle baseFontSize={baseFontSize} /> */}
+				<GlobalStyle baseFontSize={baseFontSize} />
 				{children}
 			</ThemeCallbacksContext.Provider>
 		</UIThemeProvider>

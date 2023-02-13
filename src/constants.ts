@@ -38,9 +38,10 @@ export const SCALING_OPTIONS = [
 	{ value: 112.5, label: 'l' },
 	{ value: 125, label: 'xl' }
 ] as const;
-export const BASE_FONT_SIZE = 125;
+export const BASE_FONT_SIZE = 100;
 export const SCALING_LIMIT = {
 	WIDTH: 1400,
 	HEIGHT: 900,
 	DPR: 2 // device pixel ratio
 } as const;
+export const LOCAL_STORAGE_LAST_PRIMARY_KEY = 'config';

@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useLayoutEffect, useState, useContext } from 'react';
+import React, { useLayoutEffect, useState, useContext, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import {
 	Container,
@@ -14,11 +14,8 @@ import {
 	Row,
 	Text,
 	Tooltip,
-	useScreenMode,
-	useTheme
+	useScreenMode
 } from '@zextras/carbonio-design-system';
-import { forEach, set } from 'lodash';
-
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
 import logoFirefox from '../../assets/logo-firefox.svg';
@@ -37,17 +34,8 @@ import { ZimbraForm } from '../components-index/zimbra-form';
 import { generateColorSet, prepareUrlForForward } from '../utils';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
 import { CARBONIO_LOGO_URL } from '../constants';
-
-function modifyTheme(draft, variant, changes) {
-	forEach(changes, (v, k) => set(draft, k, v));
-}
-
-function ModifiedTheme({ changes }) {
-	const proxyFn = useCallback((draft, variant) => modifyTheme(draft, variant, changes), [changes]);
-	// useTheme(proxyFn);
-
-	return null;
-}
+import { useLoginConfigStore } from '../store/login/store';
+import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -111,6 +99,17 @@ const PhotoCredits = styled(Text)`
 		display: none;
 	}
 `;
+
+function DarkReaderListener() {
+	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
+	const darkReaderResultValue = useDarkReaderResultValue();
+	useEffect(() => {
+		if (darkReaderResultValue) {
+			setDarkReaderState(darkReaderResultValue);
+		}
+	}, [darkReaderResultValue, setDarkReaderState]);
+	return null;
+}
 
 export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
@@ -196,45 +195,47 @@ export default function PageLayout({ version, hasBackendApi }) {
 							}
 						}
 
-						// In case of v3 API response
-						if (res?.carbonioWebUiTitle) {
-							document.title = res.carbonioWebUiTitle;
-						}
-						if (res?.carbonioWebUiFavicon) {
-							const link =
-								document.querySelector("link[rel*='icon']") || document.createElement('link');
-							link.type = 'image/x-icon';
-							link.rel = 'shortcut icon';
-							link.href = res.carbonioWebUiFavicon;
-							document.getElementsByTagName('head')[0].appendChild(link);
-						}
-						if (res?.carbonioWebUiDarkMode) {
-							if (res?.carbonioWebUiDarkLoginBackground) {
-								setBg(res.carbonioWebUiDarkLoginBackground);
-								setIsDefaultBg(false);
+						if (version === 3) {
+							useLoginConfigStore.setState(res);
+							// In case of v3 API response
+							if (res?.carbonioWebUiTitle) {
+								document.title = res.carbonioWebUiTitle;
 							}
+							if (res?.carbonioWebUiFavicon) {
+								const link =
+									document.querySelector("link[rel*='icon']") || document.createElement('link');
+								link.type = 'image/x-icon';
+								link.rel = 'shortcut icon';
+								link.href = res.carbonioWebUiFavicon;
+								document.getElementsByTagName('head')[0].appendChild(link);
+							}
+							if (res?.carbonioWebUiDarkMode) {
+								if (res?.carbonioWebUiDarkLoginBackground) {
+									setBg(res.carbonioWebUiDarkLoginBackground);
+									setIsDefaultBg(false);
+								}
 
-							if (res?.carbonioWebUiDarkLoginLogo) {
-								_logo.image = res.carbonioWebUiDarkLoginLogo;
-								_logo.width = '100%';
-							}
-						} else {
-							if (res?.carbonioWebUiLoginBackground) {
-								setBg(res.carbonioWebUiLoginBackground);
-								setIsDefaultBg(false);
-							}
+								if (res?.carbonioWebUiDarkLoginLogo) {
+									_logo.image = res.carbonioWebUiDarkLoginLogo;
+									_logo.width = '100%';
+								}
+							} else {
+								if (res?.carbonioWebUiLoginBackground) {
+									setBg(res.carbonioWebUiLoginBackground);
+									setIsDefaultBg(false);
+								}
 
-							if (res?.carbonioWebUiLoginLogo) {
-								_logo.image = res.carbonioWebUiLoginLogo;
-								_logo.width = '100%';
+								if (res?.carbonioWebUiLoginLogo) {
+									_logo.image = res.carbonioWebUiLoginLogo;
+									_logo.width = '100%';
+								}
 							}
+							if (res?.carbonioWebUiDescription) {
+								setCopyrightBanner(res.carbonioWebUiDescription);
+							}
+							_logo.url = res?.carbonioLogoURL ? res.carbonioLogoURL : CARBONIO_LOGO_URL;
+							setLogo(_logo);
 						}
-						if (res?.carbonioWebUiDescription) {
-							setCopyrightBanner(res.carbonioWebUiDescription);
-						}
-						_logo.url = res?.carbonioLogoURL ? res.carbonioLogoURL : CARBONIO_LOGO_URL;
-						setDarkReaderState(res?.carbonioWebUiDarkMode ? 'enabled' : 'disabled');
-						setLogo(_logo);
 					}
 				})
 				.catch(() => {
@@ -271,7 +272,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 
 		return (
 			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
-				<ModifiedTheme changes={editedTheme} />
+				<DarkReaderListener />
 				<FormContainer>
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
