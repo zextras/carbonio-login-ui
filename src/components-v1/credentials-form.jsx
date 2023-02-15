@@ -140,7 +140,7 @@ export default function CredentialsForm({
 					onClick={submitUserPassword}
 					disabled={disableInputs}
 					label={t('login', 'Login')}
-					size="fill"
+					width="fill"
 				/>
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
