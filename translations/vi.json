@@ -1,0 +1,19 @@
+{
+    "all_rights_reserved": "Đã đăng ký Bản quyền",
+    "cant_login": "Không thể đăng nhập bây giờ",
+    "choose_otp": "Chọn phương thức OTP(Mật khẩu dùng 1 lần)",
+    "credentials_not_valid": "Thông tin xác thực không hợp lệ, vui lòng kiểm tra dữ liệu và thử lại",
+    "details": "Chi tiết",
+    "login": "Đăng nhập",
+    "login_saml": "Đăng nhập theo chuẩn SAML",
+    "password": "Mật khẩu",
+    "server_not_responding": "Máy chủ không trả lời. Vui lòng liên hệ quản trị viên của bạn",
+    "supported_browsers": "Các trình duyệt được hỗ trợ",
+    "two_step_authentication": "Xác thực 2 bước",
+    "type_otp": "Gõ OTP(mật khẩu dùng một lần) vào đây",
+    "unsupported_version": "Máy chủ đã gửi một phản hồi không hợp lệ. Vui lòng liên hệ với quản trị viên của bạn",
+    "username": "Tên đăng nhập",
+    "wrong_password": "Sai mật khẩu, vui lòng kiểm tra và thử lại lần nữa",
+    "auth_not_valid": "Chính sách xác thực cần nhiều bước hơn, vui lòng liên hệ với quản trị viên của bạn để biết thêm thông tin",
+    "offline": "Bạn hiện đang ngoại tuyến, vui lòng kiểm tra kết nối internet của bạn"
+}
