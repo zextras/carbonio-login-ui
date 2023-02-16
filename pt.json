@@ -1,8 +1,20 @@
 {
-    "Password": "Palavra-passe",
     "Help": "Ajuda",
-    "username": "Nome de utilizador",
+    "username": "Nome de usuário",
     "password": "Palavra-passe",
-    "login": "Login",
-    "details": "Detalhes"
+    "login": "Iniciar sessão",
+    "details": "Detalhes",
+    "choose_otp": "Escolha o método de OTP",
+    "wrong_password": "Palavra-passe não é correcta, verifique os dados e tente de novo",
+    "auth_not_valid": "A política de autenticação requer mais etapas: entre em contato com seu administrador para mais informações",
+    "server_not_responding": "O servidor não responde. Entre em contacto com o administrador do mesmo",
+    "unsupported_version": "A resposta do servidor não é válida. Entre em contato com o administrador do servidor",
+    "two_step_authentication": "Autenticação de dois fatores",
+    "type_otp": "Digite sua Senha Descartável (OTP)",
+    "login_saml": "Login com SAML",
+    "offline": "Você está offline. Verifique sua conexão com a internet",
+    "supported_browsers": "Navegadores suportados",
+    "credentials_not_valid": "Credenciais inválidas. Verifique os dados e tente novamente",
+    "all_rights_reserved": "Todos os direitos reservados",
+    "cant_login": "Não é possível fazer o login agora"
 }

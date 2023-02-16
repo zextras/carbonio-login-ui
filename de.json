@@ -1,5 +1,4 @@
 {
-    "Help": "Hilfe",
     "username": "Benutzername",
     "password": "Passwort",
     "login": "Login",
@@ -17,8 +16,8 @@
     "credentials_not_valid": "Anmeldedaten ungültig, bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut",
     "all_rights_reserved": "Alle Rechte vorbehalten",
     "cant_login": "Login jetzt nicht möglich",
-    "changePassword_newPassword": "Neues Passwort",
     "changePassword_oldPassword": "Altes Passwort",
+    "changePassword_newPassword": "Neues Passwort",
     "changePassword_error_minLength": "Die Mindestlänge beträgt {{num}} Zeichen",
     "changePassword_error_maxLength": "Die maximale Länge ist {{num}} Zeichen",
     "changePassword_confirmNewPassword": "Neues passwort bestätigen"
