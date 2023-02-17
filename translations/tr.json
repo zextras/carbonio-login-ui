@@ -28,7 +28,7 @@
     "changePassword_error_minLowerCaseChars": "En az {{num}} karakter küçük harf olmalı",
     "changePassword_error_minLength": "En az {{num}} karakter kullanılabilir",
     "changePassword_error_maxLength": "En fazla {{num}} karakter kullanılabilir",
-    "changePassword_error_confirmPassword": "Parola onayı geçersiz",
+    "changePassword_error_confirmPassword": "Parolalar aynı değil",
     "changePassword_confirm_label": "Parolayı değiştir ve giriş yap",
     "changePassword_confirmNewPassword": "Yeni parolayı onayla",
     "carbonio_authentication": "Carbonio Kimlik Doğrulama"
