@@ -1,5 +1,4 @@
 {
-    "Help": "Aide",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe",
     "login": "Connexion",
@@ -16,5 +15,21 @@
     "offline": "Vous êtes actuellement hors ligne, veuillez, s'il vous plaît, vérifier votre connexion internet",
     "login_saml": "Identifiant SAML",
     "all_rights_reserved": "Tous droits réservés",
-    "credentials_not_valid": "Les identifiants et/ou mots de passe ne sont pas valides, veuillez vérifier les saisies et recommencer"
+    "credentials_not_valid": "Les identifiants et/ou mots de passe ne sont pas valides, veuillez vérifier les saisies et recommencer",
+    "carbonio_authentication": "Authentification Carbonio",
+    "changePassword_confirmNewPassword": "Confirmez le nouveau mot de passe",
+    "changePassword_confirm_label": "Changer le mot de passe et le login",
+    "changePassword_error_confirmPassword": "Les mots de passe ne correspondent pas",
+    "changePassword_error_minLength": "La longueur minimale est de {{num}} caractères",
+    "changePassword_error_minLowerCaseChars": "Il est attendu au moins {{num}} caractères minuscules",
+    "changePassword_error_minNumericChars": "Il est attendu au moins {{num}} caractères numériques",
+    "changePassword_error_minPunctuationChars": "Il est attendu au moins {{num}} caractères de ponctuation",
+    "changePassword_error_minUppercaseChars": "Il est attendu au moins {{num}} caractères majuscules",
+    "changePassword_error_passwordRecentlyUsed": "Le mot de passe a déjà été utilisé récemment",
+    "changePassword_newPassword": "Nouveau mot de passe",
+    "changePassword_oldPassword": "Ancien mot de passe",
+    "changePassword_title": "Créer un nouveau mot de passe",
+    "select_ui": "Sélectionnez l'interface utilisateur",
+    "trust_device_and_ip": "Faire confiance à cet appareil et cette adresse IP",
+    "changePassword_error_maxLength": "La longueur maximale est de {{num}} caractères"
 }
