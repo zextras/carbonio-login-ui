@@ -21,7 +21,7 @@
     "changePassword_error_minLength": "Panjang minimum adalah {{num}} karakter",
     "changePassword_error_maxLength": "Panjang maksimum adalah {{num}} karakter",
     "changePassword_confirmNewPassword": "Konfirmasi kata sandi baru",
-    "changePassword_error_confirmPassword": "Konfirmasi kata sandi tidak valid",
+    "changePassword_error_confirmPassword": "Kata sandi tidak cocok",
     "trust_device_and_ip": "Percayai perangkat ini dan alamat IP",
     "select_ui": "Pilih UI",
     "changePassword_title": "Buat kata sandi baru",
