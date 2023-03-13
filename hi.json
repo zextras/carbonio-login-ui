@@ -24,7 +24,7 @@
     "changePassword_error_minPunctuationChars": "कम से कम {{num}} विराम चिन्ह या पंक्चुएशन वर्ण आने चाहिए",
     "changePassword_error_minNumericChars": "कम से कम {{num}} सांख्यिकीय वर्ण आने चाहिए",
     "changePassword_error_minLowerCaseChars": "कम से कम {{num}} लोवरकेस वर्ण आने चाहिए",
-    "changePassword_error_confirmPassword": "कन्फ़र्म पासवर्ड मान्य नहीं है",
+    "changePassword_error_confirmPassword": "पासवर्ड मेल नहीं खा रहे",
     "changePassword_confirm_label": "पासवर्ड बदलें और लॉगिन करें",
     "carbonio_authentication": "Carbonio ऑथेन्टिकेशन",
     "changePassword_oldPassword": "पुराना पासवर्ड",
