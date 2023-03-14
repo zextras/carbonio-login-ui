@@ -11,7 +11,7 @@ targets=(
 )
 pkgname="carbonio-login-ui"
 pkgver="0.9.4"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Zextras login page assets"
 pkgdesclong=(
   "Zextras login page assets"
