@@ -21,7 +21,7 @@
     "changePassword_error_minLength": "最小长度为 {{num}} 个字符",
     "changePassword_error_maxLength": "最大长度为{{num}}个字符",
     "changePassword_confirmNewPassword": "确认新密码",
-    "changePassword_error_confirmPassword": "确认密码无效",
+    "changePassword_error_confirmPassword": "密码不匹配",
     "trust_device_and_ip": "信任此设备与IP地址",
     "select_ui": "选择UI",
     "changePassword_title": "创建新密码",
