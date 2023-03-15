@@ -23,17 +23,10 @@ function App() {
 	const [hasBackendApi, setHasBackendApi] = useState(true);
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const destinationUrl = prepareUrlForForward(urlParams.get('destinationUrl'));
 
 	useEffect(() => {
 		let canceled = false;
 		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
-
-		fetch('/zx/auth/v2/myself').then((res) => {
-			if (res.ok && destinationUrl) {
-				window.location.assign(destinationUrl);
-			}
-		});
 
 		if (hasBackendApi) {
 			getLoginSupported(domain)
