@@ -36,11 +36,12 @@ package() {
   cd "${srcdir}"
   mkdir -p "${pkgdir}/opt/zextras/web/login/"
   cp -a  ../build/* "${pkgdir}/opt/zextras/web/login"
-  chown root:root -R "${pkgdir}/opt/zextras/web/login"
-  chmod 755 -R "${pkgdir}/opt/zextras/web/login"
 }
 
 postinst() {
+  chown root:root -R /opt/zextras/web/login
+  chmod 755 -R /opt/zextras/web/login
+  chmod 644 /opt/zextras/web/login/assets/*
 }
 
 prerm() {
