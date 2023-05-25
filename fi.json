@@ -1,19 +1,25 @@
 {
-    "details": "Yksityiskohdat",
-    "login": "Kirjaudu",
-    "choose_otp": "Valitse OTP metodi",
-    "login_saml": "Kirjaudu SAML",
-    "password": "Salasana",
-    "offline": "Olet verkottomassa tilassa, tarkista internetyhteytesi",
-    "auth_not_valid": "Kirjautumispolitiikka tarvitsee enemmän vaiheita: Ole hyvä ja ota yhteyttä ylläpitäjään listäiteoja saadaksesi",
-    "server_not_responding": "Palvelin ei vastaa. Ole hyvä ja ota yteyttä palvelimen ylläpitäjään",
-    "supported_browsers": "Tuetut selaimet",
-    "two_step_authentication": "Kaksivaiheinen kirjautuminen",
-    "type_otp": "Kirjoita tähän kertakäyttösalasana",
-    "unsupported_version": "Palvelin palautti epäkelvon vastauksen. Ole hyvä ja ota yhteyttä palvelimen ylläpitäjään",
-    "username": "Käyttäjänimi",
-    "wrong_password": "Väärä salasana, ole hyvä ja tarkista tiedot ja yritä uudelleen",
-    "all_rights_reserved": "Kaikki oikeudet pidätetään",
-    "cant_login": "Kirjautuminen ei onnistu nyt",
-    "credentials_not_valid": "Tunnistetiedot ei ole oikein. Ole hyvä ja tarkista ne ja yritä uudelleen"
+    "label": {
+        "remove": "Poista",
+        "search": "Hae",
+        "details": "Yksityiskohdat",
+        "password": "Salasana",
+        "reset": "Resetoi"
+    },
+    "cos": {
+        "password": "Salasana"
+    },
+    "hsm": {
+        "details": "Yksityiskohdat"
+    },
+    "notification": {
+        "mark_as_read": "Merkitse luetuksi",
+        "mark_as_unread": "Merkitse lukemattomaksi"
+    },
+    "operations": {
+        "details": "Yksityiskohdat"
+    },
+    "account_details": {
+        "remove": "Poista"
+    }
 }
