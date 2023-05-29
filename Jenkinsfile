@@ -275,24 +275,44 @@ pipeline {
 						createBuild(false)
 					}
 				}
-				stage("SonarQube Check"){
-					agent {
-						node {
-							label "nodejs-agent-v2"
-						}
-					}
-					steps {
-						createBuild(false)
-						nodeCmd 'npm install -D sonarqube-scanner'
-						nodeCmd 'npm install -g npx --force'
-						withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-							nodeCmd 'npx sonar-scanner'
-						}
-					}
+				// stage("SonarQube Check"){
+				// 	agent {
+				// 		node {
+				// 			label "nodejs-agent-v2"
+				// 		}
+				// 	}
+				// 	steps {
+				// 		createBuild(false)
+				// 		nodeCmd 'npm install -D sonarqube-scanner'
+				// 		nodeCmd 'npm install -g npx --force'
+				// 		withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+				// 			nodeCmd 'npx sonar-scanner'
+				// 		}
+				// 	}
+				// }
+			}
+		}
+		stage('SonarQube analysis') {
+			agent {
+				node {
+					label "nodejs-agent-v2"
+				}
+			}
+			when {
+				beforeAgent (true)
+				allOf {
+					expression { params.SKIP_SONARQUBE == false }
+				}
+			}
+			steps {
+				createBuild(false)
+				nodeCmd 'npm install -D sonarqube-scanner'
+				nodeCmd 'npm install -g npx --force'
+				withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+					nodeCmd 'npx sonar-scanner'
 				}
 			}
 		}
-
 		// ===== Release automation =====
 
 		stage("Release automation") {
