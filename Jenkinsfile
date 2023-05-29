@@ -198,6 +198,7 @@ pipeline {
 	}
 	parameters {
 		booleanParam defaultValue: false, description: 'Whether to upload the packages in playground repositories', name: 'PLAYGROUND'
+		booleanParam defaultValue: false, description: 'Skip sonar analysis.', name: 'SKIP_SONARQUBE'
 	}
 	options {
 		timeout(time: 20, unit: 'MINUTES')
