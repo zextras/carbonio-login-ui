@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Modal, Paragraph } from '@zextras/carbonio-design-system';
 
-export function OfflineModal({ open, onClose }) {
+export default function OfflineModal({ open, onClose }) {
 	const [t] = useTranslation();
 	return (
 		<Modal title="Offline" open={open} onClose={onClose}>

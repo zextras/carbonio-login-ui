@@ -8,6 +8,7 @@
 
 import '@testing-library/jest-dom/extend-expect';
 import server from './mocks/server';
+import matchMedia from '../__mocks__/matchMedia';
 
 beforeEach(() => {
 	// Do not useFakeTimers with `whatwg-fetch` if using mocked server
