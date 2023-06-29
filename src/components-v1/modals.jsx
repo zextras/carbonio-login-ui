@@ -13,7 +13,7 @@ export default function OfflineModal({ open, onClose }) {
 	const [t] = useTranslation();
 	return (
 		<Modal title="Offline" open={open} onClose={onClose}>
-			<Paragraph>
+			<Paragraph data-testid="offlineMsg">
 				{t('offline', 'You are currently offline, please check your internet connection')}
 			</Paragraph>
 		</Modal>
