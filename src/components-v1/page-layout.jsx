@@ -267,13 +267,14 @@ export default function PageLayout({ version, hasBackendApi }) {
 					marginLeft: 'auto',
 					marginRight: 'auto'
 				}}
+				data-testid="logo"
 			/>
 		);
 
 		return (
 			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
 				<DarkReaderListener />
-				<FormContainer>
+				<FormContainer data-testid="form-container">
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
 							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
