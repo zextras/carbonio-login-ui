@@ -33,4 +33,12 @@ describe('PageLayout', () => {
 		expect(firefoxLogo).toBeInTheDocument();
 		expect(edgeLogo).toBeInTheDocument();
 	});
+
+	test('renders the default copyright banner', () => {
+		setup(<PageLayout version={1} hasBackendApi={false} />);
+
+		// Assert the presence of the default copyright banner
+		const defaultBanner = screen.getByTestId('default-banner');
+		expect(defaultBanner).toBeInTheDocument();
+	});
 });

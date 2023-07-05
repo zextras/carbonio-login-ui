@@ -342,7 +342,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 									{copyrightBanner}
 								</Text>
 							) : (
-								<Text size="small" overflow="break-word">
+								<Text size="small" overflow="break-word" data-testid="default-banner">
 									Copyright &copy;
 									{` ${new Date().getFullYear()} Zextras, `}
 									{t('all_rights_reserved', 'All rights reserved')}
