@@ -267,13 +267,14 @@ export default function PageLayout({ version, hasBackendApi }) {
 					marginLeft: 'auto',
 					marginRight: 'auto'
 				}}
+				data-testid="logo"
 			/>
 		);
 
 		return (
 			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
 				<DarkReaderListener />
-				<FormContainer>
+				<FormContainer data-testid="form-container">
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
 							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
@@ -341,7 +342,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 									{copyrightBanner}
 								</Text>
 							) : (
-								<Text size="small" overflow="break-word">
+								<Text size="small" overflow="break-word" data-testid="default-banner">
 									Copyright &copy;
 									{` ${new Date().getFullYear()} Zextras, `}
 									{t('all_rights_reserved', 'All rights reserved')}

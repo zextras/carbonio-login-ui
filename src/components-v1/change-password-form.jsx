@@ -246,7 +246,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 				</Text>
 			</Row>
 			<Row padding={{ top: 'large' }}>
-				<Input defaultValue={username} disabled label="Email" />
+				<Input defaultValue={username} disabled label="Email" data-testid="email" />
 			</Row>
 			<Row padding={{ top: 'large' }}>
 				<PasswordInput
@@ -255,6 +255,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 					onChange={onChangeOldPassword}
 					label={t('changePassword_oldPassword', 'Old password')}
 					backgroundColor="gray5"
+					data-testid="oldPassword"
 				/>
 			</Row>
 			{showOldPasswordError && (
@@ -271,6 +272,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 					onChange={onChangeNewPassword}
 					label={t('changePassword_newPassword', 'New password')}
 					backgroundColor="gray5"
+					data-testid="newPassword"
 				/>
 			</Row>
 			{errorLabelNewPassword && (
@@ -287,6 +289,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 					onChange={onChangeConfirmNewPassword}
 					label={t('changePassword_confirmNewPassword', 'Confirm new password')}
 					backgroundColor="gray5"
+					data-testid="confirmNewPassword"
 				/>
 			</Row>
 			{errorLabelConfirmNewPassword && (
@@ -303,6 +306,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 					width="fill"
 					loading={isLoading}
 					disabled={!newPassword || confirmNewPassword !== newPassword || errorLabelNewPassword}
+					data-testid="submitChangePasswordBtn"
 				/>
 			</Row>
 		</form>
