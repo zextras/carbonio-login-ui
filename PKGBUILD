@@ -10,7 +10,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-login-ui"
-pkgver="0.9.9"
+pkgver="0.9.10"
 pkgrel="1"
 pkgdesc="Zextras login page assets"
 pkgdesclong=(
