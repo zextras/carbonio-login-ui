@@ -16,7 +16,8 @@ import {
 	ZIMBRA_PASSWORD_MIN_PUNCTUATION_CHARS_ATTR_NAME,
 	ZIMBRA_PASSWORD_MIN_UPPERCASE_CHARS_ATTR_NAME,
 	INVALID_PASSWORD_ERR_CODE,
-	PASSWORD_RECENTLY_USED_ERR_CODE
+	PASSWORD_RECENTLY_USED_ERR_CODE,
+	BLOCK_PERSONAL_DATA_IN_PASSWORD_POLICY
 } from '../constants';
 import { saveCredentials, setCookie } from '../utils';
 
@@ -115,6 +116,19 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 									setShowOldPasswordError(false);
 									const { a } = payload.Body.Fault.Detail.Error;
 									let currNum = a
+										? a.find((rec) => rec.n === BLOCK_PERSONAL_DATA_IN_PASSWORD_POLICY)
+										: undefined;
+									if (currNum) {
+										setErrorLabelNewPassword(
+											t('changePassword_error_block_personal_data', {
+												defaultValue:
+													'Invalid password: password contains username or other personal data: {{str}}',
+												replace: { str: currNum._content }
+											})
+										);
+										break;
+									}
+									currNum = a
 										? a.find((rec) => rec.n === ZIMBRA_PASSWORD_MAX_LENGTH_ATTR_NAME)
 										: undefined;
 									if (currNum) {
