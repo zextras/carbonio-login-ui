@@ -107,6 +107,12 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							);
 							setLoadingCredentials(false);
 							break;
+						case 502:
+							setAuthError(
+								t('server_unreachable', 'Error 502: Service Unreachable - Retry later.')
+							);
+							setLoadingCredentials(false);
+							break;
 						default:
 							setSnackbarNetworkError(true);
 							setLoadingCredentials(false);
