@@ -61,8 +61,8 @@ export function ZimbraForm({ destinationUrl }) {
 			return zimbraLogin(username, password)
 				.then(async (res) => {
 					const payload = (await res?.headers?.get(CONTENT_TYPE).indexOf(CONTENT_TYPE_JSON))
-						? res.json()
-						: res;
+						? await res.json()
+						: await res;
 					setLoadingCredentials(false);
 					setEmail(username);
 					if (payload?.Body?.Fault) {
