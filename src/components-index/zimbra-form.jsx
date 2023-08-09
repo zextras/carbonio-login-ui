@@ -9,6 +9,7 @@ import React, { useCallback, useState } from 'react';
 
 import CredentialsForm from '../components-v1/credentials-form';
 import ChangePasswordForm from '../components-v1/change-password-form';
+import { CONTENT_TYPE, CONTENT_TYPE_JSON } from '../constants';
 
 const formState = {
 	credentials: 'credentials',
@@ -59,10 +60,12 @@ export function ZimbraForm({ destinationUrl }) {
 			setLoadingCredentials(true);
 			return zimbraLogin(username, password)
 				.then(async (res) => {
-					const payload = await res.json();
+					const payload = (await res?.headers?.get(CONTENT_TYPE).indexOf(CONTENT_TYPE_JSON))
+						? res.json()
+						: res;
 					setLoadingCredentials(false);
 					setEmail(username);
-					if (payload.Body.Fault) {
+					if (payload?.Body?.Fault) {
 						if (
 							payload.Body.Fault?.Detail?.Error?.Code &&
 							payload.Body.Fault?.Detail?.Error?.Code === 'account.CHANGE_PASSWORD'
@@ -92,6 +95,12 @@ export function ZimbraForm({ destinationUrl }) {
 									'auth_not_valid',
 									'The authentication policy needs more steps: please contact your administrator for more information'
 								)
+							);
+							setLoading(false);
+							break;
+						case 502:
+							setAuthError(
+								t('server_unreachable', 'Error 502: Service Unreachable - Retry later.')
 							);
 							setLoading(false);
 							break;
