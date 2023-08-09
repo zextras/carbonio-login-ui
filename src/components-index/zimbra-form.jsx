@@ -9,7 +9,6 @@ import React, { useCallback, useState } from 'react';
 
 import CredentialsForm from '../components-v1/credentials-form';
 import ChangePasswordForm from '../components-v1/change-password-form';
-import { CONTENT_TYPE, CONTENT_TYPE_JSON } from '../constants';
 
 const formState = {
 	credentials: 'credentials',
@@ -60,9 +59,12 @@ export function ZimbraForm({ destinationUrl }) {
 			setLoadingCredentials(true);
 			return zimbraLogin(username, password)
 				.then(async (res) => {
-					const payload = (await res?.headers?.get(CONTENT_TYPE).indexOf(CONTENT_TYPE_JSON))
-						? res.json()
-						: res;
+					let payload;
+					try {
+						payload = await res.json();
+					} catch (err) {
+						payload = await res;
+					}
 					setLoadingCredentials(false);
 					setEmail(username);
 					if (payload?.Body?.Fault) {
