@@ -31,5 +31,7 @@
     "changePassword_title": "Créer un nouveau mot de passe",
     "select_ui": "Sélectionnez l'interface utilisateur",
     "trust_device_and_ip": "Faire confiance à cet appareil et cette adresse IP",
-    "changePassword_error_maxLength": "La longueur maximale est de {{num}} caractères"
+    "changePassword_error_maxLength": "La longueur maximale est de {{num}} caractères",
+    "changePassword_error_block_personal_data": "Mot de passe invalide : le mot de passe contient le nom d'utilisateur ou une autre données personnelle : {{str}}",
+    "server_unreachable": "Erreur 502 : Services inaccessible - Recommencez plus tard."
 }
