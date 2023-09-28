@@ -31,5 +31,7 @@
     "changePassword_error_minNumericChars": "Se requieren al menos {{num}} caracteres numéricos",
     "changePassword_error_minLowerCaseChars": "Se requieren al menos {{num}} caracteres en minúscula",
     "changePassword_confirm_label": "Actualizar contraseña e ingresar",
-    "carbonio_authentication": "Autenticación de Carbonio"
+    "carbonio_authentication": "Autenticación de Carbonio",
+    "server_unreachable": "Error 502: Service Unreachable - Retry later.",
+    "changePassword_error_block_personal_data": "Contraseña inválida: la contraseña contiene el nombre de usuario u otros datos personales: {{str}}"
 }
