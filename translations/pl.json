@@ -32,5 +32,6 @@
     "changePassword_confirm_label": "Zmień hasło i login",
     "changePassword_confirmNewPassword": "Potwierdź nowe hasło",
     "carbonio_authentication": "Carbonio Uwierzytelnianie",
-    "server_unreachable": "Błąd 502: Usługa jest nieosiągalna - spróbuj ponownie później."
+    "server_unreachable": "Błąd 502: Usługa jest nieosiągalna - spróbuj ponownie później.",
+    "changePassword_error_block_personal_data": "Nieprawidłowe hasło: hasło zawiera nazwę użytkownika lub inne dane osobowe: {{str}}"
 }
