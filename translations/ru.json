@@ -31,5 +31,7 @@
     "changePassword_error_maxLength": "Максимальная длина {{num}} символов",
     "changePassword_confirm_label": "Изменить пароль и логин",
     "changePassword_confirmNewPassword": "Подтвердите новый пароль",
-    "carbonio_authentication": "Аутентификация Carbonio"
+    "carbonio_authentication": "Аутентификация Carbonio",
+    "changePassword_error_block_personal_data": "Неверный пароль: пароль содержит имя пользователя или другие личные данные: {{str}}",
+    "server_unreachable": "Ошибка 502: Служба недоступна. Повторите попытку позже."
 }
