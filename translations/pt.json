@@ -31,5 +31,7 @@
     "changePassword_error_passwordRecentlyUsed": "A senha foi usada recentemente",
     "changePassword_error_confirmPassword": "As senhas não correspondem",
     "changePassword_confirm_label": "Alterar a senha e fazer login",
-    "carbonio_authentication": "Autenticação do Carbonio"
+    "carbonio_authentication": "Autenticação do Carbonio",
+    "changePassword_error_block_personal_data": "Password inválida: a password contem o nome do utilizador ou outros dados pessoais: {{str}}",
+    "server_unreachable": "Error 502: Serviço indisponivel - Tente mais tarde."
 }
