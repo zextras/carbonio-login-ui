@@ -2,12 +2,12 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "login": "Вход",
-    "details": "Детали",
+    "details": "Подробнее",
     "unsupported_version": "Сервер отправил неверный ответ. Обратитесь к администратору",
     "server_not_responding": "Сервер не отвечает. Обратитесь к администратору",
     "offline": "Вы не в сети, проверьте подключение к Интернету",
     "cant_login": "Невозможно сейчас войти",
-    "type_otp": "Наберите одноразовый пароль",
+    "type_otp": "Введите OTP",
     "two_step_authentication": "Двухфакторная аутентификация",
     "supported_browsers": "Поддерживаемые браузеры",
     "login_saml": "Вход SAML",
@@ -31,5 +31,7 @@
     "changePassword_error_maxLength": "Максимальная длина {{num}} символов",
     "changePassword_confirm_label": "Изменить пароль и логин",
     "changePassword_confirmNewPassword": "Подтвердите новый пароль",
-    "carbonio_authentication": "Аутентификация Carbonio"
+    "carbonio_authentication": "Аутентификация Carbonio",
+    "changePassword_error_block_personal_data": "Неверный пароль: пароль содержит имя пользователя или другие личные данные: {{str}}",
+    "server_unreachable": "Ошибка 502: Служба недоступна. Повторите попытку позже."
 }

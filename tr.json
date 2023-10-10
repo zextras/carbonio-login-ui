@@ -31,5 +31,7 @@
     "changePassword_error_confirmPassword": "Parolalar aynı değil",
     "changePassword_confirm_label": "Parolayı değiştir ve giriş yap",
     "changePassword_confirmNewPassword": "Yeni parolayı onayla",
-    "carbonio_authentication": "Carbonio Kimlik Doğrulama"
+    "carbonio_authentication": "Carbonio Kimlik Doğrulama",
+    "changePassword_error_block_personal_data": "Geçersiz parola: parola kullanıcı adı veya diğer kişisel verileri içeriyor: {{str}}",
+    "server_unreachable": "Hata 502: Servise Erişilemiyor - Daha sonra tekrar deneyin."
 }
