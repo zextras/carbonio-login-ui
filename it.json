@@ -31,5 +31,7 @@
     "changePassword_error_minPunctuationChars": "Il {{num}} minimo di caratteri di punteggiatura è",
     "changePassword_error_minNumericChars": "Il {{num}} minimo di caratteri numerici è",
     "changePassword_error_minLowerCaseChars": "Il {{num}} minimo di caratteri minuscoli è",
-    "changePassword_error_confirmPassword": "Le password non sono uguali"
+    "changePassword_error_confirmPassword": "Le password non sono uguali",
+    "changePassword_error_block_personal_data": "Password non valida: la password contiene un nome utente o altri dati personali: {{str}}",
+    "server_unreachable": "Errore 502: Impossibile raggiungere il server - Riprova più tardi."
 }
