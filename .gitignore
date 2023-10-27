@@ -4,6 +4,7 @@
 
 /.idea/
 /.idea/sonarlint/
+/artifacts/
 /node_modules/
 /pkg/
 /build/

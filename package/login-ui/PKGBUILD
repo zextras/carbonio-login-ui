@@ -5,19 +5,12 @@
 # Zextras Login Page
 # This package contains the assets for the browser login page
 
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-login-ui"
 pkgver="0.9.15"
 pkgrel="1"
 pkgdesc="Zextras login page assets"
-pkgdesclong=(
-  "Zextras login page assets"
-)
 maintainer="Zextras <packages@zextras.com>"
-arch="amd64"
+arch=('x86_64')
 license=("PROPRIETARY")
 section="admin"
 priority="optional"
@@ -26,26 +19,14 @@ depends=(
   "carbonio-nginx"
 )
 
-build() {
-}
-
-preinst() {
-}
-
 package() {
   cd "${srcdir}"
   mkdir -p "${pkgdir}/opt/zextras/web/login/"
-  cp -a  ../build/* "${pkgdir}/opt/zextras/web/login"
+  cp -a ../../build/* "${pkgdir}/opt/zextras/web/login"
 }
 
 postinst() {
   chown root:root -R /opt/zextras/web/login
   chmod 755 -R /opt/zextras/web/login
   chmod 644 /opt/zextras/web/login/assets/*
-}
-
-prerm() {
-}
-
-postrm() {
 }
