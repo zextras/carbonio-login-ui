@@ -18,7 +18,7 @@
     "credentials_not_valid": "Les identifiants et/ou mots de passe ne sont pas valides, veuillez vérifier les saisies et recommencer",
     "carbonio_authentication": "Authentification Carbonio",
     "changePassword_confirmNewPassword": "Confirmez le nouveau mot de passe",
-    "changePassword_confirm_label": "Changer le mot de passe et le login",
+    "changePassword_confirm_label": "Changez le mot de passe et connectez-vous",
     "changePassword_error_confirmPassword": "Les mots de passe ne correspondent pas",
     "changePassword_error_minLength": "La longueur minimale est de {{num}} caractères",
     "changePassword_error_minLowerCaseChars": "Il est attendu au moins {{num}} caractères minuscules",
@@ -32,6 +32,6 @@
     "select_ui": "Sélectionnez l'interface utilisateur",
     "trust_device_and_ip": "Faire confiance à cet appareil et cette adresse IP",
     "changePassword_error_maxLength": "La longueur maximale est de {{num}} caractères",
-    "changePassword_error_block_personal_data": "Mot de passe invalide : le mot de passe contient le nom d'utilisateur ou une autre données personnelle : {{str}}",
+    "changePassword_error_block_personal_data": "Mot de passe non valide : le mot de passe contient un nom d'utilisateur ou d'autres données personnelles : {{str}}",
     "server_unreachable": "Erreur 502 : Services inaccessible - Recommencez plus tard."
 }
