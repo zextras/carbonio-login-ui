@@ -31,5 +31,7 @@
     "changePassword_error_minLowerCaseChars": "Verwacht ten minste {{num}} kleine letters",
     "changePassword_error_confirmPassword": "Wachtwoorden komen niet overeen",
     "changePassword_confirm_label": "Wachtwoord wijzigen en inloggen",
-    "carbonio_authentication": "Carbonio Authenticatie"
+    "carbonio_authentication": "Carbonio Authenticatie",
+    "changePassword_error_block_personal_data": "Ongeldig wachtwoord: wachtwoord bevat gebruikersnaam of andere persoonlijke gegevens: {{str}}",
+    "server_unreachable": "Fout 502: Service onbereikbaar - Probeer het later opnieuw."
 }
