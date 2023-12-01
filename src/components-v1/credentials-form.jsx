@@ -23,6 +23,7 @@ export default function CredentialsForm({
 	submitCredentials,
 	configuration,
 	disableInputs,
+	onClickForgetPassword,
 	loading = false
 }) {
 	const [t] = useTranslation();
@@ -78,7 +79,7 @@ export default function CredentialsForm({
 		}
 		return (
 			// used to keep the correct space where or not SAML is shown
-			<div style={{ minHeight: '20px' }} />
+			<div style={{ minHeight: '0px' }} />
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
 
@@ -93,6 +94,14 @@ export default function CredentialsForm({
 			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			.catch(() => {});
 	}, []);
+
+	const clickForgetPassword = useCallback(
+		(e) => {
+			e.preventDefault();
+			onClickForgetPassword();
+		},
+		[onClickForgetPassword]
+	);
 
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }} data-testid="credentials-form">
@@ -152,6 +161,15 @@ export default function CredentialsForm({
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{samlButton}
+			</Row>
+			<Row mainAlignment="flex-start" crossAlignment="flex-start">
+				<Text
+					onClick={clickForgetPassword}
+					color="primary"
+					style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+				>
+					{t('forget_password', 'Forget Password?')}
+				</Text>
 			</Row>
 		</form>
 	);
