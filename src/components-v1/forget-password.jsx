@@ -18,6 +18,8 @@ import {
 	getSendRecoveryCode,
 	validateRecoveryCode
 } from '../services/forget-password-service';
+import { ZM_AUTH_TOKEN } from '../constants';
+import { setCookie } from '../utils';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -102,6 +104,12 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 					payload = await res;
 				}
 				if (res.status === 200) {
+					const authTokenArr = payload?.Body?.AuthResponse?.authToken;
+					const authToken =
+						authTokenArr && authTokenArr.length > 0 ? authTokenArr[0]._content : undefined;
+					if (authToken) {
+						setCookie(ZM_AUTH_TOKEN, authToken);
+					}
 					setProgress(state.proceedToLoginScreen);
 				} else {
 					setShowValidationCodeError(true);
@@ -243,9 +251,12 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 						<Text overflow="break-word">
 							<Trans
 								i18nKey="validation_code_was_sent_to_recovery_email"
-								defaults="The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. Enter the code in the form below."
+								defaults="The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. You have {{ recoveryAttemptsLeft }} more attempts. Enter the code in the form below."
 								components={{ bold: <strong /> }}
-								values={{ recovery_email: recoveryEmail }}
+								values={{
+									recovery_email: recoveryEmail,
+									recoveryAttemptsLeft
+								}}
 							/>
 						</Text>
 					</Row>

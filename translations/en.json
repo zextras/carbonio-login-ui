@@ -50,6 +50,6 @@
     "unsupported_version": "The server sent a not valid response. Please contact your server administrator",
     "username": "Username",
     "validate_code": "Validate Code",
-    "validation_code_was_sent_to_recovery_email": "The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. Enter the code in the form below.",
+    "validation_code_was_sent_to_recovery_email": "The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. You have {{ recoveryAttemptsLeft }} more attempts. Enter the code in the form below.",
     "wrong_password": "Wrong password, please check data and try again"
 }
