@@ -131,7 +131,6 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 						onClick={onProceedWithSession}
 						label={t('return_to_login', 'Return To Login')}
 						width="fill"
-						color='primary'
 					/>
 				</Row>
 			)}
@@ -201,7 +200,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 								i18nKey="still_have_access_to_recovery_email"
 								defaults="Do you still have access to <strong>{{ recovery_email }}</strong>?"
 								components={{ bold: <strong /> }}
-								values={{ recovery_email: recoveryEmail}}
+								values={{ recovery_email: recoveryEmail }}
 							/>
 						</Text>
 					</Row>
@@ -246,7 +245,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 								i18nKey="validation_code_was_sent_to_recovery_email"
 								defaults="The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. Enter the code in the form below."
 								components={{ bold: <strong /> }}
-								values={{ recovery_email: recoveryEmail}}
+								values={{ recovery_email: recoveryEmail }}
 							/>
 						</Text>
 					</Row>
@@ -316,7 +315,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 								i18nKey="glad_to_have_you_back_username"
 								defaults="Glad to have you back, <strong>{{ username }}</strong>!"
 								components={{ bold: <strong /> }}
-								values={{ username: username}}
+								values={{ username }}
 							/>
 						</Text>
 					</Row>
@@ -339,7 +338,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 							onClick={onProceedWithSession}
 							label={t('continue_with_your_session', 'Continue With Your Session')}
 							type="outlined"
-							width='fill'
+							width="fill"
 						/>
 					</Row>
 				</>

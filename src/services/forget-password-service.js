@@ -54,6 +54,7 @@ export function validateRecoveryCode(username, recoveryCode) {
 			Body: {
 				AuthRequest: {
 					_jsns: 'urn:zimbraAccount',
+					csrfTokenSecured: '1',
 					account: {
 						by: 'name',
 						_content: username
