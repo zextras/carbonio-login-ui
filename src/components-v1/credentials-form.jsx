@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getCookieKeys, getCookie, setCookie } from '../utils';
 import { checkClassicUi } from '../services/login-page-services';
+import { useLoginConfigStore } from '../store/login/store';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -30,6 +31,7 @@ export default function CredentialsForm({
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 	const [hasClassicUi, setHasClassicUi] = useState(false);
+	const { zimbraDomainName } = useLoginConfigStore();
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
@@ -52,10 +54,13 @@ export default function CredentialsForm({
 				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
 					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 				}
+				if (!username.includes('@') && zimbraDomainName) {
+					usernameModified = `${username}@${zimbraDomainName}`;
+				}
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, submitCredentials]
+		[username, password, zimbraDomainName, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {
