@@ -252,7 +252,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [t, version, domain, destinationUrl, hasBackendApi, setDarkReaderState]);
+	}, [t, version, domain, destinationUrl, hasBackendApi, setDarkReaderState, setDomainName]);
 
 	if (serverError) return <ServerNotResponding />;
 
