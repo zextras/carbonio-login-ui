@@ -31,7 +31,7 @@ export default function CredentialsForm({
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 	const [hasClassicUi, setHasClassicUi] = useState(false);
-	const { zimbraDomainName } = useLoginConfigStore();
+	const { carbonioDomainName } = useLoginConfigStore();
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
@@ -54,13 +54,13 @@ export default function CredentialsForm({
 				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
 					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 				}
-				if (!username.includes('@') && zimbraDomainName) {
-					usernameModified = `${username}@${zimbraDomainName}`;
+				if (!username.includes('@') && carbonioDomainName) {
+					usernameModified = `${username}@${carbonioDomainName}`;
 				}
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, zimbraDomainName, submitCredentials]
+		[username, password, carbonioDomainName, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {

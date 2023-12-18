@@ -18,5 +18,5 @@ export type LoginConfigStore = {
 	carbonioLogoURL?: string;
 	carbonioWebUiPrimaryColor?: string;
 	carbonioWebUiDarkPrimaryColor?: string;
-	zimbraDomainName?: string;
+	carbonioDomainName?: string;
 };

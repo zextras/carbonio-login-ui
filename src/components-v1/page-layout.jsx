@@ -128,6 +128,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [editedTheme, setEditedTheme] = useState({});
 	const [copyrightBanner, setCopyrightBanner] = useState('');
 	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
+	const { setDomainName } = useLoginConfigStore();
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
@@ -137,6 +138,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 				.then((res) => {
 					if (!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
 					if (!domain) setDomain(res.zimbraDomainName);
+					setDomainName(res.zimbraDomainName);
 
 					const _logo = {};
 
