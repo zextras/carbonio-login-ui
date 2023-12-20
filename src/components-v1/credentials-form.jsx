@@ -30,6 +30,7 @@ export default function CredentialsForm({
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 	const [hasClassicUi, setHasClassicUi] = useState(false);
+	const [isClickSaml, setIsClickSaml] = useState(false);
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
@@ -43,7 +44,7 @@ export default function CredentialsForm({
 	const submitUserPassword = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (username && password) {
+			if (!isClickSaml && username && password) {
 				let usernameModified = username;
 				if (urlParams.has('virtualacctdomain')) {
 					usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get(
@@ -55,10 +56,11 @@ export default function CredentialsForm({
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, submitCredentials]
+		[username, password, isClickSaml, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {
+		setIsClickSaml(true);
 		window.location.assign(
 			`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`
 		);
