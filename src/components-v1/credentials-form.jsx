@@ -30,7 +30,6 @@ export default function CredentialsForm({
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
 	const [hasClassicUi, setHasClassicUi] = useState(false);
-	const [isClickSaml, setIsClickSaml] = useState(false);
 
 	const defaultUi = useMemo(() => {
 		const cookieKeys = getCookieKeys();
@@ -44,7 +43,7 @@ export default function CredentialsForm({
 	const submitUserPassword = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (!isClickSaml && username && password) {
+			if (username && password) {
 				let usernameModified = username;
 				if (urlParams.has('virtualacctdomain')) {
 					usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get(
@@ -56,11 +55,10 @@ export default function CredentialsForm({
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, isClickSaml, submitCredentials]
+		[username, password, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {
-		setIsClickSaml(true);
 		window.location.assign(
 			`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`
 		);
@@ -97,64 +95,65 @@ export default function CredentialsForm({
 	}, []);
 
 	return (
-		<form onSubmit={submitUserPassword} style={{ width: '100%' }} data-testid="credentials-form">
-			<input type="submit" style={{ display: 'none' }} />
-			<Row padding={{ bottom: 'large' }}>
-				<Input
-					defaultValue={username}
-					disabled={disableInputs}
-					data-testid="username"
-					onChange={(e) => setUsername(e.target.value)}
-					hasError={!!authError}
-					autocomplete="username"
-					label={t('username', 'Username')}
-					backgroundColor="gray5"
-				/>
-			</Row>
-			<Row padding={{ bottom: 'small' }}>
-				<PasswordInput
-					defaultValue={password}
-					disabled={disableInputs}
-					data-testid="password"
-					onChange={(e) => setPassword(e.target.value)}
-					hasError={!!authError}
-					autocomplete="password"
-					label={t('password', 'Password')}
-					backgroundColor="gray5"
-				/>
-			</Row>
-			{hasClassicUi && (
-				<Row padding={{ vertical: 'small' }}>
-					<Select
-						label={t('select_ui', 'Select UI')}
-						items={uiList}
-						onChange={(newUI) => {
-							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs');
-						}}
-						defaultSelection={defaultUi}
+		<Row>
+			<form style={{ width: '100%' }} data-testid="credentials-form">
+				<Row padding={{ bottom: 'large' }}>
+					<Input
+						defaultValue={username}
+						disabled={disableInputs}
+						data-testid="username"
+						onChange={(e) => setUsername(e.target.value)}
+						hasError={!!authError}
+						autocomplete="username"
+						label={t('username', 'Username')}
+						backgroundColor="gray5"
 					/>
 				</Row>
-			)}
-			<Text color="error" size="medium" overflow="break-word">
-				{authError || <br />}
-			</Text>
-			<Row
-				orientation="vertical"
-				crossAlignment="flex-start"
-				padding={{ bottom: 'large', top: 'small' }}
-			>
-				<Button
-					loading={loading}
-					data-testid="login"
-					onClick={submitUserPassword}
-					disabled={disableInputs}
-					label={t('login', 'Login')}
-					width="fill"
-				/>
-			</Row>
-			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
+				<Row padding={{ bottom: 'small' }}>
+					<PasswordInput
+						defaultValue={password}
+						disabled={disableInputs}
+						data-testid="password"
+						onChange={(e) => setPassword(e.target.value)}
+						hasError={!!authError}
+						autocomplete="password"
+						label={t('password', 'Password')}
+						backgroundColor="gray5"
+					/>
+				</Row>
+				{hasClassicUi && (
+					<Row padding={{ vertical: 'small' }}>
+						<Select
+							label={t('select_ui', 'Select UI')}
+							items={uiList}
+							onChange={(newUI) => {
+								setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs');
+							}}
+							defaultSelection={defaultUi}
+						/>
+					</Row>
+				)}
+				<Text color="error" size="medium" overflow="break-word">
+					{authError || <br />}
+				</Text>
+				<Row
+					orientation="vertical"
+					crossAlignment="flex-start"
+					padding={{ bottom: 'large', top: 'small' }}
+				>
+					<Button
+						loading={loading}
+						data-testid="login"
+						onClick={submitUserPassword}
+						disabled={disableInputs}
+						label={t('login', 'Login')}
+						width="fill"
+					/>
+				</Row>
+			</form>
+			<Row mainAlignment="flex-end" style={{ width: '100%' }} padding={{ bottom: 'extralarge' }}>
 				{samlButton}
 			</Row>
-		</form>
+		</Row>
 	);
 }
