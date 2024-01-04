@@ -29,7 +29,7 @@
     "changePassword_error_minPunctuationChars": "Как минимум {{num}} знаков пунктуации",
     "changePassword_error_minLength": "Минимальная длина {{num}} символов",
     "changePassword_error_maxLength": "Максимальная длина {{num}} символов",
-    "changePassword_confirm_label": "Изменить пароль и логин",
+    "changePassword_confirm_label": "Изменить пароль и затем войти",
     "changePassword_confirmNewPassword": "Подтвердите новый пароль",
     "carbonio_authentication": "Аутентификация Carbonio",
     "changePassword_error_block_personal_data": "Неверный пароль: пароль содержит имя пользователя или другие личные данные: {{str}}",
