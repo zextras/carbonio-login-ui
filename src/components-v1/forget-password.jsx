@@ -121,8 +121,8 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 	}, [code, username]);
 
 	const onProceedWithSession = useCallback(() => {
-		window.location.assign(configuration.destinationUrl);
-	}, [configuration.destinationUrl]);
+		window.location.assign('/carbonio');
+	}, []);
 
 	return (
 		<>
