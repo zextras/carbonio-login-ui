@@ -4,19 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/carbonio-design-system';
+import React, { useCallback, useState, useMemo } from 'react';
+import { Button, Input, PasswordInput, Row, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
-import { getCookieKeys, getCookie, setCookie } from '../utils';
-import { checkClassicUi } from '../services/login-page-services';
-
 const urlParams = new URLSearchParams(window.location.search);
-
-const uiList = [
-	{ label: 'Classic', value: 'classic' },
-	{ label: 'Iris', value: 'iris' }
-];
 
 export default function CredentialsForm({
 	authError,
@@ -30,16 +22,6 @@ export default function CredentialsForm({
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
-	const [hasClassicUi, setHasClassicUi] = useState(false);
-
-	const defaultUi = useMemo(() => {
-		const cookieKeys = getCookieKeys();
-		if (cookieKeys.includes('UI')) {
-			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0];
-		}
-		setCookie('UI', 'iris');
-		return uiList[1];
-	}, []);
 
 	const submitUserPassword = useCallback(
 		(e) => {
@@ -83,18 +65,6 @@ export default function CredentialsForm({
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
 
-	useEffect(() => {
-		checkClassicUi()
-			.then((res) => {
-				setHasClassicUi(res.hasClassic);
-				if (!res.hasClassic) {
-					setCookie('UI', 'iris');
-				}
-			})
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			.catch(() => {});
-	}, []);
-
 	const clickForgetPassword = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -130,18 +100,6 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			{hasClassicUi && (
-				<Row padding={{ vertical: 'small' }}>
-					<Select
-						label={t('select_ui', 'Select UI')}
-						items={uiList}
-						onChange={(newUI) => {
-							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs');
-						}}
-						defaultSelection={defaultUi}
-					/>
-				</Row>
-			)}
 			<Text color="error" size="medium" overflow="break-word">
 				{authError || <br />}
 			</Text>
