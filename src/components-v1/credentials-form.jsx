@@ -7,6 +7,7 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import { Button, Input, PasswordInput, Row, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+import { useLoginConfigStore } from '../store/login/store';
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -22,6 +23,7 @@ export default function CredentialsForm({
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
+	const { carbonioDomainName } = useLoginConfigStore();
 
 	const submitUserPassword = useCallback(
 		(e) => {
@@ -35,10 +37,13 @@ export default function CredentialsForm({
 				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
 					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 				}
+				if (!username.includes('@') && carbonioDomainName) {
+					usernameModified = `${username}@${carbonioDomainName}`;
+				}
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, submitCredentials]
+		[username, password, carbonioDomainName, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {
