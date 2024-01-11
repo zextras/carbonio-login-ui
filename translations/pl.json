@@ -33,5 +33,11 @@
     "changePassword_confirmNewPassword": "Potwierdź nowe hasło",
     "carbonio_authentication": "Carbonio Uwierzytelnianie",
     "server_unreachable": "Błąd 502: Usługa jest nieosiągalna - spróbuj ponownie później.",
-    "changePassword_error_block_personal_data": "Nieprawidłowe hasło: hasło zawiera nazwę użytkownika lub inne dane osobowe: {{str}}"
+    "changePassword_error_block_personal_data": "Nieprawidłowe hasło: hasło zawiera nazwę użytkownika lub inne dane osobowe: {{str}}",
+    "continue_with_your_session": "Kontynuuj swoją sesję",
+    "enter_your_username_to_retrieve_recovery_email": "Wprowadź Twoją nazwę użytkownika, abyśmy mogli odnaleźć Twój pomocniczy adres e-mail.",
+    "code": "Kod",
+    "forget_password": "Nie pamiętasz hasła?",
+    "glad_to_have_you_back_username": "Dobrze Cię znowu widzieć, <strong>{{ username }}</strong>!",
+    "not_have_recovery_email_setup_note": "Nie ustawiłeś pomocniczego adresu e-mail? Skontaktuj się z Twoim administratorem systemu, aby otrzymać wsparcie."
 }

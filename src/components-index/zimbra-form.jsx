@@ -9,6 +9,7 @@ import React, { useCallback, useState } from 'react';
 
 import CredentialsForm from '../components-v1/credentials-form';
 import ChangePasswordForm from '../components-v1/change-password-form';
+import ForgetPassword from '../components-v1/forget-password';
 
 const formState = {
 	credentials: 'credentials',
@@ -126,6 +127,10 @@ export function ZimbraForm({ destinationUrl }) {
 		[destinationUrl, t]
 	);
 
+	const onClickForgetPassword = useCallback(() => {
+		setProgress(formState.forgetPassword);
+	}, []);
+
 	return (
 		<>
 			{progress === formState.credentials && (
@@ -135,6 +140,7 @@ export function ZimbraForm({ destinationUrl }) {
 					authError={authError}
 					submitCredentials={submitCredentials}
 					loading={loading}
+					onClickForgetPassword={onClickForgetPassword}
 				/>
 			)}
 			{progress === formState.changePassword && (
@@ -146,6 +152,12 @@ export function ZimbraForm({ destinationUrl }) {
 						authMethods: ['zimbra']
 					}}
 					username={email}
+				/>
+			)}
+			{progress === formState.forgetPassword && (
+				<ForgetPassword
+					configuration={{ destinationUrl: window.location.origin, authMethods: ['zimbra'] }}
+					disableInputs={false}
 				/>
 			)}
 		</>

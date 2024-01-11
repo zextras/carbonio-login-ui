@@ -13,6 +13,14 @@ import CredentialsForm from './credentials-form';
 import { postV1Login } from '../services/v1-service';
 import { saveCredentials } from '../utils';
 
+const formState = {
+	credentials: 'credentials',
+	waiting: 'waiting',
+	twoFactor: 'two-factor',
+	changePassword: 'change-password',
+	forgetPassword: 'forget-password'
+};
+
 export default function V1LoginManager({ configuration, disableInputs }) {
 	const [t] = useTranslation();
 

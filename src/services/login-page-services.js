@@ -22,12 +22,3 @@ export function getLoginConfig(version, domain, host) {
 		throw Error('Network Error');
 	});
 }
-
-export function checkClassicUi() {
-	return fetch('/public/blank.html').then((res) => {
-		if (res.status === 404) {
-			return { hasClassic: false };
-		}
-		return { hasClassic: true };
-	});
-}

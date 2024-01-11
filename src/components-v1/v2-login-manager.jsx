@@ -24,12 +24,14 @@ import CredentialsForm from './credentials-form';
 
 import OfflineModal from './modals';
 import Spinner from './spinner';
+import ForgetPassword from './forget-password';
 
 const formState = {
 	credentials: 'credentials',
 	waiting: 'waiting',
 	twoFactor: 'two-factor',
-	changePassword: 'change-password'
+	changePassword: 'change-password',
+	forgetPassword: 'forget-password'
 };
 
 export default function V2LoginManager({ configuration, disableInputs }) {
@@ -155,6 +157,10 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		[setSnackbarNetworkError]
 	);
 
+	const onClickForgetPassword = useCallback(() => {
+		setProgress(formState.forgetPassword);
+	}, []);
+
 	return (
 		<>
 			{progress === formState.credentials && (
@@ -164,6 +170,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					authError={authError}
 					submitCredentials={submitCredentials}
 					loading={loadingCredentials}
+					onClickForgetPassword={onClickForgetPassword}
 				/>
 			)}
 			{progress === formState.waiting && (
@@ -230,6 +237,9 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					configuration={configuration}
 					username={email}
 				/>
+			)}
+			{progress === formState.forgetPassword && (
+				<ForgetPassword configuration={configuration} disableInputs={disableInputs} />
 			)}
 			<Snackbar
 				open={snackbarNetworkError}
