@@ -4,41 +4,26 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/carbonio-design-system';
+import React, { useCallback, useState, useMemo } from 'react';
+import { Button, Input, PasswordInput, Row, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
-
-import { getCookieKeys, getCookie, setCookie } from '../utils';
-import { checkClassicUi } from '../services/login-page-services';
+import { useLoginConfigStore } from '../store/login/store';
 
 const urlParams = new URLSearchParams(window.location.search);
-
-const uiList = [
-	{ label: 'Classic', value: 'classic' },
-	{ label: 'Iris', value: 'iris' }
-];
 
 export default function CredentialsForm({
 	authError,
 	submitCredentials,
 	configuration,
 	disableInputs,
+	onClickForgetPassword,
 	loading = false
 }) {
 	const [t] = useTranslation();
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
-	const [hasClassicUi, setHasClassicUi] = useState(false);
-
-	const defaultUi = useMemo(() => {
-		const cookieKeys = getCookieKeys();
-		if (cookieKeys.includes('UI')) {
-			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0];
-		}
-		setCookie('UI', 'iris');
-		return uiList[1];
-	}, []);
+	const { carbonioDomainName } = useLoginConfigStore();
 
 	const submitUserPassword = useCallback(
 		(e) => {
@@ -52,10 +37,13 @@ export default function CredentialsForm({
 				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
 					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
 				}
+				if (!username.includes('@') && carbonioDomainName) {
+					usernameModified = `${username}@${carbonioDomainName}`;
+				}
 				submitCredentials(usernameModified, password);
 			}
 		},
-		[username, password, submitCredentials]
+		[username, password, carbonioDomainName, submitCredentials]
 	);
 
 	const samlButtonCbk = useCallback(() => {
@@ -78,21 +66,17 @@ export default function CredentialsForm({
 		}
 		return (
 			// used to keep the correct space where or not SAML is shown
-			<div style={{ minHeight: '20px' }} />
+			<div style={{ minHeight: '0px' }} />
 		);
 	}, [configuration, disableInputs, samlButtonCbk, t]);
 
-	useEffect(() => {
-		checkClassicUi()
-			.then((res) => {
-				setHasClassicUi(res.hasClassic);
-				if (!res.hasClassic) {
-					setCookie('UI', 'iris');
-				}
-			})
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			.catch(() => {});
-	}, []);
+	const clickForgetPassword = useCallback(
+		(e) => {
+			e.preventDefault();
+			onClickForgetPassword();
+		},
+		[onClickForgetPassword]
+	);
 
 	return (
 		<Row>
@@ -121,18 +105,6 @@ export default function CredentialsForm({
 						backgroundColor="gray5"
 					/>
 				</Row>
-				{hasClassicUi && (
-					<Row padding={{ vertical: 'small' }}>
-						<Select
-							label={t('select_ui', 'Select UI')}
-							items={uiList}
-							onChange={(newUI) => {
-								setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs');
-							}}
-							defaultSelection={defaultUi}
-						/>
-					</Row>
-				)}
 				<Text color="error" size="medium" overflow="break-word">
 					{authError || <br />}
 				</Text>
@@ -150,10 +122,19 @@ export default function CredentialsForm({
 						width="fill"
 					/>
 				</Row>
+				<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
+					{samlButton}
+				</Row>
+				<Row mainAlignment="flex-start" crossAlignment="flex-start">
+					<Text
+						onClick={clickForgetPassword}
+						color="primary"
+						style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+					>
+						{t('forget_password', 'Forget Password?')}
+					</Text>
+				</Row>
 			</form>
-			<Row mainAlignment="flex-end" style={{ width: '100%' }} padding={{ bottom: 'extralarge' }}>
-				{samlButton}
-			</Row>
 		</Row>
 	);
 }
