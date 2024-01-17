@@ -79,61 +79,62 @@ export default function CredentialsForm({
 	);
 
 	return (
-		<form onSubmit={submitUserPassword} style={{ width: '100%' }} data-testid="credentials-form">
-			<input type="submit" style={{ display: 'none' }} />
-			<Row padding={{ bottom: 'large' }}>
-				<Input
-					defaultValue={username}
-					disabled={disableInputs}
-					data-testid="username"
-					onChange={(e) => setUsername(e.target.value)}
-					hasError={!!authError}
-					autocomplete="username"
-					label={t('username', 'Username')}
-					backgroundColor="gray5"
-				/>
-			</Row>
-			<Row padding={{ bottom: 'small' }}>
-				<PasswordInput
-					defaultValue={password}
-					disabled={disableInputs}
-					data-testid="password"
-					onChange={(e) => setPassword(e.target.value)}
-					hasError={!!authError}
-					autocomplete="password"
-					label={t('password', 'Password')}
-					backgroundColor="gray5"
-				/>
-			</Row>
-			<Text color="error" size="medium" overflow="break-word">
-				{authError || <br />}
-			</Text>
-			<Row
-				orientation="vertical"
-				crossAlignment="flex-start"
-				padding={{ bottom: 'large', top: 'small' }}
-			>
-				<Button
-					loading={loading}
-					data-testid="login"
-					onClick={submitUserPassword}
-					disabled={disableInputs}
-					label={t('login', 'Login')}
-					width="fill"
-				/>
-			</Row>
-			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
-				{samlButton}
-			</Row>
-			<Row mainAlignment="flex-start" crossAlignment="flex-start">
-				<Text
-					onClick={clickForgetPassword}
-					color="primary"
-					style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
-				>
-					{t('forget_password', 'Forget Password?')}
+		<Row>
+			<form style={{ width: '100%' }} data-testid="credentials-form">
+				<Row padding={{ bottom: 'large' }}>
+					<Input
+						defaultValue={username}
+						disabled={disableInputs}
+						data-testid="username"
+						onChange={(e) => setUsername(e.target.value)}
+						hasError={!!authError}
+						autocomplete="username"
+						label={t('username', 'Username')}
+						backgroundColor="gray5"
+					/>
+				</Row>
+				<Row padding={{ bottom: 'small' }}>
+					<PasswordInput
+						defaultValue={password}
+						disabled={disableInputs}
+						data-testid="password"
+						onChange={(e) => setPassword(e.target.value)}
+						hasError={!!authError}
+						autocomplete="password"
+						label={t('password', 'Password')}
+						backgroundColor="gray5"
+					/>
+				</Row>
+				<Text color="error" size="medium" overflow="break-word">
+					{authError || <br />}
 				</Text>
-			</Row>
-		</form>
+				<Row
+					orientation="vertical"
+					crossAlignment="flex-start"
+					padding={{ bottom: 'large', top: 'small' }}
+				>
+					<Button
+						loading={loading}
+						data-testid="login"
+						onClick={submitUserPassword}
+						disabled={disableInputs}
+						label={t('login', 'Login')}
+						width="fill"
+					/>
+				</Row>
+				<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
+					{samlButton}
+				</Row>
+				<Row mainAlignment="flex-start" crossAlignment="flex-start">
+					<Text
+						onClick={clickForgetPassword}
+						color="primary"
+						style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+					>
+						{t('forget_password', 'Forget Password?')}
+					</Text>
+				</Row>
+			</form>
+		</Row>
 	);
 }
