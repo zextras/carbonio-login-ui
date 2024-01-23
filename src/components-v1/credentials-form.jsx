@@ -23,7 +23,7 @@ export default function CredentialsForm({
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
-	const { carbonioDomainName } = useLoginConfigStore();
+	const { carbonioDomainName, carbonioFeatureResetPasswordEnabled } = useLoginConfigStore();
 
 	const submitUserPassword = useCallback(
 		(e) => {
@@ -125,15 +125,17 @@ export default function CredentialsForm({
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{samlButton}
 			</Row>
-			<Row mainAlignment="flex-start" crossAlignment="flex-start">
-				<Text
-					onClick={clickForgetPassword}
-					color="primary"
-					style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
-				>
-					{t('forget_password', 'Forget Password?')}
-				</Text>
-			</Row>
+			{carbonioFeatureResetPasswordEnabled !== false && (
+				<Row mainAlignment="flex-start" crossAlignment="flex-start">
+					<Text
+						onClick={clickForgetPassword}
+						color="primary"
+						style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+					>
+						{t('forget_password', 'Forget Password?')}
+					</Text>
+				</Row>
+			)}
 		</form>
 	);
 }
