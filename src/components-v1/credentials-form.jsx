@@ -78,6 +78,14 @@ export default function CredentialsForm({
 		[onClickForgetPassword]
 	);
 
+	const domainElement = useMemo(() => {
+		return !username?.includes('@') && carbonioDomainName ? (
+			<Text color="secondary" size="medium" style={{ marginTop: '1.25rem' }}>
+				@{carbonioDomainName}
+			</Text>
+		) : null;
+	}, [username, carbonioDomainName]);
+
 	return (
 		<form onSubmit={submitUserPassword} style={{ width: '100%' }} data-testid="credentials-form">
 			<input type="submit" style={{ display: 'none' }} />
@@ -91,6 +99,7 @@ export default function CredentialsForm({
 					autocomplete="username"
 					label={t('username', 'Username')}
 					backgroundColor="gray5"
+					CustomIcon={() => domainElement}
 				/>
 			</Row>
 			<Row padding={{ bottom: 'small' }}>
