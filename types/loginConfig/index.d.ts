@@ -19,4 +19,5 @@ export type LoginConfigStore = {
 	carbonioWebUiPrimaryColor?: string;
 	carbonioWebUiDarkPrimaryColor?: string;
 	carbonioDomainName?: string;
+	carbonioFeatureResetPasswordEnabled?: boolean;
 };
