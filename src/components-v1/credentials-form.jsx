@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Text } from '@zextras/carbonio-design-system';
+import { Button, Input, PasswordInput, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLoginConfigStore } from '../store/login/store';
 
@@ -80,9 +80,16 @@ export default function CredentialsForm({
 
 	const domainElement = useMemo(() => {
 		return !username?.includes('@') && carbonioDomainName ? (
-			<Text color="secondary" size="medium" style={{ marginTop: '1.25rem' }}>
-				@{carbonioDomainName}
-			</Text>
+			<Tooltip placement="top" label={`@${carbonioDomainName}`} size="small">
+				<Text
+					color="secondary"
+					size="small"
+					weight="light"
+					style={{ marginTop: '1.25rem', maxWidth: '8.125rem' }}
+				>
+					@{carbonioDomainName}
+				</Text>
+			</Tooltip>
 		) : null;
 	}, [username, carbonioDomainName]);
 
