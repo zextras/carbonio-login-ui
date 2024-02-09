@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useLayoutEffect, useState, useContext, useEffect } from 'react';
+import React, { useLayoutEffect, useState, useContext, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import {
 	Container,
@@ -14,16 +14,13 @@ import {
 	Row,
 	Text,
 	Tooltip,
-	useScreenMode
+	useScreenMode,
+	Popper
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
 import logoFirefox from '../../assets/logo-firefox.svg';
-import logoEdge from '../../assets/logo-edge.svg';
-import logoSafari from '../../assets/logo-safari.svg';
-import logoOpera from '../../assets/logo-opera.svg';
-import logoYandex from '../../assets/logo-yandex.svg';
-import logoUC from '../../assets/logo-ucbrowser.svg';
+import logoGlobe from '../../assets/globe-outline.svg';
 import backgroundImage from '../../assets/carbonio_loginpage.jpg';
 import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
 import logoCarbonio from '../../assets/logo-carbonio.png';
@@ -129,6 +126,8 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [copyrightBanner, setCopyrightBanner] = useState('');
 	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
 	const { setDomainName } = useLoginConfigStore();
+	const [open, setOpen] = useState(false);
+	const rowRef = useRef(undefined);
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
@@ -304,41 +303,60 @@ export default function PageLayout({ version, hasBackendApi }) {
 							<Text>{t('supported_browsers', 'Supported browsers')}</Text>
 							<Row padding={{ top: 'medium', bottom: 'extralarge' }} wrap="nowrap">
 								<Padding all="extrasmall" right="small">
-									<Tooltip label="Chrome">
+									<Tooltip label={t('browser_label.chrome', 'Chrome')}>
 										<img alt="Logo Chrome" src={logoChrome} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
-									<Tooltip label="Firefox">
+									<Tooltip label={t('browser_label.firefox', 'Firefox')}>
 										<img alt="Logo Firefox" src={logoFirefox} width="18px" />
 									</Tooltip>
 								</Padding>
 								<Padding all="extrasmall" right="small">
-									<Tooltip label="Edge Chromium">
-										<img alt="Logo Edge Chromium" src={logoEdge} width="18px" />
-									</Tooltip>
-								</Padding>
-								<Padding all="extrasmall" right="small">
-									<Tooltip label="Safari">
-										<img alt="Logo Safari" src={logoSafari} width="18px" />
-									</Tooltip>
-								</Padding>
-								<Padding all="extrasmall" right="small">
-									<Tooltip label="Opera">
-										<img alt="Logo Opera" src={logoOpera} width="18px" />
-									</Tooltip>
-								</Padding>
-								<Padding all="extrasmall" right="small">
-									<Tooltip label="Yandex">
-										<img alt="Logo Yandex" src={logoYandex} width="18px" />
-									</Tooltip>
-								</Padding>
-								<Padding all="extrasmall" right="small">
-									<Tooltip label="UC">
-										<img alt="Logo UC" src={logoUC} width="18px" />
-									</Tooltip>
+									<Row
+										ref={rowRef}
+										onMouseEnter={() => setOpen(true)}
+										onMouseLeave={() => setOpen(false)}
+									>
+										<img alt="Logo Globe" src={logoGlobe} width="18px" />
+										<Text>*</Text>
+									</Row>
 								</Padding>
 							</Row>
+							<Popper
+								open={open}
+								anchorEl={rowRef}
+								placement="bottom"
+								onClose={() => setOpen(false)}
+								disableRestoreFocus
+							>
+								<Container
+									orientation="horizontal"
+									mainAlignment="flex-start"
+									background="gray3"
+									height="fit"
+									crossAlignment="flex-start"
+								>
+									<Padding all="small">
+										<Padding bottom="small">
+											<Text size="extrasmall" weight="bold">
+												{t('browser_with_limited_support', 'Browser with limited support')}
+											</Text>
+										</Padding>
+										<Padding bottom="extrasmall">
+											<Text size="extrasmall">
+												{t('browser_label.microsoft_edge', 'Microsoft Edge (Chromium)')}
+											</Text>
+										</Padding>
+										<Padding bottom="extrasmall">
+											<Text size="extrasmall">{t('browser_label.safari', 'Safari')}</Text>
+										</Padding>
+										<Padding bottom="extrasmall">
+											<Text size="extrasmall">{t('browser_label.opera', 'Opera')}</Text>
+										</Padding>
+									</Padding>
+								</Container>
+							</Popper>
 							{copyrightBanner ? (
 								<Text size="small" overflow="break-word">
 									{copyrightBanner}
