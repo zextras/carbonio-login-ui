@@ -35,7 +35,6 @@
     "resend_Code": "Resend Code",
     "resend_code_notes": "Don’t see the code in your inbox? Wait a couple of minutes or check your spam folder. If you still don’t see it please click on \"Resend Code\".",
     "return_to_login": "Return To Login",
-    "select_ui": "Select UI",
     "send_a_recovery_code_notes": "Click on the button below to send a recovery code to that address, use it validate the next request.",
     "send_recovery_code": "Send Recovery Code",
     "server_not_responding": "The server is not responding. Please contact your server administator",
