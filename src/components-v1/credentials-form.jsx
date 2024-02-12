@@ -47,6 +47,7 @@ export default function CredentialsForm({
 	);
 
 	const samlButtonCbk = useCallback(() => {
+		console.log('_dd configuration.destinationUrl', configuration.destinationUrl);
 		window.location.assign(
 			`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`
 		);
@@ -79,7 +80,11 @@ export default function CredentialsForm({
 	);
 
 	return (
-		<form style={{ width: '100%' }} data-testid="credentials-form">
+		<form
+			onSubmit={(e) => e.preventDefault()}
+			style={{ width: '100%' }}
+			data-testid="credentials-form"
+		>
 			<Row padding={{ bottom: 'large' }}>
 				<Input
 					defaultValue={username}
