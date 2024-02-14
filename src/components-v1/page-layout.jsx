@@ -39,6 +39,7 @@ import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
 import { APP_STORE_URL, CARBONIO_LOGO_URL, PLAY_STORE_URL } from '../constants';
 import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
+import GetScreenMode from '../components-index/get-screen-mode';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -118,23 +119,13 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [showModal, setShowModal] = useState(true);
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
 	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
-	const [width, setWidth] = useState(window.innerWidth);
+	const screenModeForModal = GetScreenMode();
 
 	useEffect(() => {
 		const storedState = localStorage.getItem('doNotShowMobileAppModal');
 		if (storedState) {
 			setShowMobileAppModal(false);
 		}
-	}, []);
-
-	useEffect(() => {
-		const handleResize = () => {
-			setWidth(window.innerWidth);
-		};
-		window.addEventListener('resize', handleResize);
-		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
 	}, []);
 
 	useLayoutEffect(() => {
@@ -360,9 +351,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{showMobileAppModal && width < 1280 && (
+				{showMobileAppModal && screenModeForModal !== 'desktop' && (
 					<Modal
-						size={width < 960 ? 'small' : 'medium'}
+						size={screenModeForModal === 'mobile' ? 'small' : 'medium'}
 						title={t('are_you_using_a_small_screen?', 'Are you using a small screen?')}
 						open={showModal}
 						customFooter={
@@ -384,7 +375,10 @@ export default function PageLayout({ version, hasBackendApi }) {
 							crossAlignment="center"
 						>
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
-								<Text size={width < 960 ? 'small' : 'medium'} overflow="break-word">
+								<Text
+									size={screenModeForModal === 'mobile' ? 'small' : 'medium'}
+									overflow="break-word"
+								>
 									<Trans
 										i18nKey="login_with_app"
 										defaults="You can login using the dedicated app for <bold> Android </bold> and  <bold> Iphone, </bold> download your version using the buttons below!"
@@ -399,7 +393,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="play-store-logo"
 										src={playStore}
 										style={{
-											maxWidth: width < 447 ? '70%' : '90%',
+											maxWidth: screenModeForModal === 'mobile' ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
@@ -412,7 +406,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="app-store-logo"
 										src={appStore}
 										style={{
-											maxWidth: width < 447 ? '70%' : '90%',
+											maxWidth: screenModeForModal === 'mobile' ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
