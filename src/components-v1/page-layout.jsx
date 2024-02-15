@@ -36,7 +36,7 @@ import playStore from '../../assets/play-store.svg';
 import appStore from '../../assets/app-store.svg';
 import { generateColorSet, prepareUrlForForward } from '../utils';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
-import { APP_STORE_URL, CARBONIO_LOGO_URL, PLAY_STORE_URL } from '../constants';
+import { APP_STORE_URL, CARBONIO_LOGO_URL, DESKTOP, MOBILE, PLAY_STORE_URL } from '../constants';
 import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
 import GetScreenMode from '../components-index/get-screen-mode';
@@ -47,7 +47,7 @@ const LoginContainer = styled(Container)`
 	justify-content: center;
 	align-items: flex-start;
 	${({ screenMode }) =>
-		screenMode === 'mobile' &&
+		screenMode === MOBILE &&
 		css`
 			padding: 0 12px;
 			align-items: center;
@@ -78,7 +78,7 @@ const FormWrapper = styled(Container)`
 	// height: 100vh;
 	overflow-y: auto;
 	${({ screenMode }) =>
-		screenMode === 'mobile' &&
+		screenMode === MOBILE &&
 		css`
 			padding: 20px 20px 0;
 			width: 360px;
@@ -351,9 +351,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{showMobileAppModal && screenModeForModal !== 'desktop' && (
+				{showMobileAppModal && screenModeForModal !== DESKTOP && (
 					<Modal
-						size={screenModeForModal === 'mobile' ? 'small' : 'medium'}
+						size={screenModeForModal === MOBILE ? 'small' : 'medium'}
 						title={t('are_you_using_a_small_screen?', 'Are you using a small screen?')}
 						open={showModal}
 						customFooter={
@@ -376,7 +376,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 						>
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
 								<Text
-									size={screenModeForModal === 'mobile' ? 'small' : 'medium'}
+									size={screenModeForModal === MOBILE ? 'small' : 'medium'}
 									overflow="break-word"
 								>
 									<Trans
@@ -393,7 +393,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="play-store-logo"
 										src={playStore}
 										style={{
-											maxWidth: screenModeForModal === 'mobile' ? '70%' : '90%',
+											maxWidth: screenModeForModal === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
@@ -406,7 +406,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="app-store-logo"
 										src={appStore}
 										style={{
-											maxWidth: screenModeForModal === 'mobile' ? '70%' : '90%',
+											maxWidth: screenModeForModal === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',

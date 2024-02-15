@@ -4,31 +4,32 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { DESKTOP, MOBILE, TABLET } from '../constants';
 
-export default function GetScreenMode(target = window) {
+export default function GetScreenMode() {
 	const check = useCallback((width) => {
 		if (width < 1280) {
 			if (width < 640) {
-				return 'mobile';
+				return MOBILE;
 			}
-			return 'tablet';
+			return TABLET;
 		}
-		return 'desktop';
+		return DESKTOP;
 	}, []);
 
-	const [screenMode, setScreenMode] = useState();
+	const [screenMode, setScreenMode] = useState(DESKTOP);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		const handleResize = () => {
-			setScreenMode(check(target.innerWidth, target.innerHeight));
+			setScreenMode(check(window.innerWidth));
 		};
-		target.addEventListener('resize', handleResize);
-
+		handleResize();
+		window.addEventListener('resize', handleResize);
 		return () => {
-			target.removeEventListener('resize', handleResize);
+			window.removeEventListener('resize', handleResize);
 		};
-	}, [check, setScreenMode, target]);
+	}, [check]);
 
 	return screenMode;
 }
