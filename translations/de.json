@@ -33,5 +33,7 @@
     "changePassword_error_minNumericChars": "Mindestens {{num}} Zahlen verwenden",
     "changePassword_error_minUppercaseChars": "Mindestens {{num}} Großbuchstaben verwenden",
     "changePassword_error_block_personal_data": "Ungültiges Passwort: Passwort enthält Benutzernamen oder andere persönliche Daten: {{str}}",
-    "server_unreachable": "Fehler 502: Der Dienst ist nicht erreichbar – Versuchen Sie es später noch einmal."
+    "server_unreachable": "Fehler 502: Der Dienst ist nicht erreichbar – Versuchen Sie es später noch einmal.",
+    "code": "Code",
+    "submit": "EIngeben"
 }

@@ -1,1 +1,16 @@
-{}
+{
+    "all_rights_reserved": "All rights reserved",
+    "credentials_not_valid": "Credentials are not valid, please check data and try again",
+    "details": "Details",
+    "login": "Login",
+    "login_saml": "Login SAML",
+    "offline": "You are currently offline, please check your internet connection",
+    "password": "Password",
+    "server_not_responding": "The server is not responding. Please contact your server administator",
+    "supported_browsers": "Supported browsers",
+    "type_otp": "Type here One-Time-Password",
+    "unsupported_version": "The server sent a not valid response. Please contact your server administrator",
+    "code": "Code",
+    "two_step_authentication": "Two-Step-Authentication",
+    "username": "Username"
+}

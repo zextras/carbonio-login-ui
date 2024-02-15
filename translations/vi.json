@@ -12,8 +12,11 @@
     "two_step_authentication": "Xác thực 2 bước",
     "type_otp": "Gõ OTP(mật khẩu dùng một lần) vào đây",
     "unsupported_version": "Máy chủ đã gửi một phản hồi không hợp lệ. Vui lòng liên hệ với quản trị viên của bạn",
-    "username": "Tên đăng nhập",
+    "username": "Tên người dùng",
     "wrong_password": "Sai mật khẩu, vui lòng kiểm tra và thử lại lần nữa",
     "auth_not_valid": "Chính sách xác thực cần nhiều bước hơn, vui lòng liên hệ với quản trị viên của bạn để biết thêm thông tin",
-    "offline": "Bạn hiện đang ngoại tuyến, vui lòng kiểm tra kết nối internet của bạn"
+    "offline": "Bạn hiện đang ngoại tuyến, vui lòng kiểm tra kết nối internet của bạn",
+    "code": "Mã",
+    "submit": "Chấp nhận",
+    "changePassword_newPassword": "Mật khẩu mới"
 }
