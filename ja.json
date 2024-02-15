@@ -16,7 +16,7 @@
     "login_saml": "ログインSAML",
     "all_rights_reserved": "無断転載を禁じます",
     "cant_login": "今はログインできません",
-    "trust_device_and_ip": "このデバイスと IP アドレスを信頼する",
+    "trust_device_and_ip": "このデバイスとIPアドレスを信頼する",
     "select_ui": "UIを選択する",
     "changePassword_title": "新しいパスワードを作成する",
     "changePassword_error_passwordRecentlyUsed": "最近使用したパスワード",
@@ -33,5 +33,7 @@
     "changePassword_error_maxLength": "最大{{num}}文字です",
     "changePassword_confirmNewPassword": "新しいパスワードを確認する",
     "changePassword_error_block_personal_data": "無効なパスワード: パスワードにはユーザー名またはその他の個人データが含まれています: {{str}}",
-    "server_unreachable": "エラー 502: サービスにアクセスできません - 後程再度お試しください。"
+    "server_unreachable": "エラー 502: サービスにアクセスできません - 後程再度お試しください。",
+    "code": "コード",
+    "submit": "送信する"
 }
