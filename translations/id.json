@@ -33,5 +33,7 @@
     "changePassword_confirm_label": "Ubah kata sandi dan login",
     "carbonio_authentication": "Autentikasi Carbonio",
     "changePassword_error_block_personal_data": "Kata sandi tidak valid: kata sandi mengandung nama pengguna atau data pribadi: {{str}}",
-    "server_unreachable": "Error 502: Layanan di Luar Jangkauan - Coba lagi nanti."
+    "server_unreachable": "Error 502: Layanan di Luar Jangkauan - Coba lagi nanti.",
+    "code": "Kode",
+    "submit": "Kirim"
 }
