@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { DESKTOP, MOBILE, TABLET } from '../constants';
 
-export default function GetScreenMode() {
+export default function useScreenMode() {
 	const check = useCallback((width) => {
 		if (width < 1280) {
 			if (width < 640) {

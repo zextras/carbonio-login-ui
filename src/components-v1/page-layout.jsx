@@ -14,8 +14,7 @@ import {
 	Padding,
 	Row,
 	Text,
-	Tooltip,
-	useScreenMode
+	Tooltip
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import logoChrome from '../../assets/logo-chrome.svg';
@@ -39,7 +38,7 @@ import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
 import { APP_STORE_URL, CARBONIO_LOGO_URL, DESKTOP, MOBILE, PLAY_STORE_URL } from '../constants';
 import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
-import GetScreenMode from '../components-index/get-screen-mode';
+import useScreenMode from '../components-index/use-screen-mode';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -47,7 +46,7 @@ const LoginContainer = styled(Container)`
 	justify-content: center;
 	align-items: flex-start;
 	${({ screenMode }) =>
-		screenMode === MOBILE &&
+		screenMode !== DESKTOP &&
 		css`
 			padding: 0 12px;
 			align-items: center;
@@ -78,7 +77,7 @@ const FormWrapper = styled(Container)`
 	// height: 100vh;
 	overflow-y: auto;
 	${({ screenMode }) =>
-		screenMode === MOBILE &&
+		screenMode !== DESKTOP &&
 		css`
 			padding: 20px 20px 0;
 			width: 360px;
@@ -100,7 +99,6 @@ function DarkReaderListener() {
 
 export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
-	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
 
@@ -119,7 +117,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [showModal, setShowModal] = useState(true);
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
 	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
-	const screenModeForModal = GetScreenMode();
+	const screenMode = useScreenMode();
 
 	useEffect(() => {
 		const storedState = localStorage.getItem('doNotShowMobileAppModal');
@@ -351,9 +349,9 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{showMobileAppModal && screenModeForModal !== DESKTOP && (
+				{showMobileAppModal && screenMode !== DESKTOP && (
 					<Modal
-						size={screenModeForModal === MOBILE ? 'small' : 'medium'}
+						size={screenMode === MOBILE ? 'small' : 'medium'}
 						title={t('are_you_using_a_small_screen?', 'Are you using a small screen?')}
 						open={showModal}
 						customFooter={
@@ -375,10 +373,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 							crossAlignment="center"
 						>
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
-								<Text
-									size={screenModeForModal === MOBILE ? 'small' : 'medium'}
-									overflow="break-word"
-								>
+								<Text size={screenMode === MOBILE ? 'small' : 'medium'} overflow="break-word">
 									<Trans
 										i18nKey="login_with_app"
 										defaults="You can login using the dedicated app for <bold> Android </bold> and  <bold> Iphone, </bold> download your version using the buttons below!"
@@ -393,7 +388,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="play-store-logo"
 										src={playStore}
 										style={{
-											maxWidth: screenModeForModal === MOBILE ? '70%' : '90%',
+											maxWidth: screenMode === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
@@ -406,7 +401,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="app-store-logo"
 										src={appStore}
 										style={{
-											maxWidth: screenModeForModal === MOBILE ? '70%' : '90%',
+											maxWidth: screenMode === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
