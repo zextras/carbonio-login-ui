@@ -333,7 +333,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 									/>
 								</Padding>
 
-								<Text size="small" color="secondary">
+								<Text size="small" color="secondary" weight="light">
 									<Trans
 										i18nKey={
 											isSupportedBrowser ? 'browser_fully_supported' : 'browser_limited_supported'
