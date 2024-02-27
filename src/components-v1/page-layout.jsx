@@ -373,7 +373,11 @@ export default function PageLayout({ version, hasBackendApi }) {
 							crossAlignment="center"
 						>
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
-								<Text size={screenMode === MOBILE ? 'small' : 'medium'} overflow="break-word">
+								<Text
+									style={{ lineHeight: '1.5rem' }}
+									size={screenMode === MOBILE ? 'small' : 'medium'}
+									overflow="break-word"
+								>
 									<Trans
 										i18nKey="login_with_app"
 										defaults="You can login using the dedicated app for <bold> Android </bold> and  <bold> Iphone, </bold> download your version using the buttons below!"
@@ -381,14 +385,12 @@ export default function PageLayout({ version, hasBackendApi }) {
 									/>
 								</Text>
 							</Row>
-							<Row width="80%" mainAlignment="center" crossAlignment="center"></Row>
-							<Row crossAlignment="center" padding={{ bottom: 'large' }}>
+							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
 								<a target="_blank" href={PLAY_STORE_URL} rel="noreferrer">
 									<img
 										alt="play-store-logo"
 										src={playStore}
 										style={{
-											maxWidth: screenMode === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
@@ -401,7 +403,6 @@ export default function PageLayout({ version, hasBackendApi }) {
 										alt="app-store-logo"
 										src={appStore}
 										style={{
-											maxWidth: screenMode === MOBILE ? '70%' : '90%',
 											maxHeight: '150px',
 											display: 'block',
 											marginLeft: 'auto',
