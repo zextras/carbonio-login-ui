@@ -33,5 +33,7 @@
     "changePassword_confirm_label": "เปลี่ยนรหัสผ่านและเข้าสู่ระบบ",
     "carbonio_authentication": "การตรวจสอบ Carbonio",
     "changePassword_error_block_personal_data": "รหัสผ่านไม่ถูกต้อง: รหัสผ่านมีชื่อผู้ใช้หรือข้อมูลส่วนบุคคลอื่น ๆ: {{str}}",
-    "server_unreachable": "ข้อผิดพลาด 502: ไม่สามารถเข้าถึงบริการได้ - ลองอีกครั้งในภายหลัง"
+    "server_unreachable": "ข้อผิดพลาด 502: ไม่สามารถเข้าถึงบริการได้ - ลองอีกครั้งในภายหลัง",
+    "code": "รหัส",
+    "submit": "ส่ง"
 }

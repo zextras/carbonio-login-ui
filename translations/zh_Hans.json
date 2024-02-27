@@ -22,14 +22,16 @@
     "changePassword_error_maxLength": "最大长度为{{num}}个字符",
     "changePassword_confirmNewPassword": "确认新密码",
     "changePassword_error_confirmPassword": "密码不匹配",
-    "trust_device_and_ip": "信任此设备与IP地址",
+    "trust_device_and_ip": "信任此设备与 IP 地址",
     "select_ui": "选择UI",
-    "changePassword_title": "创建新密码",
+    "changePassword_title": "新建密码",
     "changePassword_error_passwordRecentlyUsed": "最近已使用密码",
     "changePassword_error_minUppercaseChars": "至少{{num}}个大写字符",
     "changePassword_error_minPunctuationChars": "至少{{num}}个标点符号",
     "changePassword_error_minNumericChars": "至少{{num}}个数字字符",
     "changePassword_error_minLowerCaseChars": "至少{{num}}个小写字符",
     "changePassword_confirm_label": "更改密码并登录",
-    "carbonio_authentication": "Carbonio 认证"
+    "carbonio_authentication": "Carbonio 认证",
+    "code": "代码",
+    "submit": "提交"
 }

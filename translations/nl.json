@@ -33,5 +33,7 @@
     "changePassword_confirm_label": "Wachtwoord wijzigen en inloggen",
     "carbonio_authentication": "Carbonio Authenticatie",
     "changePassword_error_block_personal_data": "Ongeldig wachtwoord: wachtwoord bevat gebruikersnaam of andere persoonlijke gegevens: {{str}}",
-    "server_unreachable": "Fout 502: Service onbereikbaar - Probeer het later opnieuw."
+    "server_unreachable": "Fout 502: Service onbereikbaar - Probeer het later opnieuw.",
+    "code": "Code",
+    "submit": "Verzenden"
 }

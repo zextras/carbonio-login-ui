@@ -39,5 +39,17 @@
     "code": "Kod",
     "forget_password": "Nie pamiętasz hasła?",
     "glad_to_have_you_back_username": "Dobrze Cię znowu widzieć, <strong>{{ username }}</strong>!",
-    "not_have_recovery_email_setup_note": "Nie ustawiłeś pomocniczego adresu e-mail? Skontaktuj się z Twoim administratorem systemu, aby otrzymać wsparcie."
+    "not_have_recovery_email_setup_note": "Nie ustawiłeś pomocniczego adresu e-mail? Skontaktuj się z Twoim administratorem systemu, aby otrzymać wsparcie.",
+    "proceed_with_the_login_and_change_your_password": "Możesz kontynuować logowanie, ale pamiętaj o zmianie swojego hasła",
+    "recovery_code_send_success": "Kod odzyskiwania konta został wysłany",
+    "resend_Code": "Wyślij kod ponownie",
+    "resend_code_notes": "Nie widzisz kodu w Twojej skrzynce odbiorczej? Poczekaj kilka minut i sprawdź Twój folder spamu. Jeśli dalej go nie widzisz, kliknij na \"Wyślij kod ponownie\".",
+    "return_to_login": "Powrót do logowania",
+    "send_recovery_code": "Wyślij kod odzyskiwania konta",
+    "something_went_wrong": "Coś poszło nie tak. Skontaktuj się z Twoim administratorem.",
+    "still_have_access_to_recovery_email": "Czy dalej masz dostęp do <strong>{{ recovery_email }}</strong>?",
+    "submit": "Kontynuuj",
+    "send_a_recovery_code_notes": "Kliknij na przycisk poniżej, aby wysłać kod odzyskiwania konta na ten adres, użyj go do potwierdzenia następnej prośby.",
+    "validate_code": "Potwierdź kod",
+    "validation_code_was_sent_to_recovery_email": "Kod został wysłany na <strong>{{ recovery_email }}</strong> i będzie ważny przez 10 minut. Masz jeszcze {{ recoveryAttemptsLeft }} prób. Wpisz kod poniżej."
 }
