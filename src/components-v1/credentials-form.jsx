@@ -94,8 +94,11 @@ export default function CredentialsForm({
 	}, [username, carbonioDomainName]);
 
 	return (
-		<form onSubmit={submitUserPassword} style={{ width: '100%' }} data-testid="credentials-form">
-			<input type="submit" style={{ display: 'none' }} />
+		<form
+			onSubmit={(e) => e.preventDefault()}
+			style={{ width: '100%' }}
+			data-testid="credentials-form"
+		>
 			<Row padding={{ bottom: 'large' }}>
 				<Input
 					defaultValue={username}
