@@ -1,5 +1,6 @@
 {
     "login": "Autentificare",
     "username": "Nume utilizator",
-    "password": "Parola"
+    "password": "Parola",
+    "details": "Detalii"
 }

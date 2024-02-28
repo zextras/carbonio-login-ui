@@ -1,7 +1,7 @@
 {
     "username": "Nome de usuário",
     "password": "Senha",
-    "login": "Iniciar sessão",
+    "login": "Login",
     "details": "Detalhes",
     "choose_otp": "Escolha o método OTP",
     "wrong_password": "Senha incorreta, verifique os dados e tente novamente",
@@ -33,5 +33,7 @@
     "changePassword_confirm_label": "Alterar senha e fazer login",
     "carbonio_authentication": "Autenticação do Carbonio",
     "changePassword_error_block_personal_data": "Senha inválida: a mesma contém o nome de usuário ou outras informações pessoais: {{str}}",
-    "server_unreachable": "Error 502: Service Unreachable - Retry later."
+    "server_unreachable": "Error 502: Service Unreachable - Retry later.",
+    "submit": "Enviar",
+    "code": "Código"
 }

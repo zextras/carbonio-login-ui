@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Text } from '@zextras/carbonio-design-system';
+import { Button, Input, PasswordInput, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLoginConfigStore } from '../store/login/store';
 
@@ -79,6 +79,21 @@ export default function CredentialsForm({
 		[onClickForgetPassword]
 	);
 
+	const domainElement = useMemo(() => {
+		return !username?.includes('@') && carbonioDomainName ? (
+			<Tooltip placement="top" label={`@${carbonioDomainName}`} size="small">
+				<Text
+					color="secondary"
+					size="small"
+					weight="light"
+					style={{ marginTop: '1.25rem', maxWidth: '8.125rem' }}
+				>
+					@{carbonioDomainName}
+				</Text>
+			</Tooltip>
+		) : null;
+	}, [username, carbonioDomainName]);
+
 	return (
 		<form
 			onSubmit={(e) => e.preventDefault()}
@@ -95,6 +110,7 @@ export default function CredentialsForm({
 					autocomplete="username"
 					label={t('username', 'Username')}
 					backgroundColor="gray5"
+					CustomIcon={() => domainElement}
 				/>
 			</Row>
 			<Row padding={{ bottom: 'small' }}>
