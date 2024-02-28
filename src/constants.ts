@@ -18,6 +18,11 @@ export const ZIMBRA_PASSWORD_MIN_AGE_ATTR_NAME = 'zimbraPasswordMinAge';
 export const ZIMBRA_PASSWORD_MAX_AGE_ATTR_NAME = 'zimbraPasswordMaxAge';
 export const ZIMBRA_PASSWORD_ENFORCE_HISTORY_ATTR_NAME = 'zimbraPasswordEnforceHistory';
 export const BLOCK_PERSONAL_DATA_IN_PASSWORD_POLICY = 'blockPersonalDataInPasswordPolicy';
+export const PLAY_STORE_URL = 'https://play.google.com/store/apps/developer?id=Zextras';
+export const APP_STORE_URL = 'https://apps.apple.com/it/developer/zextras/id1435606921';
+export const MOBILE = 'mobile';
+export const DESKTOP = 'desktop';
+export const TABLET = 'tablet';
 export const darkReaderDynamicThemeFixes = {
 	ignoreImageAnalysis: ['.no-dr-invert *'],
 	invert: [],

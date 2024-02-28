@@ -8,12 +8,12 @@
 import React, { useLayoutEffect, useState, useContext, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import {
+	Checkbox,
 	Container,
-	Link,
+	Modal,
 	Padding,
 	Row,
 	Text,
-	useScreenMode,
 	Icon
 } from '@zextras/carbonio-design-system';
 import { useTranslation, Trans } from 'react-i18next';
@@ -25,17 +25,24 @@ import { getLoginConfig } from '../services/login-page-services';
 import FormSelector from './form-selector';
 import ServerNotResponding from '../components-index/server-not-responding';
 import { ZimbraForm } from '../components-index/zimbra-form';
+import playStore from '../../assets/play-store.svg';
+import appStore from '../../assets/app-store.svg';
 import { generateColorSet, prepareUrlForForward } from '../utils';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
 import {
-	CARBONIO_CE_SUPPORTED_BROWSER_LINK,
+	APP_STORE_URL,
 	CARBONIO_LOGO_URL,
+	DESKTOP,
+	MOBILE,
+	PLAY_STORE_URL,
+	CARBONIO_CE_SUPPORTED_BROWSER_LINK,
 	CARBONIO_SUPPORTED_BROWSER_LINK,
 	CHROME,
 	FIREFOX
 } from '../constants';
 import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
+import useScreenMode from '../components-index/use-screen-mode';
 import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 
 const LoginContainer = styled(Container)`
@@ -44,7 +51,7 @@ const LoginContainer = styled(Container)`
 	justify-content: center;
 	align-items: flex-start;
 	${({ screenMode }) =>
-		screenMode === 'mobile' &&
+		screenMode !== DESKTOP &&
 		css`
 			padding: 0 12px;
 			align-items: center;
@@ -75,30 +82,13 @@ const FormWrapper = styled(Container)`
 	// height: 100vh;
 	overflow-y: auto;
 	${({ screenMode }) =>
-		screenMode === 'mobile' &&
+		screenMode !== DESKTOP &&
 		css`
 			padding: 20px 20px 0;
 			width: 360px;
 			max-height: 100%;
 			height: auto;
 		`}
-`;
-
-const PhotoLink = styled(Link)``;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const PhotoCredits = styled(Text)`
-	position: absolute;
-	bottom: ${({ theme }) => theme.sizes.padding.large};
-	right: ${({ theme }) => theme.sizes.padding.large};
-	opacity: 50%;
-	&,
-	${PhotoLink} {
-		color: #fff;
-	}
-
-	@media (max-width: 767px) {
-		display: none;
-	}
 `;
 
 function DarkReaderListener() {
@@ -114,7 +104,6 @@ function DarkReaderListener() {
 
 export default function PageLayout({ version, hasBackendApi }) {
 	const [t] = useTranslation();
-	const screenMode = useScreenMode();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
 
@@ -130,6 +119,17 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [copyrightBanner, setCopyrightBanner] = useState('');
 	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
 	const { setDomainName } = useLoginConfigStore();
+	const [showModal, setShowModal] = useState(true);
+	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
+	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+	const screenMode = useScreenMode();
+
+	useEffect(() => {
+		const storedState = localStorage.getItem('doNotShowMobileAppModal');
+		if (storedState) {
+			setShowMobileAppModal(false);
+		}
+	}, []);
 	const primaryColor = useGetPrimaryColor();
 	const [isAdvanced, SetIsAdvanced] = useState(true);
 	const isSupportedBrowser = browserName === CHROME || browserName === FIREFOX;
@@ -372,6 +372,82 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
+				{showMobileAppModal && screenMode !== DESKTOP && (
+					<Modal
+						size={screenMode === MOBILE ? 'small' : 'medium'}
+						title={t('are_you_using_a_small_screen?', 'Are you using a small screen?')}
+						open={showModal}
+						customFooter={
+							<Container orientation="horizontal" mainAlignment="flex-end">
+								<Row style={{ gap: '1rem' }}></Row>
+							</Container>
+						}
+						showCloseIcon
+						onClose={() => {
+							if (doNotShowAgain) {
+								localStorage.setItem('doNotShowMobileAppModal', JSON.stringify(true));
+							}
+							setShowModal(false);
+						}}
+					>
+						<Row
+							padding={{ vertical: 'extralarge' }}
+							mainAlignment="center"
+							crossAlignment="center"
+						>
+							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
+								<Text
+									style={{ lineHeight: '1.5rem' }}
+									size={screenMode === MOBILE ? 'small' : 'medium'}
+									overflow="break-word"
+								>
+									<Trans
+										i18nKey="login_with_app"
+										defaults="You can login using the dedicated app for <bold> Android </bold> and  <bold> Iphone, </bold> download your version using the buttons below!"
+										components={{ bold: <strong /> }}
+									/>
+								</Text>
+							</Row>
+							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
+								<a target="_blank" href={PLAY_STORE_URL} rel="noreferrer">
+									<img
+										alt="play-store-logo"
+										src={playStore}
+										style={{
+											maxHeight: '150px',
+											display: 'block',
+											marginLeft: 'auto',
+											marginRight: 'auto'
+										}}
+									/>
+								</a>
+								<a target="_blank" href={APP_STORE_URL} rel="noreferrer">
+									<img
+										alt="app-store-logo"
+										src={appStore}
+										style={{
+											maxHeight: '150px',
+											display: 'block',
+											marginLeft: 'auto',
+											marginRight: 'auto'
+										}}
+									/>
+								</a>
+							</Row>
+							<Row width="80%" mainAlignment="center" crossAlignment="center">
+								<Checkbox
+									iconColor="primary"
+									size="small"
+									label={t('do_not_show_this_again', 'Do not show this again')}
+									value={doNotShowAgain}
+									onClick={() => {
+										setDoNotShowAgain(!doNotShowAgain);
+									}}
+								/>
+							</Row>
+						</Row>
+					</Modal>
+				)}
 			</LoginContainer>
 		);
 	}
