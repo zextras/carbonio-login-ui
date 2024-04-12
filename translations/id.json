@@ -23,7 +23,6 @@
     "changePassword_confirmNewPassword": "Konfirmasi kata sandi baru",
     "changePassword_error_confirmPassword": "Kata sandi tidak sesuai",
     "trust_device_and_ip": "Percayai perangkat ini dan alamat IP",
-    "select_ui": "Pilih UI",
     "changePassword_title": "Buat kata sandi baru",
     "changePassword_error_passwordRecentlyUsed": "Kata sandi sudah digunakan",
     "changePassword_error_minUppercaseChars": "Butuh minimal {{num}} karakter huruf besar",
