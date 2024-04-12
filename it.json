@@ -17,7 +17,6 @@
     "choose_otp": "Scegli il metodo OTP",
     "auth_not_valid": "La politica di autenticazione richiede più passaggi: per maggiori informazioni contatta il tuo amministratore",
     "trust_device_and_ip": "Considera questo dispositivo e IP come affidabili",
-    "select_ui": "Seleziona UI",
     "changePassword_title": "Crea una nuova password",
     "changePassword_oldPassword": "Vecchia password",
     "changePassword_newPassword": "Nuova password",

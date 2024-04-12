@@ -22,7 +22,6 @@
     "changePassword_error_maxLength": "ความยาวสูงสุดคือ {{num}} ตัวอักษร",
     "changePassword_confirmNewPassword": "ยืนยันรหัสผ่านใหม่",
     "trust_device_and_ip": "เชื่อถืออุปกรณ์และที่อยู่ IP นี้",
-    "select_ui": "เลือก UI",
     "changePassword_title": "สร้างรหัสผ่านใหม่",
     "changePassword_error_passwordRecentlyUsed": "รหัสผ่านที่เพิ่งใช้งาน",
     "changePassword_error_minUppercaseChars": "ต้องการอักขระตัวพิมพ์ใหญ่อย่างน้อย {{num}} ตัว",

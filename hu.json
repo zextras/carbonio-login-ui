@@ -24,7 +24,6 @@
     "login_saml": "Bejelentkezés SAML",
     "offline": "Jelenleg offline, ellenőrizze az internetkapcsolatot",
     "password": "Jelszó",
-    "select_ui": "UI kiválasztása",
     "server_not_responding": "A szerver nem válaszol. Kérjük, lépjen kapcsolatba a szerver adminisztrátorával",
     "supported_browsers": "Támogatott böngészők",
     "trust_device_and_ip": "Megbízik ebben az eszközben és az IP-címben",

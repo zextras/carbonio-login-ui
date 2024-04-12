@@ -22,7 +22,6 @@
     "changePassword_error_maxLength": "Maximumlengte is {{num}} tekens",
     "changePassword_confirmNewPassword": "Bevestig nieuw wachtwoord",
     "trust_device_and_ip": "Vertrouw dit apparaat en het IP-adres",
-    "select_ui": "UI selecteren",
     "changePassword_title": "Een nieuw wachtwoord creëren",
     "changePassword_error_passwordRecentlyUsed": "Wachtwoord onlangs gebruikt",
     "changePassword_error_minUppercaseChars": "Verwacht ten minste {{num}} hoofdletters",

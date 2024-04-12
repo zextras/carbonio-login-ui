@@ -17,7 +17,6 @@
     "username": "Nazwa użytkownika",
     "wrong_password": "Błędne hasło, sprawdź dane i spróbuj ponownie",
     "trust_device_and_ip": "Ufaj temu urzędzeniu i adresowi IP",
-    "select_ui": "Wybierz interfejs użytkownika",
     "changePassword_title": "Stwórz nowe hasło",
     "changePassword_oldPassword": "Stare hasło",
     "changePassword_newPassword": "Nowe hasło",

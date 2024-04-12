@@ -17,7 +17,6 @@
     "all_rights_reserved": "無断転載を禁じます",
     "cant_login": "今はログインできません",
     "trust_device_and_ip": "このデバイスとIPアドレスを信頼する",
-    "select_ui": "UIを選択する",
     "changePassword_title": "新しいパスワードを作成する",
     "changePassword_error_passwordRecentlyUsed": "最近使用したパスワード",
     "changePassword_error_minUppercaseChars": "大文字は{{num}}文字以上なければなりません",

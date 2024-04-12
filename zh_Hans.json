@@ -23,7 +23,6 @@
     "changePassword_confirmNewPassword": "确认新密码",
     "changePassword_error_confirmPassword": "密码不匹配",
     "trust_device_and_ip": "信任此设备与 IP 地址",
-    "select_ui": "选择UI",
     "changePassword_title": "新建密码",
     "changePassword_error_passwordRecentlyUsed": "最近已使用密码",
     "changePassword_error_minUppercaseChars": "至少{{num}}个大写字符",

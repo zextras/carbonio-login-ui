@@ -17,7 +17,6 @@
     "cant_login": "अभी लॉगिन नहीं कर सकते",
     "credentials_not_valid": "लॉगिन पासवर्ड मान्य नहीं है, जांच करें और दोबारा कोशिश करें",
     "trust_device_and_ip": "इस डिवाइस और आईपी एड्रेस पर भरोसा करें",
-    "select_ui": "UI चुनें",
     "changePassword_title": "कोई नया पासवर्ड बनाएँ",
     "changePassword_error_passwordRecentlyUsed": "हाल ही में इस्तेमाल किया गया पासवर्ड",
     "changePassword_error_minUppercaseChars": "कम से कम {{num}} अपरकेस वर्ण आने चाहिए",
