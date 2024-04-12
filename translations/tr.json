@@ -17,7 +17,6 @@
     "username": "Kullanıcı adı",
     "wrong_password": "Yanlış parola, lütfen kontrol edin ve tekrar deneyin",
     "trust_device_and_ip": "Bu cihaza ve IP adresine güven",
-    "select_ui": "Kullanıcı arayüzü seçin",
     "changePassword_title": "Yeni parola oluştur",
     "changePassword_oldPassword": "Eski parola",
     "changePassword_newPassword": "Yeni parola",

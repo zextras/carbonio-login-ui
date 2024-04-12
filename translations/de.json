@@ -22,7 +22,6 @@
     "changePassword_error_maxLength": "Die maximale Länge ist {{num}} Zeichen",
     "changePassword_confirmNewPassword": "Neues Passwort bestätigen",
     "carbonio_authentication": "Carbonio Authentifizierung",
-    "select_ui": "UI auswahlen",
     "trust_device_and_ip": "Diesem Gerät und dieser IP-Adresse vertrauen",
     "changePassword_error_confirmPassword": "Passwörter stimmen nicht überein",
     "changePassword_error_passwordRecentlyUsed": "Kürzlich verwendetes Passwort",

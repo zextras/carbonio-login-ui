@@ -2,7 +2,7 @@
     "username": "Nom d'utilisateur",
     "password": "Mot de passe",
     "login": "Connexion",
-    "details": "Details",
+    "details": "Détails",
     "auth_not_valid": "La politique d'authentification nécessite plus d'étapes : contactez, s'il vous plaît, votre administrateur pour plus d'information",
     "choose_otp": "Choisissez la méthode OTP",
     "wrong_password": "Mot de passe faux, veuillez vérifier la saisie et recommencer",
@@ -29,7 +29,6 @@
     "changePassword_newPassword": "Nouveau mot de passe",
     "changePassword_oldPassword": "Ancien mot de passe",
     "changePassword_title": "Créer un nouveau mot de passe",
-    "select_ui": "Sélectionnez l'interface utilisateur",
     "trust_device_and_ip": "Faire confiance à cet appareil et cette adresse IP",
     "changePassword_error_maxLength": "La longueur maximum est de {{num}} caractères",
     "changePassword_error_block_personal_data": "Mot de passe non valide : le mot de passe contient un nom d'utilisateur ou d'autres données personnelles : {{str}}",
@@ -50,6 +49,6 @@
     "send_recovery_code": "Envoyer un code de récupération",
     "something_went_wrong": "Quelque chose s'est mal passé. Merci de contacter votre administrateur de messagerie.",
     "still_have_access_to_recovery_email": "Avez-vous toujours accès à <strong>{{ recovery_email }}</strong> ?",
-    "submit": "Valider",
+    "submit": "Soumettre",
     "validate_code": "Valider le code"
 }
