@@ -44,6 +44,7 @@ import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
 import useScreenMode from '../components-index/use-screen-mode';
 import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
+import useIsTouchDevice from '../components-index/use-touch-device';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;
@@ -123,6 +124,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
 	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
 	const screenMode = useScreenMode();
+	const isTouchDevice = useIsTouchDevice();
 
 	useEffect(() => {
 		const storedState = localStorage.getItem('doNotShowMobileAppModal');
@@ -372,7 +374,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
-				{showMobileAppModal && screenMode !== DESKTOP && (
+				{showMobileAppModal && screenMode !== DESKTOP && isTouchDevice && (
 					<Modal
 						size={screenMode === MOBILE ? 'small' : 'medium'}
 						title={t('are_you_using_a_small_screen?', 'Are you using a small screen?')}
