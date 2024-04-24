@@ -1,7 +1,9 @@
 {
+    "account_recovery_not_found_or_not_verified": "Account Recovery is either not found or not verified. Please contact your administrator.",
     "all_rights_reserved": "All rights reserved",
     "are_you_using_a_small_screen?": "Are you using a small screen?",
     "auth_not_valid": "The authentication policy needs more steps: please contact your administrator for more information",
+    "authentication_error": "Authentication Error - Retry later.",
     "browser_fully_supported": "Your browser is fully <a>supported</a>",
     "browser_limited_supported": "Having troubles? Try a fully <a>supported</a> browser",
     "cant_login": "Cannot log in now",
@@ -38,8 +40,10 @@
     "not_have_recovery_email_setup_note": "Don’t have a recovery email setup? Please contact your system administrator for support.",
     "offline": "You are currently offline, please check your internet connection",
     "password": "Password",
+    "password_Reset_feature_disabled": "Password reset feature is disabled.",
     "proceed_with_the_login_and_change_your_password": "You can proceed with the login, but remember to also change your password",
     "recovery_code_send_success": "The Recovery code has been send successfully",
+    "rember_this_device": "Remember this device",
     "resend_Code": "Resend Code",
     "resend_code_notes": "Don’t see the code in your inbox? Wait a couple of minutes or check your spam folder. If you still don’t see it please click on \"Resend Code\".",
     "return_to_login": "Return To Login",
@@ -57,5 +61,7 @@
     "username": "Username",
     "validate_code": "Validate Code",
     "validation_code_was_sent_to_recovery_email": "The validation code was sent to <strong>{{ recovery_email }}</strong> and will be valid for 10 minutes. You have {{ recoveryAttemptsLeft }} more attempts. Enter the code in the form below.",
+    "verify": "Verify",
+    "we_just_need_one_more_check_before_getting_back_in": "We just need one more check before getting back in.",
     "wrong_password": "Wrong password, please check data and try again"
 }

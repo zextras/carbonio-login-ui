@@ -23,7 +23,7 @@ export function getRecoveryAccount(username) {
 	});
 }
 
-export function getSendRecoveryCode(username) {
+export function getSendRecoveryToken(username) {
 	return fetch('/service/soap/RecoverAccountRequest', {
 		method: 'POST',
 		headers: {
@@ -43,7 +43,7 @@ export function getSendRecoveryCode(username) {
 	});
 }
 
-export function validateRecoveryCode(username, recoveryCode) {
+export function validateRecoveryToken(username, recoveryCode) {
 	return fetch('/service/soap/AuthRequest', {
 		method: 'POST',
 		headers: {
