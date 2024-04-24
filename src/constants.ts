@@ -64,3 +64,4 @@ export const FEATURE_RESET_PASSWORD_DISABLED = 'service.FEATURE_RESET_PASSWORD_D
 export const CONTACT_ADMIN = 'service.CONTACT_ADMIN';
 export const RECOVERY_TOKEN = 'recovery-token';
 export const PASSWORD = 'password';
+export const CARBONIO = 'carbonio';

@@ -25,7 +25,8 @@ import {
 	FEATURE_RESET_PASSWORD_DISABLED,
 	ZM_AUTH_TOKEN,
 	CONTACT_ADMIN,
-	RECOVERY_TOKEN
+	RECOVERY_TOKEN,
+	CARBONIO
 } from '../constants';
 import { postV2Login, submitOtp } from '../services/v2-service';
 
@@ -264,7 +265,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 	}, [t, token, username]);
 
 	const onValidateToken = useCallback(() => {
-		if (configuration) {
+		if (configuration?.systemType === CARBONIO) {
 			validateCarbonioToken();
 		} else {
 			validateCommunityToken();
