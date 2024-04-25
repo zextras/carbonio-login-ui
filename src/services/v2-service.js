@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { PASSWORD, RECOVERY_TOKEN } from '../constants';
 import { getDeviceModel, deviceId } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,7 +20,7 @@ export function postV2Login(authMethod, user, password, service) {
 		body: JSON.stringify({
 			auth_method: authMethod,
 			user,
-			password
+			[authMethod === RECOVERY_TOKEN ? RECOVERY_TOKEN : PASSWORD]: password
 		})
 	});
 }

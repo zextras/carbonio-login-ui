@@ -60,3 +60,8 @@ export const CARBONIO_CE_SUPPORTED_BROWSER_LINK =
 	'https://docs.zextras.com/carbonio-ce/html/basics/general.html#browser-compatibility';
 export const CARBONIO_SUPPORTED_BROWSER_LINK =
 	'https://docs.zextras.com/carbonio/html/basics/general.html#browser-compatibility';
+export const FEATURE_RESET_PASSWORD_DISABLED = 'service.FEATURE_RESET_PASSWORD_DISABLED';
+export const CONTACT_ADMIN = 'service.CONTACT_ADMIN';
+export const RECOVERY_TOKEN = 'recovery-token';
+export const PASSWORD = 'password';
+export const CARBONIO = 'carbonio';
