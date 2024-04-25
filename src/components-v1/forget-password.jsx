@@ -48,10 +48,10 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 	const [token, setToken] = useState('');
 	const [recoveryEmail, setRecoveryEmail] = useState('');
 	const [recoveryEmailError, setRecoveryEmailError] = useState('');
-	const [sendTokenError, setSendTokenError] = useState(false);
-	const [validationTokenError, setValidationTokenError] = useState(false);
+	const [sendTokenError, setSendTokenError] = useState('');
+	const [validationTokenError, setValidationTokenError] = useState('');
 	const [recoveryAttemptsLeft, setRecoveryAttemptsLeft] = useState();
-	const [validationOTPError, setValidationOTPError] = useState(false);
+	const [validationOTPError, setValidationOTPError] = useState('');
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const [otpList, setOtpList] = useState([]);
 	const [otpId, setOtpId] = useState('');
