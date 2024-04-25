@@ -21,6 +21,7 @@ import {
 	getSendRecoveryToken,
 	validateRecoveryToken
 } from '../services/forget-password-service';
+import { setCookie } from '../utils';
 import {
 	FEATURE_RESET_PASSWORD_DISABLED,
 	ZM_AUTH_TOKEN,
@@ -186,8 +187,16 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 				} catch (err) {
 					payload = await res;
 				}
+				let authTokenArr;
+				let authToken;
 				switch (res.status) {
 					case 200:
+						authTokenArr = payload?.Body?.AuthResponse?.authToken;
+						authToken =
+							authTokenArr && authTokenArr.length > 0 ? authTokenArr[0]._content : undefined;
+						if (authToken) {
+							setCookie(ZM_AUTH_TOKEN, authToken);
+						}
 						setProgress(state.proceedToLoginScreen);
 						break;
 					case 401:
