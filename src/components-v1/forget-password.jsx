@@ -100,7 +100,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 				try {
 					payload = await res.json();
 				} catch (err) {
-					payload = await res;
+					payload = res;
 				}
 				let email;
 				switch (res.status) {
@@ -139,7 +139,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 				try {
 					payload = await res.json();
 				} catch (err) {
-					payload = await res;
+					payload = res;
 				}
 				let rAttemptLeft;
 				switch (res.status) {
@@ -185,7 +185,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 				try {
 					payload = await res.json();
 				} catch (err) {
-					payload = await res;
+					payload = res;
 				}
 				let authTokenArr;
 				let authToken;
@@ -231,7 +231,7 @@ const ForgetPassword = ({ configuration, disableInputs }) => {
 				try {
 					payload = await res.json();
 				} catch (err) {
-					payload = await res;
+					payload = res;
 				}
 				switch (res.status) {
 					case 200:
