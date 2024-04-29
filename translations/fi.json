@@ -7,7 +7,6 @@
     "offline": "Olet verkottomassa tilassa, tarkista internetyhteytesi",
     "auth_not_valid": "Kirjautumispolitiikka tarvitsee enemmän vaiheita: Ole hyvä ja ota yhteyttä ylläpitäjään listäiteoja saadaksesi",
     "server_not_responding": "Palvelin ei vastaa. Ole hyvä ja ota yteyttä palvelimen ylläpitäjään",
-    "supported_browsers": "Tuetut selaimet",
     "two_step_authentication": "Kaksivaiheinen kirjautuminen",
     "type_otp": "Kirjoita tähän kertakäyttösalasana",
     "unsupported_version": "Palvelin palautti epäkelvon vastauksen. Ole hyvä ja ota yhteyttä palvelimen ylläpitäjään",

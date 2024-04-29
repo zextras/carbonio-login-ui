@@ -1,7 +1,7 @@
 {
     "auth_not_valid": "Polityka uwierzytelniania wymaga dalszych kroków: skontaktuj się z administratorem, aby uzyskać więcej informacji",
     "all_rights_reserved": "Wszelkie prawa zastrzeżone",
-    "cant_login": "Nie mogę się zalogować",
+    "cant_login": "Nie da się obecnie zalogować",
     "choose_otp": "Wybierz metodę hasła OTP",
     "credentials_not_valid": "Dane logowania są nieprawidłowe, sprawdź dane i spróbuj ponownie",
     "details": "Szczegóły",
@@ -10,7 +10,6 @@
     "offline": "Jesteś offline, sprawdź swoje połączenie internetowe",
     "password": "Hasło",
     "server_not_responding": "Serwer nie odpowiada. Skontaktuj się z administratorem serwera",
-    "supported_browsers": "Wspierane przeglądarki",
     "two_step_authentication": "Uwierzytelnianie dwuetapowe",
     "type_otp": "Wpisz tutaj hasło OTP",
     "unsupported_version": "Serwer wysłał nieprawidłową odpowiedź. Skontaktuj się z administratorem serwera",
@@ -50,5 +49,13 @@
     "submit": "Kontynuuj",
     "send_a_recovery_code_notes": "Kliknij na przycisk poniżej, aby wysłać kod odzyskiwania konta na ten adres, użyj go do potwierdzenia następnej prośby.",
     "validate_code": "Potwierdź kod",
-    "validation_code_was_sent_to_recovery_email": "Kod został wysłany na <strong>{{ recovery_email }}</strong> i będzie ważny przez 10 minut. Masz jeszcze {{ recoveryAttemptsLeft }} prób. Wpisz kod poniżej."
+    "validation_code_was_sent_to_recovery_email": "Kod został wysłany na <strong>{{ recovery_email }}</strong> i będzie ważny przez 10 minut. Masz jeszcze {{ recoveryAttemptsLeft }} prób. Wpisz kod poniżej.",
+    "browser_fully_supported": "Twoja przeglądarka jest w pełni <a>wspierana</a>",
+    "browser_limited_supported": "Masz trudności? Spróbuj użyć w pełni <a>wspieranej</a> przeglądarki",
+    "changePassword_error_passwordLocked": "Hasło jest zablokowane i nie może zostać zmienione",
+    "do_not_show_this_again": "Nie pokazuj tego ponownie",
+    "login_with_app": "Możesz się zalogować używając dedykowanej aplikacji na system <bold> Android </bold> lub dla <bold> Iphone, </bold> pobierz wersję dla Ciebie używając przycisków poniżej!",
+    "changePassword_error_minDigitsOrPuncs": "Wymagane min. {{num}} znaków numerycznych lub interpunkcyjnych",
+    "changePassword_error_block_common_words": "Nieprawidłowe hasło: hasło jest zbyt pospolite: {{str}}",
+    "are_you_using_a_small_screen?": "Czy używasz małego ekranu?"
 }

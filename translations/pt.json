@@ -12,7 +12,6 @@
     "type_otp": "Digite a sua senha de uso único (OTP)",
     "login_saml": "Login com SAML",
     "offline": "Está offline. Verifique a sua ligação à internet",
-    "supported_browsers": "Navegadores suportados",
     "credentials_not_valid": "Credenciais inválidas. Verifique os dados e tente novamente",
     "all_rights_reserved": "Todos os direitos reservados",
     "cant_login": "De momento não é possível fazer login",
