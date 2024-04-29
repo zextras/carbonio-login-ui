@@ -25,7 +25,6 @@
     "offline": "Jelenleg offline, ellenőrizze az internetkapcsolatot",
     "password": "Jelszó",
     "server_not_responding": "A szerver nem válaszol. Kérjük, lépjen kapcsolatba a szerver adminisztrátorával",
-    "supported_browsers": "Támogatott böngészők",
     "trust_device_and_ip": "Megbízik ebben az eszközben és az IP-címben",
     "two_step_authentication": "Kétlépéses hitelesítés",
     "server_unreachable": "502-es hiba: A szolgáltatás nem érhető el - próbálja újra később.",

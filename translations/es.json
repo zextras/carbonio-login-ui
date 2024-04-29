@@ -11,7 +11,6 @@
     "type_otp": "Ingresa aquí la contraseña de un solo uso (OTP)",
     "unsupported_version": "El servidor envió una respuesta inválida. Contacte con el administrador del mismo",
     "offline": "Sin conexión. Por favor, compruebe la conexión a Internet",
-    "supported_browsers": "Navegadores soportados",
     "login_saml": "Autenticación SAML",
     "all_rights_reserved": "Todos los derechos reservados",
     "cant_login": "No fue posible iniciar sesión",

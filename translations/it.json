@@ -5,7 +5,6 @@
     "credentials_not_valid": "Credenziali non valide, controlla i dati inseriti e riprova",
     "username": "Nome utente",
     "two_step_authentication": "Autenticazione a Due Fattori",
-    "supported_browsers": "Browser supportati",
     "password": "Password",
     "offline": "Sei attualmente offline, controlla la tua connessione Internet",
     "login_saml": "Accedi con SAML",

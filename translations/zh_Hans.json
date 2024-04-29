@@ -8,7 +8,6 @@
     "auth_not_valid": "身份验证策略需要更多步骤：请联系您的管理员以获取更多信息",
     "server_not_responding": "服务器没有响应。请联系您的系统管理员",
     "unsupported_version": "服务器发送了一个无效响应。请联系您的服务器管理员",
-    "supported_browsers": "支持的浏览器",
     "two_step_authentication": "两步验证",
     "type_otp": "在此处输入一次性密码",
     "login_saml": "登录SAML",

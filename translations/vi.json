@@ -8,7 +8,6 @@
     "login_saml": "Đăng nhập theo chuẩn SAML",
     "password": "Mật khẩu",
     "server_not_responding": "Máy chủ không trả lời. Vui lòng liên hệ quản trị viên của bạn",
-    "supported_browsers": "Các trình duyệt được hỗ trợ",
     "two_step_authentication": "Xác thực 2 bước",
     "type_otp": "Gõ OTP(mật khẩu dùng một lần) vào đây",
     "unsupported_version": "Máy chủ đã gửi một phản hồi không hợp lệ. Vui lòng liên hệ với quản trị viên của bạn",
