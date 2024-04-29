@@ -7,7 +7,6 @@
     "wrong_password": "Verkeerd wachtwoord, controleer de gegevens en probeer het opnieuw",
     "auth_not_valid": "Het authenticatiebeleid heeft meer stappen nodig: neem contact op met uw administrator voor meer informatie",
     "server_not_responding": "De server reageert niet. Neem contact op met uw serveradministrator",
-    "supported_browsers": "Ondersteunde browsers",
     "two_step_authentication": "Twee-stappen-authenticatie",
     "type_otp": "Typ hier eenmalig wachtwoord",
     "unsupported_version": "De server heeft een ongeldig antwoord gestuurd. Neem contact op met uw serveradministrator",

@@ -7,7 +7,6 @@
     "offline": "You are currently offline, please check your internet connection",
     "password": "Password",
     "server_not_responding": "The server is not responding. Please contact your server administator",
-    "supported_browsers": "Supported browsers",
     "type_otp": "Type here One-Time-Password",
     "unsupported_version": "The server sent a not valid response. Please contact your server administrator",
     "code": "Code",

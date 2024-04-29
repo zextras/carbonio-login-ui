@@ -7,7 +7,6 @@
     "wrong_password": "Kata sandi salah, periksa data lalu coba lagi",
     "auth_not_valid": "Kebijakan autentikasi memerlukan langkah lebih lanjut: hubungi administrator Anda untuk informasi selengkapnya",
     "server_not_responding": "Server tidak merespons. Hubungi administrator server Anda",
-    "supported_browsers": "Browser yang didukung",
     "two_step_authentication": "Autentikasi Dua Langkah",
     "type_otp": "Ketik Kata Sandi Sekali Pakai di sini",
     "unsupported_version": "Server tidak merespons. Hubungi administrator server Anda",
