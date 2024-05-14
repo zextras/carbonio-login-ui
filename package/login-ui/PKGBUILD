@@ -17,12 +17,16 @@ priority="optional"
 url="https://www.zextras.com/"
 depends=(
   "carbonio-nginx"
+  "carbonio-webui-i18n"
 )
 
 package() {
   cd "${srcdir}"
   mkdir -p "${pkgdir}/opt/zextras/web/login/"
   cp -a ../../build/* "${pkgdir}/opt/zextras/web/login"
+
+  # Remove i18n directory (provided by webui-i18n)
+  rm "${pkgdir}/opt/zextras/web/login/i18n"
 }
 
 postinst() {
