@@ -17,6 +17,7 @@ priority="optional"
 url="https://www.zextras.com/"
 depends=(
   "carbonio-nginx"
+  "carbonio-webui-i18n"
 )
 
 package() {
