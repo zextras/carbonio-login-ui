@@ -6,8 +6,8 @@
 # This package contains the assets for the browser login page
 
 pkgname="carbonio-login-ui"
-pkgver="0.9.24"
-pkgrel="1"
+pkgver="{{version}}"
+pkgrel="{{pkgRel}}"
 pkgdesc="Zextras login page assets"
 maintainer="Zextras <packages@zextras.com>"
 arch=('x86_64')

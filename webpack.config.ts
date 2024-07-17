@@ -4,24 +4,34 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
-const CopyPlugin = require('copy-webpack-plugin');
-const babelRCApp = require('./babel.config.app.js');
-const pkg = require('./package.json');
+import path from 'path';
 
-const pathsToCopy = [{ from: 'src/mockServiceWorker.js', to: 'mockServiceWorker.js' }];
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = (env) => {
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+
+import Dotenv from 'dotenv-webpack';
+
+import CopyPlugin from 'copy-webpack-plugin';
+
+import webpack from 'webpack';
+import webpackDevServer from 'webpack-dev-server';
+
+import pkg from './package.json';
+
+const config = (
+	env: Record<string, unknown>,
+	args: { mode?: webpack.Configuration['mode'] }
+): webpack.Configuration & webpackDevServer.Configuration => {
+	const pkgRel = args.mode === 'development' ? Date.now() : 1;
 	return {
+		mode: args.mode,
 		devtool: 'source-map',
 		entry: {
 			index: path.resolve(process.cwd(), 'src', 'index.jsx')
 		},
 		output: {
-			path: `${__dirname}/build`
+			path: `${__dirname}/dist`
 		},
 		target: 'web',
 		devServer: {
@@ -43,8 +53,7 @@ module.exports = (env) => {
 				{
 					test: /\.[jt]sx?$/,
 					exclude: /node_modules/,
-					loader: require.resolve('babel-loader'),
-					options: babelRCApp
+					loader: 'babel-loader'
 				},
 				{
 					test: /\.html$/,
@@ -56,7 +65,6 @@ module.exports = (env) => {
 				},
 				{
 					test: /\.(css)$/,
-					exclude: [/node_modules\/tinymce/],
 					use: [
 						{
 							loader: 'style-loader'
@@ -93,7 +101,22 @@ module.exports = (env) => {
 		plugins: [
 			new CleanWebpackPlugin(),
 			new CopyPlugin({
-				patterns: pathsToCopy
+				patterns: [
+					{ from: 'CHANGELOG.md', to: '.', noErrorOnMissing: true },
+					{ from: './package/yap.json', to: '.' },
+					{
+						from: './package/PKGBUILD.template',
+						to: 'package/PKGBUILD',
+						toType: 'file',
+						transform: (content): string => {
+							return content
+								.toString()
+								.replaceAll('{{version}}', pkg.version)
+								.replaceAll('{{pkgRel}}', `${pkgRel}`);
+						}
+					},
+					{ from: 'src/mockServiceWorker.js', to: 'mockServiceWorker.js' }
+				]
 			}),
 			new HtmlWebpackPlugin({
 				inject: true,
@@ -110,3 +133,5 @@ module.exports = (env) => {
 		]
 	};
 };
+
+export default config;
