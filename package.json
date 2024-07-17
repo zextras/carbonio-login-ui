@@ -5,7 +5,6 @@
 	"main": "src/index.html",
 	"scripts": {
 		"release": "standard-version",
-		"build:zimlet": "npm run build && cp CHANGELOG.md build/ && mkdir -p pkg && cd build && zip -r ../pkg/com_zextras_zapp_login.zip .",
 		"type-check": "tsc --noEmit",
 		"type-check:watch": "npm run type-check -- --watch",
 		"test": "jest",

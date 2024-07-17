@@ -23,7 +23,7 @@ depends=(
 package() {
   cd "${srcdir}"
   mkdir -p "${pkgdir}/opt/zextras/web/login/"
-  cp -a ../../build/* "${pkgdir}/opt/zextras/web/login"
+  cp -a ../../dist/* "${pkgdir}/opt/zextras/web/login"
   ln -s /opt/zextras/web/login-i18n \
     "${pkgdir}/opt/zextras/web/login/i18n"
 }
