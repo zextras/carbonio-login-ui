@@ -5,8 +5,10 @@
  */
 
 import React, { useCallback, useState, useMemo } from 'react';
+
 import { Button, Input, PasswordInput, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+
 import { useLoginConfigStore } from '../store/login/store';
 
 const urlParams = new URLSearchParams(window.location.search);

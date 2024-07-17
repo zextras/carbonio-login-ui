@@ -6,7 +6,7 @@
  */
 
 import React, { useLayoutEffect, useState, useContext, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+
 import {
 	Checkbox,
 	Container,
@@ -16,19 +16,20 @@ import {
 	Text,
 	Icon
 } from '@zextras/carbonio-design-system';
-import { useTranslation, Trans } from 'react-i18next';
 import { browserName } from 'react-device-detect';
-import backgroundImage from '../../assets/carbonio_loginpage.jpg';
-import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
-import logoCarbonio from '../../assets/logo-carbonio.png';
-import { getLoginConfig } from '../services/login-page-services';
+import { useTranslation, Trans } from 'react-i18next';
+import styled, { css } from 'styled-components';
+
 import FormSelector from './form-selector';
-import ServerNotResponding from '../components-index/server-not-responding';
-import { ZimbraForm } from '../components-index/zimbra-form';
-import playStore from '../../assets/play-store.svg';
 import appStore from '../../assets/app-store.svg';
-import { generateColorSet, prepareUrlForForward } from '../utils';
-import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
+import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
+import backgroundImage from '../../assets/carbonio_loginpage.jpg';
+import logoCarbonio from '../../assets/logo-carbonio.png';
+import playStore from '../../assets/play-store.svg';
+import ServerNotResponding from '../components-index/server-not-responding';
+import useScreenMode from '../components-index/use-screen-mode';
+import useIsTouchDevice from '../components-index/use-touch-device';
+import { ZimbraForm } from '../components-index/zimbra-form';
 import {
 	APP_STORE_URL,
 	CARBONIO_LOGO_URL,
@@ -40,11 +41,12 @@ import {
 	CHROME,
 	FIREFOX
 } from '../constants';
-import { useLoginConfigStore } from '../store/login/store';
 import { useDarkReaderResultValue } from '../dark-mode/use-dark-reader-result-value';
-import useScreenMode from '../components-index/use-screen-mode';
 import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
-import useIsTouchDevice from '../components-index/use-touch-device';
+import { getLoginConfig } from '../services/login-page-services';
+import { useLoginConfigStore } from '../store/login/store';
+import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
+import { generateColorSet, prepareUrlForForward } from '../utils';
 
 const LoginContainer = styled(Container)`
 	padding: 0 100px;

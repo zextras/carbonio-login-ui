@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { useCallback, useContext, useState } from 'react';
+
 import {
 	Row,
 	Text,
@@ -14,14 +15,9 @@ import {
 	Select,
 	Checkbox
 } from '@zextras/carbonio-design-system';
-import { Trans, useTranslation } from 'react-i18next';
 import { map } from 'lodash';
-import {
-	getRecoveryAccount,
-	getSendRecoveryToken,
-	validateRecoveryToken
-} from '../services/forget-password-service';
-import { setCookie } from '../utils';
+import { Trans, useTranslation } from 'react-i18next';
+
 import {
 	FEATURE_RESET_PASSWORD_DISABLED,
 	ZM_AUTH_TOKEN,
@@ -29,7 +25,13 @@ import {
 	RECOVERY_TOKEN,
 	CARBONIO
 } from '../constants';
+import {
+	getRecoveryAccount,
+	getSendRecoveryToken,
+	validateRecoveryToken
+} from '../services/forget-password-service';
 import { postV2Login, submitOtp } from '../services/v2-service';
+import { setCookie } from '../utils';
 
 const urlParams = new URLSearchParams(window.location.search);
 

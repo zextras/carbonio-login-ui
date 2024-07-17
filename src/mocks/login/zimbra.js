@@ -5,12 +5,11 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
-export default rest.post('/service/soap/AuthRequest', (req, res, ctx) => {
-	return res(
-		ctx.status(200),
-		ctx.json({
+export default http.post('/service/soap/AuthRequest', () => {
+	return HttpResponse.json(
+		{
 			Header: { context: { change: { token: 32929 }, _jsns: 'urn:zimbra' } },
 			Body: {
 				AuthResponse: {
@@ -28,7 +27,7 @@ export default rest.post('/service/soap/AuthRequest', (req, res, ctx) => {
 				}
 			},
 			_jsns: 'urn:zimbraSoap'
-		})
-		// ctx.json({"Header":{"context":{"change":{"token":32934},"_jsns":"urn:zimbra"}},"Body":{"Fault":{"Code":{"Value":"soap:Sender"},"Reason":{"Text":"authentication failed for [asd]"},"Detail":{"Error":{"Code":"account.AUTH_FAILED","Trace":"qtp366590980-155736:1618483353424:124048f45be83bed","_jsns":"urn:zimbra"}}}},"_jsns":"urn:zimbraSoap"})
+		},
+		{ status: 200 }
 	);
 });
