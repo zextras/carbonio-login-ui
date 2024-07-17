@@ -4,16 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import path from 'path';
-
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-
-import Dotenv from 'dotenv-webpack';
-
 import CopyPlugin from 'copy-webpack-plugin';
-
+import Dotenv from 'dotenv-webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
 
@@ -40,7 +35,8 @@ const config = (
 					target: 'https://infra-848931f5.testarea.zextras.com',
 					secure: false
 				}
-			}
+			},
+			webSocketServer: false
 		},
 		resolve: {
 			extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
