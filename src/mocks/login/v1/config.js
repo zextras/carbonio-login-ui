@@ -8,9 +8,6 @@
 import { http, HttpResponse } from 'msw';
 
 export default http.get('/zx/login/v1/config', () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 	return HttpResponse.json(
 		{
 			publicUrl: 'https://infra-6f4c8e62.testarea.zextras.com',
