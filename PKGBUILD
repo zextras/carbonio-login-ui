@@ -26,25 +26,16 @@ depends=(
   "carbonio-nginx"
 )
 
-build() {
-}
-
-preinst() {
-}
-
 package() {
   cd "${srcdir}"
   mkdir -p "${pkgdir}/opt/zextras/web/login/"
-  cp -a  ../build/* "${pkgdir}/opt/zextras/web/login"
+  cp -a ../build/* "${pkgdir}/opt/zextras/web/login"
   chown root:root -R "${pkgdir}/opt/zextras/web/login"
   chmod 755 -R "${pkgdir}/opt/zextras/web/login"
 }
 
-postinst() {
-}
-
-prerm() {
-}
-
-postrm() {
+preinst() {
+  if [ -d /opt/zextras/web/login/i18n ]; then
+    rm -rf /opt/zextras/web/login/i18n
+  fi
 }
