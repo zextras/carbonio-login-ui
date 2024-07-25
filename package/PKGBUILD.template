@@ -28,6 +28,12 @@ package() {
     "${pkgdir}/opt/zextras/web/login/i18n"
 }
 
+preinst() {
+  if [ -d /opt/zextras/web/login/i18n ]; then
+    rm -rf /opt/zextras/web/login/i18n
+  fi
+}
+
 postinst() {
   chown root:root -R /opt/zextras/web/login
   chmod 755 -R /opt/zextras/web/login
