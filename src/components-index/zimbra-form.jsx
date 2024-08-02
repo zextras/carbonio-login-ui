@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 
-import CredentialsForm from '../components-v1/credentials-form';
+import { useTranslation } from 'react-i18next';
+
 import ChangePasswordForm from '../components-v1/change-password-form';
+import CredentialsForm from '../components-v1/credentials-form';
 import ForgetPassword from '../components-v1/forget-password';
 
 const formState = {

@@ -5,6 +5,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+
 import { DESKTOP, MOBILE, TABLET } from '../constants';
 
 export default function useScreenMode() {

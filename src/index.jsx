@@ -5,16 +5,16 @@
  */
 
 import React, { Suspense, useEffect, useState } from 'react';
+
+import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { SnackbarManager } from '@zextras/carbonio-design-system';
-import { ThemeProvider } from './theme-provider/theme-provider';
+
 import './i18n/i18n.config';
 import './index.css';
-import { getLoginSupported } from './services/login-page-services';
 import NotSupportedVersion from './components-index/not-supported-version';
-import { MAX_SUPPORTED_VERSION } from './constants';
-import { prepareUrlForForward } from './utils';
+import { getLoginSupported } from './services/login-page-services';
+import { ThemeProvider } from './theme-provider/theme-provider';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
