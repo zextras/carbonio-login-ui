@@ -90,7 +90,7 @@
 		"webpack-merge": "5.8.0"
 	},
 	"dependencies": {
-		"@zextras/carbonio-design-system": "^1.0.0",
+		"@zextras/carbonio-design-system": "^7.1.0",
 		"core-js": "^3.37.1",
 		"darkreader": "^4.9.46",
 		"i18next": "^22.5.1",
