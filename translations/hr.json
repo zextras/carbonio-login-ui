@@ -1,8 +1,5 @@
 {
-    "Username": "Korisničko ime",
-    "Password": "Lozinka",
-    "Login": "Prijava",
-    "username": "Korisničko ime",
+    "login": "Prijava",
     "password": "Lozinka",
-    "login": "Prijava"
+    "username": "Korisničko ime"
 }

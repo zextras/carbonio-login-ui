@@ -4,61 +4,53 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Button, Input, PasswordInput, Row, Select, Text } from '@zextras/zapp-ui';
+import React, { useCallback, useState, useMemo } from 'react';
+
+import { Button, Input, PasswordInput, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
-import { getCookieKeys, getCookie, setCookie } from "../utils";
-import { checkClassicUi } from "../services/login-page-services";
+import { useLoginConfigStore } from '../store/login/store';
 
 const urlParams = new URLSearchParams(window.location.search);
-
-const uiList = [
-	{ label: 'Classic', value: 'classic' },
-	{ label: 'Iris', value: 'iris' }
-];
 
 export default function CredentialsForm({
 	authError,
 	submitCredentials,
 	configuration,
 	disableInputs,
+	onClickForgetPassword,
 	loading = false
 }) {
 	const [t] = useTranslation();
 
 	const [username, setUsername] = useState(urlParams.get('username') || '');
 	const [password, setPassword] = useState('');
-	const [hasClassicUi, setHasClassicUi] = useState(false);
+	const { carbonioDomainName, carbonioFeatureResetPasswordEnabled } = useLoginConfigStore();
 
-	const defaultUi = useMemo(() => {
-		const cookieKeys = getCookieKeys();
-		if ( cookieKeys.includes('UI') ) {
-			return getCookie('UI') === 'iris' ? uiList[1] : uiList[0]
-		}
-		setCookie('UI', 'iris');
-		return uiList[1]
-	}, []);
-
-	const submitUserPassword = useCallback((e) => {
-		e.preventDefault();
-		if (username && password) {
-			let usernameModified = username;
-			if (urlParams.has('virtualacctdomain')) {
-				usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get('virtualacctdomain')}`;
+	const submitUserPassword = useCallback(
+		(e) => {
+			e.preventDefault();
+			if (username && password) {
+				let usernameModified = username;
+				if (urlParams.has('virtualacctdomain')) {
+					usernameModified = `${usernameModified.replace('@', '.')}@${urlParams.get(
+						'virtualacctdomain'
+					)}`;
+				} else if (urlParams.has('customerDomain') && !username.includes('@')) {
+					usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
+				}
+				if (!username.includes('@') && carbonioDomainName) {
+					usernameModified = `${username}@${carbonioDomainName}`;
+				}
+				submitCredentials(usernameModified, password);
 			}
-			else if (urlParams.has('customerDomain') && !username.includes('@')) {
-				usernameModified = `${usernameModified.trim()}@${urlParams.get('customerDomain')}`;
-			}
-			submitCredentials(usernameModified, password);
-		}
-	}, [username, password, submitCredentials]);
+		},
+		[username, password, carbonioDomainName, submitCredentials]
+	);
 
 	const samlButtonCbk = useCallback(() => {
 		window.location.assign(
-			`/zx/auth/startSamlWorkflow?redirectUrl=${
-				configuration.destinationUrl
-			}`
+			`/zx/auth/startSamlWorkflow?redirectUrl=${configuration.destinationUrl}`
 		);
 	}, [configuration]);
 	const samlButton = useMemo(() => {
@@ -66,6 +58,7 @@ export default function CredentialsForm({
 			return (
 				<Button
 					type="outlined"
+					data-testid="loginSaml"
 					label={t('login_saml', 'Login SAML')}
 					color="primary"
 					disabled={disableInputs}
@@ -75,37 +68,57 @@ export default function CredentialsForm({
 		}
 		return (
 			// used to keep the correct space where or not SAML is shown
-			<div style={{ minHeight: '20px' }} />
+			<div style={{ minHeight: '0px' }} />
 		);
-	}, [configuration, disableInputs, samlButtonCbk]);
+	}, [configuration, disableInputs, samlButtonCbk, t]);
 
-	useEffect(() => {
-		checkClassicUi().then(res => {
-			setHasClassicUi(res.hasClassic);
-			if (!res.hasClassic) {
-				setCookie('UI', 'iris');
-			}
-		})
-	}, [])
+	const clickForgetPassword = useCallback(
+		(e) => {
+			e.preventDefault();
+			onClickForgetPassword();
+		},
+		[onClickForgetPassword]
+	);
+
+	const domainElement = useMemo(() => {
+		return !username?.includes('@') && carbonioDomainName ? (
+			<Tooltip placement="top" label={`@${carbonioDomainName}`} size="small">
+				<Text
+					color="secondary"
+					size="small"
+					weight="light"
+					style={{ marginTop: '1.25rem', maxWidth: '8.125rem' }}
+				>
+					@{carbonioDomainName}
+				</Text>
+			</Tooltip>
+		) : null;
+	}, [username, carbonioDomainName]);
 
 	return (
-		<form onSubmit={submitUserPassword} style={{ width: '100%' }}>
-			<input type="submit" style={{ display: 'none' }} />
+		<form
+			onSubmit={(e) => e.preventDefault()}
+			style={{ width: '100%' }}
+			data-testid="credentials-form"
+		>
 			<Row padding={{ bottom: 'large' }}>
 				<Input
 					defaultValue={username}
 					disabled={disableInputs}
+					data-testid="username"
 					onChange={(e) => setUsername(e.target.value)}
 					hasError={!!authError}
 					autocomplete="username"
 					label={t('username', 'Username')}
 					backgroundColor="gray5"
+					CustomIcon={() => domainElement}
 				/>
 			</Row>
 			<Row padding={{ bottom: 'small' }}>
 				<PasswordInput
 					defaultValue={password}
 					disabled={disableInputs}
+					data-testid="password"
 					onChange={(e) => setPassword(e.target.value)}
 					hasError={!!authError}
 					autocomplete="password"
@@ -113,27 +126,37 @@ export default function CredentialsForm({
 					backgroundColor="gray5"
 				/>
 			</Row>
-			{hasClassicUi && (
-				<Row padding={{vertical: 'small'}}>
-					<Select
-						label={t('select_ui', 'Select UI')}
-						items={uiList}
-						onChange={(newUI) => {
-							setCookie('UI', newUI === 'iris' ? 'iris' : 'legacy-zcs')
-						}}
-						defaultSelection={defaultUi}
-					/>
-				</Row>
-			)}
-			<Text color="error" size="medium" overflow="break-word">
+			<Text color="error" size="small" overflow="break-word">
 				{authError || <br />}
 			</Text>
-			<Row orientation="vertical" crossAlignment="flex-start" padding={{ bottom: 'large', top: 'small' }}>
-				<Button loading={loading} onClick={submitUserPassword} disabled={disableInputs} label={t('login', 'Login')} size="fill" />
+			<Row
+				orientation="vertical"
+				crossAlignment="flex-start"
+				padding={{ bottom: 'large', top: 'small' }}
+			>
+				<Button
+					loading={loading}
+					data-testid="login"
+					onClick={submitUserPassword}
+					disabled={disableInputs}
+					label={t('login', 'Login')}
+					width="fill"
+				/>
 			</Row>
 			<Row mainAlignment="flex-end" padding={{ bottom: 'extralarge' }}>
 				{samlButton}
 			</Row>
+			{carbonioFeatureResetPasswordEnabled !== false && (
+				<Row mainAlignment="flex-start" crossAlignment="flex-start">
+					<Text
+						onClick={clickForgetPassword}
+						color="primary"
+						style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+					>
+						{t('forget_password', 'Forget Password?')}
+					</Text>
+				</Row>
+			)}
 		</form>
 	);
 }

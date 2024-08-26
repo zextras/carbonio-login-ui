@@ -1,9 +1,13 @@
-// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
+import { PASSWORD, RECOVERY_TOKEN } from '../constants';
 import { getDeviceModel, deviceId } from '../utils';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function postV2Login(authMethod, user, password, service) {
 	return fetch('/zx/auth/v2/login', {
 		method: 'POST',
@@ -16,7 +20,7 @@ export function postV2Login(authMethod, user, password, service) {
 		body: JSON.stringify({
 			auth_method: authMethod,
 			user,
-			password
+			[authMethod === RECOVERY_TOKEN ? RECOVERY_TOKEN : PASSWORD]: password
 		})
 	});
 }

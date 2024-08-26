@@ -1,10 +1,12 @@
 {
-  "extends": "@zextras/zapp-cli/tsconfig.json",
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
+	"compilerOptions": {
+		"skipLibCheck": true,
+		"jsx": "react",
+		"allowJs": true,
+		"checkJs": false,
+		"resolveJsonModule": true
+	},
+	"include": ["types/**/*.d.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx", "./global.d.ts"],
+	"exclude": ["./node_modules/*"]
 }

@@ -1,7 +1,10 @@
 // Copyright (C) 2011-2020 Zextras
-// SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable import/no-extraneous-dependencies */
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 import '@testing-library/jest-dom/extend-expect';
 import server from './mocks/server';

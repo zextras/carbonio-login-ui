@@ -1,8 +1,6 @@
 {
-    "Username": "Nume utilizator",
-    "Password": "Parola",
-    "Login": "Autentificare",
     "login": "Autentificare",
     "username": "Nume utilizator",
-    "password": "Parola"
+    "password": "Parola",
+    "details": "Detalii"
 }

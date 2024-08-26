@@ -1,0 +1,11 @@
+{
+	"name": "carbonio-login-ui",
+	"description": "Zextras Carbonio Login Page",
+	"buildDir": "/tmp/",
+	"output": "artifacts",
+	"projects": [
+		{
+			"name": "package"
+		}
+	]
+}

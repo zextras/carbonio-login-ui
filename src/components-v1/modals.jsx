@@ -4,23 +4,18 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-import { Modal, Paragraph } from '@zextras/zapp-ui';
+import { Modal, Paragraph } from '@zextras/carbonio-design-system';
+import { useTranslation } from 'react-i18next';
 
-export function OfflineModal ({ open, onClose }) {
-	const [ t ] = useTranslation();
+export default function OfflineModal({ open, onClose }) {
+	const [t] = useTranslation();
 	return (
-		<Modal
-			title="Offline"
-			open={open}
-			onClose={onClose}
-		>
-			<Paragraph>
+		<Modal title="Offline" open={open} onClose={onClose}>
+			<Paragraph data-testid="offlineMsg">
 				{t('offline', 'You are currently offline, please check your internet connection')}
 			</Paragraph>
 		</Modal>
 	);
 }
-

@@ -4,6 +4,7 @@
 
 /.idea/
 /.idea/sonarlint/
+/artifacts/
 /node_modules/
 /pkg/
 /build/
@@ -11,6 +12,7 @@
 /coverage/
 /junit.xml
 /.npmrc
-
+/dist
 LICENSES/*
-.reuse/*
+
+.DS_Store
