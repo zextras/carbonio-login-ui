@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.26](https://github.com/zextras/carbonio-login-ui/compare/v0.1.1-rc.5...v0.9.26) (2024-08-26)
+
+
+### Features
+
+* ac-899: inform user about mobile app while browsing the carbonio user login page ([dc4eac5](https://github.com/zextras/carbonio-login-ui/commit/dc4eac5c67b40d45e93349788004e3f209f67a8a))
+* add ubuntu 22.04 (jammy jellyfish) support ([#59](https://github.com/zextras/carbonio-login-ui/issues/59)) ([dd136e6](https://github.com/zextras/carbonio-login-ui/commit/dd136e61e52201a86e872d0d62e5729098cfeb47))
+* IN-537: add Sonarqube Test ([#17](https://github.com/zextras/carbonio-login-ui/issues/17)) ([8073653](https://github.com/zextras/carbonio-login-ui/commit/807365362069722f0b533cac3871fac0839a44e6))
+* move to yap agent and add rhel9 support ([#64](https://github.com/zextras/carbonio-login-ui/issues/64)) ([ec0ba80](https://github.com/zextras/carbonio-login-ui/commit/ec0ba80041bbe2b240d7af171798cfdcddabe340))
+
+
+### Bug Fixes
+
+* ac-896: cancel login api call on SAML login ([#77](https://github.com/zextras/carbonio-login-ui/issues/77)) ([d2af4e2](https://github.com/zextras/carbonio-login-ui/commit/d2af4e20d5a33287816d5be2aa4433b78997028c))
+* allow login using only the localpart ([#69](https://github.com/zextras/carbonio-login-ui/issues/69)) ([8f63a03](https://github.com/zextras/carbonio-login-ui/commit/8f63a03fce2a4560975427b06c26d27ebe23d715))
+* app info popup is not working properly. ([#90](https://github.com/zextras/carbonio-login-ui/issues/90)) ([8a3a5b3](https://github.com/zextras/carbonio-login-ui/commit/8a3a5b39ef7f27edff691cac1a032ff280c873e2))
+* build license issue ([#67](https://github.com/zextras/carbonio-login-ui/issues/67)) ([4b15b23](https://github.com/zextras/carbonio-login-ui/commit/4b15b236cb563c5ee97519beb9831be664f19b64))
+* ce login issue ([#22](https://github.com/zextras/carbonio-login-ui/issues/22)) ([818ce82](https://github.com/zextras/carbonio-login-ui/commit/818ce826fe427fec6b7bf29dc4525fb1955a0776))
+* ci: generate pkgrel timestamps for packages ([#100](https://github.com/zextras/carbonio-login-ui/issues/100)) ([1d60247](https://github.com/zextras/carbonio-login-ui/commit/1d60247ab5a042d416a94b60771bf3ced73f5774))
+* common pwd rule for change password ([#84](https://github.com/zextras/carbonio-login-ui/issues/84)) ([00ecbfb](https://github.com/zextras/carbonio-login-ui/commit/00ecbfbb232925031e7b4ee1cf98fb47c92f82db))
+* local code running issue ([1d6eef9](https://github.com/zextras/carbonio-login-ui/commit/1d6eef9ae7aa54e8cc5e40fcb80de4ec533a97e3))
+* login page must show or not the forgot password link ([#78](https://github.com/zextras/carbonio-login-ui/issues/78)) ([7bf9662](https://github.com/zextras/carbonio-login-ui/commit/7bf9662ddbc7318c1b16f870e7bd416d0e7ff15b))
+* login page redirect issue ([#71](https://github.com/zextras/carbonio-login-ui/issues/71)) ([ea1ed1c](https://github.com/zextras/carbonio-login-ui/commit/ea1ed1c830a80dc00d04114cc4d93ac483f1e24f))
+* login screen render issue ([4500d58](https://github.com/zextras/carbonio-login-ui/commit/4500d589be09b5d893ccb646662f16cf8c91f7c3))
+* logo url open in new page ([b3976a2](https://github.com/zextras/carbonio-login-ui/commit/b3976a27a4a7e3d1aa1e96ec52299806424c6559))
+* np-744: fix handle change password error ([#53](https://github.com/zextras/carbonio-login-ui/issues/53)) ([0c897d1](https://github.com/zextras/carbonio-login-ui/commit/0c897d1fd970a8e5aeee30343c17457f36bad349))
+* remove legacy ui code ([#74](https://github.com/zextras/carbonio-login-ui/issues/74)) ([3271d2c](https://github.com/zextras/carbonio-login-ui/commit/3271d2c88ae31865c7c0aa2eb9fde4d1a07fc5ff))
+* resolve i18n conflicts with previous versions ([#103](https://github.com/zextras/carbonio-login-ui/issues/103)) ([82cbfe2](https://github.com/zextras/carbonio-login-ui/commit/82cbfe22b3bcc3074f8be26021e95d0e71db876f))
+* resolve i18n conflicts with previous versions ([#103](https://github.com/zextras/carbonio-login-ui/issues/103)) ([62a4588](https://github.com/zextras/carbonio-login-ui/commit/62a4588269e220089e277375c6f2660d945d031e))
+* show default domain string in username field ([#79](https://github.com/zextras/carbonio-login-ui/issues/79)) ([3a068fe](https://github.com/zextras/carbonio-login-ui/commit/3a068fe31ce705e066c133a746ae5bd656703008))
+* theme and whitelabling issue ([#14](https://github.com/zextras/carbonio-login-ui/issues/14)) ([f7f1630](https://github.com/zextras/carbonio-login-ui/commit/f7f1630c7180b9e4a7e75400d04006b5ee619335))
+* upload to devel repo ([#86](https://github.com/zextras/carbonio-login-ui/issues/86)) ([6bfde5a](https://github.com/zextras/carbonio-login-ui/commit/6bfde5a94919a49517dd1acfedf5276e5e29f8e3))
+
 ### 0.9.23 (2024-06-18)
 
 
