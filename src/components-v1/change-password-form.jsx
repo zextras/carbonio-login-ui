@@ -267,10 +267,10 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 							default:
 								setShowOldPasswordError(false);
 								setErrorLabelNewPassword(
-									t('changePassword_error_minLowerCaseChars', {
-										defaultValue: 'Expecting at least {{num}} lowercase characters',
-										replace: { num: 6 }
-									})
+									t(
+										'something_went_wrong',
+										'Something went wrong. Please contact your administrator.'
+									)
 								);
 								setIsLoading(false);
 						}
