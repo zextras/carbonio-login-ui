@@ -121,7 +121,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 								window.location.assign(configuration.destinationUrl);
 								break;
 							case 401:
-							case 500:
+							case 422:
 								if (payload?.Body?.Fault?.Detail?.Error?.Code === INVALID_PASSWORD_ERR_CODE) {
 									setShowOldPasswordError(false);
 									const { a } = payload.Body.Fault.Detail.Error;
