@@ -121,7 +121,7 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 								window.location.assign(configuration.destinationUrl);
 								break;
 							case 401:
-							case 500:
+							case 422:
 								if (payload?.Body?.Fault?.Detail?.Error?.Code === INVALID_PASSWORD_ERR_CODE) {
 									setShowOldPasswordError(false);
 									const { a } = payload.Body.Fault.Detail.Error;
@@ -267,10 +267,10 @@ const ChangePasswordForm = ({ isLoading, setIsLoading, username, configuration }
 							default:
 								setShowOldPasswordError(false);
 								setErrorLabelNewPassword(
-									t('changePassword_error_minLowerCaseChars', {
-										defaultValue: 'Expecting at least {{num}} lowercase characters',
-										replace: { num: 6 }
-									})
+									t(
+										'something_went_wrong',
+										'Something went wrong. Please contact your administrator.'
+									)
 								);
 								setIsLoading(false);
 						}
