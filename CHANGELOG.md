@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.27](https://github.com/zextras/carbonio-login-ui/compare/v0.9.26...v0.9.27) (2024-08-28)
+
+
+### Bug Fixes
+
+* updated default error message  case with generic error ([a374d30](https://github.com/zextras/carbonio-login-ui/commit/a374d3011e495601c66c4d5660a27ed82fbbf3d7))
+* updated reset password api error code with 422 ([9b66f7f](https://github.com/zextras/carbonio-login-ui/commit/9b66f7fccb7a1d9411b66a29881c0cf7fab8eca1))
+
 ### [0.9.26](https://github.com/zextras/carbonio-login-ui/compare/v0.1.1-rc.5...v0.9.26) (2024-08-26)
 
 
