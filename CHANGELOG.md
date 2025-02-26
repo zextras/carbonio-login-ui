@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.28](https://github.com/zextras/carbonio-login-ui/compare/v0.9.27...v0.9.28) (2025-02-25)
+
+
+### Bug Fixes
+
+* update patch version of react-device-detect to 2.2.3 and peer dependency ua-parser-js to 1.0.40 ([5b6a750](https://github.com/zextras/carbonio-login-ui/commit/5b6a750356abad387ac3ce843086864d642282cb))
+
 ### [0.9.27](https://github.com/zextras/carbonio-login-ui/compare/v0.9.26...v0.9.27) (2024-08-28)
 
 
