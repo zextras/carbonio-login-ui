@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.29](https://github.com/zextras/carbonio-login-ui/compare/v0.9.28...v0.9.29) (2025-05-19)
+
+
+### Bug Fixes
+
+* use csrfTokenSecured 0 ([#113](https://github.com/zextras/carbonio-login-ui/issues/113)) ([09672b6](https://github.com/zextras/carbonio-login-ui/commit/09672b6daaa7291df8afe5026650dd0d4eb5dcd2))
+
 ### [0.9.28](https://github.com/zextras/carbonio-login-ui/compare/v0.9.27...v0.9.28) (2025-02-25)
 
 
