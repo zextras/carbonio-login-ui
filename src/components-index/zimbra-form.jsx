@@ -29,7 +29,7 @@ const zimbraLogin = (username, password) => {
 			Body: {
 				AuthRequest: {
 					_jsns: 'urn:zimbraAccount',
-					csrfTokenSecured: '1',
+					csrfTokenSecured: '0',
 					persistAuthTokenCookie: '1',
 					generateDeviceId: '1',
 					account: {
