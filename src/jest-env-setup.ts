@@ -8,6 +8,8 @@
 
 import '@testing-library/jest-dom/extend-expect';
 import server from './mocks/server';
+import { SetupServer } from 'msw/lib/node';
+import { DefaultBodyType, http, HttpResponse, StrictRequest } from 'msw';
 
 beforeEach(() => {
 	// Do not useFakeTimers with `whatwg-fetch` if using mocked server
@@ -21,3 +23,32 @@ afterEach(() => {
 	jest.runOnlyPendingTimers();
 	jest.useRealTimers();
 });
+
+export const getSetupServer = (): SetupServer => server;
+
+type APIInterceptor = {
+	getLastRequest: () => StrictRequest<DefaultBodyType>;
+	getCalledTimes: () => number;
+};
+
+export const createAPIInterceptor = (
+	method: 'get' | 'post',
+	url: string,
+	response: HttpResponse
+): APIInterceptor => {
+	let calledTimes = 0;
+	const requests: Array<StrictRequest<DefaultBodyType>> = [];
+
+	getSetupServer().use(
+		http[method](url, async ({ request }) => {
+			calledTimes += 1;
+			requests.push(request);
+			return response;
+		})
+	);
+
+	return {
+		getLastRequest: () => requests[requests.length - 1],
+		getCalledTimes: () => calledTimes
+	};
+};

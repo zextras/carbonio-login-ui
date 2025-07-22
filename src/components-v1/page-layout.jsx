@@ -140,7 +140,6 @@ export default function PageLayout({ version, hasBackendApi }) {
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
-
 		if (hasBackendApi) {
 			getLoginConfig(version, domain, domain)
 				.then((res) => {
