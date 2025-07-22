@@ -4,9 +4,28 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export function getAdvancedSupported(): Promise<{ supported: boolean }> {
-	return fetch('/advanced/supported').then(async (res) => {
-		const data: { supported: boolean } = await res.json();
-		return { supported: data.supported };
-	});
+type Error = {
+	errorMessage: string;
+};
+
+type Success = {
+	supported: boolean;
+};
+
+export type GetAdvancedSupportedResponse = Promise<Success | Error>;
+
+export function getAdvancedSupported(): GetAdvancedSupportedResponse {
+	return fetch('/advanced/supported')
+		.then(async (res) => {
+			const data = await res.json();
+			if (!('supported' in data)) {
+				return { errorMessage: 'Failed to check Advanced installation' };
+			}
+			return { supported: data.supported };
+		})
+		.catch(() => {
+			return { errorMessage: 'Failed to check Advanced installation' };
+		});
 }
+
+const useIsAdvanced = () => {};
