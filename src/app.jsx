@@ -18,7 +18,7 @@ import { ThemeProvider } from './theme-provider/theme-provider';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
-function App() {
+export function App() {
 	const [versions, setVersions] = useState();
 	const [hasBackendApi, setHasBackendApi] = useState(true);
 
@@ -68,11 +68,3 @@ function App() {
 		</ThemeProvider>
 	);
 }
-
-if (process.env.NODE_ENV === 'development') {
-	// eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-	const { worker } = require('./mocks/browser');
-	worker.start();
-}
-
-render(<App />, document.getElementById('app'));
