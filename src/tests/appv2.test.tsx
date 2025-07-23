@@ -7,23 +7,30 @@
 import React from 'react';
 
 import { act, render, screen } from '@testing-library/react';
-import { HttpResponse } from 'msw';
+import { HttpResponse, JsonBodyType } from 'msw';
 
 import { setup } from './testUtils';
 import { AppV2 } from '../appv2';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
-import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
+import { APIInterceptor, createAPIInterceptor, createJSONAPIInterceptor } from '../jest-env-setup';
 
 function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
 	return createAPIInterceptor('get', '/advanced/supported', response);
 }
 
-function apiMinMaxVersions(response: HttpResponse): APIInterceptor {
-	return createAPIInterceptor('get', '/zx/login/supported', response);
+function apiMinMaxVersions(version: number): APIInterceptor {
+	return createJSONAPIInterceptor(
+		'get',
+		'/zx/login/supported',
+		{ minApiVersion: version, maxApiVersion: 2, version },
+		{
+			status: 200
+		}
+	);
 }
 
-function apiLoginConfigAPI(response: HttpResponse, version: number): APIInterceptor {
-	return createAPIInterceptor('get', `/zx/login/v${version}/config`, response);
+function apiLoginConfigAPI(version: number, config: JsonBodyType): APIInterceptor {
+	return createJSONAPIInterceptor('get', `/zx/login/v${version}/config`, config, { status: 200 });
 }
 
 describe('App', () => {
@@ -48,23 +55,10 @@ describe('App', () => {
 	it('should display Advanced Login if API ok and supported', async () => {
 		mockAdvancedSupportedApi(HttpResponse.json({ supported: true }, { status: 200 }));
 		const version = 2;
-		apiMinMaxVersions(
-			HttpResponse.json(
-				{ minApiVersion: version, maxApiVersion: 2, version },
-				{
-					status: 200
-				}
-			)
-		);
-		apiLoginConfigAPI(
-			HttpResponse.json(
-				{
-					carbonioLogoURL: 'https://www.zextras.com'
-				},
-				{ status: 200 }
-			),
-			version
-		);
+		apiMinMaxVersions(version);
+		apiLoginConfigAPI(version, {
+			carbonioLogoURL: 'https://www.zextras.com'
+		});
 
 		await act(async () => {
 			setup(<AppV2 />);

@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 
 import NotSupportedVersion from './components-index/not-supported-version';
+import PageLayout from './components-v1/page-layout';
 import { getLoginSupported } from './services/login-page-services';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
@@ -46,7 +47,7 @@ export function LoginAdvanced(): React.JSX.Element {
 	return (
 		<>
 			{(!hasBackendApi || (versions && versions.version >= versions.minApiVersion)) && (
-				<PageLayoutV1 version={versions?.version} hasBackendApi={hasBackendApi} />
+				<PageLayout version={versions?.version} hasBackendApi={hasBackendApi} />
 			)}
 			{versions && versions.version < versions.minApiVersion && <NotSupportedVersion />}
 		</>
