@@ -6,36 +6,32 @@
 
 import { HttpResponse } from 'msw';
 
-import { createAPIInterceptor } from '../../jest-env-setup';
+import { APIInterceptor, createAPIInterceptor } from '../../jest-env-setup';
 import { getAdvancedSupported } from '../advanced-supported';
+
+function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
+	return createAPIInterceptor('get', '/advanced/supported', response);
+}
 
 describe('getAdvancedSupported', () => {
 	it('should return advanced supported TRUE when it replies true', async () => {
-		createAPIInterceptor(
-			'get',
-			'/advanced/supported',
-			HttpResponse.json({ supported: true }, { status: 200 })
-		);
+		mockAdvancedSupportedApi(HttpResponse.json({ supported: true }, { status: 200 }));
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ supported: true });
 	});
 	it('should return advanced supported FALSE when it replies false', async () => {
-		createAPIInterceptor(
-			'get',
-			'/advanced/supported',
-			HttpResponse.json({ supported: false }, { status: 200 })
-		);
+		mockAdvancedSupportedApi(HttpResponse.json({ supported: false }, { status: 200 }));
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ supported: false });
 	});
 	it('should return error when api returns 500', async () => {
-		createAPIInterceptor('get', '/advanced/supported', HttpResponse.json({}, { status: 500 }));
+		mockAdvancedSupportedApi(HttpResponse.json({}, { status: 500 }));
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
 	});
 
 	it('should return error when api returns error', async () => {
-		createAPIInterceptor('get', '/advanced/supported', HttpResponse.error());
+		mockAdvancedSupportedApi(HttpResponse.error());
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
 	});

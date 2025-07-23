@@ -27,7 +27,7 @@ afterEach(() => {
 
 export const getSetupServer = (): SetupServer => server;
 
-type APIInterceptor = {
+export type APIInterceptor = {
 	getLastRequest: () => StrictRequest<DefaultBodyType>;
 	getCalledTimes: () => number;
 };
