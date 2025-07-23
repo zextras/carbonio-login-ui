@@ -59,28 +59,6 @@ describe('App', () => {
 		apiLoginConfigAPI(
 			HttpResponse.json(
 				{
-					carbonioWebUiDescription: 'Carbonio Client',
-					carbonioWebUiDarkLoginBackground:
-						'https://zextras.com/images/values/values_wallpaper.png',
-					carbonioAdminUiTitle: 'Carbonio Admin UI',
-					carbonioWebUiDarkMode: false,
-					zimbraDomainName: 'zextras.com',
-					carbonioFeatureResetPasswordEnabled: false,
-					loginPageSkinLogoURL: '',
-					loginPageLogo: '',
-					carbonioPrefWebUiDarkMode: false,
-					carbonioAdminUiDescription: 'Carbonio Admin UI',
-					loginPageFavicon: '',
-					zimbraPublicServiceHostname: 'mail.zextras.com',
-					loginPageBackgroundImage: '',
-					carbonioWebUiTitle: 'Zextras Group Webmail',
-					zimbraPublicServicePort: '443',
-					zimbraPublicServiceProtocol: 'https',
-					carbonioWebUiLoginBackground: 'https://zextras.com/images/values/values_wallpaper.png',
-					loginPageTitle: '',
-					publicUrl: 'https://mail.zextras.com',
-					loginPageColorSet: {},
-					loginPageSkinLogoAppBanner: '',
 					carbonioLogoURL: 'https://www.zextras.com'
 				},
 				{ status: 200 }
@@ -92,6 +70,8 @@ describe('App', () => {
 			setup(<AppV2 />);
 		});
 
+		const logoImage = await screen.findByTestId('logo');
+		expect(logoImage).toBeInTheDocument();
 		await screen.findByTestId('form-container');
 
 		const links = await screen.findAllByRole('link');
