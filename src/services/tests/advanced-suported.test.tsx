@@ -14,7 +14,7 @@ function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
 }
 
 const okStatuses = [200, 201, 202];
-const notOkStatuses = [500, 502, 302];
+const notOkStatuses = [418, 404, 500, 502, 302];
 
 describe('getAdvancedSupported', () => {
 	it.each(okStatuses)(
