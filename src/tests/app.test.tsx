@@ -12,13 +12,17 @@ import { HttpResponse } from 'msw';
 import { setup } from './testUtils';
 import { App } from '../app';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK } from '../constants';
-import { createAPIInterceptor } from '../jest-env-setup';
+import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
+
+function advancedSupportedApi(response: HttpResponse): APIInterceptor {
+	return createAPIInterceptor('get', '/zx/login/supported', response);
+}
 
 describe('App', () => {
 	it.todo('display error when advanced supported api fails');
 
 	it('should display the CE form when advanced supported api fails', async () => {
-		createAPIInterceptor('get', '/zx/login/supported', HttpResponse.error());
+		advancedSupportedApi(HttpResponse.error());
 
 		setup(<App />);
 
