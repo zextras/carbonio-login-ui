@@ -12,14 +12,14 @@ import { HttpResponse, JsonBodyType } from 'msw';
 import { setup } from './testUtils';
 import { AppV2 } from '../appv2';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
-import { APIInterceptor, createAPIInterceptor, createJSONAPIInterceptor } from '../jest-env-setup';
+import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
-function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
+function mockAdvancedSupportedApi(response: () => HttpResponse): APIInterceptor {
 	return createAPIInterceptor('get', '/advanced/supported', response);
 }
 
 function apiMinMaxVersions(version: number): APIInterceptor {
-	return createJSONAPIInterceptor('get', '/zx/login/supported', () =>
+	return createAPIInterceptor('get', '/zx/login/supported', () =>
 		HttpResponse.json(
 			{ minApiVersion: version, maxApiVersion: 2, version },
 			{
@@ -30,14 +30,14 @@ function apiMinMaxVersions(version: number): APIInterceptor {
 }
 
 function apiLoginConfigAPI(version: number, config: JsonBodyType): APIInterceptor {
-	return createJSONAPIInterceptor('get', `/zx/login/v${version}/config`, () =>
+	return createAPIInterceptor('get', `/zx/login/v${version}/config`, () =>
 		HttpResponse.json(config, { status: 200 })
 	);
 }
 
 describe('App', () => {
 	it('should display error if api returns error', async () => {
-		mockAdvancedSupportedApi(HttpResponse.error());
+		mockAdvancedSupportedApi(HttpResponse.error);
 
 		await act(async () => {
 			render(<AppV2 />);
@@ -47,7 +47,7 @@ describe('App', () => {
 	});
 
 	it('should display loading', async () => {
-		mockAdvancedSupportedApi(HttpResponse.error());
+		mockAdvancedSupportedApi(HttpResponse.error);
 
 		render(<AppV2 />);
 
@@ -55,7 +55,7 @@ describe('App', () => {
 	});
 
 	it('should display Advanced Login if API ok and supported', async () => {
-		mockAdvancedSupportedApi(HttpResponse.json({ supported: true }, { status: 200 }));
+		mockAdvancedSupportedApi(() => HttpResponse.json({ supported: true }, { status: 200 }));
 		const version = 2;
 		apiMinMaxVersions(version);
 		apiLoginConfigAPI(version, {
@@ -78,7 +78,7 @@ describe('App', () => {
 	});
 
 	it('should display CE Login if API ok and supported false', async () => {
-		mockAdvancedSupportedApi(HttpResponse.json({ supported: false }, { status: 200 }));
+		mockAdvancedSupportedApi(() => HttpResponse.json({ supported: false }, { status: 200 }));
 
 		await act(async () => {
 			setup(<AppV2 />);

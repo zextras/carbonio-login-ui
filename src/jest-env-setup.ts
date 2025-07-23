@@ -32,30 +32,7 @@ export type APIInterceptor = {
 	getCalledTimes: () => number;
 };
 
-// deprecated ('bugged. cannot consume body multiple times')
 export const createAPIInterceptor = (
-	method: 'get' | 'post',
-	url: string,
-	response: HttpResponse
-): APIInterceptor => {
-	let calledTimes = 0;
-	const requests: Array<StrictRequest<DefaultBodyType>> = [];
-
-	getSetupServer().use(
-		http[method](url, async ({ request }) => {
-			calledTimes += 1;
-			requests.push(request);
-			return response;
-		})
-	);
-
-	return {
-		getLastRequest: () => requests[requests.length - 1],
-		getCalledTimes: () => calledTimes
-	};
-};
-
-export const createJSONAPIInterceptor = (
 	method: 'get' | 'post',
 	url: string,
 	response: () => HttpResponse

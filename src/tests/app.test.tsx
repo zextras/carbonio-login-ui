@@ -14,17 +14,13 @@ import { App } from '../app';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
 import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
-function apiMinMaxVersions(response: HttpResponse): APIInterceptor {
-	return createAPIInterceptor('get', '/zx/login/supported', response);
-}
-
-function apiLoginConfigAPI(response: HttpResponse): APIInterceptor {
+function apiMinMaxVersions(response: () => HttpResponse): APIInterceptor {
 	return createAPIInterceptor('get', '/zx/login/supported', response);
 }
 
 describe('App', () => {
 	it('should display the CE form when advanced supported api fails', async () => {
-		apiMinMaxVersions(HttpResponse.error());
+		apiMinMaxVersions(HttpResponse.error);
 
 		setup(<App />);
 
@@ -37,7 +33,7 @@ describe('App', () => {
 	});
 	it('should display the ADVANCED form when advanced supported api pass', async () => {
 		const version = 1;
-		const apiInterceptor = apiMinMaxVersions(
+		const apiInterceptor = apiMinMaxVersions(() =>
 			HttpResponse.json(
 				{ minApiVersion: version, maxApiVersion: 2, version },
 				{
