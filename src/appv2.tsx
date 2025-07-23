@@ -4,26 +4,50 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { LoginAdvanced } from './loginAdvanced';
-import { LoginCE } from './loginCE';
+import { getLoginSupported } from './services/login-page-services';
 import { ThemeProvider } from './theme-provider/theme-provider';
 
+type Error = {
+	errorMessage: string;
+};
+
+type AdvancedSupport = {
+	supported: boolean;
+};
 export function AppV2(): React.JSX.Element {
 	// TODO: check advanced supported
-	// getAdvancedSupported()
-	const supported = true;
+	const [advancedSupported, setAdvancedSupported] = useState<AdvancedSupport>();
+	const [error, setError] = useState<Error>();
+
+	useEffect(() => {
+		getLoginSupported()
+			.then((data) => {
+				if ('supported' in data) {
+					setAdvancedSupported({
+						supported: data.supported
+					});
+				} else {
+					setError({
+						errorMessage: ''
+					});
+				}
+			})
+			.catch(() => {
+				setError({ errorMessage: '' });
+			});
+	}, []);
 
 	return (
 		<ThemeProvider>
 			<SnackbarManager>
 				<Suspense fallback={<div></div>}>
 					<Router>
-						<Switch>{supported ? <LoginAdvanced /> : <LoginCE />}</Switch>
+						<Switch>{error ? <>Unable to determine product version</> : <></>}</Switch>
 					</Router>
 				</Suspense>
 			</SnackbarManager>
