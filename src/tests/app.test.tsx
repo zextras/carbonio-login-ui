@@ -6,12 +6,12 @@
 
 import React from 'react';
 
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import { HttpResponse } from 'msw';
 
 import { setup } from './testUtils';
 import { App } from '../app';
-import { CARBONIO_CE_SUPPORTED_BROWSER_LINK } from '../constants';
+import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
 import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
 function advancedSupportedApi(response: HttpResponse): APIInterceptor {
@@ -19,8 +19,6 @@ function advancedSupportedApi(response: HttpResponse): APIInterceptor {
 }
 
 describe('App', () => {
-	it.todo('display error when advanced supported api fails');
-
 	it('should display the CE form when advanced supported api fails', async () => {
 		advancedSupportedApi(HttpResponse.error());
 
@@ -32,5 +30,24 @@ describe('App', () => {
 			(link) => link.getAttribute('href') === CARBONIO_CE_SUPPORTED_BROWSER_LINK
 		);
 		expect(carbonioCeLink).toBeInTheDocument();
+	});
+	it('should display the ADVANCED form when advanced supported api pass', async () => {
+		advancedSupportedApi(
+			HttpResponse.json(
+				{ minApiVersion: '1', maxApiVersion: '2', version: '1' },
+				{
+					status: 200
+				}
+			)
+		);
+
+		setup(<App />);
+		// vuoto
+
+		const links = await screen.findAllByRole('link');
+		const carbonioLink = links.find(
+			(link) => link.getAttribute('href') === CARBONIO_SUPPORTED_BROWSER_LINK
+		);
+		expect(carbonioLink).toBeInTheDocument();
 	});
 });

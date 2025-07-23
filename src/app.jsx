@@ -24,29 +24,29 @@ export function App() {
 	const urlParams = new URLSearchParams(window.location.search);
 
 	useEffect(() => {
-		let canceled = false;
+		// let canceled = false;
 		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
 
 		if (hasBackendApi) {
 			getLoginSupported(domain)
 				.then(({ minApiVersion, maxApiVersion }) => {
-					if (!canceled) {
-						const v = maxApiVersion;
-						// if (v > MAX_SUPPORTED_VERSION) {
-						// 	v = MAX_SUPPORTED_VERSION;
-						// }
-						setVersions({
-							minApiVersion,
-							maxApiVersion,
-							version: v
-						});
-					}
+					// if (!canceled) {
+					const v = maxApiVersion;
+					// if (v > MAX_SUPPORTED_VERSION) {
+					// 	v = MAX_SUPPORTED_VERSION;
+					// }
+					setVersions({
+						minApiVersion,
+						maxApiVersion,
+						version: v
+					});
+					// }
 				})
 				.catch(() => setHasBackendApi(false));
 		}
-		return () => {
-			canceled = true;
-		};
+		// return () => {
+		// 	canceled = true;
+		// };
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
