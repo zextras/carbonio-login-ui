@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { act, screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { HttpResponse } from 'msw';
 
 import { setup } from './testUtils';
@@ -14,13 +14,17 @@ import { App } from '../app';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
 import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
-function advancedSupportedApi(response: HttpResponse): APIInterceptor {
+function apiMinMaxVersions(response: HttpResponse): APIInterceptor {
+	return createAPIInterceptor('get', '/zx/login/supported', response);
+}
+
+function apiLoginConfigAPI(response: HttpResponse): APIInterceptor {
 	return createAPIInterceptor('get', '/zx/login/supported', response);
 }
 
 describe('App', () => {
 	it('should display the CE form when advanced supported api fails', async () => {
-		advancedSupportedApi(HttpResponse.error());
+		apiMinMaxVersions(HttpResponse.error());
 
 		setup(<App />);
 
@@ -32,9 +36,10 @@ describe('App', () => {
 		expect(carbonioCeLink).toBeInTheDocument();
 	});
 	it('should display the ADVANCED form when advanced supported api pass', async () => {
-		advancedSupportedApi(
+		const version = 1;
+		const apiInterceptor = apiMinMaxVersions(
 			HttpResponse.json(
-				{ minApiVersion: '1', maxApiVersion: '2', version: '1' },
+				{ minApiVersion: version, maxApiVersion: 2, version },
 				{
 					status: 200
 				}
@@ -42,6 +47,8 @@ describe('App', () => {
 		);
 
 		setup(<App />);
+
+		await waitFor(() => expect(apiInterceptor.getCalledTimes()).toBe(1));
 		// vuoto
 
 		const links = await screen.findAllByRole('link');
