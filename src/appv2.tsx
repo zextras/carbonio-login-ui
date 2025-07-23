@@ -60,8 +60,8 @@ export function AppV2(): React.JSX.Element {
 				<Suspense fallback={<div></div>}>
 					<Router>
 						<Switch>
-							{errorResponse && `Unable to determine product version`}
-							{isLoading && `loading`}
+							{errorResponse && <>Unable to determine product version</>}
+							{isLoading && <>loading</>}
 							{supportedResponse && apiResponse.supported && <LoginAdvanced />}
 							{supportedResponse && !apiResponse.supported && <LoginCE />}
 						</Switch>
