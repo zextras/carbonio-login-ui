@@ -11,12 +11,21 @@ import { HttpResponse } from 'msw';
 
 import { setup } from './testUtils';
 import { AppV2 } from '../appv2';
-import { CARBONIO_CE_SUPPORTED_BROWSER_LINK } from '../constants';
+import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
 import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
 function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
 	return createAPIInterceptor('get', '/advanced/supported', response);
 }
+
+function apiMinMaxVersions(response: HttpResponse): APIInterceptor {
+	return createAPIInterceptor('get', '/zx/login/supported', response);
+}
+
+function apiLoginConfigAPI(response: HttpResponse, version: number): APIInterceptor {
+	return createAPIInterceptor('get', `/zx/login/v${version}/config`, response);
+}
+
 describe('App', () => {
 	it('should display error if api returns error', async () => {
 		mockAdvancedSupportedApi(HttpResponse.error());
@@ -35,14 +44,61 @@ describe('App', () => {
 
 		await screen.findByText('loading');
 	});
-	it('should display supported true if API ok and supported', async () => {
+
+	it('should display Advanced Login if API ok and supported', async () => {
 		mockAdvancedSupportedApi(HttpResponse.json({ supported: true }, { status: 200 }));
+		const version = 2;
+		apiMinMaxVersions(
+			HttpResponse.json(
+				{ minApiVersion: version, maxApiVersion: 2, version },
+				{
+					status: 200
+				}
+			)
+		);
+		apiLoginConfigAPI(
+			HttpResponse.json(
+				{
+					carbonioWebUiDescription: 'Carbonio Client',
+					carbonioWebUiDarkLoginBackground:
+						'https://zextras.com/images/values/values_wallpaper.png',
+					carbonioAdminUiTitle: 'Carbonio Admin UI',
+					carbonioWebUiDarkMode: false,
+					zimbraDomainName: 'zextras.com',
+					carbonioFeatureResetPasswordEnabled: false,
+					loginPageSkinLogoURL: '',
+					loginPageLogo: '',
+					carbonioPrefWebUiDarkMode: false,
+					carbonioAdminUiDescription: 'Carbonio Admin UI',
+					loginPageFavicon: '',
+					zimbraPublicServiceHostname: 'mail.zextras.com',
+					loginPageBackgroundImage: '',
+					carbonioWebUiTitle: 'Zextras Group Webmail',
+					zimbraPublicServicePort: '443',
+					zimbraPublicServiceProtocol: 'https',
+					carbonioWebUiLoginBackground: 'https://zextras.com/images/values/values_wallpaper.png',
+					loginPageTitle: '',
+					publicUrl: 'https://mail.zextras.com',
+					loginPageColorSet: {},
+					loginPageSkinLogoAppBanner: '',
+					carbonioLogoURL: 'https://www.zextras.com'
+				},
+				{ status: 200 }
+			),
+			version
+		);
 
 		await act(async () => {
-			render(<AppV2 />);
+			setup(<AppV2 />);
 		});
 
-		await screen.findByText('Supported: true');
+		await screen.findByTestId('form-container');
+
+		const links = await screen.findAllByRole('link');
+		const carbonioLink = links.find(
+			(link) => link.getAttribute('href') === CARBONIO_SUPPORTED_BROWSER_LINK
+		);
+		expect(carbonioLink).toBeInTheDocument();
 	});
 
 	it('should display CE Login if API ok and supported false', async () => {
@@ -53,9 +109,9 @@ describe('App', () => {
 		});
 
 		const links = await screen.findAllByRole('link');
-		const carbonioLink = links.find(
+		const carbonioCELink = links.find(
 			(link) => link.getAttribute('href') === CARBONIO_CE_SUPPORTED_BROWSER_LINK
 		);
-		expect(carbonioLink).toBeInTheDocument();
+		expect(carbonioCELink).toBeInTheDocument();
 	});
 });

@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
+import { LoginAdvanced } from './loginAdvanced';
 import { LoginCE } from './loginCE';
 import { getAdvancedSupported } from './services/advanced-supported';
 import { ThemeProvider } from './theme-provider/theme-provider';
@@ -62,7 +63,7 @@ export function AppV2(): React.JSX.Element {
 							<>
 								{errorResponse && `Unable to determine product version`}
 								{isLoading && `loading`}
-								{supportedResponse && apiResponse.supported && `Supported: true`}
+								{supportedResponse && apiResponse.supported && <LoginAdvanced />}
 								{supportedResponse && !apiResponse.supported && <LoginCE />}
 							</>
 						</Switch>
