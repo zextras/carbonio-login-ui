@@ -19,18 +19,26 @@ describe('getAdvancedSupported', () => {
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ supported: true });
 	});
+
 	it('should return advanced supported FALSE when it replies false', async () => {
 		mockAdvancedSupportedApi(HttpResponse.json({ supported: false }, { status: 200 }));
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ supported: false });
 	});
-	it('should return error when api returns 500', async () => {
-		mockAdvancedSupportedApi(HttpResponse.json({}, { status: 500 }));
+
+	it.each([500, 404, 503, 502])('should return error when api returns %d', async (code: number) => {
+		mockAdvancedSupportedApi(HttpResponse.json({}, { status: code }));
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
 	});
 
-	it('should return error when api returns error', async () => {
+	it('should return error when api returns 500 with supported', async () => {
+		mockAdvancedSupportedApi(HttpResponse.json({ supported: true }, { status: 500 }));
+		const response = await getAdvancedSupported();
+		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
+	});
+
+	it('should return error when api returns http error', async () => {
 		mockAdvancedSupportedApi(HttpResponse.error());
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });

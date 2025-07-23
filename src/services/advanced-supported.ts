@@ -14,14 +14,21 @@ type Success = {
 
 export type GetAdvancedSupportedResponse = Promise<Success | Error>;
 
+function errorMessage(): Error {
+	return { errorMessage: 'Failed to check Advanced installation' };
+}
+
 export function getAdvancedSupported(): GetAdvancedSupportedResponse {
 	return fetch('/advanced/supported')
 		.then(async (res) => {
-			const data = await res.json();
-			if (!('supported' in data)) {
-				return { errorMessage: 'Failed to check Advanced installation' };
+			if (res.ok) {
+				const data = await res.json();
+				if (!('supported' in data)) {
+					return errorMessage();
+				}
+				return { supported: data.supported };
 			}
-			return { supported: data.supported };
+			return errorMessage();
 		})
 		.catch(() => {
 			return { errorMessage: 'Failed to check Advanced installation' };
