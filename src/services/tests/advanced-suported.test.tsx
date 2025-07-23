@@ -41,6 +41,15 @@ describe('getAdvancedSupported', () => {
 		}
 	);
 
+	it.each(okStatuses)(
+		'should return error when api ok (status %d) but body is not a json',
+		async (code: number) => {
+			mockAdvancedSupportedApi(HttpResponse.text('Hello', { status: code }));
+			const response = await getAdvancedSupported();
+			expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
+		}
+	);
+
 	it.each(notOkStatuses)('should return error when api returns %d', async (code: number) => {
 		mockAdvancedSupportedApi(HttpResponse.json({}, { status: code }));
 		const response = await getAdvancedSupported();
