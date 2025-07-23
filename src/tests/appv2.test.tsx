@@ -19,18 +19,20 @@ function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
 }
 
 function apiMinMaxVersions(version: number): APIInterceptor {
-	return createJSONAPIInterceptor(
-		'get',
-		'/zx/login/supported',
-		{ minApiVersion: version, maxApiVersion: 2, version },
-		{
-			status: 200
-		}
+	return createJSONAPIInterceptor('get', '/zx/login/supported', () =>
+		HttpResponse.json(
+			{ minApiVersion: version, maxApiVersion: 2, version },
+			{
+				status: 200
+			}
+		)
 	);
 }
 
 function apiLoginConfigAPI(version: number, config: JsonBodyType): APIInterceptor {
-	return createJSONAPIInterceptor('get', `/zx/login/v${version}/config`, config, { status: 200 });
+	return createJSONAPIInterceptor('get', `/zx/login/v${version}/config`, () =>
+		HttpResponse.json(config, { status: 200 })
+	);
 }
 
 describe('App', () => {

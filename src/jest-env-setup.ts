@@ -7,14 +7,7 @@
  */
 
 import '@testing-library/jest-dom/extend-expect';
-import {
-	DefaultBodyType,
-	http,
-	HttpResponse,
-	HttpResponseInit,
-	JsonBodyType,
-	StrictRequest
-} from 'msw';
+import { DefaultBodyType, http, HttpResponse, StrictRequest } from 'msw';
 import { SetupServer } from 'msw/lib/node';
 
 import server from './mocks/server';
@@ -65,8 +58,7 @@ export const createAPIInterceptor = (
 export const createJSONAPIInterceptor = (
 	method: 'get' | 'post',
 	url: string,
-	body: JsonBodyType,
-	options: HttpResponseInit
+	response: () => HttpResponse
 ): APIInterceptor => {
 	let calledTimes = 0;
 	const requests: Array<StrictRequest<DefaultBodyType>> = [];
@@ -75,7 +67,7 @@ export const createJSONAPIInterceptor = (
 		http[method](url, async ({ request }) => {
 			calledTimes += 1;
 			requests.push(request);
-			return HttpResponse.json(body, options);
+			return response();
 		})
 	);
 
