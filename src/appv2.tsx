@@ -9,7 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { getLoginSupported } from './services/login-page-services';
+import { getAdvancedSupported } from './services/advanced-supported';
 import { ThemeProvider } from './theme-provider/theme-provider';
 
 type Error = {
@@ -19,35 +19,51 @@ type Error = {
 type AdvancedSupport = {
 	supported: boolean;
 };
+
+type Loading = {
+	isLoading: true;
+};
+
 export function AppV2(): React.JSX.Element {
 	// TODO: check advanced supported
-	const [advancedSupported, setAdvancedSupported] = useState<AdvancedSupport>();
-	const [error, setError] = useState<Error>();
+	const [advancedSupported, setAdvancedSupported] = useState<AdvancedSupport | Loading | Error>({
+		isLoading: true
+	});
 
 	useEffect(() => {
-		getLoginSupported()
+		setAdvancedSupported({ isLoading: true });
+		getAdvancedSupported()
 			.then((data) => {
 				if ('supported' in data) {
 					setAdvancedSupported({
 						supported: data.supported
 					});
 				} else {
-					setError({
+					setAdvancedSupported({
 						errorMessage: ''
 					});
 				}
 			})
 			.catch(() => {
-				setError({ errorMessage: '' });
+				setAdvancedSupported({ errorMessage: '' });
 			});
 	}, []);
+	const errorResponse = advancedSupported && 'errorMessage' in advancedSupported;
+	const isLoading = !advancedSupported || (advancedSupported && 'isLoading' in advancedSupported);
+	const supportedResponse = advancedSupported && 'supported' in advancedSupported;
 
 	return (
 		<ThemeProvider>
 			<SnackbarManager>
 				<Suspense fallback={<div></div>}>
 					<Router>
-						<Switch>{error ? <>Unable to determine product version</> : <></>}</Switch>
+						<Switch>
+							<>
+								{errorResponse && `Unable to determine product version`}
+								{isLoading && `loading`}
+								{supportedResponse && `Supported: ${advancedSupported.supported}`}
+							</>
+						</Switch>
 					</Router>
 				</Suspense>
 			</SnackbarManager>
