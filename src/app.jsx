@@ -7,7 +7,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
 import { SnackbarManager } from '@zextras/carbonio-design-system';
-import { render } from 'react-dom';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import './i18n/i18n.config';

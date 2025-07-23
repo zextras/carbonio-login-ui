@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { HttpResponse } from 'msw';
-import { createAPIInterceptor } from '../jest-env-setup';
 import React from 'react';
-import { setup } from './testUtils';
+
 import { screen } from '@testing-library/react';
+import { HttpResponse } from 'msw';
+
+import { setup } from './testUtils';
 import { App } from '../app';
+import { createAPIInterceptor } from '../jest-env-setup';
 
 describe('App', () => {
 	it('should return advanced supported TRUE when it replies true', async () => {

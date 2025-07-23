@@ -27,5 +27,3 @@ export function getAdvancedSupported(): GetAdvancedSupportedResponse {
 			return { errorMessage: 'Failed to check Advanced installation' };
 		});
 }
-
-const useIsAdvanced = () => {};

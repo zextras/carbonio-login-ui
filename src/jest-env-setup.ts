@@ -7,9 +7,10 @@
  */
 
 import '@testing-library/jest-dom/extend-expect';
-import server from './mocks/server';
-import { SetupServer } from 'msw/lib/node';
 import { DefaultBodyType, http, HttpResponse, StrictRequest } from 'msw';
+import { SetupServer } from 'msw/lib/node';
+
+import server from './mocks/server';
 
 beforeEach(() => {
 	// Do not useFakeTimers with `whatwg-fetch` if using mocked server

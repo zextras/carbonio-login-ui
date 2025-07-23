@@ -5,8 +5,9 @@
  */
 
 import { HttpResponse } from 'msw';
-import { getAdvancedSupported } from '../advanced-supported';
+
 import { createAPIInterceptor } from '../../jest-env-setup';
+import { getAdvancedSupported } from '../advanced-supported';
 
 describe('getAdvancedSupported', () => {
 	it('should return advanced supported TRUE when it replies true', async () => {
@@ -27,8 +28,14 @@ describe('getAdvancedSupported', () => {
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ supported: false });
 	});
-	it('should return error when it fails', async () => {
+	it('should return error when api returns 500', async () => {
 		createAPIInterceptor('get', '/advanced/supported', HttpResponse.json({}, { status: 500 }));
+		const response = await getAdvancedSupported();
+		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
+	});
+
+	it('should return error when api returns error', async () => {
+		createAPIInterceptor('get', '/advanced/supported', HttpResponse.error());
 		const response = await getAdvancedSupported();
 		expect(response).toEqual({ errorMessage: 'Failed to check Advanced installation' });
 	});
