@@ -21,14 +21,11 @@ export function App() {
 	const [versions, setVersions] = useState();
 	const [hasBackendApi, setHasBackendApi] = useState(true);
 
-	const urlParams = new URLSearchParams(window.location.search);
-
 	useEffect(() => {
 		// let canceled = false;
-		const domain = urlParams.get('domain') ?? urlParams.get('destinationUrl');
 
 		if (hasBackendApi) {
-			getLoginSupported(domain)
+			getLoginSupported()
 				.then(({ minApiVersion, maxApiVersion }) => {
 					// if (!canceled) {
 					const v = maxApiVersion;
@@ -47,8 +44,7 @@ export function App() {
 		// return () => {
 		// 	canceled = true;
 		// };
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [hasBackendApi]);
 
 	return (
 		<ThemeProvider>
