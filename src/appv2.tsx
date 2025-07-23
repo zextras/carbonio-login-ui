@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
+import { LoginCE } from './loginCE';
 import { getAdvancedSupported } from './services/advanced-supported';
 import { ThemeProvider } from './theme-provider/theme-provider';
 
@@ -26,31 +27,31 @@ type Loading = {
 
 export function AppV2(): React.JSX.Element {
 	// TODO: check advanced supported
-	const [advancedSupported, setAdvancedSupported] = useState<AdvancedSupport | Loading | Error>({
+	const [apiResponse, setApiResponse] = useState<AdvancedSupport | Loading | Error>({
 		isLoading: true
 	});
 
 	useEffect(() => {
-		setAdvancedSupported({ isLoading: true });
+		setApiResponse({ isLoading: true });
 		getAdvancedSupported()
 			.then((data) => {
 				if ('supported' in data) {
-					setAdvancedSupported({
+					setApiResponse({
 						supported: data.supported
 					});
 				} else {
-					setAdvancedSupported({
+					setApiResponse({
 						errorMessage: ''
 					});
 				}
 			})
 			.catch(() => {
-				setAdvancedSupported({ errorMessage: '' });
+				setApiResponse({ errorMessage: '' });
 			});
 	}, []);
-	const errorResponse = advancedSupported && 'errorMessage' in advancedSupported;
-	const isLoading = !advancedSupported || (advancedSupported && 'isLoading' in advancedSupported);
-	const supportedResponse = advancedSupported && 'supported' in advancedSupported;
+	const errorResponse = apiResponse && 'errorMessage' in apiResponse;
+	const isLoading = !apiResponse || (apiResponse && 'isLoading' in apiResponse);
+	const supportedResponse = apiResponse && 'supported' in apiResponse;
 
 	return (
 		<ThemeProvider>
@@ -61,7 +62,8 @@ export function AppV2(): React.JSX.Element {
 							<>
 								{errorResponse && `Unable to determine product version`}
 								{isLoading && `loading`}
-								{supportedResponse && `Supported: ${advancedSupported.supported}`}
+								{supportedResponse && apiResponse.supported && `Supported: true`}
+								{supportedResponse && !apiResponse.supported && <LoginCE />}
 							</>
 						</Switch>
 					</Router>

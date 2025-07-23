@@ -9,7 +9,9 @@ import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { HttpResponse } from 'msw';
 
+import { setup } from './testUtils';
 import { AppV2 } from '../appv2';
+import { CARBONIO_CE_SUPPORTED_BROWSER_LINK } from '../constants';
 import { APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
 function mockAdvancedSupportedApi(response: HttpResponse): APIInterceptor {
@@ -43,13 +45,17 @@ describe('App', () => {
 		await screen.findByText('Supported: true');
 	});
 
-	it('should display supported false if API ok and supported false', async () => {
+	it('should display CE Login if API ok and supported false', async () => {
 		mockAdvancedSupportedApi(HttpResponse.json({ supported: false }, { status: 200 }));
 
 		await act(async () => {
-			render(<AppV2 />);
+			setup(<AppV2 />);
 		});
 
-		await screen.findByText('Supported: false');
+		const links = await screen.findAllByRole('link');
+		const carbonioLink = links.find(
+			(link) => link.getAttribute('href') === CARBONIO_CE_SUPPORTED_BROWSER_LINK
+		);
+		expect(carbonioLink).toBeInTheDocument();
 	});
 });
