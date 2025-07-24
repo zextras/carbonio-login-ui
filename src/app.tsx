@@ -26,7 +26,7 @@ type Loading = {
 	isLoading: true;
 };
 
-export function AppV2(): React.JSX.Element {
+export function App(): React.JSX.Element {
 	// TODO: check advanced supported
 	const [apiResponse, setApiResponse] = useState<AdvancedSupport | Loading | Error>({
 		isLoading: true
@@ -34,21 +34,17 @@ export function AppV2(): React.JSX.Element {
 
 	useEffect(() => {
 		setApiResponse({ isLoading: true });
-		getAdvancedSupported()
-			.then((data) => {
-				if ('supported' in data) {
-					setApiResponse({
-						supported: data.supported
-					});
-				} else {
-					setApiResponse({
-						errorMessage: ''
-					});
-				}
-			})
-			.catch(() => {
-				setApiResponse({ errorMessage: '' });
-			});
+		getAdvancedSupported().then((data) => {
+			if ('supported' in data) {
+				setApiResponse({
+					supported: data.supported
+				});
+			} else {
+				setApiResponse({
+					errorMessage: ''
+				});
+			}
+		});
 	}, []);
 	const errorResponse = apiResponse && 'errorMessage' in apiResponse;
 	const isLoading = !apiResponse || (apiResponse && 'isLoading' in apiResponse);

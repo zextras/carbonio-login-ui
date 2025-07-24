@@ -9,5 +9,5 @@ const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
 export function LoginCE(): React.JSX.Element {
 	// TODO: remove version
-	return <PageLayoutV1 version={undefined} hasBackendApi={false} />;
+	return <PageLayoutV1 version={undefined} isAdvanced={false} />;
 }

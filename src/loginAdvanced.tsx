@@ -20,26 +20,22 @@ export function LoginAdvanced(): React.JSX.Element {
 	const [hasError, setHasError] = useState(false);
 
 	useEffect(() => {
-		// let canceled = false;
-		getLoginSupported()
+		const controller = new AbortController();
+		const signal = controller.signal;
+		getLoginSupported(signal)
 			.then(({ minApiVersion, maxApiVersion }) => {
-				// if (!canceled) {
 				const v = maxApiVersion;
-				// if (v > MAX_SUPPORTED_VERSION) {
-				// 	v = MAX_SUPPORTED_VERSION;
-				// }
 				setVersions({
 					minApiVersion,
 					maxApiVersion,
 					version: v
 				});
-				// }
 			})
 			.catch(() => setHasError(true));
-		// return () => {
-		// 	canceled = true;
-		// };
-	}, [hasError]);
+		return () => {
+			controller.abort();
+		};
+	}, []);
 
 	const notSupported = hasError || (versions && versions.version < versions.minApiVersion);
 
