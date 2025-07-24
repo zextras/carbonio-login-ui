@@ -10,7 +10,7 @@ import { render } from 'react-dom';
 
 import './i18n/i18n.config';
 import './index.css';
-import { App } from './app';
+import { AppV2 } from './appv2';
 
 if (process.env.NODE_ENV === 'development') {
 	// eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
@@ -18,4 +18,4 @@ if (process.env.NODE_ENV === 'development') {
 	worker.start();
 }
 
-render(<App />, document.getElementById('app'));
+render(<AppV2 />, document.getElementById('app'));
