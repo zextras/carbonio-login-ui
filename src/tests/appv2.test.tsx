@@ -29,6 +29,10 @@ function apiMinMaxVersions(version: number): APIInterceptor {
 	);
 }
 
+function apiMinMaxFail(): APIInterceptor {
+	return createAPIInterceptor('get', '/zx/login/supported', () => HttpResponse.error());
+}
+
 function apiLoginConfigAPI(version: number, config: JsonBodyType): APIInterceptor {
 	return createAPIInterceptor('get', `/zx/login/v${version}/config`, () =>
 		HttpResponse.json(config, { status: 200 })
@@ -75,6 +79,17 @@ describe('App', () => {
 			(link) => link.getAttribute('href') === CARBONIO_SUPPORTED_BROWSER_LINK
 		);
 		expect(carbonioLink).toBeInTheDocument();
+	});
+
+	it('should display Advanced error Login if advanced supported but min-max version check API fails', async () => {
+		mockAdvancedSupportedApi(() => HttpResponse.json({ supported: true }, { status: 200 }));
+		apiMinMaxFail();
+
+		await act(async () => {
+			setup(<AppV2 />);
+		});
+
+		expect(await screen.findByTestId('not-supported-version')).toBeInTheDocument();
 	});
 
 	it('should display CE Login if API ok and supported false', async () => {
