@@ -17,39 +17,38 @@ type Versions = {
 };
 export function LoginAdvanced(): React.JSX.Element {
 	const [versions, setVersions] = useState<Versions>();
-	const [hasBackendApi, setHasBackendApi] = useState(true);
+	const [hasError, setHasError] = useState(false);
 
 	useEffect(() => {
 		// let canceled = false;
-
-		if (hasBackendApi) {
-			getLoginSupported()
-				.then(({ minApiVersion, maxApiVersion }) => {
-					// if (!canceled) {
-					const v = maxApiVersion;
-					// if (v > MAX_SUPPORTED_VERSION) {
-					// 	v = MAX_SUPPORTED_VERSION;
-					// }
-					setVersions({
-						minApiVersion,
-						maxApiVersion,
-						version: v
-					});
-					// }
-				})
-				.catch(() => setHasBackendApi(false));
-		}
+		getLoginSupported()
+			.then(({ minApiVersion, maxApiVersion }) => {
+				// if (!canceled) {
+				const v = maxApiVersion;
+				// if (v > MAX_SUPPORTED_VERSION) {
+				// 	v = MAX_SUPPORTED_VERSION;
+				// }
+				setVersions({
+					minApiVersion,
+					maxApiVersion,
+					version: v
+				});
+				// }
+			})
+			.catch(() => setHasError(true));
 		// return () => {
 		// 	canceled = true;
 		// };
-	}, [hasBackendApi]);
+	}, [hasError]);
+
+	const notSupported = hasError || (versions && versions.version < versions.minApiVersion);
 
 	return (
 		<>
-			{(!hasBackendApi || (versions && versions.version >= versions.minApiVersion)) && (
-				<PageLayout version={versions?.version} hasBackendApi={hasBackendApi} />
+			{versions && versions.version >= versions.minApiVersion && (
+				<PageLayout version={versions?.version} isAdvanced />
 			)}
-			{versions && versions.version < versions.minApiVersion && <NotSupportedVersion />}
+			{notSupported && <NotSupportedVersion />}
 		</>
 	);
 }

@@ -105,7 +105,7 @@ function DarkReaderListener() {
 	return null;
 }
 
-export default function PageLayout({ version, hasBackendApi }) {
+export default function PageLayout({ version, isAdvanced }) {
 	const [t] = useTranslation();
 	const [logo, setLogo] = useState(null);
 	const [serverError, setServerError] = useState(false);
@@ -135,12 +135,11 @@ export default function PageLayout({ version, hasBackendApi }) {
 		}
 	}, []);
 	const primaryColor = useGetPrimaryColor();
-	const [isAdvanced, SetIsAdvanced] = useState(true);
 	const isSupportedBrowser = browserName === CHROME || browserName === FIREFOX;
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
-		if (hasBackendApi) {
+		if (isAdvanced) {
 			getLoginConfig(version, domain, domain)
 				.then((res) => {
 					if (!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
@@ -254,13 +253,12 @@ export default function PageLayout({ version, hasBackendApi }) {
 		} else {
 			setLogo({ image: logoCarbonio, width: '221px', url: CARBONIO_LOGO_URL });
 			document.title = t('carbonio_authentication', 'Carbonio Authentication');
-			SetIsAdvanced(false);
 		}
 
 		return () => {
 			componentIsMounted = false;
 		};
-	}, [t, version, domain, destinationUrl, hasBackendApi, setDarkReaderState, setDomainName]);
+	}, [t, version, domain, destinationUrl, isAdvanced, setDarkReaderState, setDomainName]);
 
 	const LinkText = (props) => {
 		const { to, children } = props || {};
@@ -317,7 +315,7 @@ export default function PageLayout({ version, hasBackendApi }) {
 								</Container>
 							</Padding>
 						</Container>
-						{hasBackendApi ? (
+						{isAdvanced ? (
 							<FormSelector domain={domain} destinationUrl={destinationUrl} />
 						) : (
 							<ZimbraForm destinationUrl={destinationUrl} />
