@@ -45,3 +45,8 @@ License: CC-BY-NC-SA-4.0
 Files: docs/*
 Copyright: 2021 Zextras <https://www.zextras.com>
 License: CC0-1.0
+
+Files: commit.template
+Copyright: 2021 Zextras <https://www.zextras.com>
+License: AGPL-3.0-only
+
