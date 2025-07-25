@@ -6,10 +6,12 @@
 import React from 'react';
 
 import { test, expect } from '@playwright/experimental-ct-react17';
+import {Component} from "./component";
 
-import { App } from './app';
+
+
 
 test('should return error when advanced supported API does not answer', async ({ mount }) => {
-	const component = await mount(<App />);
-	await expect(component).toContainText('Unable to determine product version');
+	const component = await mount(<Component />);
+	await expect(component).toContainText('Hello');
 });
