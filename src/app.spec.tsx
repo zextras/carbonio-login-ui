@@ -9,7 +9,7 @@ import { test, expect } from '@playwright/experimental-ct-react17';
 
 import { App } from './app';
 
-test('should work', async ({ mount }) => {
+test('should return error when advanced supported API does not answer', async ({ mount }) => {
 	const component = await mount(<App />);
-	await expect(component).toContainText('Learn React');
+	await expect(component).toContainText('Unable to determine product version');
 });
