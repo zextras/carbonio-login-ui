@@ -21,7 +21,7 @@ export function LoginAdvanced(): React.JSX.Element {
 
 	useEffect(() => {
 		const controller = new AbortController();
-		const signal = controller.signal;
+		const { signal } = controller;
 		getLoginSupported(signal)
 			.then(({ minApiVersion, maxApiVersion }) => {
 				const v = maxApiVersion;
