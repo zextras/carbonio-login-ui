@@ -9,11 +9,10 @@ import NotSupportedVersion from './components-index/not-supported-version';
 import PageLayout from './components-v1/page-layout';
 import { getLoginSupported } from './services/login-page-services';
 
-const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 type Versions = {
-	minApiVersion: string;
-	maxApiVersion: string;
-	version: string;
+	minApiVersion: number;
+	maxApiVersion: number;
+	version: number;
 };
 export function LoginAdvanced(): React.JSX.Element {
 	const [versions, setVersions] = useState<Versions>();

@@ -16,6 +16,7 @@ import {
 	Text,
 	Icon
 } from '@zextras/carbonio-design-system';
+import PropTypes from 'prop-types';
 import { browserName } from 'react-device-detect';
 import { useTranslation, Trans } from 'react-i18next';
 import styled, { css } from 'styled-components';
@@ -455,3 +456,8 @@ export default function PageLayout({ version, isAdvanced }) {
 
 	return null;
 }
+
+PageLayout.propTypes = {
+	version: PropTypes.number,
+	isAdvanced: PropTypes.bool.isRequired
+};
