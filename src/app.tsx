@@ -27,7 +27,6 @@ type Loading = {
 };
 
 export function App(): React.JSX.Element {
-	// TODO: check advanced supported
 	const [apiResponse, setApiResponse] = useState<AdvancedSupport | Loading | Error>({
 		isLoading: true
 	});
