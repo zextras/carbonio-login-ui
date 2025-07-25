@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { HttpResponse, JsonBodyType } from 'msw';
 
 import { setup } from './testUtils';
@@ -61,13 +61,21 @@ describe('App', () => {
 	it('should display Advanced Login if API ok and supported', async () => {
 		mockAdvancedSupportedApi(() => HttpResponse.json({ supported: true }, { status: 200 }));
 		const version = 2;
-		apiMinMaxVersions(version);
-		apiLoginConfigAPI(version, {
+		const apiInterceptor = apiMinMaxVersions(version);
+		const apiInterceptor1 = apiLoginConfigAPI(version, {
 			carbonioLogoURL: 'https://www.zextras.com'
 		});
 
 		await act(async () => {
 			setup(<App />);
+		});
+
+		await waitFor(() => {
+			expect(apiInterceptor.getCalledTimes() > 0).toBeTruthy();
+		});
+
+		await waitFor(() => {
+			expect(apiInterceptor1.getCalledTimes() > 0).toBeTruthy();
 		});
 
 		const logoImage = await screen.findByTestId('logo');
