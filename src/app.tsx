@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { SnackbarManager } from '@zextras/carbonio-design-system';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
+import { ErrorPage } from './error-page';
 import { LoginAdvanced } from './loginAdvanced';
 import { LoginCE } from './loginCE';
 import { getAdvancedSupported } from './services/advanced-supported';
@@ -34,15 +35,15 @@ export function App(): React.JSX.Element {
 	useEffect(() => {
 		setApiResponse({ isLoading: true });
 		getAdvancedSupported().then((data) => {
-			if ('supported' in data) {
-				setApiResponse({
-					supported: data.supported
-				});
-			} else {
+			if ('errorMessage' in data) {
 				setApiResponse({
 					errorMessage: ''
 				});
+				return;
 			}
+			setApiResponse({
+				supported: data.supported
+			});
 		});
 	}, []);
 	const errorResponse = apiResponse && 'errorMessage' in apiResponse;
@@ -55,7 +56,7 @@ export function App(): React.JSX.Element {
 				<Suspense fallback={<div></div>}>
 					<Router>
 						<Switch>
-							{errorResponse && <>Unable to determine product version</>}
+							{errorResponse && <ErrorPage />}
 							{isLoading && <>loading</>}
 							{supportedResponse && apiResponse.supported && <LoginAdvanced />}
 							{supportedResponse && !apiResponse.supported && <LoginCE />}
