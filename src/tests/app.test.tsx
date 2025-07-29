@@ -47,7 +47,7 @@ describe('App', () => {
 			render(<App />);
 		});
 
-		await screen.findByText('Unable to determine product version');
+		await screen.findByText('We’re sorry, but there was an error trying to load this page.');
 	});
 
 	it('should display loading', async () => {
