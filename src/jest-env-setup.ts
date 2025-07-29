@@ -54,7 +54,7 @@ export const createAPIInterceptor = (
 	};
 };
 
-const advancedSupportedURL = '/advanced/supported';
+const advancedSupportedURL = '/services/catalog/services';
 export const advancedSupportedApi = {
 	withError: (): APIInterceptor =>
 		createAPIInterceptor('get', advancedSupportedURL, HttpResponse.error),
@@ -62,10 +62,10 @@ export const advancedSupportedApi = {
 		createAPIInterceptor('get', advancedSupportedURL, response),
 	supported: (): APIInterceptor =>
 		createAPIInterceptor('get', advancedSupportedURL, () =>
-			HttpResponse.json({ 'carbonio-advanced': [] }, { status: 200 })
+			HttpResponse.json({ items: ['carbonio-advanced'] }, { status: 200 })
 		),
 	notSupported: (): APIInterceptor =>
 		createAPIInterceptor('get', advancedSupportedURL, () =>
-			HttpResponse.json({ 'carbonio-files': [] }, { status: 200 })
+			HttpResponse.json({ items: ['carbonio-files'] }, { status: 200 })
 		)
 };

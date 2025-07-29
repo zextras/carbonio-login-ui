@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { isArray } from 'lodash';
+
 type Error = {
 	errorMessage: string;
 };
@@ -19,15 +21,17 @@ function errorMessage(): Error {
 }
 
 export const getAdvancedSupported = (): GetAdvancedSupportedResponse =>
-	fetch('/advanced/supported')
+	fetch('/services/catalog/services')
 		.then(async (res) => {
 			if (res.ok) {
 				const data = await res.json();
-				const installedServices = Object.keys(data);
-				const isAdvanced =
-					installedServices.filter((service): boolean => service === 'carbonio-advanced').length >
-					0;
-				return { supported: isAdvanced };
+				if ('items' in data && isArray<string>(data.items)) {
+					const installedServices = data.items as Array<string>;
+					const isAdvanced =
+						installedServices.filter((service): boolean => service === 'carbonio-advanced').length >
+						0;
+					return { supported: isAdvanced };
+				}
 			}
 			return errorMessage();
 		})

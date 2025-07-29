@@ -17,7 +17,7 @@ describe('getAdvancedSupported', () => {
 		'should return advanced supported TRUE when advanced in response (status %d)',
 		async (code: number) => {
 			advancedSupportedApi.withResponse(() =>
-				HttpResponse.json({ 'carbonio-advanced': [] }, { status: code })
+				HttpResponse.json({ items: ['carbonio-advanced'] }, { status: code })
 			);
 			const response = await getAdvancedSupported();
 			expect(response).toEqual({ supported: true });
@@ -26,9 +26,9 @@ describe('getAdvancedSupported', () => {
 
 	it.each(okStatuses)(
 		'should return advanced supported FALSE carbonio-advanced missing from response',
-		async () => {
+		async (code: number) => {
 			advancedSupportedApi.withResponse(() =>
-				HttpResponse.json({ 'carbonio-mailbox': [] }, { status: 200 })
+				HttpResponse.json({ items: ['carbonio-mailbox'] }, { status: code })
 			);
 			const response = await getAdvancedSupported();
 			expect(response).toEqual({ supported: false });
