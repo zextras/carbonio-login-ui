@@ -40,7 +40,7 @@ function apiLoginConfigAPI(version: number, config: JsonBodyType): APIIntercepto
 }
 
 describe('App', () => {
-	it('should display error if api returns error', async () => {
+	it('should display error if advanced supported api returns error', async () => {
 		advancedSupportedApi.withError();
 
 		await act(async () => {
@@ -58,7 +58,7 @@ describe('App', () => {
 		await screen.findByText('loading');
 	});
 
-	it('should display Advanced Login if API ok and supported', async () => {
+	it('should display Advanced Login if API ok and advanced is supported', async () => {
 		advancedSupportedApi.supported();
 		const version = 2;
 		const apiInterceptor = apiMinMaxVersions(version);
@@ -89,7 +89,7 @@ describe('App', () => {
 		expect(carbonioLink).toBeInTheDocument();
 	});
 
-	it('should display Advanced error Login if advanced supported but min-max version check API fails', async () => {
+	it('should display Error page if Advanced supported but min-max version check API fails', async () => {
 		advancedSupportedApi.supported();
 		apiMinMaxFail();
 
@@ -97,10 +97,12 @@ describe('App', () => {
 			setup(<App />);
 		});
 
-		expect(await screen.findByTestId('not-supported-version')).toBeInTheDocument();
+		expect(
+			await screen.findByText('We’re sorry, but there was an error trying to load this page.')
+		).toBeInTheDocument();
 	});
 
-	it('should display CE Login if API ok and supported false', async () => {
+	it('should display CE Login if advanced not supported', async () => {
 		advancedSupportedApi.notSupported();
 
 		await act(async () => {
