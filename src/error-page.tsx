@@ -8,13 +8,13 @@ import React from 'react';
 import { Button, Container, Row, Text } from '@zextras/carbonio-design-system';
 import { noop } from 'lodash';
 
-import ErrorSVG from '../assets/carbonio-load-app-error.svg';
+import errorSVG from '../assets/carbonio-load-app-error.svg';
 
 export const ErrorPage = (): React.JSX.Element => (
 	<Container gap={'10px'} orientation={'vertical'} mainAlignment={'center'} background={'gray5'}>
 		<Container gap={'70px'} orientation={'horizontal'} height={'fit'} mainAlignment={'center'}>
 			<Container width={'fit'}>
-				<ErrorSVG />
+				<img src={errorSVG} alt="load-error" />
 			</Container>
 			<Container
 				width={'fit'}
