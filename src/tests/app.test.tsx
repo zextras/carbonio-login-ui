@@ -14,10 +14,6 @@ import { App } from '../app';
 import { CARBONIO_CE_SUPPORTED_BROWSER_LINK, CARBONIO_SUPPORTED_BROWSER_LINK } from '../constants';
 import { advancedSupportedApi, APIInterceptor, createAPIInterceptor } from '../jest-env-setup';
 
-function mockAdvancedSupportedApi(response: () => HttpResponse): APIInterceptor {
-	return createAPIInterceptor('get', '/advanced/supported', response);
-}
-
 function apiMinMaxVersions(version: number): APIInterceptor {
 	return createAPIInterceptor('get', '/zx/login/supported', () =>
 		HttpResponse.json(
@@ -55,7 +51,7 @@ describe('App', () => {
 
 		render(<App />);
 
-		await screen.findByText('loading');
+		await screen.findByTestId('loading-view');
 	});
 
 	it('should display Advanced Login if API ok and advanced is supported', async () => {

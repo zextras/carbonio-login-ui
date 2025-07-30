@@ -3,10 +3,14 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const PageLayoutV1 = React.lazy(() => import('./components-v1/page-layout'));
 
 export function LoginCE(): React.JSX.Element {
-	return <PageLayoutV1 isAdvanced={false} />;
+	return (
+		<Suspense fallback={<div></div>}>
+			<PageLayoutV1 isAdvanced={false} />
+		</Suspense>
+	);
 }
