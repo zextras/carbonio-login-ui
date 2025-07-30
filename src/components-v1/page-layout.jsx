@@ -22,11 +22,11 @@ import { useTranslation, Trans } from 'react-i18next';
 import styled, { css } from 'styled-components';
 
 import FormSelector from './form-selector';
-import appStore from '../../assets/app-store.svg';
+import AppStore from '../../assets/app-store.svg';
 import backgroundImageRetina from '../../assets/carbonio_loginpage-retina.jpg';
 import backgroundImage from '../../assets/carbonio_loginpage.jpg';
 import logoCarbonio from '../../assets/logo-carbonio.png';
-import playStore from '../../assets/play-store.svg';
+import PlayStore from '../../assets/play-store.svg';
 import ServerNotResponding from '../components-index/server-not-responding';
 import useScreenMode from '../components-index/use-screen-mode';
 import useIsTouchDevice from '../components-index/use-touch-device';
@@ -412,9 +412,7 @@ export default function PageLayout({ version, isAdvanced }) {
 							</Row>
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
 								<a target="_blank" href={PLAY_STORE_URL} rel="noreferrer">
-									<img
-										alt="play-store-logo"
-										src={playStore}
+									<PlayStore
 										style={{
 											maxHeight: '150px',
 											display: 'block',
@@ -424,9 +422,7 @@ export default function PageLayout({ version, isAdvanced }) {
 									/>
 								</a>
 								<a target="_blank" href={APP_STORE_URL} rel="noreferrer">
-									<img
-										alt="app-store-logo"
-										src={appStore}
+									<AppStore
 										style={{
 											maxHeight: '150px',
 											display: 'block',

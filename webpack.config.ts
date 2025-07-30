@@ -81,7 +81,15 @@ const config = (
 					]
 				},
 				{
-					test: /\.(png|jpg|gif|woff2?|svg|eot|ttf|ogg|mp3)$/,
+					test: /\.svg$/,
+					use: [
+						{
+							loader: '@svgr/webpack'
+						}
+					]
+				},
+				{
+					test: /\.(png|jpg|gif|woff2?|eot|ttf|ogg|mp3)$/,
 					// exclude: /assets/,
 					use: [
 						{

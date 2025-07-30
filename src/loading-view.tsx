@@ -6,11 +6,11 @@
 import './loading-view.css';
 import React, { FC } from 'react';
 
-import helmet from '../assets/carbonio-head.svg';
+import Helmet from '../assets/carbonio-head.svg';
 
 export const LoadingView: FC = () => (
 	<div data-testid={'loading-view'} className="splash">
-		<img src={helmet} alt={'carbonio-head'} />
+		<Helmet />
 		<div className="loader">
 			<div className="bar"></div>
 		</div>
