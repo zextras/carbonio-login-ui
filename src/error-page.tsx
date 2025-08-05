@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { Container, Text } from '@zextras/carbonio-design-system';
+import { Button, Container, Row, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
 import errorSVG from '../assets/carbonio-load-app-error.svg';
@@ -41,7 +41,21 @@ export const ErrorPage = (): React.JSX.Element => {
 					</Text>
 				</Container>
 			</Container>
-			<Container mainAlignment={'center'} height={'fit'}></Container>
+			<Container mainAlignment={'center'} height={'fit'}>
+				<Row gap={'16px'}>
+					<Text style={{ fontSize: '24px' }} weight={'light'} color={'secondary'}>
+						{t('error.contact_support', 'Contact support or try refreshing the page')}
+					</Text>
+					<Button
+						iconPlacement={'left'}
+						icon="Refresh"
+						label={t('button.refresh_page', 'REFRESH')}
+						type={'outlined'}
+						onClick={(): void => window.location.reload()}
+						color="primary"
+					/>
+				</Row>
+			</Container>
 		</Container>
 	);
 };
