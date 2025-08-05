@@ -24,12 +24,12 @@ export const ErrorPage = (): React.JSX.Element => {
 					crossAlignment={'flex-start'}
 					mainAlignment={'space-evenly'}
 				>
-					<Text style={{ fontSize: '64px' }} weight={'light'} color={'primary'}>
+					<Text style={{ fontSize: '64px' }} weight={'medium'} color={'primary'}>
 						{t('error.something_went_wrong', 'Something went wrong')}
 					</Text>
 					<Text
 						overflow={'break-word'}
-						style={{ fontSize: '36px' }}
+						style={{ fontSize: '40px' }}
 						weight={'light'}
 						color={'secondary'}
 					>
