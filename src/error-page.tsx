@@ -49,7 +49,7 @@ export const ErrorPage = (): React.JSX.Element => {
 					</Container>
 					<Container crossAlignment={'flex-start'} height={'fit'}>
 						<Row gap={'16px'}>
-							<Text style={{ fontSize: '24px' }} weight={'light'} color={'secondary'}>
+							<Text style={{ fontSize: '24px' }} weight={'regular'} color={'secondary'}>
 								{t('error.contact_support', 'Contact support or try refreshing the page')}
 							</Text>
 							<Button
