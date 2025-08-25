@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.30](https://github.com/zextras/carbonio-login-ui/compare/v0.9.29...v0.9.30) (2025-08-25)
+
+
+### Bug Fixes
+
+* [CO-2243] advanced detection ([1665123](https://github.com/zextras/carbonio-login-ui/commit/166512376c9bc4046f01dcff3d40f2205310ebdd))
+
 ### [0.9.29](https://github.com/zextras/carbonio-login-ui/compare/v0.9.28...v0.9.29) (2025-05-19)
 
 
