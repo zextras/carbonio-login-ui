@@ -12,7 +12,6 @@ import React, {
 	useMemo,
 	useState
 } from 'react';
-
 import {
 	generateColorSet,
 	ThemeProvider as UIThemeProvider,
@@ -20,14 +19,42 @@ import {
 } from '@zextras/carbonio-design-system';
 import { auto, disable, enable, setFetchMethod } from 'darkreader';
 import { reduce } from 'lodash';
-import { createGlobalStyle, DefaultTheme } from 'styled-components';
-
+import {
+	Global,
+	css,
+	Theme as EmotionTheme,
+	ThemeProvider as EmotionThemeProvider
+} from '@emotion/react';
 import { getAutoScalingFontSize } from './utils';
 import { DarkReaderPropValues, ThemeExtension } from '../../types';
 import { darkReaderDynamicThemeFixes } from '../constants';
 import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 
+declare module '@emotion/react' {
+	export interface Theme {
+		palette: Palette;
+		icons?: Record<string, any>;
+		[key: string]: any;
+	}
+}
+
+type ColorSet = {
+	regular: string;
+	hover?: string;
+	active?: string;
+	focus?: string;
+	disabled?: string;
+};
+
+type Palette = {
+	shared: Required<ColorSet>;
+	linked: Required<ColorSet>;
+	primary?: ColorSet;
+	[key: string]: any;
+};
+
 setFetchMethod(window.fetch);
+
 interface ThemeCallbacks {
 	addExtension: (newExtension: ThemeExtension, id: string) => void;
 	setDarkReaderState: (newState: DarkReaderPropValues) => void;
@@ -42,13 +69,13 @@ export const ThemeCallbacksContext = createContext<ThemeCallbacks>({
 	}
 });
 
-type CustomTheme = Partial<Omit<DefaultTheme, 'palette'>> & {
-	palette?: Partial<DefaultTheme['palette']>;
+type CustomTheme = Partial<Omit<EmotionTheme, 'palette'>> & {
+	palette?: Partial<EmotionTheme['palette']>;
 };
 
 const paletteExtension =
 	(customTheme: CustomTheme = {}) =>
-	(theme: DefaultTheme): DefaultTheme => ({
+	(theme: EmotionTheme): EmotionTheme => ({
 		...theme,
 		...customTheme,
 		palette: {
@@ -67,7 +94,12 @@ const paletteExtension =
 				active: '#8B3899',
 				focus: '#7A3187',
 				disabled: '#DDB4E4'
-			}
+			},
+			...(customTheme.palette?.primary
+				? { primary: customTheme.palette.primary as ColorSet }
+				: theme.palette?.primary
+					? { primary: theme.palette.primary as ColorSet }
+					: {})
 		}
 	});
 
@@ -75,8 +107,8 @@ const iconExtension: ThemeExtension = (theme) => ({
 	...theme,
 	icons: {
 		...theme.icons,
-		Shared: theme.icons.ArrowCircleRight,
-		Linked: theme.icons.ArrowCircleLeft
+		Shared: theme.icons?.ArrowCircleRight,
+		Linked: theme.icons?.ArrowCircleLeft
 	}
 });
 
@@ -84,26 +116,29 @@ interface GlobalStyledProps {
 	baseFontSize: number;
 }
 
-const GlobalStyle = createGlobalStyle<GlobalStyledProps>`
-  html {
-    font-size: ${({ baseFontSize }): string => `${baseFontSize}%`};
-  }
-`;
+const GlobalStyle = ({ baseFontSize }: GlobalStyledProps) => (
+	<Global
+		styles={css`
+			html {
+				font-size: ${baseFontSize}%;
+			}
+		`}
+	/>
+);
 
 interface ThemeProviderProps {
 	children?: React.ReactNode | React.ReactNode[];
 }
-export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
-	const [extensions, setExtensions] = useState<Partial<Record<keyof DefaultTheme, ThemeExtension>>>(
-		{}
-	);
 
+export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
+	const [extensions, setExtensions] = useState<Partial<Record<string, ThemeExtension>>>({});
 	const primaryColor = useGetPrimaryColor();
 
 	useLayoutEffect(() => {
-		const customThemePalette: Partial<DefaultTheme['palette']> = primaryColor
+		const customThemePalette: Partial<EmotionTheme['palette']> = primaryColor
 			? { primary: generateColorSet({ regular: primaryColor }) }
 			: {};
+
 		setExtensions((extension) => ({
 			...extension,
 			palette: paletteExtension({
@@ -168,8 +203,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 	return (
 		<UIThemeProvider extension={aggregatedExtensions}>
 			<ThemeCallbacksContext.Provider value={{ addExtension, setDarkReaderState }}>
-				<GlobalStyle baseFontSize={baseFontSize} />
-				{children}
+				<EmotionThemeProvider theme={{} as EmotionTheme}>
+					<GlobalStyle baseFontSize={baseFontSize} />
+					{children}
+				</EmotionThemeProvider>
 			</ThemeCallbacksContext.Provider>
 		</UIThemeProvider>
 	);

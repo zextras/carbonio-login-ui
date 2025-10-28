@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { DefaultTheme } from 'styled-components';
+import { Theme } from '@emotion/react';
 
-export type ThemeExtension = (theme: DefaultTheme) => DefaultTheme;
+export type ThemeExtension = (theme: Theme) => Theme;
