@@ -6,12 +6,20 @@
 
 import React, {
 	createContext,
+	ReactElement,
 	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
 	useState
 } from 'react';
+
+import {
+	Global,
+	css,
+	Theme as EmotionTheme,
+	ThemeProvider as EmotionThemeProvider
+} from '@emotion/react';
 import {
 	generateColorSet,
 	ThemeProvider as UIThemeProvider,
@@ -19,12 +27,7 @@ import {
 } from '@zextras/carbonio-design-system';
 import { auto, disable, enable, setFetchMethod } from 'darkreader';
 import { reduce } from 'lodash';
-import {
-	Global,
-	css,
-	Theme as EmotionTheme,
-	ThemeProvider as EmotionThemeProvider
-} from '@emotion/react';
+
 import { getAutoScalingFontSize } from './utils';
 import { DarkReaderPropValues, ThemeExtension } from '../../types';
 import { darkReaderDynamicThemeFixes } from '../constants';
@@ -33,8 +36,8 @@ import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 declare module '@emotion/react' {
 	export interface Theme {
 		palette: Palette;
-		icons?: Record<string, any>;
-		[key: string]: any;
+		icons?: Record<string, unknown>;
+		[key: string]: unknown;
 	}
 }
 
@@ -50,7 +53,7 @@ type Palette = {
 	shared: Required<ColorSet>;
 	linked: Required<ColorSet>;
 	primary?: ColorSet;
-	[key: string]: any;
+	[key: string]: unknown;
 };
 
 setFetchMethod(window.fetch);
@@ -95,11 +98,15 @@ const paletteExtension =
 				focus: '#7A3187',
 				disabled: '#DDB4E4'
 			},
-			...(customTheme.palette?.primary
-				? { primary: customTheme.palette.primary as ColorSet }
-				: theme.palette?.primary
-					? { primary: theme.palette.primary as ColorSet }
-					: {})
+			...((): Record<string, ColorSet> => {
+				if (customTheme.palette?.primary) {
+					return { primary: customTheme.palette.primary as ColorSet };
+				}
+				if (theme.palette?.primary) {
+					return { primary: theme.palette.primary as ColorSet };
+				}
+				return {};
+			})()
 		}
 	});
 
@@ -116,7 +123,7 @@ interface GlobalStyledProps {
 	baseFontSize: number;
 }
 
-const GlobalStyle = ({ baseFontSize }: GlobalStyledProps) => (
+const GlobalStyle = ({ baseFontSize }: GlobalStyledProps): ReactElement => (
 	<Global
 		styles={css`
 			html {

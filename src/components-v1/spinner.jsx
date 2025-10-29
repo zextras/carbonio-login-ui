@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const rotate = keyframes`
 	100% {

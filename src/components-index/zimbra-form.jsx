@@ -52,13 +52,11 @@ export function ZimbraForm({ destinationUrl }) {
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(formState.credentials);
 	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
-	const [loadingCredentials, setLoadingCredentials] = useState(false);
 	const [email, setEmail] = useState('');
 
 	const submitCredentials = useCallback(
 		(username, password) => {
 			setLoading(true);
-			setLoadingCredentials(true);
 			return zimbraLogin(username, password)
 				.then(async (res) => {
 					let payload;
@@ -67,7 +65,6 @@ export function ZimbraForm({ destinationUrl }) {
 					} catch (err) {
 						payload = await res;
 					}
-					setLoadingCredentials(false);
 					setEmail(username);
 					if (payload?.Body?.Fault) {
 						if (
@@ -114,7 +111,6 @@ export function ZimbraForm({ destinationUrl }) {
 				})
 				.catch((err) => {
 					setLoading(false);
-					setLoadingCredentials(false);
 					if (err.message.startsWith('authentication failed'))
 						setAuthError(
 							t(
