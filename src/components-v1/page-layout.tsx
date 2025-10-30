@@ -92,7 +92,7 @@ const FormWrapper = styled(Container)<FormWrapperProps>`
 	width: auto;
 	height: auto;
 	background-color: ${({ theme }): string =>
-		theme?.palette?.gray6?.regular ? theme.palette.gray6.regular : '#ffffff'};
+		(theme?.palette as Record<string, { regular?: string }>).gray6?.regular ?? '#ffffff'};
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
@@ -126,7 +126,7 @@ export default function PageLayout({
 	version,
 	isAdvanced
 }: {
-	version: number;
+	version?: number;
 	isAdvanced: boolean;
 }): React.JSX.Element | null {
 	const [t] = useTranslation();
@@ -141,7 +141,6 @@ export default function PageLayout({
 
 	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
-	const [editedTheme, setEditedTheme] = useState<Record<string, unknown>>({});
 	const [copyrightBanner, setCopyrightBanner] = useState('');
 	// @ts-expect-error probably unused
 	const { setDomainName } = useLoginConfigStore();
@@ -211,34 +210,6 @@ export default function PageLayout({
 							link.rel = 'shortcut icon';
 							link.href = res.loginPageFavicon;
 							document.getElementsByTagName('head')[0].appendChild(link);
-						}
-
-						if (res.loginPageColorSet) {
-							const colorSet = res.loginPageColorSet;
-							if (colorSet.primary) {
-								setEditedTheme((et) => ({
-									...et,
-									'palette.primary': generateColorSet({
-										regular: `#${colorSet.primary}`,
-										hover: undefined,
-										active: undefined,
-										disabled: undefined,
-										focus: undefined
-									})
-								}));
-							}
-							if (colorSet.secondary) {
-								setEditedTheme((et) => ({
-									...et,
-									'palette.secondary': generateColorSet({
-										regular: `#${colorSet.secondary}`,
-										hover: undefined,
-										active: undefined,
-										disabled: undefined,
-										focus: undefined
-									})
-								}));
-							}
 						}
 
 						if (version === 3) {

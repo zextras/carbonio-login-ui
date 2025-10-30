@@ -100,10 +100,10 @@ const paletteExtension =
 			},
 			...((): Record<string, ColorSet> => {
 				if (customTheme.palette?.primary) {
-					return { primary: customTheme.palette.primary as ColorSet };
+					return { primary: customTheme.palette.primary };
 				}
 				if (theme.palette?.primary) {
-					return { primary: theme.palette.primary as ColorSet };
+					return { primary: theme.palette.primary };
 				}
 				return {};
 			})()
