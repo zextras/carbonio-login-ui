@@ -48,7 +48,7 @@ import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 import { getLoginConfig } from '../services/login-page-services';
 import { useLoginConfigStore } from '../store/login/store';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
-import { generateColorSet, prepareUrlForForward } from '../utils';
+import { prepareUrlForForward } from '../utils';
 
 type LoginContainerProps = {
 	backgroundImage: string;
