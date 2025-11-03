@@ -131,7 +131,7 @@ export default function PageLayout({
 	type logoType = {
 		image: string;
 		width: string;
-		url?: string | undefined;
+		url?: string;
 	};
 
 	const [logo, setLogo] = useState<logoType>();
