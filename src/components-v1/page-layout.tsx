@@ -98,7 +98,6 @@ const FormWrapper = styled(Container)<FormWrapperProps>`
 	max-width: 100%;
 	min-height: 620px;
 	overflow-y: auto;
-
 	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
 		css`
