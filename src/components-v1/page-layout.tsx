@@ -91,8 +91,7 @@ type FormWrapperProps = {
 const FormWrapper = styled(Container)<FormWrapperProps>`
 	width: auto;
 	height: auto;
-	background-color: ${({ theme }): string =>
-		(theme?.palette as Record<string, { regular?: string }>).gray6?.regular ?? '#ffffff'};
+	background-color: #ffffff;
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
