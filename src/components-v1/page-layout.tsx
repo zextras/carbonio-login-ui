@@ -91,7 +91,7 @@ type FormWrapperProps = {
 const FormWrapper = styled(Container)<FormWrapperProps>`
 	width: auto;
 	height: auto;
-	background-color: #ffffff;
+	background: #ffffff;
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
@@ -128,7 +128,13 @@ export default function PageLayout({
 	isAdvanced: boolean;
 }): React.JSX.Element | null {
 	const [t] = useTranslation();
-	const [logo, setLogo] = useState<{ image: string; width: string; url?: string | undefined }>();
+	type logoType = {
+		image: string;
+		width: string;
+		url?: string | undefined;
+	};
+
+	const [logo, setLogo] = useState<logoType>();
 	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -168,11 +174,7 @@ export default function PageLayout({
 					if (!domain) setDomain(res.zimbraDomainName);
 					setDomainName(res.zimbraDomainName);
 
-					const _logo: {
-						image: string;
-						width: string;
-						url?: string;
-					} = { image: '', width: '221px', url: '' };
+					const _logo: logoType = { image: '', width: '221px', url: '' };
 
 					if (componentIsMounted) {
 						if (res.loginPageBackgroundImage) {
