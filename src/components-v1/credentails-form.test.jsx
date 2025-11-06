@@ -50,7 +50,7 @@ describe('CredentialsForm', () => {
 	});
 
 	test('displays SAML login button when SAML auth method is available', () => {
-		const { user } = setup(
+		setup(
 			<CredentialsForm
 				authError=""
 				submitCredentials={jest.fn()}
@@ -65,7 +65,7 @@ describe('CredentialsForm', () => {
 	});
 
 	test('does not display SAML login button when SAML auth method is not available', () => {
-		const { user } = setup(
+		setup(
 			<CredentialsForm
 				authError=""
 				submitCredentials={jest.fn()}

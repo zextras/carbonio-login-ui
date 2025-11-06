@@ -5,8 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useLayoutEffect, useState, useContext, useEffect } from 'react';
+import React, { useLayoutEffect, useState, useContext, useEffect, ReactElement } from 'react';
 
+import { css, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 import {
 	Checkbox,
 	Container,
@@ -19,7 +21,6 @@ import {
 import PropTypes from 'prop-types';
 import { browserName } from 'react-device-detect';
 import { useTranslation, Trans } from 'react-i18next';
-import styled, { css } from 'styled-components';
 
 import FormSelector from './form-selector';
 import appStore from '../../assets/app-store.svg';
@@ -47,20 +48,28 @@ import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 import { getLoginConfig } from '../services/login-page-services';
 import { useLoginConfigStore } from '../store/login/store';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
-import { generateColorSet, prepareUrlForForward } from '../utils';
+import { prepareUrlForForward } from '../utils';
 
-const LoginContainer = styled(Container)`
+type LoginContainerProps = {
+	backgroundImage: string;
+	screenMode: string;
+	isDefaultBg: boolean;
+};
+
+const LoginContainer = styled(Container)<LoginContainerProps>`
 	padding: 0 100px;
-	background: url(${(props) => props.backgroundImage}) no-repeat 75% center/cover;
+	background: url(${(props): string => props.backgroundImage}) no-repeat 75% center/cover;
 	justify-content: center;
 	align-items: flex-start;
-	${({ screenMode }) =>
+
+	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
 		css`
 			padding: 0 12px;
 			align-items: center;
 		`}
-	${({ isDefaultBg }) =>
+
+	${({ isDefaultBg }): false | SerializedStyles =>
 		isDefaultBg &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
@@ -75,17 +84,20 @@ const FormContainer = styled.div`
 	box-shadow: 0px 0px 20px -7px rgba(0, 0, 0, 0.3);
 `;
 
-const FormWrapper = styled(Container)`
+type FormWrapperProps = {
+	screenMode: string;
+};
+
+const FormWrapper = styled(Container)<FormWrapperProps>`
 	width: auto;
 	height: auto;
-	background-color: ${({ theme }) => theme.palette.gray6.regular};
+	background: #ffffff;
 	padding: 48px 48px 0;
 	width: 436px;
 	max-width: 100%;
 	min-height: 620px;
-	// height: 100vh;
 	overflow-y: auto;
-	${({ screenMode }) =>
+	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
 		css`
 			padding: 20px 20px 0;
@@ -95,20 +107,34 @@ const FormWrapper = styled(Container)`
 		`}
 `;
 
-function DarkReaderListener() {
+function DarkReaderListener(): React.JSX.Element | null {
 	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
 	const darkReaderResultValue = useDarkReaderResultValue();
+
 	useEffect(() => {
 		if (darkReaderResultValue) {
 			setDarkReaderState(darkReaderResultValue);
 		}
 	}, [darkReaderResultValue, setDarkReaderState]);
+
 	return null;
 }
 
-export default function PageLayout({ version, isAdvanced }) {
+export default function PageLayout({
+	version,
+	isAdvanced
+}: {
+	version?: number;
+	isAdvanced: boolean;
+}): React.JSX.Element | null {
 	const [t] = useTranslation();
-	const [logo, setLogo] = useState(null);
+	type logoType = {
+		image: string;
+		width: string;
+		url?: string;
+	};
+
+	const [logo, setLogo] = useState<logoType>();
 	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -119,9 +145,8 @@ export default function PageLayout({ version, isAdvanced }) {
 
 	const [bg, setBg] = useState(backgroundImage);
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
-	const [editedTheme, setEditedTheme] = useState({});
 	const [copyrightBanner, setCopyrightBanner] = useState('');
-	const { setDarkReaderState } = useContext(ThemeCallbacksContext);
+	// @ts-expect-error probably unused
 	const { setDomainName } = useLoginConfigStore();
 	const [showModal, setShowModal] = useState(true);
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
@@ -135,11 +160,13 @@ export default function PageLayout({ version, isAdvanced }) {
 			setShowMobileAppModal(false);
 		}
 	}, []);
+
 	const primaryColor = useGetPrimaryColor();
 	const isSupportedBrowser = browserName === CHROME || browserName === FIREFOX;
 
 	useLayoutEffect(() => {
 		let componentIsMounted = true;
+
 		if (isAdvanced) {
 			getLoginConfig(version, domain, domain)
 				.then((res) => {
@@ -147,7 +174,7 @@ export default function PageLayout({ version, isAdvanced }) {
 					if (!domain) setDomain(res.zimbraDomainName);
 					setDomainName(res.zimbraDomainName);
 
-					const _logo = {};
+					const _logo: logoType = { image: '', width: '221px', url: '' };
 
 					if (componentIsMounted) {
 						if (res.loginPageBackgroundImage) {
@@ -176,43 +203,25 @@ export default function PageLayout({ version, isAdvanced }) {
 						}
 
 						if (res.loginPageFavicon) {
-							const link =
+							const existingOrNewLink =
 								document.querySelector("link[rel*='icon']") || document.createElement('link');
+							const link = existingOrNewLink as HTMLLinkElement;
 							link.type = 'image/x-icon';
 							link.rel = 'shortcut icon';
 							link.href = res.loginPageFavicon;
 							document.getElementsByTagName('head')[0].appendChild(link);
 						}
 
-						if (res.loginPageColorSet) {
-							const colorSet = res.loginPageColorSet;
-							if (colorSet.primary) {
-								setEditedTheme((et) => ({
-									...et,
-									'palette.primary': generateColorSet({
-										regular: `#${colorSet.primary}`
-									})
-								}));
-							}
-							if (colorSet.secondary) {
-								setEditedTheme((et) => ({
-									...et,
-									'palette.secondary': generateColorSet({
-										regular: `#${colorSet.secondary}`
-									})
-								}));
-							}
-						}
-
 						if (version === 3) {
 							useLoginConfigStore.setState(res);
-							// In case of v3 API response
+
 							if (res?.carbonioWebUiTitle) {
 								document.title = res.carbonioWebUiTitle;
 							}
 							if (res?.carbonioWebUiFavicon) {
-								const link =
+								const existingOrNewLink =
 									document.querySelector("link[rel*='icon']") || document.createElement('link');
+								const link = existingOrNewLink as HTMLLinkElement;
 								link.type = 'image/x-icon';
 								link.rel = 'shortcut icon';
 								link.href = res.carbonioWebUiFavicon;
@@ -239,16 +248,18 @@ export default function PageLayout({ version, isAdvanced }) {
 									_logo.width = '100%';
 								}
 							}
+
 							if (res?.carbonioWebUiDescription) {
 								setCopyrightBanner(res.carbonioWebUiDescription);
 							}
+
 							_logo.url = res?.carbonioLogoURL ? res.carbonioLogoURL : CARBONIO_LOGO_URL;
 						}
+
 						setLogo(_logo);
 					}
 				})
 				.catch(() => {
-					// It should never happen, If the server doesn't respond this page will not be loaded
 					if (componentIsMounted) setServerError(true);
 				});
 		} else {
@@ -256,12 +267,12 @@ export default function PageLayout({ version, isAdvanced }) {
 			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
 
-		return () => {
+		return (): void => {
 			componentIsMounted = false;
 		};
-	}, [t, version, domain, destinationUrl, isAdvanced, setDarkReaderState, setDomainName]);
+	}, [t, version, domain, destinationUrl, isAdvanced, setDomainName]);
 
-	const LinkText = (props) => {
+	const LinkText = (props: { to?: string; children?: React.ReactNode }): ReactElement => {
 		const { to, children } = props || {};
 		return (
 			<a
@@ -304,7 +315,7 @@ export default function PageLayout({ version, isAdvanced }) {
 				<FormContainer data-testid="form-container">
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
 						<Container mainAlignment="flex-start" height="auto">
-							<Padding value="28px 0 28px" crossAlignment="center" width="100%">
+							<Padding value="28px 0 28px" width="100%">
 								<Container crossAlignment="center">
 									{logo.url ? (
 										<a target="_blank" href={logo.url} rel="noreferrer">
@@ -316,11 +327,13 @@ export default function PageLayout({ version, isAdvanced }) {
 								</Container>
 							</Padding>
 						</Container>
+
 						{isAdvanced ? (
 							<FormSelector domain={domain} destinationUrl={destinationUrl} />
 						) : (
 							<ZimbraForm destinationUrl={destinationUrl} />
 						)}
+
 						<Container
 							crossAlignment="flex-start"
 							height="auto"
@@ -374,6 +387,7 @@ export default function PageLayout({ version, isAdvanced }) {
 						</Container>
 					</FormWrapper>
 				</FormContainer>
+
 				{showMobileAppModal && screenMode !== DESKTOP && isTouchDevice && (
 					<Modal
 						size={screenMode === MOBILE ? 'small' : 'medium'}
@@ -381,7 +395,7 @@ export default function PageLayout({ version, isAdvanced }) {
 						open={showModal}
 						customFooter={
 							<Container orientation="horizontal" mainAlignment="flex-end">
-								<Row style={{ gap: '1rem' }}></Row>
+								<Row style={{ gap: '1rem' }} />
 							</Container>
 						}
 						showCloseIcon
@@ -410,6 +424,7 @@ export default function PageLayout({ version, isAdvanced }) {
 									/>
 								</Text>
 							</Row>
+
 							<Row mainAlignment="center" crossAlignment="center" padding={{ bottom: 'large' }}>
 								<a target="_blank" href={PLAY_STORE_URL} rel="noreferrer">
 									<img
@@ -436,6 +451,7 @@ export default function PageLayout({ version, isAdvanced }) {
 									/>
 								</a>
 							</Row>
+
 							<Row width="80%" mainAlignment="center" crossAlignment="center">
 								<Checkbox
 									iconColor="primary"
