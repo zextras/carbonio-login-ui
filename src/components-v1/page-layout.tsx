@@ -6,6 +6,7 @@
  */
 
 import React, { useLayoutEffect, useState, useContext, useEffect, ReactElement } from 'react';
+
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
@@ -17,7 +18,6 @@ import {
 	Text,
 	Icon
 } from '@zextras/carbonio-design-system';
-
 import PropTypes from 'prop-types';
 import { browserName } from 'react-device-detect';
 import { useTranslation, Trans } from 'react-i18next';
