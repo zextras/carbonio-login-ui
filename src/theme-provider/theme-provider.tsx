@@ -210,10 +210,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 	return (
 		<UIThemeProvider extension={aggregatedExtensions}>
 			<ThemeCallbacksContext.Provider value={{ addExtension, setDarkReaderState }}>
-				<EmotionThemeProvider theme={{} as EmotionTheme}>
-					<GlobalStyle baseFontSize={baseFontSize} />
-					{children}
-				</EmotionThemeProvider>
+				<GlobalStyle baseFontSize={baseFontSize} />
+				{children}
 			</ThemeCallbacksContext.Provider>
 		</UIThemeProvider>
 	);

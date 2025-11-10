@@ -7,8 +7,6 @@
 
 import React, { useLayoutEffect, useState, useContext, useEffect, ReactElement } from 'react';
 
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
 import {
 	Checkbox,
 	Container,
@@ -18,6 +16,9 @@ import {
 	Text,
 	Icon
 } from '@zextras/carbonio-design-system';
+import { css, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import PropTypes from 'prop-types';
 import { browserName } from 'react-device-detect';
 import { useTranslation, Trans } from 'react-i18next';
@@ -60,8 +61,6 @@ const LoginContainer = styled(Container)<LoginContainerProps>`
 	padding: 0 100px;
 	background: url(${(props): string => props.backgroundImage}) no-repeat 75% center/cover;
 	justify-content: center;
-	align-items: flex-start;
-
 	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
 		css`
@@ -84,26 +83,26 @@ const FormContainer = styled.div`
 	box-shadow: 0px 0px 20px -7px rgba(0, 0, 0, 0.3);
 `;
 
-type FormWrapperProps = {
-	screenMode: string;
-};
+const FormWrapper = styled(Container)<{ screenMode: string }>`
+	&& {
+		height: auto;
+		background: #ffffff;
+		padding: 48px 48px 0;
+		width: 436px;
+		max-width: 100%;
+		min-height: 620px;
+		overflow-y: auto;
+	}
 
-const FormWrapper = styled(Container)<FormWrapperProps>`
-	width: auto;
-	height: auto;
-	background: #ffffff;
-	padding: 48px 48px 0;
-	width: 436px;
-	max-width: 100%;
-	min-height: 620px;
-	overflow-y: auto;
-	${({ screenMode }): false | SerializedStyles =>
+	${({ screenMode }) =>
 		screenMode !== DESKTOP &&
 		css`
-			padding: 20px 20px 0;
-			width: 360px;
-			max-height: 100%;
-			height: auto;
+			&& {
+				padding: 20px 20px 0;
+				width: 360px;
+				max-height: 100%;
+				height: auto;
+			}
 		`}
 `;
 
@@ -310,7 +309,12 @@ export default function PageLayout({
 		);
 
 		return (
-			<LoginContainer screenMode={screenMode} isDefaultBg={isDefaultBg} backgroundImage={bg}>
+			<LoginContainer
+				screenMode={screenMode}
+				isDefaultBg={isDefaultBg}
+				backgroundImage={bg}
+				crossAlignment="flex-start"
+			>
 				<DarkReaderListener />
 				<FormContainer data-testid="form-container">
 					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>

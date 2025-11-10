@@ -48,6 +48,7 @@
 		"@typescript-eslint/eslint-plugin": "4.7.0",
 		"@typescript-eslint/parser": "4.7.0",
 		"@zextras/carbonio-ui-configs": "^1.0.1",
+		"@emotion/babel-plugin": "^11.13.5",
 		"autoprefixer": "10.4.2",
 		"babel-jest": "^29.7.0",
 		"babel-loader": "^9.1.3",
