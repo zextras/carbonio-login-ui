@@ -14,12 +14,7 @@ import React, {
 	useState
 } from 'react';
 
-import {
-	Global,
-	css,
-	Theme as EmotionTheme,
-	ThemeProvider as EmotionThemeProvider
-} from '@emotion/react';
+import { Global, css, Theme as EmotionTheme } from '@emotion/react';
 import {
 	generateColorSet,
 	ThemeProvider as UIThemeProvider,
