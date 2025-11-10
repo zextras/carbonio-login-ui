@@ -8,7 +8,7 @@
 import React, { useLayoutEffect, useState, useContext, useEffect, ReactElement } from 'react';
 
 import { css, SerializedStyles } from '@emotion/react';
-
+import styled from '@emotion/styled';
 import {
 	Checkbox,
 	Container,
@@ -18,8 +18,6 @@ import {
 	Text,
 	Icon
 } from '@zextras/carbonio-design-system';
-
-import styled from '@emotion/styled';
 
 import PropTypes from 'prop-types';
 import { browserName } from 'react-device-detect';
@@ -96,7 +94,7 @@ const FormWrapper = styled(Container)<{ screenMode: string }>`
 		overflow-y: auto;
 	}
 
-	${({ screenMode }) =>
+	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
 		css`
 			&& {
