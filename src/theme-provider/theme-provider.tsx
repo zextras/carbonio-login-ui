@@ -14,12 +14,7 @@ import React, {
 	useState
 } from 'react';
 
-import {
-	Global,
-	css,
-	Theme as EmotionTheme,
-	ThemeProvider as EmotionThemeProvider
-} from '@emotion/react';
+import { Global, css, Theme as EmotionTheme } from '@emotion/react';
 import {
 	generateColorSet,
 	ThemeProvider as UIThemeProvider,
@@ -210,10 +205,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 	return (
 		<UIThemeProvider extension={aggregatedExtensions}>
 			<ThemeCallbacksContext.Provider value={{ addExtension, setDarkReaderState }}>
-				<EmotionThemeProvider theme={{} as EmotionTheme}>
-					<GlobalStyle baseFontSize={baseFontSize} />
-					{children}
-				</EmotionThemeProvider>
+				<GlobalStyle baseFontSize={baseFontSize} />
+				{children}
 			</ThemeCallbacksContext.Provider>
 		</UIThemeProvider>
 	);
