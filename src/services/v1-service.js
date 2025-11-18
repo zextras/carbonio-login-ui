@@ -6,8 +6,7 @@
 
 import { getDeviceModel, deviceId } from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function postV1Login(authMethod, user, password, service) {
+export function postV1Login(authMethod, user, password) {
 	return fetch('/zx/auth/v1/login', {
 		method: 'POST',
 		headers: {

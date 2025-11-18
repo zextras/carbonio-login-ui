@@ -14,7 +14,7 @@ describe('modals', () => {
 	test('loads modal screen', async () => {
 		const onCloseFn = jest.fn();
 		const open = true;
-		const { user } = setup(<OfflineModal open={open} onClose={onCloseFn} />);
+		setup(<OfflineModal open={open} onClose={onCloseFn} />);
 		act(() => {
 			jest.runOnlyPendingTimers();
 		});
