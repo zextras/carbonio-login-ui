@@ -29,15 +29,6 @@ const config = (
 			path: `${__dirname}/dist`
 		},
 		target: 'web',
-		devServer: {
-			proxy: {
-				'/zx': {
-					target: 'https://infra-848931f5.testarea.zextras.com',
-					secure: false
-				}
-			},
-			webSocketServer: false
-		},
 		resolve: {
 			extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
 			alias: {
@@ -48,7 +39,7 @@ const config = (
 			rules: [
 				{
 					test: /\.[jt]sx?$/,
-					exclude: /node_modules/,
+					exclude: [/node_modules/, path.resolve(process.cwd(), 'src/mocks')],
 					loader: 'babel-loader'
 				},
 				{
@@ -96,6 +87,9 @@ const config = (
 		},
 		plugins: [
 			new CleanWebpackPlugin(),
+			new webpack.IgnorePlugin({
+				resourceRegExp: /^\.?\.?\/mocks\// // ignore any import that starts with ./mocks/ or ../mocks/
+			}),
 			new CopyPlugin({
 				patterns: [
 					{ from: 'CHANGELOG.md', to: '.', noErrorOnMissing: true },
@@ -110,8 +104,7 @@ const config = (
 								.replaceAll('{{version}}', pkg.version)
 								.replaceAll('{{pkgRel}}', `${pkgRel}`);
 						}
-					},
-					{ from: 'src/mockServiceWorker.js', to: 'mockServiceWorker.js' }
+					}
 				]
 			}),
 			new HtmlWebpackPlugin({
