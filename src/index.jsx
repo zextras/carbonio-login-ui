@@ -12,10 +12,4 @@ import './i18n/i18n.config';
 import './index.css';
 import { App } from './app';
 
-if (process.env.NODE_ENV === 'development') {
-	// eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-	const { worker } = require('./mocks/browser');
-	worker.start();
-}
-
 render(<App />, document.getElementById('app'));
