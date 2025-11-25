@@ -87,6 +87,9 @@ const config = (
 		},
 		plugins: [
 			new CleanWebpackPlugin(),
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify(args.mode || 'production')
+			}),
 			new webpack.IgnorePlugin({
 				resourceRegExp: /^\.?\.?\/mocks\// // ignore any import that starts with ./mocks/ or ../mocks/
 			}),
