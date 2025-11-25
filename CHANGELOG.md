@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.32](https://github.com/zextras/carbonio-login-ui/compare/v0.9.31...v0.9.32) (2025-11-25)
+
+
+### Bug Fixes
+
+* [CO-2901] exclude mocks and msw from build ([8aa9616](https://github.com/zextras/carbonio-login-ui/commit/8aa961631fb752edfc49dc3f98b2cf615fd2da34))
+* add NODE_ENV prod by default ([2acd370](https://github.com/zextras/carbonio-login-ui/commit/2acd370304a22af3e650f0675cece80003b53b3f))
+* do not include mocks in build as well msw ([d811431](https://github.com/zextras/carbonio-login-ui/commit/d811431852b97ec939e50a318f04edac6cdfc5b2))
+* remove mocks from build (index) ([015025a](https://github.com/zextras/carbonio-login-ui/commit/015025a7197853b8e45d1d3dd069eecfb922d6ad))
+
+### [0.9.31](https://github.com/zextras/carbonio-login-ui/compare/v0.9.30...v0.9.31) (2025-11-18)
+
+
+### Bug Fixes
+
+* css extended by emotion are now correctly ovverriding default comp props ([f005c19](https://github.com/zextras/carbonio-login-ui/commit/f005c19b95122473eca042ed9e1c55385e499028))
+* remove not needed write on component json ([dba5521](https://github.com/zextras/carbonio-login-ui/commit/dba5521d541366b4bbb4cb8e968ba04428b0b43b))
+* removed styled-component, using emotions instead ([fad01d1](https://github.com/zextras/carbonio-login-ui/commit/fad01d157b2aaed149442022a7d146dad38ad78c))
+* removed styled-component, using emotions instead ([e60e46b](https://github.com/zextras/carbonio-login-ui/commit/e60e46b427ad155acfacc7e470916bbdcb486a27))
+* removed styled-component, using emotions instead ([82e4f11](https://github.com/zextras/carbonio-login-ui/commit/82e4f11884b2fb9c42146a260862c6cdc9b62a5a))
+* removed styled-component, using emotions instead ([3497064](https://github.com/zextras/carbonio-login-ui/commit/34970640d01eaad4ad20d5885e4608187f0d733c))
+* removed unused code ([fc426b3](https://github.com/zextras/carbonio-login-ui/commit/fc426b34a9021f30af1cbabc202bbae45eb03ec7))
+* removed unused code ([dde8f2b](https://github.com/zextras/carbonio-login-ui/commit/dde8f2bca150aa14514aa382dd33a7d388a5af76))
+* removed unused code ([7dea986](https://github.com/zextras/carbonio-login-ui/commit/7dea986b447c65ed310c83c384d9262493271b81))
+* removed unused code ([861ffa2](https://github.com/zextras/carbonio-login-ui/commit/861ffa28807968e89aec5506bf992c1a11a8ff5c))
+* sonar errors ([36436d8](https://github.com/zextras/carbonio-login-ui/commit/36436d862540a2b0651e8d3cfd6f96fb176d000a))
+* sonar errors ([d3b9264](https://github.com/zextras/carbonio-login-ui/commit/d3b9264a78caa24e5c636149bb86fc97a423d064))
+* sonar errors ([2779085](https://github.com/zextras/carbonio-login-ui/commit/2779085153167c73f80b447700237c63274c8e39))
+* sonar errors ([01eb649](https://github.com/zextras/carbonio-login-ui/commit/01eb6491b33f3ac8a2aac9095fb14cc7f24ab9ea))
+
 ### [0.9.30](https://github.com/zextras/carbonio-login-ui/compare/v0.9.29...v0.9.30) (2025-08-25)
 
 
