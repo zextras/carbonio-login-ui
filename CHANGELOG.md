@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.32](https://github.com/zextras/carbonio-login-ui/compare/v0.9.31...v0.9.32) (2025-11-25)
+
+
+### Bug Fixes
+
+* [CO-2901] exclude mocks and msw from build ([8aa9616](https://github.com/zextras/carbonio-login-ui/commit/8aa961631fb752edfc49dc3f98b2cf615fd2da34))
+* add NODE_ENV prod by default ([2acd370](https://github.com/zextras/carbonio-login-ui/commit/2acd370304a22af3e650f0675cece80003b53b3f))
+* do not include mocks in build as well msw ([d811431](https://github.com/zextras/carbonio-login-ui/commit/d811431852b97ec939e50a318f04edac6cdfc5b2))
+* remove mocks from build (index) ([015025a](https://github.com/zextras/carbonio-login-ui/commit/015025a7197853b8e45d1d3dd069eecfb922d6ad))
+
 ### [0.9.31](https://github.com/zextras/carbonio-login-ui/compare/v0.9.30...v0.9.31) (2025-11-18)
 
 
