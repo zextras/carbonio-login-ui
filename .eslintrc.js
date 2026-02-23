@@ -17,12 +17,6 @@ module.exports = {
 		'arrow-body-style': 'off',
 		'prefer-arrow-callback': 'off',
 		'no-bitwise': ['error', { allow: ['^', '&', '>>'] }],
-		'notice/notice': [
-			'error',
-			{
-				templateFile: '.reuse/template.js'
-			}
-		],
 		'sonarjs/cognitive-complexity': 'warn',
 		'sonarjs/no-duplicate-string': 'warn'
 	},
