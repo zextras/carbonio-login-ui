@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.34](https://github.com/zextras/carbonio-login-ui/compare/v0.9.33...v0.9.34) (2026-02-27)
+
+
+### Bug Fixes
+
+* update jenkins-lib-ui version to 1.0.9 ([34d36d5](https://github.com/zextras/carbonio-login-ui/commit/34d36d57973effff99c34beb8a66ada21e24a9b0))
+* update jenkins-lib-ui version to 1.0.9 ([cef644f](https://github.com/zextras/carbonio-login-ui/commit/cef644fe9c9769afea12c56e54b33c137ad4b18a))
+
 ### [0.9.33](https://github.com/zextras/carbonio-login-ui/compare/v0.9.32...v0.9.33) (2026-02-24)
 
 
