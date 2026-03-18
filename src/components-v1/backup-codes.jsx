@@ -7,8 +7,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { Button, Checkbox, Row, Text } from '@zextras/carbonio-design-system';
+import { Button, Checkbox, Row, Text, Container, Padding } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+
+import { useLoginConfigStore } from '../store/login/store';
 
 const CodesGrid = styled.div`
 	width: 100%;
@@ -25,6 +27,7 @@ const CodesGrid = styled.div`
 
 export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, configuration }) {
 	const [t] = useTranslation();
+	const { loginLogo } = useLoginConfigStore();
 	const [savedConfirmed, setSavedConfirmed] = useState(false);
 	const toggleSavedConfirmed = useCallback(() => setSavedConfirmed((v) => !v), []);
 
@@ -50,6 +53,44 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 
 	return (
 		<div style={{ width: '100%' }}>
+			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
+				<Padding value="28px 0 28px" width="100%">
+					<Container crossAlignment="center">
+						{loginLogo &&
+							(loginLogo.url ? (
+								<a target="_blank" href={loginLogo.url} rel="noreferrer">
+									<img
+										alt="Logo"
+										src={loginLogo.image}
+										width={loginLogo.width}
+										style={{
+											maxWidth: '100%',
+											maxHeight: '150px',
+											display: 'block',
+											marginLeft: 'auto',
+											marginRight: 'auto'
+										}}
+										data-testid="logo"
+									/>
+								</a>
+							) : (
+								<img
+									alt="Logo"
+									src={loginLogo.image}
+									width={loginLogo.width}
+									style={{
+										maxWidth: '100%',
+										maxHeight: '150px',
+										display: 'block',
+										marginLeft: 'auto',
+										marginRight: 'auto'
+									}}
+									data-testid="logo"
+								/>
+							))}
+					</Container>
+				</Padding>
+			</Container>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
 				<Text size="large" color="text" weight="bold" overflow="break-word">
 					{t(

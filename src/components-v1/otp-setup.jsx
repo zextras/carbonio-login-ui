@@ -7,9 +7,19 @@
 import React, { useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { Button, Checkbox, Input, Row, Text } from '@zextras/carbonio-design-system';
+import {
+	Button,
+	Checkbox,
+	Input,
+	Row,
+	Text,
+	Container,
+	Padding
+} from '@zextras/carbonio-design-system';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
+
+import { useLoginConfigStore } from '../store/login/store';
 
 const SecretCodeBox = styled.div`
 	width: 100%;
@@ -43,6 +53,7 @@ export default function OtpSetup({
 	onBack
 }) {
 	const [t] = useTranslation();
+	const { loginLogo } = useLoginConfigStore();
 	const [code, setCode] = useState('');
 	const [trustDevice, setTrustDevice] = useState(false);
 	const toggleTrustDevice = useCallback(() => setTrustDevice((v) => !v), []);
@@ -84,6 +95,44 @@ export default function OtpSetup({
 					width="fill"
 				/>
 			</Row>
+			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
+				<Padding value="28px 0 28px" width="100%">
+					<Container crossAlignment="center">
+						{loginLogo &&
+							(loginLogo.url ? (
+								<a target="_blank" href={loginLogo.url} rel="noreferrer">
+									<img
+										alt="Logo"
+										src={loginLogo.image}
+										width={loginLogo.width}
+										style={{
+											maxWidth: '100%',
+											maxHeight: '150px',
+											display: 'block',
+											marginLeft: 'auto',
+											marginRight: 'auto'
+										}}
+										data-testid="logo"
+									/>
+								</a>
+							) : (
+								<img
+									alt="Logo"
+									src={loginLogo.image}
+									width={loginLogo.width}
+									style={{
+										maxWidth: '100%',
+										maxHeight: '150px',
+										display: 'block',
+										marginLeft: 'auto',
+										marginRight: 'auto'
+									}}
+									data-testid="logo"
+								/>
+							))}
+					</Container>
+				</Padding>
+			</Container>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
 				<Text size="large" color="text" weight="bold" overflow="break-word">
 					{t(

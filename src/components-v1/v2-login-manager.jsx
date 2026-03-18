@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
 	Button,
@@ -28,6 +28,7 @@ import OtpSetup from './otp-setup';
 import OtpWizard from './otp-wizard';
 import Spinner from './spinner';
 import { generateOtp, postV2Login, submitOtp } from '../services/v2-service';
+import { useLoginConfigStore } from '../store/login/store';
 import { saveCredentials } from '../utils';
 
 const formState = {
@@ -47,6 +48,17 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [loadingCredentials, setLoadingCredentials] = useState(false);
 	const [loadingOtp, setLoadingOtp] = useState(false);
 	const [progress, setProgress] = useState(formState.credentials);
+
+	useEffect(() => {
+		const isWizardScreen =
+			progress === formState.otpWizard ||
+			progress === formState.otpSetup ||
+			progress === formState.backupCodes;
+		useLoginConfigStore.setState({ isOtpWizardActive: isWizardScreen });
+		return () => {
+			useLoginConfigStore.setState({ isOtpWizardActive: false });
+		};
+	}, [progress]);
 
 	const [authError, setAuthError] = useState(false);
 	const [showOtpError, setShowOtpError] = useState(false);

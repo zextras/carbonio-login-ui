@@ -6,14 +6,17 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button, Input, Row, Text } from '@zextras/carbonio-design-system';
+import { Button, Container, Input, Row, Text, Padding } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+
+import { useLoginConfigStore } from '../store/login/store';
 
 const OTP_NAME_MAX_LENGTH = 20;
 const OTP_NAME_REGEX = /^[a-zA-Z0-9_]+$/;
 
 export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loading }) {
 	const [t] = useTranslation();
+	const { loginLogo } = useLoginConfigStore();
 	const [otpName, setOtpName] = useState('');
 	const [hasError, setHasError] = useState(false);
 
@@ -66,6 +69,44 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					width="fill"
 				/>
 			</Row>
+			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
+				<Padding value="28px 0 28px" width="100%">
+					<Container crossAlignment="center">
+						{loginLogo &&
+							(loginLogo.url ? (
+								<a target="_blank" href={loginLogo.url} rel="noreferrer">
+									<img
+										alt="Logo"
+										src={loginLogo.image}
+										width={loginLogo.width}
+										style={{
+											maxWidth: '100%',
+											maxHeight: '150px',
+											display: 'block',
+											marginLeft: 'auto',
+											marginRight: 'auto'
+										}}
+										data-testid="logo"
+									/>
+								</a>
+							) : (
+								<img
+									alt="Logo"
+									src={loginLogo.image}
+									width={loginLogo.width}
+									style={{
+										maxWidth: '100%',
+										maxHeight: '150px',
+										display: 'block',
+										marginLeft: 'auto',
+										marginRight: 'auto'
+									}}
+									data-testid="logo"
+								/>
+							))}
+					</Container>
+				</Padding>
+			</Container>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
 				<Text size="large" color="text" weight="bold" overflow="break-word">
 					{t(

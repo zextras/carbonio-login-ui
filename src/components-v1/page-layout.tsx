@@ -76,13 +76,18 @@ const LoginContainer = styled(Container)<LoginContainerProps>`
 		`}
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.div<{ isWide?: boolean }>`
 	max-width: 100%;
 	max-height: 100vh;
 	box-shadow: 0px 0px 20px -7px rgba(0, 0, 0, 0.3);
+	${({ isWide }): false | SerializedStyles =>
+		!!isWide &&
+		css`
+			width: 720px;
+		`}
 `;
 
-const FormWrapper = styled(Container)<{ screenMode: string }>`
+const FormWrapper = styled(Container)<{ screenMode: string; isWide?: boolean }>`
 	&& {
 		height: auto;
 		background: #ffffff;
@@ -92,6 +97,14 @@ const FormWrapper = styled(Container)<{ screenMode: string }>`
 		min-height: 620px;
 		overflow-y: auto;
 	}
+
+	${({ isWide }): false | SerializedStyles =>
+		!!isWide &&
+		css`
+			&& {
+				width: 720px;
+			}
+		`}
 
 	${({ screenMode }): false | SerializedStyles =>
 		screenMode !== DESKTOP &&
@@ -145,7 +158,7 @@ export default function PageLayout({
 	const [isDefaultBg, setIsDefaultBg] = useState(true);
 	const [copyrightBanner, setCopyrightBanner] = useState('');
 	// @ts-expect-error probably unused
-	const { setDomainName } = useLoginConfigStore();
+	const { setDomainName, isOtpWizardActive } = useLoginConfigStore();
 	const [showModal, setShowModal] = useState(true);
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
 	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
@@ -255,6 +268,7 @@ export default function PageLayout({
 						}
 
 						setLogo(_logo);
+						useLoginConfigStore.setState({ loginLogo: _logo });
 					}
 				})
 				.catch(() => {
@@ -262,6 +276,9 @@ export default function PageLayout({
 				});
 		} else {
 			setLogo({ image: logoCarbonio, width: '221px', url: CARBONIO_LOGO_URL });
+			useLoginConfigStore.setState({
+				loginLogo: { image: logoCarbonio, width: '221px', url: CARBONIO_LOGO_URL }
+			});
 			document.title = t('carbonio_authentication', 'Carbonio Authentication');
 		}
 
@@ -312,24 +329,33 @@ export default function PageLayout({
 				screenMode={screenMode}
 				isDefaultBg={isDefaultBg}
 				backgroundImage={bg}
-				crossAlignment="flex-start"
+				crossAlignment={isOtpWizardActive ? 'center' : 'flex-start'}
+				data-testid="login-container"
 			>
 				<DarkReaderListener />
-				<FormContainer data-testid="form-container">
-					<FormWrapper mainAlignment="space-between" screenMode={screenMode}>
-						<Container mainAlignment="flex-start" height="auto">
-							<Padding value="28px 0 28px" width="100%">
-								<Container crossAlignment="center">
-									{logo.url ? (
-										<a target="_blank" href={logo.url} rel="noreferrer">
-											{logoHtml}
-										</a>
-									) : (
-										logoHtml
-									)}
-								</Container>
-							</Padding>
-						</Container>
+				<FormContainer data-testid="form-container" isWide={isOtpWizardActive}>
+					<FormWrapper
+						mainAlignment="space-between"
+						screenMode={screenMode}
+						isWide={isOtpWizardActive}
+					>
+						{!isOtpWizardActive ? (
+							<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
+								<Padding value="28px 0 28px" width="100%">
+									<Container crossAlignment="center">
+										{logo.url ? (
+											<a target="_blank" href={logo.url} rel="noreferrer">
+												{logoHtml}
+											</a>
+										) : (
+											logoHtml
+										)}
+									</Container>
+								</Padding>
+							</Container>
+						) : (
+							<></>
+						)}
 
 						{isAdvanced ? (
 							<FormSelector domain={domain} destinationUrl={destinationUrl} />
@@ -337,57 +363,61 @@ export default function PageLayout({
 							<ZimbraForm destinationUrl={destinationUrl} />
 						)}
 
-						<Container
-							crossAlignment="flex-start"
-							height="auto"
-							padding={{ bottom: 'extralarge', top: 'extralarge' }}
-						>
-							<Row padding={{ top: 'large', bottom: 'large' }} wrap="nowrap">
-								<Padding right="extrasmall">
-									<Icon
-										color="secondary"
-										icon={isSupportedBrowser ? 'CheckmarkOutline' : 'InfoOutline'}
-										size="medium"
-									/>
-								</Padding>
+						{!isOtpWizardActive ? (
+							<Container
+								crossAlignment="flex-start"
+								height="auto"
+								padding={{ bottom: 'extralarge', top: 'extralarge' }}
+							>
+								<Row padding={{ top: 'large', bottom: 'large' }} wrap="nowrap">
+									<Padding right="extrasmall">
+										<Icon
+											color="secondary"
+											icon={isSupportedBrowser ? 'CheckmarkOutline' : 'InfoOutline'}
+											size="medium"
+										/>
+									</Padding>
 
-								<Text size="small" color="secondary" weight="light">
-									<Trans
-										i18nKey={
-											isSupportedBrowser ? 'browser_fully_supported' : 'browser_limited_supported'
-										}
-										defaults={
-											isSupportedBrowser
-												? 'Your browser is fully <a>supported</a>'
-												: 'Having troubles? Try a fully <a>supported</a> browser'
-										}
-										components={{
-											a: (
-												<LinkText
-													to={
-														isAdvanced
-															? CARBONIO_SUPPORTED_BROWSER_LINK
-															: CARBONIO_CE_SUPPORTED_BROWSER_LINK
-													}
-												/>
-											)
-										}}
-									/>
-								</Text>
-							</Row>
+									<Text size="small" color="secondary" weight="light">
+										<Trans
+											i18nKey={
+												isSupportedBrowser ? 'browser_fully_supported' : 'browser_limited_supported'
+											}
+											defaults={
+												isSupportedBrowser
+													? 'Your browser is fully <a>supported</a>'
+													: 'Having troubles? Try a fully <a>supported</a> browser'
+											}
+											components={{
+												a: (
+													<LinkText
+														to={
+															isAdvanced
+																? CARBONIO_SUPPORTED_BROWSER_LINK
+																: CARBONIO_CE_SUPPORTED_BROWSER_LINK
+														}
+													/>
+												)
+											}}
+										/>
+									</Text>
+								</Row>
 
-							{copyrightBanner ? (
-								<Text size="small" overflow="break-word">
-									{copyrightBanner}
-								</Text>
-							) : (
-								<Text size="small" overflow="break-word" data-testid="default-banner">
-									Copyright &copy;
-									{` ${new Date().getFullYear()} Zextras, `}
-									{t('all_rights_reserved', 'All rights reserved')}
-								</Text>
-							)}
-						</Container>
+								{copyrightBanner ? (
+									<Text size="small" overflow="break-word">
+										{copyrightBanner}
+									</Text>
+								) : (
+									<Text size="small" overflow="break-word" data-testid="default-banner">
+										Copyright &copy;
+										{` ${new Date().getFullYear()} Zextras, `}
+										{t('all_rights_reserved', 'All rights reserved')}
+									</Text>
+								)}
+							</Container>
+						) : (
+							<></>
+						)}
 					</FormWrapper>
 				</FormContainer>
 
