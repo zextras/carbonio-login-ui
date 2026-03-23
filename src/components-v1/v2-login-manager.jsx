@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* global globalThis */
 /*
  * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
  *
@@ -17,6 +18,7 @@ import {
 	Text
 } from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import BackupCodes from './backup-codes';
@@ -119,7 +121,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 										setProgress(formState.twoFactor);
 										setLoadingCredentials(false);
 									} else {
-										window.location.assign(configuration.destinationUrl);
+										globalThis.location.assign(configuration.destinationUrl);
 									}
 								});
 							}
@@ -168,7 +170,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						if (res.redirected) {
 							setProgress(formState.changePassword);
 						} else {
-							window.location.assign(configuration.destinationUrl);
+							globalThis.location.assign(configuration.destinationUrl);
 						}
 					} else {
 						setLoadingOtp(false);
@@ -251,7 +253,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	}, []);
 
 	const onLoginToWorkspace = useCallback(() => {
-		window.location.assign(configuration.destinationUrl);
+		globalThis.location.assign(configuration.destinationUrl);
 	}, [configuration.destinationUrl]);
 
 	return (
@@ -407,3 +409,14 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		</>
 	);
 }
+
+V2LoginManager.propTypes = {
+	configuration: PropTypes.shape({
+		destinationUrl: PropTypes.string.isRequired
+	}).isRequired,
+	disableInputs: PropTypes.bool
+};
+
+V2LoginManager.defaultProps = {
+	disableInputs: false
+};

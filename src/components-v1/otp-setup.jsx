@@ -16,6 +16,7 @@ import {
 	Container,
 	Padding
 } from '@zextras/carbonio-design-system';
+import PropTypes from 'prop-types';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
@@ -273,3 +274,20 @@ export default function OtpSetup({
 		</form>
 	);
 }
+OtpSetup.propTypes = {
+	otpUri: PropTypes.string.isRequired,
+	onBackToLogin: PropTypes.func.isRequired,
+	onVerifyCode: PropTypes.func.isRequired,
+	disableInputs: PropTypes.bool,
+	loading: PropTypes.bool,
+	verifyError: PropTypes.string,
+	attemptsRemaining: PropTypes.number,
+	onBack: PropTypes.func.isRequired
+};
+
+OtpSetup.defaultProps = {
+	disableInputs: false,
+	loading: false,
+	verifyError: undefined,
+	attemptsRemaining: undefined
+};

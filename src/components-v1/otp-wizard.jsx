@@ -7,6 +7,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, Container, Input, Row, Text, Padding } from '@zextras/carbonio-design-system';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { useLoginConfigStore } from '../store/login/store';
@@ -171,3 +172,14 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 		</form>
 	);
 }
+OtpWizard.propTypes = {
+	onBackToLogin: PropTypes.func.isRequired,
+	onProceed: PropTypes.func.isRequired,
+	disableInputs: PropTypes.bool,
+	loading: PropTypes.bool
+};
+
+OtpWizard.defaultProps = {
+	disableInputs: false,
+	loading: false
+};

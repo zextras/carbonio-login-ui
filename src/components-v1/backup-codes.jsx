@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { Button, Checkbox, Row, Text, Container, Padding } from '@zextras/carbonio-design-system';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { useLoginConfigStore } from '../store/login/store';
@@ -52,7 +53,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 				document.body.appendChild(textArea);
 				textArea.select();
 				document.execCommand('copy');
-				document.body.removeChild(textArea);
+				textArea.remove();
 			});
 		} else {
 			const textArea = document.createElement('textarea');
@@ -62,7 +63,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 			document.body.appendChild(textArea);
 			textArea.select();
 			document.execCommand('copy');
-			document.body.removeChild(textArea);
+			textArea.remove();
 		}
 	}, [codesText]);
 
@@ -74,7 +75,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 		a.download = 'backup-codes.txt';
 		document.body.appendChild(a);
 		a.click();
-		document.body.removeChild(a);
+		a.remove();
 		URL.revokeObjectURL(url);
 	}, [codesText]);
 
@@ -190,3 +191,18 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 		</div>
 	);
 }
+
+BackupCodes.propTypes = {
+	staticOtpCodes: PropTypes.arrayOf(
+		PropTypes.shape({
+			code: PropTypes.string.isRequired
+		})
+	),
+	onLoginToWorkspace: PropTypes.func.isRequired,
+	configuration: PropTypes.object
+};
+
+BackupCodes.defaultProps = {
+	staticOtpCodes: [],
+	configuration: undefined
+};
