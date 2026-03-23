@@ -83,9 +83,8 @@ describe('OtpWizard', () => {
 				loginLogo: { image: '/logo.png', width: '150' }
 			});
 			setup(<OtpWizard {...defaultProps} />);
-			const logo = screen.getByTestId('logo');
-			expect(logo).toBeInTheDocument();
-			expect(logo.closest('a')).toBeNull();
+			expect(screen.getByTestId('logo')).toBeInTheDocument();
+			expect(screen.queryByRole('link')).not.toBeInTheDocument();
 		});
 
 		test('renders logo with link when loginLogo has a url', () => {
@@ -93,10 +92,8 @@ describe('OtpWizard', () => {
 				loginLogo: { image: '/logo.png', width: '150', url: 'https://example.com' }
 			});
 			setup(<OtpWizard {...defaultProps} />);
-			const logo = screen.getByTestId('logo');
-			expect(logo).toBeInTheDocument();
-			const anchor = logo.closest('a');
-			expect(anchor).not.toBeNull();
+			expect(screen.getByTestId('logo')).toBeInTheDocument();
+			const anchor = screen.getByRole('link');
 			expect(anchor).toHaveAttribute('href', 'https://example.com');
 			expect(anchor).toHaveAttribute('target', '_blank');
 		});
