@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useLoginConfigStore } from '../store/login/store';
 
 const OTP_NAME_MAX_LENGTH = 20;
-const OTP_NAME_REGEX = /^[a-zA-Z0-9_]+$/;
+const OTP_NAME_REGEX = /^\w+$/;
 
 export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loading }) {
 	const [t] = useTranslation();

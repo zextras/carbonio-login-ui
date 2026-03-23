@@ -341,7 +341,9 @@ export default function PageLayout({
 						screenMode={screenMode}
 						isWide={isOtpWizardActive}
 					>
-						{!isOtpWizardActive ? (
+						{isOtpWizardActive ? (
+							<></>
+						) : (
 							<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
 								<Padding value="28px 0 28px" width="100%">
 									<Container crossAlignment="center">
@@ -355,8 +357,6 @@ export default function PageLayout({
 									</Container>
 								</Padding>
 							</Container>
-						) : (
-							<></>
 						)}
 
 						{isAdvanced ? (
@@ -365,7 +365,9 @@ export default function PageLayout({
 							<ZimbraForm destinationUrl={destinationUrl} />
 						)}
 
-						{!isOtpWizardActive ? (
+						{isOtpWizardActive ? (
+							<></>
+						) : (
 							<Container
 								crossAlignment="flex-start"
 								height="auto"
@@ -417,8 +419,6 @@ export default function PageLayout({
 									</Text>
 								)}
 							</Container>
-						) : (
-							<></>
 						)}
 					</FormWrapper>
 				</FormContainer>

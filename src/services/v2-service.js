@@ -5,7 +5,7 @@
  */
 
 import { PASSWORD, RECOVERY_TOKEN } from '../constants';
-import { getCookie, getDeviceModel, deviceId } from '../utils';
+import { getDeviceModel, deviceId } from '../utils';
 
 export function postV2Login(authMethod, user, password) {
 	return fetch('/zx/auth/v2/login', {
@@ -43,7 +43,6 @@ export function submitOtp(id, code, trustDevice) {
 }
 
 export function generateOtp(labelPrefix) {
-	const authToken = getCookie('ZX_AUTH_TOKEN');
 	return fetch(`/zx/auth/v2/otp/generate?labelPrefix=${encodeURIComponent(labelPrefix)}`, {
 		method: 'POST',
 		headers: {
