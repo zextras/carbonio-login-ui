@@ -7,19 +7,12 @@
 import React, { useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
-import {
-	Button,
-	Checkbox,
-	Input,
-	Row,
-	Text,
-	Container,
-	Padding
-} from '@zextras/carbonio-design-system';
+import { Button, Checkbox, Input, Row, Text } from '@zextras/carbonio-design-system';
 import PropTypes from 'prop-types';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
+import { TwoFactorIntro, TwoFactorLogoHeader } from './two-factor-shared-header';
 import { useLoginConfigStore } from '../store/login/store';
 
 const SecretCodeBox = styled.div`
@@ -96,62 +89,17 @@ export default function OtpSetup({
 					iconPlacement="left"
 				/>
 			</Row>
-			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="16px 0 20px" width="100%">
-					<Container crossAlignment="left">
-						{loginLogo &&
-							(loginLogo.url ? (
-								<a target="_blank" href={loginLogo.url} rel="noreferrer">
-									<img
-										alt="Logo"
-										src={loginLogo.image}
-										width={150}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '150px',
-											display: 'block'
-										}}
-										data-testid="logo"
-									/>
-								</a>
-							) : (
-								<img
-									alt="Logo"
-									src={loginLogo.image}
-									width={loginLogo.width}
-									style={{
-										maxWidth: '100%',
-										maxHeight: '150px',
-										display: 'block'
-									}}
-									data-testid="logo"
-								/>
-							))}
-					</Container>
-				</Padding>
-			</Container>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text
-					size="large"
-					color="text"
-					weight="bold"
-					overflow="break-word"
-					style={{ lineHeight: '27px' }}
-				>
-					{t(
-						'login.twoFactorAuthentication.otpSetup.introduction',
-						'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
-					)}
-				</Text>
-			</Row>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text color="text" overflow="break-word" style={{ lineHeight: '24px' }}>
-					{t(
-						'login.twoFactorAuthentication.otpSetup.description',
-						'Configure the 2 Factor Authentication service (2FA) following few easy steps:'
-					)}
-				</Text>
-			</Row>
+			<TwoFactorLogoHeader loginLogo={loginLogo} />
+			<TwoFactorIntro
+				title={t(
+					'login.twoFactorAuthentication.otpSetup.introduction',
+					'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
+				)}
+				description={t(
+					'login.twoFactorAuthentication.otpSetup.description',
+					'Configure the 2 Factor Authentication service (2FA) following few easy steps:'
+				)}
+			/>
 
 			{/* Step 1 */}
 			<Row padding={{ bottom: 'small', top: 'large' }} mainAlignment="flex-start">

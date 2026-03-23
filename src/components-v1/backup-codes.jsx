@@ -7,10 +7,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { Button, Checkbox, Row, Text, Container, Padding } from '@zextras/carbonio-design-system';
+import { Button, Checkbox, Row, Text, Container } from '@zextras/carbonio-design-system';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+import { TwoFactorIntro, TwoFactorLogoHeader } from './two-factor-shared-header';
 import { useLoginConfigStore } from '../store/login/store';
 
 const CodesGrid = styled.div`
@@ -81,56 +82,18 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 
 	return (
 		<div style={{ width: '100%' }}>
-			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="16px 0 20px" width="100%">
-					<Container crossAlignment="left">
-						{loginLogo &&
-							(loginLogo.url ? (
-								<a target="_blank" href={loginLogo.url} rel="noreferrer">
-									<img
-										alt="Logo"
-										src={loginLogo.image}
-										width={150}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '150px',
-											display: 'block'
-										}}
-										data-testid="logo"
-									/>
-								</a>
-							) : (
-								<img
-									alt="Logo"
-									src={loginLogo.image}
-									width={loginLogo.width}
-									style={{
-										maxWidth: '100%',
-										maxHeight: '150px',
-										display: 'block'
-									}}
-									data-testid="logo"
-								/>
-							))}
-					</Container>
-				</Padding>
-			</Container>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text size="large" color="text" weight="bold" overflow="break-word">
-					{t(
-						'otp_wizard_title',
-						'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
-					)}
-				</Text>
-			</Row>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text color="secondary" overflow="break-word">
-					{t(
-						'backup_codes_description',
-						'Please download or print these codes and keep them in a safe place. You will need them to sign in if you lose access to your mobile device or authentication app.'
-					)}
-				</Text>
-			</Row>
+			<TwoFactorLogoHeader loginLogo={loginLogo} />
+			<TwoFactorIntro
+				title={t(
+					'otp_wizard_title',
+					'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
+				)}
+				description={t(
+					'backup_codes_description',
+					'Please download or print these codes and keep them in a safe place. You will need them to sign in if you lose access to your mobile device or authentication app.'
+				)}
+				descriptionColor="secondary"
+			/>
 
 			<Row padding={{ horizontal: 'extralarge', bottom: 'large' }} mainAlignment="center">
 				<CodesGrid data-testid="backup_codes_grid">

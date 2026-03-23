@@ -6,10 +6,11 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button, Container, Input, Row, Text, Padding } from '@zextras/carbonio-design-system';
+import { Button, Input, Row, Text } from '@zextras/carbonio-design-system';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+import { TwoFactorIntro, TwoFactorLogoHeader } from './two-factor-shared-header';
 import { useLoginConfigStore } from '../store/login/store';
 
 const OTP_NAME_MAX_LENGTH = 20;
@@ -70,62 +71,17 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					iconPlacement="left"
 				/>
 			</Row>
-			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="16px 0 20px" width="100%">
-					<Container crossAlignment="left">
-						{loginLogo &&
-							(loginLogo.url ? (
-								<a target="_blank" href={loginLogo.url} rel="noreferrer">
-									<img
-										alt="Logo"
-										src={loginLogo.image}
-										width={150}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '150px',
-											display: 'block'
-										}}
-										data-testid="logo"
-									/>
-								</a>
-							) : (
-								<img
-									alt="Logo"
-									src={loginLogo.image}
-									width={loginLogo.width}
-									style={{
-										maxWidth: '100%',
-										maxHeight: '150px',
-										display: 'block'
-									}}
-									data-testid="logo"
-								/>
-							))}
-					</Container>
-				</Padding>
-			</Container>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text
-					size="large"
-					color="text"
-					weight="bold"
-					overflow="break-word"
-					style={{ lineHeight: '27px' }}
-				>
-					{t(
-						'otp_wizard_title',
-						'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
-					)}
-				</Text>
-			</Row>
-			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text color="text" overflow="break-word" style={{ lineHeight: '24px' }}>
-					{t(
-						'otp_wizard_description',
-						'Before you start, create a unique name to help you identify it later in your security settings.'
-					)}
-				</Text>
-			</Row>
+			<TwoFactorLogoHeader loginLogo={loginLogo} />
+			<TwoFactorIntro
+				title={t(
+					'otp_wizard_title',
+					'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
+				)}
+				description={t(
+					'otp_wizard_description',
+					'Before you start, create a unique name to help you identify it later in your security settings.'
+				)}
+			/>
 			<Row padding={{ bottom: 'large', top: 'large' }} mainAlignment="flex-start">
 				<Text color="text" overflow="break-word">
 					{t(
