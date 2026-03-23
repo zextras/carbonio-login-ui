@@ -109,7 +109,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 							<Button
 								type="outlined"
 								onClick={handleCopy}
-								label={t('login.twoFactorAuthentication.backupCodes.copy', 'Copy')}
+								label={t('copy', 'Copy')}
 								icon="CopyOutline"
 								data-testid="backup_codes_copy"
 								padding={{ right: 'large' }}
@@ -118,7 +118,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 							<Button
 								type="outlined"
 								onClick={handleSaveAsTxt}
-								label={t('login.twoFactorAuthentication.backupCodes.saveAsTxt', 'Save as TXT')}
+								label={t('save_as_txt', 'Save as TXT')}
 								icon="DownloadOutline"
 								data-testid="backup_codes_save"
 							/>
@@ -130,10 +130,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 			<Row padding={{ vertical: 'small' }} mainAlignment="flex-start">
 				<Checkbox
 					value={savedConfirmed}
-					label={t(
-						'login.twoFactorAuthentication.backupCodes.confirmSaved',
-						'I have saved this backup codes (mandatory)'
-					)}
+					label={t('backup_codes_confirm_saved', 'I have saved this backup codes (mandatory)')}
 					onClick={toggleSavedConfirmed}
 					data-testid="backup_codes_checkbox"
 				/>
@@ -143,10 +140,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 				<Button
 					onClick={onLoginToWorkspace}
 					disabled={!savedConfirmed}
-					label={t(
-						'login.twoFactorAuthentication.backupCodes.loginToWorkspace',
-						'Login to my workspace'
-					)}
+					label={t('login_to_my_workspace', 'Login to my workspace')}
 					width="fill"
 					data-testid="backup_codes_login"
 				/>

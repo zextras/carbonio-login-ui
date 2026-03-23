@@ -66,7 +66,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					data-testid="back_to_login"
 					type="ghost"
 					onClick={onBackToLogin}
-					label={t('login.twoFactorAuthentication.otpWizard.backToLoginPage', 'Back to login page')}
+					label={t('back_to_login_page', 'Back to login page')}
 					icon="ArrowBackOutline"
 					iconPlacement="left"
 				/>
@@ -84,10 +84,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 			/>
 			<Row padding={{ bottom: 'large', top: 'large' }} mainAlignment="flex-start">
 				<Text color="text" overflow="break-word">
-					{t(
-						'login.twoFactorAuthentication.otpWizard.enterName',
-						'Enter a name that is easy for you to remember'
-					)}
+					{t('otp_wizard_input_label', 'Enter a name that is easy for you to remember')}
 				</Text>
 			</Row>
 			<Row padding={{ bottom: 'extrasmall' }}>
@@ -96,10 +93,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					hasError={hasError}
 					disabled={disableInputs}
 					onChange={onChangeOtpName}
-					label={t(
-						'login.twoFactorAuthentication.otpWizard.inputPlaceholder',
-						'Insert a unique name'
-					).toUpperCase()}
+					label={t('otp_wizard_input_placeholder', 'Insert a unique name').toUpperCase()}
 					backgroundColor="gray5"
 					data-testid="otp_wizard_name_input"
 				/>
@@ -107,7 +101,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
 				<Text color="secondary" size="small" overflow="break-word">
 					{t(
-						'login.twoFactorAuthentication.otpWizard.inputHint',
+						'otp_wizard_input_hint',
 						'Maximum 20 characters. Do not use special characters, spaces, or hyphens.'
 					)}
 				</Text>
@@ -116,10 +110,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 				<Button
 					onClick={handleProceed}
 					disabled={isProceedDisabled}
-					label={t(
-						'login.twoFactorAuthentication.otpWizard.proceedWithConfiguration',
-						'Proceed with configuration'
-					)}
+					label={t('proceed_with_configuration', 'Proceed with configuration')}
 					width="fill"
 					loading={loading}
 					data-testid="otp_wizard_proceed"
