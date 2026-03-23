@@ -92,25 +92,23 @@ export default function OtpSetup({
 					onClick={onBackToLogin}
 					label={t('back_to_login_page', 'Back to login page')}
 					icon="ArrowBackOutline"
-					width="fill"
+					iconPlacement="left"
 				/>
 			</Row>
 			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="28px 0 28px" width="100%">
-					<Container crossAlignment="center">
+				<Padding value="16px 0 20px" width="100%">
+					<Container crossAlignment="left">
 						{loginLogo &&
 							(loginLogo.url ? (
 								<a target="_blank" href={loginLogo.url} rel="noreferrer">
 									<img
 										alt="Logo"
 										src={loginLogo.image}
-										width={loginLogo.width}
+										width={150}
 										style={{
 											maxWidth: '100%',
 											maxHeight: '150px',
-											display: 'block',
-											marginLeft: 'auto',
-											marginRight: 'auto'
+											display: 'block'
 										}}
 										data-testid="logo"
 									/>
@@ -123,9 +121,7 @@ export default function OtpSetup({
 									style={{
 										maxWidth: '100%',
 										maxHeight: '150px',
-										display: 'block',
-										marginLeft: 'auto',
-										marginRight: 'auto'
+										display: 'block'
 									}}
 									data-testid="logo"
 								/>
@@ -134,7 +130,13 @@ export default function OtpSetup({
 				</Padding>
 			</Container>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text size="large" color="text" weight="bold" overflow="break-word">
+				<Text
+					size="large"
+					color="text"
+					weight="bold"
+					overflow="break-word"
+					style={{ lineHeight: '27px' }}
+				>
 					{t(
 						'otp_wizard_title',
 						'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
@@ -142,7 +144,7 @@ export default function OtpSetup({
 				</Text>
 			</Row>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text color="secondary" overflow="break-word">
+				<Text color="text" overflow="break-word" style={{ lineHeight: '24px' }}>
 					{t(
 						'otp_setup_description',
 						'Configure the 2 Factor Authentication service (2FA) following few easy steps:'
@@ -151,12 +153,12 @@ export default function OtpSetup({
 			</Row>
 
 			{/* Step 1 */}
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			<Row padding={{ bottom: 'small', top: 'large' }} mainAlignment="flex-start">
 				<Text weight="bold" overflow="break-word">
 					{t('otp_setup_step1_title', 'Step 1')}
 				</Text>
 			</Row>
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
 				<Text color="text" overflow="break-word">
 					{t('otp_setup_step1_scan_qr', 'Use your authenticator app to scan the QR Code below')}
 				</Text>
@@ -167,17 +169,17 @@ export default function OtpSetup({
 				<div
 					data-testid="otp_qr_code"
 					style={{
-						padding: '8px',
+						padding: '16px',
 						border: '1px solid #ccc',
-						borderRadius: '4px',
+						borderRadius: '2px',
 						display: 'inline-block'
 					}}
 				>
-					<QRCodeSVG value={otpUri} size={164} />
+					<QRCodeSVG value={otpUri} size={140} />
 				</div>
 			</Row>
 
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			<Row padding={{ top: 'large', bottom: 'small' }} mainAlignment="flex-start">
 				<Text color="text" overflow="break-word">
 					{t(
 						'otp_setup_cant_scan',
@@ -190,7 +192,7 @@ export default function OtpSetup({
 			</Row>
 
 			{/* Step 2 */}
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			<Row padding={{ bottom: 'small', top: 'large' }} mainAlignment="flex-start">
 				<Text weight="bold" overflow="break-word">
 					{t('otp_setup_step2_title', 'Step 2')}
 				</Text>
@@ -203,7 +205,7 @@ export default function OtpSetup({
 					)}
 				</Text>
 			</Row>
-			<Row padding={{ bottom: 'extrasmall' }}>
+			<Row padding={{ bottom: 'large' }}>
 				<Input
 					value={code}
 					hasError={hasError}
@@ -227,14 +229,6 @@ export default function OtpSetup({
 				</Text>
 			</Row>
 			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
-				<Text color="secondary" size="small" overflow="break-word">
-					{t(
-						'otp_setup_helper_text',
-						'Use an OTP generated during the first 2FA wizard configuration'
-					)}
-				</Text>
-			</Row>
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
 				<Checkbox
 					value={trustDevice}
 					label={t('remember_device_or_ip', 'Remember this device or IP')}
@@ -242,22 +236,27 @@ export default function OtpSetup({
 				/>
 			</Row>
 			<Row mainAlignment="space-between" padding={{ vertical: 'small' }} width="100%">
-				<Button
-					type="outlined"
-					onClick={onBack}
-					label={t('back', 'Back')}
-					style={{ flex: 1 }}
-					data-testid="otp_setup_back"
-				/>
-				<div style={{ width: '12px' }} />
-				<Button
-					onClick={handleSubmit}
-					disabled={disableInputs || code.length === 0}
-					label={t('verify_and_proceed', 'Verify and proceed')}
-					loading={loading}
-					style={{ flex: 1 }}
-					data-testid="otp_setup_verify"
-				/>
+				<Row padding={{ all: 'small' }} width="50%">
+					<Button
+						type="outlined"
+						onClick={onBack}
+						label={t('back', 'Back')}
+						style={{ flex: 1 }}
+						data-testid="otp_setup_back"
+						width="fill"
+					/>
+				</Row>
+				<Row padding={{ all: 'small' }} width="50%">
+					<Button
+						onClick={handleSubmit}
+						disabled={disableInputs || code.length === 0}
+						label={t('verify_and_proceed', 'Verify and proceed')}
+						loading={loading}
+						style={{ flex: 1 }}
+						width="fill"
+						data-testid="otp_setup_verify"
+					/>
+				</Row>
 			</Row>
 		</form>
 	);

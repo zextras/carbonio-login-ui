@@ -66,25 +66,23 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					onClick={onBackToLogin}
 					label={t('back_to_login_page', 'Back to login page')}
 					icon="ArrowBackOutline"
-					width="fill"
+					iconPlacement="left"
 				/>
 			</Row>
 			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="28px 0 28px" width="100%">
-					<Container crossAlignment="center">
+				<Padding value="16px 0 20px" width="100%">
+					<Container crossAlignment="left">
 						{loginLogo &&
 							(loginLogo.url ? (
 								<a target="_blank" href={loginLogo.url} rel="noreferrer">
 									<img
 										alt="Logo"
 										src={loginLogo.image}
-										width={loginLogo.width}
+										width={150}
 										style={{
 											maxWidth: '100%',
 											maxHeight: '150px',
-											display: 'block',
-											marginLeft: 'auto',
-											marginRight: 'auto'
+											display: 'block'
 										}}
 										data-testid="logo"
 									/>
@@ -97,9 +95,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 									style={{
 										maxWidth: '100%',
 										maxHeight: '150px',
-										display: 'block',
-										marginLeft: 'auto',
-										marginRight: 'auto'
+										display: 'block'
 									}}
 									data-testid="logo"
 								/>
@@ -108,7 +104,13 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 				</Padding>
 			</Container>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text size="large" color="text" weight="bold" overflow="break-word">
+				<Text
+					size="large"
+					color="text"
+					weight="bold"
+					overflow="break-word"
+					style={{ lineHeight: '27px' }}
+				>
 					{t(
 						'otp_wizard_title',
 						'Your organization introduced the Two-Factor-Authentication to improve the security of your account.'
@@ -116,14 +118,14 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 				</Text>
 			</Row>
 			<Row padding={{ bottom: 'large' }} mainAlignment="flex-start">
-				<Text color="secondary" overflow="break-word">
+				<Text color="text" overflow="break-word" style={{ lineHeight: '24px' }}>
 					{t(
 						'otp_wizard_description',
 						'Before you start, create a unique name to help you identify it later in your security settings.'
 					)}
 				</Text>
 			</Row>
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			<Row padding={{ bottom: 'large', top: 'large' }} mainAlignment="flex-start">
 				<Text color="text" overflow="break-word">
 					{t('otp_wizard_input_label', 'Enter a name that is easy for you to remember')}
 				</Text>
@@ -134,7 +136,7 @@ export default function OtpWizard({ onBackToLogin, onProceed, disableInputs, loa
 					hasError={hasError}
 					disabled={disableInputs}
 					onChange={onChangeOtpName}
-					label={t('otp_wizard_input_placeholder', 'Insert a unique name')}
+					label={t('otp_wizard_input_placeholder', 'Insert a unique name').toUpperCase()}
 					backgroundColor="gray5"
 					data-testid="otp_wizard_name_input"
 				/>

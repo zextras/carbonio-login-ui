@@ -44,7 +44,7 @@ export function submitOtp(id, code, trustDevice) {
 
 export function generateOtp(labelPrefix) {
 	const authToken = getCookie('ZX_AUTH_TOKEN');
-	return fetch('/zx/auth/v2/otp/generate', {
+	return fetch(`/zx/auth/v2/otp/generate?labelPrefix=${encodeURIComponent(labelPrefix)}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

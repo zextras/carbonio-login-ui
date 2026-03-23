@@ -103,6 +103,8 @@ const FormWrapper = styled(Container)<{ screenMode: string; isWide?: boolean }>`
 		css`
 			&& {
 				width: 720px;
+				min-height: auto;
+				padding: 80px;
 			}
 		`}
 

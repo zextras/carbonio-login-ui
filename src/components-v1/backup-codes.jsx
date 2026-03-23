@@ -13,16 +13,23 @@ import { useTranslation } from 'react-i18next';
 import { useLoginConfigStore } from '../store/login/store';
 
 const CodesGrid = styled.div`
-	width: 100%;
-	padding: 16px 24px;
-	border: 1px solid #ccc;
+	width: 387px;
+	padding: 20px;
 	border-radius: 4px;
+	justify-items: center;
+	background-color: #f5f6f8;
+`;
+
+const CodeList = styled.div`
 	display: grid;
+	border-radius: 4px;
 	grid-template-columns: 1fr 1fr;
 	gap: 8px 32px;
 	justify-items: center;
 	font-family: monospace;
 	font-size: 0.875rem;
+	pading-bottom: 24px;
+	line-height: 24px;
 `;
 
 export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, configuration }) {
@@ -36,7 +43,27 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 	const codesText = useMemo(() => codes.join('\n'), [codes]);
 
 	const handleCopy = useCallback(() => {
-		navigator.clipboard.writeText(codesText);
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(codesText).catch(() => {
+				const textArea = document.createElement('textarea');
+				textArea.value = codesText;
+				textArea.style.position = 'fixed';
+				textArea.style.opacity = '0';
+				document.body.appendChild(textArea);
+				textArea.select();
+				document.execCommand('copy');
+				document.body.removeChild(textArea);
+			});
+		} else {
+			const textArea = document.createElement('textarea');
+			textArea.value = codesText;
+			textArea.style.position = 'fixed';
+			textArea.style.opacity = '0';
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand('copy');
+			document.body.removeChild(textArea);
+		}
 	}, [codesText]);
 
 	const handleSaveAsTxt = useCallback(() => {
@@ -54,21 +81,19 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 	return (
 		<div style={{ width: '100%' }}>
 			<Container mainAlignment="flex-start" height="auto" data-testid="form-wrapper">
-				<Padding value="28px 0 28px" width="100%">
-					<Container crossAlignment="center">
+				<Padding value="16px 0 20px" width="100%">
+					<Container crossAlignment="left">
 						{loginLogo &&
 							(loginLogo.url ? (
 								<a target="_blank" href={loginLogo.url} rel="noreferrer">
 									<img
 										alt="Logo"
 										src={loginLogo.image}
-										width={loginLogo.width}
+										width={150}
 										style={{
 											maxWidth: '100%',
 											maxHeight: '150px',
-											display: 'block',
-											marginLeft: 'auto',
-											marginRight: 'auto'
+											display: 'block'
 										}}
 										data-testid="logo"
 									/>
@@ -81,9 +106,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 									style={{
 										maxWidth: '100%',
 										maxHeight: '150px',
-										display: 'block',
-										marginLeft: 'auto',
-										marginRight: 'auto'
+										display: 'block'
 									}}
 									data-testid="logo"
 								/>
@@ -108,32 +131,36 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 				</Text>
 			</Row>
 
-			<Row padding={{ bottom: 'small' }} mainAlignment="center">
+			<Row padding={{ horizontal: 'extralarge', bottom: 'large' }} mainAlignment="center">
 				<CodesGrid data-testid="backup_codes_grid">
-					{codes.map((code) => (
-						<Text key={code} size="small" style={{ fontFamily: 'monospace' }}>
-							{code}
-						</Text>
-					))}
+					<CodeList>
+						{codes.map((code) => (
+							<Text key={code} size="small" style={{ fontFamily: 'monospace' }}>
+								{code}
+							</Text>
+						))}
+					</CodeList>
+					<Container mainAlignment="flex-start" height="auto">
+						<Row padding={{ vertical: 'small' }} width="100%">
+							<Button
+								type="outlined"
+								onClick={handleCopy}
+								label={t('copy', 'Copy')}
+								icon="CopyOutline"
+								data-testid="backup_codes_copy"
+								padding={{ right: 'large' }}
+							/>
+							<div style={{ width: '12px' }} />
+							<Button
+								type="outlined"
+								onClick={handleSaveAsTxt}
+								label={t('save_as_txt', 'Save as TXT')}
+								icon="DownloadOutline"
+								data-testid="backup_codes_save"
+							/>
+						</Row>
+					</Container>
 				</CodesGrid>
-			</Row>
-
-			<Row padding={{ vertical: 'small' }} mainAlignment="center">
-				<Button
-					type="outlined"
-					onClick={handleCopy}
-					label={t('copy', 'Copy')}
-					icon="CopyOutline"
-					data-testid="backup_codes_copy"
-				/>
-				<div style={{ width: '12px' }} />
-				<Button
-					type="outlined"
-					onClick={handleSaveAsTxt}
-					label={t('save_as_txt', 'Save as TXT')}
-					icon="DownloadOutline"
-					data-testid="backup_codes_save"
-				/>
 			</Row>
 
 			<Row padding={{ vertical: 'small' }} mainAlignment="flex-start">
