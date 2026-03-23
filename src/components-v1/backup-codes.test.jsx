@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import BackupCodes from './backup-codes';
 import { useLoginConfigStore } from '../store/login/store';
@@ -153,13 +153,13 @@ describe('BackupCodes', () => {
 
 		test('copy button can be clicked when clipboard API is available', () => {
 			setup(<BackupCodes {...defaultProps} />);
-			expect(() => fireEvent.click(screen.getByRole('button', { name: 'Copy' }))).not.toThrow();
+			expect(() => screen.getByTestId('backup_codes_copy').click()).not.toThrow();
 		});
 
 		test('copy button can be clicked when clipboard API is missing', () => {
 			clipboardMock = undefined;
 			setup(<BackupCodes {...defaultProps} />);
-			expect(() => fireEvent.click(screen.getByRole('button', { name: 'Copy' }))).not.toThrow();
+			expect(() => screen.getByTestId('backup_codes_copy').click()).not.toThrow();
 		});
 
 		test('downloads backup codes as txt', async () => {
