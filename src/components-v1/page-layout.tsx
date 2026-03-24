@@ -10,6 +10,7 @@ import React, { useLayoutEffect, useState, useContext, useEffect, ReactElement }
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
+	Button,
 	Checkbox,
 	Container,
 	Modal,
@@ -149,6 +150,13 @@ export default function PageLayout({
 	const [showModal, setShowModal] = useState(true);
 	const [showMobileAppModal, setShowMobileAppModal] = useState(true);
 	const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+	const [oidcAvailable, setOidcAvailable] = useState(false);
+
+	useEffect(() => {
+		fetch('/oidc/health', { method: 'GET' })
+			.then((r) => setOidcAvailable(r.ok))
+			.catch(() => setOidcAvailable(false));
+	}, []);
 	const screenMode = useScreenMode();
 	const isTouchDevice = useIsTouchDevice();
 
@@ -334,7 +342,25 @@ export default function PageLayout({
 						{isAdvanced ? (
 							<FormSelector domain={domain} destinationUrl={destinationUrl} />
 						) : (
-							<ZimbraForm destinationUrl={destinationUrl} />
+							<>
+								<ZimbraForm destinationUrl={destinationUrl} />
+								{oidcAvailable && (
+									<Row
+										mainAlignment="flex-end"
+										padding={{ top: 'extralarge', bottom: 'extralarge' }}
+									>
+										<Button
+											type="outlined"
+											data-testid="loginOidc"
+											label={t('login_oidc', 'Login with Encedo')}
+											color="primary"
+											onClick={(): void => {
+												window.location.assign(`/oidc/authorize?redirectUrl=${destinationUrl}`);
+											}}
+										/>
+									</Row>
+								)}
+							</>
 						)}
 
 						<Container

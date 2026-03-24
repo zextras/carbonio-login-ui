@@ -45,6 +45,7 @@
     "forget_password": "Forget Password?",
     "glad_to_have_you_back_username": "Glad to have you back, <strong>{{ username }}</strong>!",
     "login": "Login",
+    "login_oidc": "Login with Encedo",
     "login_saml": "Login SAML",
     "login_with_app": "You can login using the dedicated app for <bold> Android </bold> and  <bold> Iphone, </bold> download your version using the buttons below!",
     "not_have_recovery_email_setup_note": "Don’t have a recovery email setup? Please contact your system administrator for support.",
