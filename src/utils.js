@@ -126,8 +126,8 @@ export const isSafeRedirect = (url) => {
 	try {
 		// eslint-disable-next-line no-undef
 		const parsed = new URL(url, globalThis.location.origin);
-		// eslint-disable-next-line no-undef
-		return parsed.origin === globalThis.location.origin;
+		if (/[\\]/.test(url)) return false;
+		return ['http:', 'https:'].includes(parsed.protocol);
 	} catch {
 		return false;
 	}
