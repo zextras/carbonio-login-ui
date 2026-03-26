@@ -25,6 +25,7 @@ const SecretCodeBox = styled.div`
 	font-size: 1.25rem;
 	font-weight: bold;
 	letter-spacing: 2px;
+	font-family: Roboto, sans-serif;
 `;
 
 function extractSecretFromUri(uri) {
@@ -167,11 +168,17 @@ export default function OtpSetup({
 			</Row>
 			<Row padding={{ bottom: 'extrasmall' }} mainAlignment="flex-start">
 				<Text color="error" size="small" overflow="break-word">
-					{hasError
+					{hasError && attemptsRemaining != null
 						? t(
 								'otp_setup_code_error',
 								'This code is incorrect or expired. Please try again. ({{count}} attempts remaining)',
-								{ count: attemptsRemaining ?? 0 }
+								{ count: attemptsRemaining }
+							)
+						: ''}
+					{hasError && attemptsRemaining == null
+						? t(
+								'otp_setup_code_error_generic',
+								'Forbidden: unable to verify code. Please try again.'
 							)
 						: ''}
 					{!hasError && <br />}

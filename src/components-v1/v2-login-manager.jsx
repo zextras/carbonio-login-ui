@@ -232,7 +232,11 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						let remaining = null;
 						try {
 							const body = await res.json();
-							remaining = body?.attemptsRemaining ?? body?.attempts_remaining ?? null;
+							remaining =
+								body?.remainingTokensAttempts ??
+								body?.attemptsRemaining ??
+								body?.attempts_remaining ??
+								null;
 						} catch {
 							// ignore parse errors
 						}

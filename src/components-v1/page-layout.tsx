@@ -105,6 +105,7 @@ const FormWrapper = styled(Container)<{ screenMode: string; isWide?: boolean }>`
 				width: 720px;
 				min-height: auto;
 				padding: 80px;
+				max-height: 85vh;
 			}
 		`}
 

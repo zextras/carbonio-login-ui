@@ -92,7 +92,7 @@ export default function BackupCodes({ staticOtpCodes, onLoginToWorkspace, config
 					'backup_codes_description',
 					'Please download or print these codes and keep them in a safe place. You will need them to sign in if you lose access to your mobile device or authentication app.'
 				)}
-				descriptionColor="secondary"
+				descriptionColor="text"
 			/>
 
 			<Row padding={{ horizontal: 'extralarge', bottom: 'large' }} mainAlignment="center">
