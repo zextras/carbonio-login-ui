@@ -101,21 +101,14 @@ jobs:
       - name: Sign .deb
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           sudo apt-get install -y dpkg-sig
 
-          # Import private key
+          # Import private key (no passphrase)
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import
 
-          # Sign — dpkg-sig requires passphrase via loopback pinentry
-          echo "${GPG_PASSPHRASE}" | gpg --batch --yes \
-            --pinentry-mode loopback --passphrase-fd 0 \
-            --quick-set-expire "$(gpg --list-keys --with-colons | grep '^pub' | cut -d: -f5)" 0 \
-            2>/dev/null || true
-
           dpkg-sig --sign builder \
-            --gpg-options "--batch --yes --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE}" \
+            --gpg-options "--batch --yes" \
             "${{ steps.version.outputs.deb }}"
 
       - name: Upload artifact
