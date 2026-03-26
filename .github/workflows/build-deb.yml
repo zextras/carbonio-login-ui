@@ -48,9 +48,6 @@ jobs:
           cp -a dist/. "${ROOT}/opt/zextras/web/login/"
 
           # Symlink: login/i18n -> /opt/zextras/web/login-i18n
-          # dpkg handles symlinks from a text file
-          echo "/opt/zextras/web/login/i18n -> /opt/zextras/web/login-i18n" \
-            > "${ROOT}/DEBIAN/conffiles" || true
           ln -s /opt/zextras/web/login-i18n \
             "${ROOT}/opt/zextras/web/login/i18n"
 
