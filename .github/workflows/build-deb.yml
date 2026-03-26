@@ -1,0 +1,109 @@
+name: Build and Release .deb
+
+on:
+  push:
+    branches: [devel]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Read version
+        id: version
+        run: |
+          UPSTREAM=$(node -p "require('./package.json').version")
+          VERSION="${UPSTREAM}+oidc${{ github.run_number }}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "deb=carbonio-login-ui_${VERSION}_all.deb" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Package .deb
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          PKG="carbonio-login-ui"
+          DEB="${{ steps.version.outputs.deb }}"
+          ROOT="$(mktemp -d)/${PKG}_${VERSION}_all"
+
+          # Directory structure
+          install -dm755 "${ROOT}/DEBIAN"
+          install -dm755 "${ROOT}/opt/zextras/web/login"
+
+          # Web assets from webpack build
+          cp -a dist/. "${ROOT}/opt/zextras/web/login/"
+
+          # Symlink: login/i18n -> /opt/zextras/web/login-i18n
+          # dpkg handles symlinks from a text file
+          echo "/opt/zextras/web/login/i18n -> /opt/zextras/web/login-i18n" \
+            > "${ROOT}/DEBIAN/conffiles" || true
+          ln -s /opt/zextras/web/login-i18n \
+            "${ROOT}/opt/zextras/web/login/i18n"
+
+          # DEBIAN/control
+          cat > "${ROOT}/DEBIAN/control" << EOF
+          Package: ${PKG}
+          Version: ${VERSION}
+          Architecture: all
+          Maintainer: Encedo Limited <support@encedo.com>
+          Depends: carbonio-nginx, carbonio-webui-i18n
+          Section: admin
+          Priority: optional
+          Homepage: https://github.com/encedo/carbonio-login-ui
+          Description: Zextras Carbonio Login Page (Encedo OIDC fork)
+           Fork of carbonio-login-ui adding a native OIDC SSO button to
+           the Carbonio CE login form. Button is shown only when the
+           carbonio-oidc-connector sidecar is running (/oidc/health).
+          EOF
+
+          # DEBIAN/preinst — remove old i18n dir if it exists (allows symlink)
+          cat > "${ROOT}/DEBIAN/preinst" << 'PREINST'
+          #!/bin/sh
+          set -e
+          if [ -d /opt/zextras/web/login/i18n ] && \
+             [ ! -L /opt/zextras/web/login/i18n ]; then
+            rm -rf /opt/zextras/web/login/i18n
+          fi
+          exit 0
+          PREINST
+
+          # DEBIAN/postinst — set ownership and permissions
+          cat > "${ROOT}/DEBIAN/postinst" << 'POSTINST'
+          #!/bin/sh
+          set -e
+          chown -R root:root /opt/zextras/web/login
+          chmod -R 755 /opt/zextras/web/login
+          find /opt/zextras/web/login/assets -maxdepth 1 -type f \
+            -exec chmod 644 {} \; 2>/dev/null || true
+          exit 0
+          POSTINST
+
+          chmod 755 "${ROOT}/DEBIAN/preinst" "${ROOT}/DEBIAN/postinst"
+
+          # Strip leading whitespace from control file (heredoc indent)
+          sed -i 's/^          //' "${ROOT}/DEBIAN/control"
+
+          # Build
+          dpkg-deb --build --root-owner-group "${ROOT}"
+          mv "$(dirname "${ROOT}")/${PKG}_${VERSION}_all.deb" "${DEB}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.version.outputs.deb }}
+          path: ${{ steps.version.outputs.deb }}
+          retention-days: 30
