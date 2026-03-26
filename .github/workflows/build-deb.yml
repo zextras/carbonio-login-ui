@@ -98,6 +98,26 @@ jobs:
           dpkg-deb --build --root-owner-group "${ROOT}"
           mv "$(dirname "${ROOT}")/${PKG}_${VERSION}_all.deb" "${DEB}"
 
+      - name: Sign .deb
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          sudo apt-get install -y dpkg-sig
+
+          # Import private key
+          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import
+
+          # Sign — dpkg-sig requires passphrase via loopback pinentry
+          echo "${GPG_PASSPHRASE}" | gpg --batch --yes \
+            --pinentry-mode loopback --passphrase-fd 0 \
+            --quick-set-expire "$(gpg --list-keys --with-colons | grep '^pub' | cut -d: -f5)" 0 \
+            2>/dev/null || true
+
+          dpkg-sig --sign builder \
+            --gpg-options "--batch --yes --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE}" \
+            "${{ steps.version.outputs.deb }}"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
