@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -117,3 +119,24 @@ jobs:
           name: ${{ steps.version.outputs.deb }}
           path: ${{ steps.version.outputs.deb }}
           retention-days: 30
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.version }}
+          body: |
+            Built automatically from branch `devel` on push.
+
+            **Install:**
+            ```
+            sudo dpkg -i ${{ steps.version.outputs.deb }}
+            ```
+            Replaces the stock `carbonio-login-ui` package.
+            Requires [carbonio-oidc-connector](https://github.com/encedo/carbonio-oidc-connector) for the OIDC button to appear.
+
+            **Verify signature:**
+            ```
+            ar x ${{ steps.version.outputs.deb }} && gpg --verify _gpgbuilder
+            ```
+          files: ${{ steps.version.outputs.deb }}
