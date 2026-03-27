@@ -192,7 +192,7 @@ export default function OtpSetup({
 				/>
 			</Row>
 			<Row mainAlignment="space-between" padding={{ vertical: 'small' }} width="100%">
-				<Row padding={{ all: 'small' }} width="100%">
+				<Row padding={{ vertical: 'small' }} width="100%">
 					<Button
 						onClick={handleSubmit}
 						disabled={disableInputs || code.length === 0}
