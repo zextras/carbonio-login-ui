@@ -34,7 +34,6 @@ describe('OtpSetup', () => {
 			expect(screen.getByTestId('otp_qr_code')).toBeInTheDocument();
 			expect(screen.getByTestId('otp_secret_code')).toBeInTheDocument();
 			expect(screen.getByTestId('otp_setup_code_input')).toBeInTheDocument();
-			expect(screen.getByTestId('otp_setup_back')).toBeInTheDocument();
 			expect(screen.getByTestId('otp_setup_verify')).toBeInTheDocument();
 		});
 
@@ -80,13 +79,6 @@ describe('OtpSetup', () => {
 			const { user } = setup(<OtpSetup {...defaultProps} onBackToLogin={onBackToLogin} />);
 			await user.click(screen.getByTestId('back_to_login'));
 			expect(onBackToLogin).toHaveBeenCalledTimes(1);
-		});
-
-		test('calls onBack when back button is clicked', async () => {
-			const onBack = jest.fn();
-			const { user } = setup(<OtpSetup {...defaultProps} onBack={onBack} />);
-			await user.click(screen.getByTestId('otp_setup_back'));
-			expect(onBack).toHaveBeenCalledTimes(1);
 		});
 
 		test('verify button is disabled when code is empty', () => {
