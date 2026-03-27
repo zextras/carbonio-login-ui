@@ -155,7 +155,7 @@ export default function OtpSetup({
 					)}
 				</Text>
 			</Row>
-			<Row padding={{ bottom: 'large' }}>
+			<Row>
 				<Input
 					value={code}
 					hasError={hasError}
@@ -166,33 +166,34 @@ export default function OtpSetup({
 					data-testid="otp_setup_code_input"
 				/>
 			</Row>
-			<Row padding={{ bottom: 'extrasmall' }} mainAlignment="flex-start">
-				<Text color="error" size="small" overflow="break-word">
-					{hasError && attemptsRemaining > 0
-						? t(
-								'otp_setup_code_error',
-								'This code is incorrect or expired. Please try again. ({{count}} attempts remaining)',
-								{ count: attemptsRemaining }
-							)
-						: ''}
-					{hasError && !attemptsRemaining
-						? t(
-								'otp_setup_code_error_generic',
-								'For your security, access has been restricted after too many incorrect attempts. Reload the page to start again the 2FA configuration flow'
-							)
-						: ''}
-					{!hasError && <br />}
-				</Text>
-			</Row>
-			<Row padding={{ bottom: 'small' }} mainAlignment="flex-start">
+			{hasError && (
+				<Row padding={{ top: 'small' }} mainAlignment="flex-start">
+					<Text color="error" size="small" overflow="break-word">
+						{attemptsRemaining > 0
+							? t(
+									'otp_setup_code_error',
+									'This code is incorrect or expired. Please try again. ({{count}} attempts remaining)',
+									{ count: attemptsRemaining }
+								)
+							: ''}
+						{!attemptsRemaining
+							? t(
+									'otp_setup_code_error_generic',
+									'For your security, access has been restricted after too many incorrect attempts. Reload the page to start again the 2FA configuration flow'
+								)
+							: ''}
+					</Text>
+				</Row>
+			)}
+			<Row padding={{ vertical: '40px' }} mainAlignment="flex-start">
 				<Checkbox
 					value={trustDevice}
 					label={t('remember_device_or_ip', 'Remember this device or IP')}
 					onClick={toggleTrustDevice}
 				/>
 			</Row>
-			<Row mainAlignment="space-between" padding={{ vertical: 'small' }} width="100%">
-				<Row padding={{ vertical: 'small' }} width="100%">
+			<Row mainAlignment="space-between" width="100%">
+				<Row width="100%">
 					<Button
 						onClick={handleSubmit}
 						disabled={disableInputs || code.length === 0}
