@@ -175,13 +175,10 @@ export default function OtpSetup({
 									'This code is incorrect or expired. Please try again. ({{count}} attempts remaining)',
 									{ count: attemptsRemaining }
 								)
-							: ''}
-						{!attemptsRemaining
-							? t(
+							: t(
 									'otp_setup_code_error_generic',
 									'For your security, access has been restricted after too many incorrect attempts. Reload the page to start again the 2FA configuration flow'
-								)
-							: ''}
+								)}
 					</Text>
 				</Row>
 			)}
