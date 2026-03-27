@@ -168,17 +168,17 @@ export default function OtpSetup({
 			</Row>
 			<Row padding={{ bottom: 'extrasmall' }} mainAlignment="flex-start">
 				<Text color="error" size="small" overflow="break-word">
-					{hasError && attemptsRemaining != null
+					{hasError && attemptsRemaining > 0
 						? t(
 								'otp_setup_code_error',
 								'This code is incorrect or expired. Please try again. ({{count}} attempts remaining)',
 								{ count: attemptsRemaining }
 							)
 						: ''}
-					{hasError && attemptsRemaining == null
+					{hasError && !attemptsRemaining
 						? t(
 								'otp_setup_code_error_generic',
-								'Forbidden: unable to verify code. Please try again.'
+								'For your security, access has been restricted after too many incorrect attempts. Reload the page to start again the 2FA configuration flow'
 							)
 						: ''}
 					{!hasError && <br />}
@@ -192,17 +192,7 @@ export default function OtpSetup({
 				/>
 			</Row>
 			<Row mainAlignment="space-between" padding={{ vertical: 'small' }} width="100%">
-				<Row padding={{ all: 'small' }} width="50%">
-					<Button
-						type="outlined"
-						onClick={onBack}
-						label={t('back', 'Back')}
-						style={{ flex: 1 }}
-						data-testid="otp_setup_back"
-						width="fill"
-					/>
-				</Row>
-				<Row padding={{ all: 'small' }} width="50%">
+				<Row padding={{ all: 'small' }} width="100%">
 					<Button
 						onClick={handleSubmit}
 						disabled={disableInputs || code.length === 0}
