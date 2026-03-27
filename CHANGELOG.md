@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.35](https://github.com/zextras/carbonio-login-ui/compare/v0.9.34...v0.9.35) (2026-03-27)
+
+
+### Bug Fixes
+
+* ensure safe redirect URLs in login flow ([b3ce671](https://github.com/zextras/carbonio-login-ui/commit/b3ce671c1a29af845a8867f811aaf0f39c0fa3f3))
+* improve isSafeRedirect function logic ([2bc87f6](https://github.com/zextras/carbonio-login-ui/commit/2bc87f63338a3635027d839bb6bb3091460808f5))
+
 ### [0.9.34](https://github.com/zextras/carbonio-login-ui/compare/v0.9.33...v0.9.34) (2026-02-27)
 
 
