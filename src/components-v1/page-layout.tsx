@@ -48,7 +48,7 @@ import { useGetPrimaryColor } from '../primary-color/use-get-primary-color';
 import { getLoginConfig } from '../services/login-page-services';
 import { useLoginConfigStore } from '../store/login/store';
 import { ThemeCallbacksContext } from '../theme-provider/theme-provider';
-import { prepareUrlForForward } from '../utils';
+import { isSafeRedirect, prepareUrlForForward } from '../utils';
 
 type LoginContainerProps = {
 	backgroundImage: string;
@@ -118,6 +118,11 @@ function DarkReaderListener(): React.JSX.Element | null {
 	return null;
 }
 
+const getSafeRedirectUrl = (url: string | null): string | null => {
+	if (url === null) return null;
+	return isSafeRedirect(url) ? prepareUrlForForward(url) : '/';
+};
+
 export default function PageLayout({
 	version,
 	isAdvanced
@@ -136,9 +141,8 @@ export default function PageLayout({
 	const [serverError, setServerError] = useState(false);
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const [destinationUrl, setDestinationUrl] = useState(
-		prepareUrlForForward(urlParams.get('destinationUrl'))
-	);
+	const safeRedirectUrl = getSafeRedirectUrl(urlParams.get('destinationUrl'));
+	const [destinationUrl, setDestinationUrl] = useState(safeRedirectUrl);
 	const [domain, setDomain] = useState(urlParams.get('domain') ?? destinationUrl);
 
 	const [bg, setBg] = useState(backgroundImage);
@@ -168,7 +172,11 @@ export default function PageLayout({
 		if (isAdvanced) {
 			getLoginConfig(version, domain, domain)
 				.then((res) => {
-					if (!destinationUrl) setDestinationUrl(prepareUrlForForward(res.publicUrl));
+					if (!destinationUrl) {
+						const targetUrl = prepareUrlForForward(res.publicUrl);
+						const safeDestinationUrl = isSafeRedirect(targetUrl) ? targetUrl : '/';
+						setDestinationUrl(safeDestinationUrl);
+					}
 					if (!domain) setDomain(res.zimbraDomainName);
 					setDomainName(res.zimbraDomainName);
 
