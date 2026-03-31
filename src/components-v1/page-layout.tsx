@@ -173,7 +173,7 @@ export default function PageLayout({
 			getLoginConfig(version, domain, domain)
 				.then((res) => {
 					if (!destinationUrl) {
-						const targetUrl = prepareUrlForForward(res.adminConsolePublicUrl ?? res.publicUrl);
+						const targetUrl = prepareUrlForForward(res.publicUrl);
 						const safeDestinationUrl = isSafeRedirect(targetUrl) ? targetUrl : '/';
 						setDestinationUrl(safeDestinationUrl);
 					}
