@@ -20,4 +20,10 @@ export type LoginConfigStore = {
 	carbonioWebUiDarkPrimaryColor?: string;
 	carbonioDomainName?: string;
 	carbonioFeatureResetPasswordEnabled?: boolean;
+	isOtpWizardActive?: boolean;
+	loginLogo?: {
+		image: string;
+		width: string;
+		url?: string;
+	};
 };
