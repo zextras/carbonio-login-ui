@@ -1,11 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* global globalThis */
 /*
  * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
 	Button,
@@ -17,20 +18,28 @@ import {
 	Text
 } from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+import BackupCodes from './backup-codes';
 import ChangePasswordForm from './change-password-form';
 import CredentialsForm from './credentials-form';
 import ForgetPassword from './forget-password';
 import OfflineModal from './modals';
+import OtpSetup from './otp-setup';
+import OtpWizard from './otp-wizard';
 import Spinner from './spinner';
-import { postV2Login, submitOtp } from '../services/v2-service';
+import { generateOtp, postV2Login, submitOtp } from '../services/v2-service';
+import { useLoginConfigStore } from '../store/login/store';
 import { saveCredentials } from '../utils';
 
 const formState = {
 	credentials: 'credentials',
 	waiting: 'waiting',
 	twoFactor: 'two-factor',
+	otpWizard: 'otp-wizard',
+	otpSetup: 'otp-setup',
+	backupCodes: 'backup-codes',
 	changePassword: 'change-password',
 	forgetPassword: 'forget-password'
 };
@@ -41,6 +50,17 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [loadingCredentials, setLoadingCredentials] = useState(false);
 	const [loadingOtp, setLoadingOtp] = useState(false);
 	const [progress, setProgress] = useState(formState.credentials);
+
+	useEffect(() => {
+		const isWizardScreen =
+			progress === formState.otpWizard ||
+			progress === formState.otpSetup ||
+			progress === formState.backupCodes;
+		useLoginConfigStore.setState({ isOtpWizardActive: isWizardScreen });
+		return () => {
+			useLoginConfigStore.setState({ isOtpWizardActive: false });
+		};
+	}, [progress]);
 
 	const [authError, setAuthError] = useState(false);
 	const [showOtpError, setShowOtpError] = useState(false);
@@ -60,6 +80,13 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [email, setEmail] = useState('');
 	const [loadingChangePassword, setLoadingChangePassword] = useState(false);
 
+	const [otpUri, setOtpUri] = useState('');
+	const [otpGeneratedId, setOtpGeneratedId] = useState('');
+	const [staticOtpCodes, setStaticOtpCodes] = useState([]);
+	const [loadingOtpSetup, setLoadingOtpSetup] = useState(false);
+	const [otpVerifyError, setOtpVerifyError] = useState('');
+	const [otpAttemptsRemaining, setOtpAttemptsRemaining] = useState(null);
+
 	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
 	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
@@ -76,7 +103,14 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							} else {
 								res.json().then(async (response) => {
 									await saveCredentials(username, password);
-									if (response?.['2FA'] === true) {
+									if (
+										response?.['2FA'] === true &&
+										response?.['otp-wizard'] === true &&
+										(!response?.otp || response.otp.length === 0)
+									) {
+										setProgress(formState.otpWizard);
+										setLoadingCredentials(false);
+									} else if (response?.['2FA'] === true) {
 										setOtpList(
 											map(response?.otp ?? [], (obj) => ({
 												label: obj.label,
@@ -87,7 +121,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 										setProgress(formState.twoFactor);
 										setLoadingCredentials(false);
 									} else {
-										window.location.assign(configuration.destinationUrl);
+										globalThis.location.assign(configuration.destinationUrl);
 									}
 								});
 							}
@@ -136,7 +170,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						if (res.redirected) {
 							setProgress(formState.changePassword);
 						} else {
-							window.location.assign(configuration.destinationUrl);
+							globalThis.location.assign(configuration.destinationUrl);
 						}
 					} else {
 						setLoadingOtp(false);
@@ -161,6 +195,70 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const onClickForgetPassword = useCallback(() => {
 		setProgress(formState.forgetPassword);
 	}, []);
+
+	const onBackToLogin = useCallback(() => {
+		setProgress(formState.credentials);
+	}, []);
+
+	const onOtpWizardProceed = useCallback((otpLabel) => {
+		setLoadingOtpSetup(true);
+		generateOtp(otpLabel)
+			.then((data) => {
+				if (data.secret) {
+					const uri = `otpauth://totp/${encodeURIComponent(data.label)}?secret=${data.secret}&issuer=${encodeURIComponent(data.issuer)}&algorithm=${data.algorithm}&digits=${data.digits_length}&period=${data.period}`;
+					setOtpUri(uri);
+					setOtpGeneratedId(data.id);
+					setStaticOtpCodes(data.static_otp_codes || []);
+					setProgress(formState.otpSetup);
+				} else {
+					setSnackbarNetworkError(true);
+				}
+			})
+			.catch(() => {
+				setSnackbarNetworkError(true);
+			})
+			.finally(() => setLoadingOtpSetup(false));
+	}, []);
+
+	const onVerifyOtpSetupCode = useCallback(
+		(code, isTrustedDevice) => {
+			setLoadingOtpSetup(true);
+			setOtpVerifyError('');
+			submitOtp(otpGeneratedId, code, !isTrustedDevice)
+				.then(async (res) => {
+					if (res.status === 200) {
+						setProgress(formState.backupCodes);
+					} else {
+						let remaining = null;
+						try {
+							const body = await res.json();
+							remaining =
+								body?.remainingTokensAttempts ??
+								body?.attemptsRemaining ??
+								body?.attempts_remaining ??
+								null;
+						} catch {
+							// ignore parse errors
+						}
+						setOtpAttemptsRemaining(remaining);
+						setOtpVerifyError('invalid');
+					}
+				})
+				.catch(() => setSnackbarNetworkError(true))
+				.finally(() => setLoadingOtpSetup(false));
+		},
+		[otpGeneratedId]
+	);
+
+	const onBackFromSetup = useCallback(() => {
+		setOtpVerifyError('');
+		setOtpAttemptsRemaining(null);
+		setProgress(formState.otpWizard);
+	}, []);
+
+	const onLoginToWorkspace = useCallback(() => {
+		globalThis.location.assign(configuration.destinationUrl);
+	}, [configuration.destinationUrl]);
 
 	return (
 		<>
@@ -231,6 +329,66 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					</Row>
 				</form>
 			)}
+			{progress === formState.otpWizard && (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						flex: 1,
+						width: '100%'
+					}}
+				>
+					<OtpWizard
+						onBackToLogin={onBackToLogin}
+						onProceed={onOtpWizardProceed}
+						disableInputs={disableInputs}
+						loading={loadingOtpSetup}
+					/>
+				</div>
+			)}
+			{progress === formState.otpSetup && (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						flex: 1,
+						width: '100%'
+					}}
+				>
+					<OtpSetup
+						otpUri={otpUri}
+						onBackToLogin={onBackToLogin}
+						onVerifyCode={onVerifyOtpSetupCode}
+						disableInputs={disableInputs}
+						loading={loadingOtpSetup}
+						verifyError={otpVerifyError}
+						attemptsRemaining={otpAttemptsRemaining}
+						onBack={onBackFromSetup}
+					/>
+				</div>
+			)}
+			{progress === formState.backupCodes && (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						flex: 1,
+						width: '100%'
+					}}
+				>
+					<BackupCodes
+						staticOtpCodes={staticOtpCodes}
+						onLoginToWorkspace={onLoginToWorkspace}
+						configuration={configuration}
+					/>
+				</div>
+			)}
 			{progress === formState.changePassword && (
 				<ChangePasswordForm
 					isLoading={loadingChangePassword}
@@ -255,3 +413,14 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		</>
 	);
 }
+
+V2LoginManager.propTypes = {
+	configuration: PropTypes.shape({
+		destinationUrl: PropTypes.string.isRequired
+	}).isRequired,
+	disableInputs: PropTypes.bool
+};
+
+V2LoginManager.defaultProps = {
+	disableInputs: false
+};
