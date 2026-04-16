@@ -13,6 +13,7 @@ import { ErrorPage } from './error-page';
 import { LoadingView } from './loading-view';
 import { LoginAdvanced } from './loginAdvanced';
 import { LoginCE } from './loginCE';
+import { OidcErrorPage } from './oidc-error-page';
 import { getAdvancedSupported } from './services/advanced-supported';
 import { ThemeProvider } from './theme-provider/theme-provider';
 
@@ -29,6 +30,10 @@ type Loading = {
 };
 
 export function App(): React.JSX.Element {
+	const oidcError =
+		new URLSearchParams(window.location.search).has('oidcError') ||
+		new URLSearchParams(window.location.search).has('error');
+
 	const [apiResponse, setApiResponse] = useState<AdvancedSupport | Loading | Error>({
 		isLoading: true
 	});
@@ -56,7 +61,8 @@ export function App(): React.JSX.Element {
 			<SnackbarManager>
 				<Router>
 					<Switch>
-						{errorResponse && <ErrorPage />}
+						{oidcError && <OidcErrorPage />}
+						{!oidcError && errorResponse && <ErrorPage />}
 						{isLoading && <LoadingView />}
 						{supportedResponse && apiResponse.supported && <LoginAdvanced />}
 						{supportedResponse && !apiResponse.supported && <LoginCE />}
