@@ -37,7 +37,7 @@ export function submitOtp(id, code, trustDevice) {
 		body: JSON.stringify({
 			id,
 			code,
-			unsecure_device: trustDevice
+			unsecure_device: !trustDevice
 		})
 	});
 }

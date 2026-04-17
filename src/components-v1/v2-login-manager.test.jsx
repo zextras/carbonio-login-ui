@@ -224,7 +224,7 @@ describe('V2LoginManager', () => {
 		await waitFor(() => {
 			expect(screen.getByTestId('backup-codes')).toBeInTheDocument();
 		});
-		expect(submitOtp).toHaveBeenCalledWith('generated-id', '123456', false);
+		expect(submitOtp).toHaveBeenCalledWith('generated-id', '123456', true);
 		expect(screen.getByTestId('backup-codes')).toHaveTextContent('CODE-A,CODE-B');
 	});
 
