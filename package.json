@@ -3,6 +3,10 @@
 	"version": "0.9.36",
 	"description": "Zextras authentication App",
 	"main": "src/index.html",
+	"engines": {
+		"node": "v22",
+		"npm": "v10"
+	},
 	"scripts": {
 		"release": "standard-version",
 		"type-check": "tsc --noEmit",

@@ -224,7 +224,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		(code, isTrustedDevice) => {
 			setLoadingOtpSetup(true);
 			setOtpVerifyError('');
-			submitOtp(otpGeneratedId, code, !isTrustedDevice)
+			submitOtp(otpGeneratedId, code, isTrustedDevice)
 				.then(async (res) => {
 					if (res.status === 200) {
 						setProgress(formState.backupCodes);
