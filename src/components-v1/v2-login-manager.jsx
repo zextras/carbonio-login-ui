@@ -216,14 +216,20 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 					} else {
 						setShowSnackbarDetails(false);
 						setSnackbarNetworkError(
-							t('otp_generation_failed', 'Failed to generate OTP. Please try again')
+							t(
+								'otp_generation_failed',
+								'Something went wrong, please try again with another unique name or wait a couple of minutes before try again'
+							)
 						);
 					}
 				})
 				.catch(() => {
 					setShowSnackbarDetails(false);
 					setSnackbarNetworkError(
-						t('otp_generation_failed', 'Failed to generate OTP. Please try again')
+						t(
+							'otp_generation_failed',
+							'Something went wrong, please try again with another unique name or wait a couple of minutes before try again'
+						)
 					);
 				})
 				.finally(() => setLoadingOtpSetup(false));
