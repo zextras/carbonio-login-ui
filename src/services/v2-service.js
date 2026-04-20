@@ -43,7 +43,7 @@ export function submitOtp(id, code, trustDevice) {
 }
 
 export function generateOtp(labelPrefix) {
-	return fetch(`/zx/auth/v2/otp/generate?labelPrefix=${encodeURIComponent(labelPrefix)}`, {
+	return fetch(`/zx/auth/v2/otp/generate?labelPrefix=${encodeURIComponent(labelPrefix)}&temporary=true`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
