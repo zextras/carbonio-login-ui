@@ -87,7 +87,8 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 	const [otpVerifyError, setOtpVerifyError] = useState('');
 	const [otpAttemptsRemaining, setOtpAttemptsRemaining] = useState(null);
 
-	const [snackbarNetworkError, setSnackbarNetworkError] = useState(false);
+	const [snackbarNetworkError, setSnackbarNetworkError] = useState('');
+	const [showSnackbarDetails, setShowSnackbarDetails] = useState(false);
 	const [detailNetworkModal, setDetailNetworkModal] = useState(false);
 
 	const submitCredentials = useCallback(
@@ -151,7 +152,8 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 							setLoadingCredentials(false);
 							break;
 						default:
-							setSnackbarNetworkError(true);
+							setShowSnackbarDetails(true);
+							setSnackbarNetworkError(t('cant_login', 'Cannot log in now'));
 							setLoadingCredentials(false);
 					}
 				})
@@ -188,7 +190,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		[setDetailNetworkModal]
 	);
 	const onCloseSnackbarCbk = useCallback(
-		() => setSnackbarNetworkError(false),
+		() => setSnackbarNetworkError(''),
 		[setSnackbarNetworkError]
 	);
 
@@ -200,25 +202,40 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 		setProgress(formState.credentials);
 	}, []);
 
-	const onOtpWizardProceed = useCallback((otpLabel) => {
-		setLoadingOtpSetup(true);
-		generateOtp(otpLabel)
-			.then((data) => {
-				if (data.secret) {
-					const uri = `otpauth://totp/${encodeURIComponent(data.label)}?secret=${data.secret}&issuer=${encodeURIComponent(data.issuer)}&algorithm=${data.algorithm}&digits=${data.digits_length}&period=${data.period}`;
-					setOtpUri(uri);
-					setOtpGeneratedId(data.id);
-					setStaticOtpCodes(data.static_otp_codes || []);
-					setProgress(formState.otpSetup);
-				} else {
-					setSnackbarNetworkError(true);
-				}
-			})
-			.catch(() => {
-				setSnackbarNetworkError(true);
-			})
-			.finally(() => setLoadingOtpSetup(false));
-	}, []);
+	const onOtpWizardProceed = useCallback(
+		(otpLabel) => {
+			setLoadingOtpSetup(true);
+			generateOtp(otpLabel)
+				.then((data) => {
+					if (data.secret) {
+						const uri = `otpauth://totp/${encodeURIComponent(data.label)}?secret=${data.secret}&issuer=${encodeURIComponent(data.issuer)}&algorithm=${data.algorithm}&digits=${data.digits_length}&period=${data.period}`;
+						setOtpUri(uri);
+						setOtpGeneratedId(data.id);
+						setStaticOtpCodes(data.static_otp_codes || []);
+						setProgress(formState.otpSetup);
+					} else {
+						setShowSnackbarDetails(false);
+						setSnackbarNetworkError(
+							t(
+								'otp_generation_failed',
+								'Something went wrong, please try again with another unique name or wait a couple of minutes before try again'
+							)
+						);
+					}
+				})
+				.catch(() => {
+					setShowSnackbarDetails(false);
+					setSnackbarNetworkError(
+						t(
+							'otp_generation_failed',
+							'Something went wrong, please try again with another unique name or wait a couple of minutes before try again'
+						)
+					);
+				})
+				.finally(() => setLoadingOtpSetup(false));
+		},
+		[t]
+	);
 
 	const onVerifyOtpSetupCode = useCallback(
 		(code, isTrustedDevice) => {
@@ -244,10 +261,15 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						setOtpVerifyError('invalid');
 					}
 				})
-				.catch(() => setSnackbarNetworkError(true))
+				.catch(() => {
+					setShowSnackbarDetails(false);
+					setSnackbarNetworkError(
+						t('otp_verification_failed', 'Failed to verify OTP. Please try again')
+					);
+				})
 				.finally(() => setLoadingOtpSetup(false));
 		},
-		[otpGeneratedId]
+		[otpGeneratedId, t]
 	);
 
 	const onBackFromSetup = useCallback(() => {
@@ -401,10 +423,12 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 				<ForgetPassword configuration={configuration} disableInputs={disableInputs} />
 			)}
 			<Snackbar
-				open={snackbarNetworkError}
-				label={t('cant_login', 'Can not do the login now')}
-				actionLabel={t('details', 'Details')}
-				onActionClick={onSnackbarActionCbk}
+				open={!!snackbarNetworkError}
+				label={snackbarNetworkError}
+				{...(showSnackbarDetails && {
+					actionLabel: t('details', 'Details'),
+					onActionClick: onSnackbarActionCbk
+				})}
 				onClose={onCloseSnackbarCbk}
 				autoHideTimeout={10000}
 				type="error"
