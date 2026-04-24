@@ -325,16 +325,18 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						</Text>
 					</Row>
 					<Row padding={{ top: 'large' }}>
-						<Select
-							items={otpList}
-							background="gray5"
-							label={t('choose_otp', 'Choose the OTP Method')}
-							onChange={onOtpSelect}
-							defaultSelection={otpList[0]}
-						/>
+						<div style={{ width: '100%' }} className={showOtpDisabled ? 'select-otp-error' : ''}>
+							<Select
+								items={otpList}
+								background="gray5"
+								label={t('choose_otp', 'Choose the OTP Method')}
+								onChange={onOtpSelect}
+								defaultSelection={otpList[0]}
+							/>
+						</div>
 					</Row>
 					<Row padding={{ top: 'extrasmall' }} mainAlignment="flex-start">
-						<Text color="error" size="small" overflow="break-word">
+						<Text color="error" style={{ fontSize: '12px' }} overflow="break-word">
 							{showOtpDisabled &&
 								t(
 									'otp_method_disabled',
@@ -353,7 +355,7 @@ export default function V2LoginManager({ configuration, disableInputs }) {
 						/>
 					</Row>
 					<Row padding={{ top: 'extrasmall' }} mainAlignment="flex-start">
-						<Text color="error" size="small" overflow="break-word">
+						<Text color="error" style={{ fontSize: '12px' }} overflow="break-word">
 							{showOtpMaxAttempts &&
 								t(
 									'otp_max_attempts',
