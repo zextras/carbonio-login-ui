@@ -1,3 +1,28 @@
+## 0.10.0 (2026-04-27)
+
+* build(release): migrate to semantic-release (#170) ([9a7126e](https://github.com/zextras/carbonio-login-ui/commit/9a7126e)), closes [#170](https://github.com/zextras/carbonio-login-ui/issues/170)
+* chore: added attribute called temporary while creating otp from wizard (#165) ([f65456d](https://github.com/zextras/carbonio-login-ui/commit/f65456d)), closes [#165](https://github.com/zextras/carbonio-login-ui/issues/165)
+* chore: login failed attempt behaviour (#169) ([f5347bd](https://github.com/zextras/carbonio-login-ui/commit/f5347bd)), closes [#169](https://github.com/zextras/carbonio-login-ui/issues/169)
+* chore: Version bumper/v0.9.34 1 ([a64ff62](https://github.com/zextras/carbonio-login-ui/commit/a64ff62))
+* chore(deps): lock file maintenance (#139) ([323d087](https://github.com/zextras/carbonio-login-ui/commit/323d087)), closes [#139](https://github.com/zextras/carbonio-login-ui/issues/139)
+* chore(deps): update dependency @types/history to v4.7.11 (#134) ([79f2d67](https://github.com/zextras/carbonio-login-ui/commit/79f2d67)), closes [#134](https://github.com/zextras/carbonio-login-ui/issues/134)
+* chore(deps): update dependency @types/node to ^18.19.130 (#135) ([feb3bdf](https://github.com/zextras/carbonio-login-ui/commit/feb3bdf)), closes [#135](https://github.com/zextras/carbonio-login-ui/issues/135)
+* chore(deps): update dependency @types/webpack-env to ^1.18.8 (#136) ([b6ce97d](https://github.com/zextras/carbonio-login-ui/commit/b6ce97d)), closes [#136](https://github.com/zextras/carbonio-login-ui/issues/136)
+* chore(deps): update dependency @zextras/carbonio-ui-configs to ^1.0.4 (#137) ([d360ce8](https://github.com/zextras/carbonio-login-ui/commit/d360ce8)), closes [#137](https://github.com/zextras/carbonio-login-ui/issues/137)
+* chore(deps): update dependency autoprefixer to v10.4.27 (#138) ([98991cd](https://github.com/zextras/carbonio-login-ui/commit/98991cd)), closes [#138](https://github.com/zextras/carbonio-login-ui/issues/138)
+* chore(deps): update dependency dotenv-webpack to ^7.1.1 (#140) ([1e7f2d9](https://github.com/zextras/carbonio-login-ui/commit/1e7f2d9)), closes [#140](https://github.com/zextras/carbonio-login-ui/issues/140)
+* chore(deps): update dependency eslint-plugin-testing-library to ^5.11.1 (#148) ([400bcd6](https://github.com/zextras/carbonio-login-ui/commit/400bcd6)), closes [#148](https://github.com/zextras/carbonio-login-ui/issues/148)
+* chore(deps): update dependency html-webpack-plugin to ^5.6.6 (#149) ([8ecccc0](https://github.com/zextras/carbonio-login-ui/commit/8ecccc0)), closes [#149](https://github.com/zextras/carbonio-login-ui/issues/149)
+* chore(deps): update dependency react-hot-loader to v4.13.1 (#153) ([587b070](https://github.com/zextras/carbonio-login-ui/commit/587b070)), closes [#153](https://github.com/zextras/carbonio-login-ui/issues/153)
+* chore(deps): update dependency webdriver-manager to v12.1.9 (#154) ([34bc035](https://github.com/zextras/carbonio-login-ui/commit/34bc035)), closes [#154](https://github.com/zextras/carbonio-login-ui/issues/154)
+* chore(deps): update jest (#157) ([1daf016](https://github.com/zextras/carbonio-login-ui/commit/1daf016)), closes [#157](https://github.com/zextras/carbonio-login-ui/issues/157)
+* chore(release): 0.9.33 ([ca83e6b](https://github.com/zextras/carbonio-login-ui/commit/ca83e6b))
+* feat: upgrade from npm to pnpm (#164) ([150fc50](https://github.com/zextras/carbonio-login-ui/commit/150fc50)), closes [#164](https://github.com/zextras/carbonio-login-ui/issues/164)
+* fix: trusted device while login issue fixed (#163) ([dc201d5](https://github.com/zextras/carbonio-login-ui/commit/dc201d5)), closes [#163](https://github.com/zextras/carbonio-login-ui/issues/163)
+* refactor(tests): migrate from Jest to Vitest and update test setup ([2ccc733](https://github.com/zextras/carbonio-login-ui/commit/2ccc733))
+* Co 3091 flexible 2 fa frontend implement otp setup wizard (#152) ([71f87a3](https://github.com/zextras/carbonio-login-ui/commit/71f87a3)), closes [#152](https://github.com/zextras/carbonio-login-ui/issues/152)
+* Merge pull request #161 from zextras/version-bumper/v0.9.36-1 ([04b741a](https://github.com/zextras/carbonio-login-ui/commit/04b741a)), closes [#161](https://github.com/zextras/carbonio-login-ui/issues/161)
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
