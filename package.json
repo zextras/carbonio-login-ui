@@ -73,7 +73,7 @@
 		"is-ci": "2.0.0",
 		"jsdom": "25.0.1",
 		"msw": "2.13.3",
-		"postcss": "8.5.9",
+		"postcss": "8.5.12",
 		"postcss-loader": "6.2.1",
 		"protractor": "7.0.0",
 		"protractor-react-selector": "2.2.4",
