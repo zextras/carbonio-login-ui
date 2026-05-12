@@ -1,3 +1,8 @@
+## <small>0.10.1 (2026-05-12)</small>
+
+* Merge pull request #174 from zextras/IN-1095-jfrog-cost-optimization-usage-analysis-and-mitigation-s ([711c528](https://github.com/zextras/carbonio-login-ui/commit/711c528)), closes [#174](https://github.com/zextras/carbonio-login-ui/issues/174)
+* build(release): update jenkins-lib-ui to 1.0.13 ([b00c8ab](https://github.com/zextras/carbonio-login-ui/commit/b00c8ab))
+
 ## 0.10.0 (2026-04-27)
 
 * build(release): migrate to semantic-release (#170) ([9a7126e](https://github.com/zextras/carbonio-login-ui/commit/9a7126e)), closes [#170](https://github.com/zextras/carbonio-login-ui/issues/170)
