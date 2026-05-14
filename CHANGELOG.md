@@ -1,3 +1,7 @@
+## <small>0.10.2 (2026-05-14)</small>
+
+* fix(ci): migrate Jenkinsfile to jenkins-lib-common (#175) ([924a4bc](https://github.com/zextras/carbonio-login-ui/commit/924a4bc)), closes [#175](https://github.com/zextras/carbonio-login-ui/issues/175)
+
 ## <small>0.10.1 (2026-05-12)</small>
 
 * Merge pull request #174 from zextras/IN-1095-jfrog-cost-optimization-usage-analysis-and-mitigation-s ([711c528](https://github.com/zextras/carbonio-login-ui/commit/711c528)), closes [#174](https://github.com/zextras/carbonio-login-ui/issues/174)
