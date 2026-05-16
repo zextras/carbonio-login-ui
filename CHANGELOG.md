@@ -1,3 +1,7 @@
+## 0.11.0 (2026-05-16)
+
+* feat(packaging): use arch=('any') for architecture-independent package (#176) ([21d1291](https://github.com/zextras/carbonio-login-ui/commit/21d1291)), closes [#176](https://github.com/zextras/carbonio-login-ui/issues/176)
+
 ## <small>0.10.2 (2026-05-14)</small>
 
 * fix(ci): migrate Jenkinsfile to jenkins-lib-common (#175) ([924a4bc](https://github.com/zextras/carbonio-login-ui/commit/924a4bc)), closes [#175](https://github.com/zextras/carbonio-login-ui/issues/175)
