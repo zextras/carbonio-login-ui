@@ -1,3 +1,7 @@
+## <small>0.11.2 (2026-05-21)</small>
+
+* fix(deps): update dependency lodash to v4.18.1 ([c0937e7](https://github.com/zextras/carbonio-login-ui/commit/c0937e7))
+
 ## <small>0.11.1 (2026-05-21)</small>
 
 * fix(deps): update dependency webpack to v5.104.1 ([d566459](https://github.com/zextras/carbonio-login-ui/commit/d566459))
