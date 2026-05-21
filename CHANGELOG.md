@@ -1,3 +1,7 @@
+## <small>0.11.3 (2026-05-21)</small>
+
+* fix(deps): update dependency darkreader to v4.9.117 ([13b249a](https://github.com/zextras/carbonio-login-ui/commit/13b249a))
+
 ## <small>0.11.2 (2026-05-21)</small>
 
 * fix(deps): update dependency lodash to v4.18.1 ([c0937e7](https://github.com/zextras/carbonio-login-ui/commit/c0937e7))
