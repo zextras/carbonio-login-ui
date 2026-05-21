@@ -108,7 +108,7 @@
 		"i18next": "22.5.1",
 		"i18next-browser-languagedetector": "6.1.8",
 		"i18next-http-backend": "1.4.5",
-		"lodash": "4.17.21",
+		"lodash": "4.18.1",
 		"moment": "2.29.4",
 		"polished": "4.2.2",
 		"prop-types": "15.8.1",
