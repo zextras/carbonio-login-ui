@@ -20,6 +20,11 @@ export default defineConfig({
 		globals: true,
 		environment: 'jsdom',
 		setupFiles: ['./src/vitest-polyfills.ts', './src/vitest-env-setup.ts'],
+		server: {
+			deps: {
+				inline: ['darkreader']
+			}
+		},
 		clearMocks: true,
 		restoreMocks: true,
 		reporters: ['default', ['junit', { outputFile: 'junit.xml', console: false }]],
