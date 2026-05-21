@@ -1,3 +1,18 @@
+## <small>0.11.2 (2026-05-21)</small>
+
+* fix(deps): update dependency lodash to v4.18.1 ([c0937e7](https://github.com/zextras/carbonio-login-ui/commit/c0937e7))
+
+## <small>0.11.1 (2026-05-21)</small>
+
+* fix(deps): update dependency webpack to v5.104.1 ([d566459](https://github.com/zextras/carbonio-login-ui/commit/d566459))
+* chore(deps): replace dependency faker with @faker-js/faker (#133) ([0d00df3](https://github.com/zextras/carbonio-login-ui/commit/0d00df3)), closes [#133](https://github.com/zextras/carbonio-login-ui/issues/133)
+* chore(deps): update dependency @types/prop-types to v15.7.15 (#166) ([f60742f](https://github.com/zextras/carbonio-login-ui/commit/f60742f)), closes [#166](https://github.com/zextras/carbonio-login-ui/issues/166)
+* chore(deps): update dependency html-webpack-plugin to v5.6.7 (#167) ([3ac3039](https://github.com/zextras/carbonio-login-ui/commit/3ac3039)), closes [#167](https://github.com/zextras/carbonio-login-ui/issues/167)
+* chore(deps): update dependency msw to v2.14.6 (#171) ([c7c0cca](https://github.com/zextras/carbonio-login-ui/commit/c7c0cca)), closes [#171](https://github.com/zextras/carbonio-login-ui/issues/171)
+* chore(deps): update dependency postcss to v8.5.10 [security] (#173) ([06cc3f0](https://github.com/zextras/carbonio-login-ui/commit/06cc3f0)), closes [#173](https://github.com/zextras/carbonio-login-ui/issues/173)
+* chore(deps): update dependency webpack-dev-server to v5 [security] (#131) ([ce6261c](https://github.com/zextras/carbonio-login-ui/commit/ce6261c)), closes [#131](https://github.com/zextras/carbonio-login-ui/issues/131)
+* chore(deps): update dependency zextras/jenkins-lib-common to v2.7.0 (#177) ([2b4fea4](https://github.com/zextras/carbonio-login-ui/commit/2b4fea4)), closes [#177](https://github.com/zextras/carbonio-login-ui/issues/177)
+
 ## 0.11.0 (2026-05-16)
 
 * feat(packaging): use arch=('any') for architecture-independent package (#176) ([21d1291](https://github.com/zextras/carbonio-login-ui/commit/21d1291)), closes [#176](https://github.com/zextras/carbonio-login-ui/issues/176)
