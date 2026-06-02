@@ -1,3 +1,7 @@
+## <small>0.11.4 (2026-06-02)</small>
+
+* build: migrate to buildah (FQDN images + jenkins-lib-common@2.10.0) (#180) ([3c5fef4](https://github.com/zextras/carbonio-login-ui/commit/3c5fef4)), closes [#180](https://github.com/zextras/carbonio-login-ui/issues/180)
+
 ## <small>0.11.3 (2026-05-21)</small>
 
 * fix(deps): update dependency darkreader to v4.9.117 ([13b249a](https://github.com/zextras/carbonio-login-ui/commit/13b249a))
