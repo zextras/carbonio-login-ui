@@ -190,8 +190,8 @@ importers:
         specifier: 12.0.2
         version: 12.0.2(webpack@5.108.3)
       css-loader:
-        specifier: 5.0.1
-        version: 5.0.1(webpack@5.108.3)
+        specifier: 5.2.7
+        version: 5.2.7(webpack@5.108.3)
       dotenv-webpack:
         specifier: 7.1.1
         version: 7.1.1(webpack@5.108.3)
@@ -2728,10 +2728,6 @@ packages:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
 
-  camelcase@6.3.0:
-    resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
-    engines: {node: '>=10'}
-
   camelize@1.0.1:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
 
@@ -3119,8 +3115,8 @@ packages:
     resolution: {integrity: sha512-FyyrDHZKEjXDpNJYvVsV960FiqQyXc/LlYmsxl2BcdMb2WPx0OGRVgTg55rPSyLSNMqP52R9r8geSp7apN3Ofg==}
     engines: {node: '>=4'}
 
-  css-loader@5.0.1:
-    resolution: {integrity: sha512-cXc2ti9V234cq7rJzFKhirb2L2iPy8ZjALeVJAozXYz9te3r4eqLSixNAbMDJSgJEQywqXzs8gonxaboeKqwiw==}
+  css-loader@5.2.7:
+    resolution: {integrity: sha512-Q7mOvpBNBG7YrVGMxRxcBJZFL75o+cH2abNASdibkj/fffYD8qWbInZrD0S9ccI6vZclF3DsHE7njGlLtaHbhg==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       webpack: ^4.27.0 || ^5.0.0
@@ -10326,8 +10322,6 @@ snapshots:
 
   camelcase@5.3.1: {}
 
-  camelcase@6.3.0: {}
-
   camelize@1.0.1: {}
 
   caniuse-lite@1.0.30001799: {}
@@ -10755,10 +10749,8 @@ snapshots:
 
   css-color-keywords@1.0.0: {}
 
-  css-loader@5.0.1(webpack@5.108.3):
+  css-loader@5.2.7(webpack@5.108.3):
     dependencies:
-      camelcase: 6.3.0
-      cssesc: 3.0.0
       icss-utils: 5.1.0(postcss@8.5.15)
       loader-utils: 2.0.4
       postcss: 8.5.15
