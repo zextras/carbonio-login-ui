@@ -66,8 +66,8 @@ importers:
         specifier: 5.3.4
         version: 5.3.4(react@17.0.2)
       zustand:
-        specifier: 3.6.9
-        version: 3.6.9(react@17.0.2)
+        specifier: 3.7.2
+        version: 3.7.2(react@17.0.2)
     devDependencies:
       '@babel/core':
         specifier: 7.29.0
@@ -7377,8 +7377,8 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
-  zustand@3.6.9:
-    resolution: {integrity: sha512-OvDNu/jEWpRnEC7k8xh8GKjqYog7td6FZrLMuHs/IeI8WhrCwV+FngVuwMIFhp5kysZXr6emaeReMqjLGaldAQ==}
+  zustand@3.7.2:
+    resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       react: '>=16.8'
@@ -15370,6 +15370,6 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zustand@3.6.9(react@17.0.2):
+  zustand@3.7.2(react@17.0.2):
     optionalDependencies:
       react: 17.0.2
