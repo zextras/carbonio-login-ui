@@ -103,7 +103,7 @@
 		"@babel/runtime": "7.29.2",
 		"@emotion/react": "11.14.0",
 		"@emotion/styled": "11.14.1",
-		"@zextras/carbonio-design-system": "7.1.0",
+		"@zextras/carbonio-design-system": "7.1.1",
 		"core-js": "3.37.1",
 		"darkreader": "4.9.117",
 		"i18next": "22.5.1",
