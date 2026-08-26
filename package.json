@@ -89,7 +89,7 @@
 		"webdriver-manager": "12.1.9",
 		"webpack": "5.108.3",
 		"webpack-cli": "5.1.4",
-		"webpack-dev-server": "5.2.4",
+		"webpack-dev-server": "5.2.6",
 		"webpack-merge": "5.10.0",
 		"@semantic-release/changelog": "6.0.3",
 		"@semantic-release/commit-analyzer": "13.0.1",
