@@ -18,8 +18,8 @@ importers:
         specifier: 11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@17.0.93)(react@17.0.2))(@types/react@17.0.93)(react@17.0.2)
       '@zextras/carbonio-design-system':
-        specifier: 7.1.0
-        version: 7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))
+        specifier: 7.1.1
+        version: 7.1.1(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))
       core-js:
         specifier: 3.37.1
         version: 3.37.1
@@ -2269,8 +2269,8 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zextras/carbonio-design-system@7.1.0':
-    resolution: {integrity: sha512-opMbJXF9TgUnHPzwyJNuLSlMGK76OqfoXPcBh6uY2hQHsWM1l8XqpaN8Bb9PM1dY0VD1aQr/KINgGhauWmhKrQ==}
+  '@zextras/carbonio-design-system@7.1.1':
+    resolution: {integrity: sha512-VpQ2a/62J6iE3NLOx9KjZ5nSRQjYQd8nfElu0ZIlunLXBMwBXFQt4UWIRrd7v5P/fKcyi2O47h5u15yvXqglHA==}
     peerDependencies:
       lodash: ^4.17.21
       react: ^17.0.2
@@ -9813,7 +9813,7 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zextras/carbonio-design-system@7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))':
+  '@zextras/carbonio-design-system@7.1.1(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))':
     dependencies:
       '@floating-ui/dom': 1.7.6
       darkreader: 4.9.117
