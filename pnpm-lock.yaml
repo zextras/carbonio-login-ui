@@ -18,8 +18,8 @@ importers:
         specifier: 11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@17.0.93)(react@17.0.2))(@types/react@17.0.93)(react@17.0.2)
       '@zextras/carbonio-design-system':
-        specifier: 7.1.0
-        version: 7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))
+        specifier: 8.1.0
+        version: 8.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))
       core-js:
         specifier: 3.37.1
         version: 3.37.1
@@ -2269,12 +2269,12 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zextras/carbonio-design-system@7.1.0':
-    resolution: {integrity: sha512-opMbJXF9TgUnHPzwyJNuLSlMGK76OqfoXPcBh6uY2hQHsWM1l8XqpaN8Bb9PM1dY0VD1aQr/KINgGhauWmhKrQ==}
+  '@zextras/carbonio-design-system@8.1.0':
+    resolution: {integrity: sha512-PxiPPetc3YCKr7NsxiM83TWZhthdCsUkg6r3Njc5zOQVIE0SAMbv4fjDcPMTtDnqx8TV9e0EVZtGA0TZADmnaQ==}
     peerDependencies:
       lodash: ^4.17.21
-      react: ^17.0.2
-      react-dom: ^17.0.2
+      react: ^18.0.0
+      react-dom: ^18.0.0
       styled-components: ^5.3.11
 
   '@zextras/carbonio-ui-configs@1.0.4':
@@ -3059,6 +3059,9 @@ packages:
 
   core-js@3.37.1:
     resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
+
+  core-js@3.50.0:
+    resolution: {integrity: sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==}
 
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -9813,9 +9816,10 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zextras/carbonio-design-system@7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))':
+  '@zextras/carbonio-design-system@8.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))':
     dependencies:
       '@floating-ui/dom': 1.7.6
+      core-js: 3.50.0
       darkreader: 4.9.117
       lodash: 4.18.1
       polished: 4.2.2
@@ -10691,6 +10695,8 @@ snapshots:
       browserslist: 4.28.4
 
   core-js@3.37.1: {}
+
+  core-js@3.50.0: {}
 
   core-util-is@1.0.2: {}
 
