@@ -42,8 +42,8 @@ importers:
         specifier: 2.29.4
         version: 2.29.4
       polished:
-        specifier: 4.2.2
-        version: 4.2.2
+        specifier: 4.3.1
+        version: 4.3.1
       prop-types:
         specifier: 15.8.1
         version: 15.8.1
@@ -5704,8 +5704,8 @@ packages:
     resolution: {integrity: sha512-emEcLuomt2j03vxD54giVB4SxTjnsqkU692xZOZXHDVoYyypEm+b3jpiTcc+Cf+myooc+/Ly0z01jqeNHVgJGw==}
     engines: {node: '>=16.0.0'}
 
-  polished@4.2.2:
-    resolution: {integrity: sha512-Sz2Lkdxz6F2Pgnpi9U5Ng/WdWAUZxmHrNPoVlm3aAemxoy2Qy7LGjQg4uf8qKelDAUW94F4np3iH2YPf2qefcQ==}
+  polished@4.3.1:
+    resolution: {integrity: sha512-OBatVyC/N7SCW/FaDHrSd+vn0o5cS855TOmYi4OkdWUMSJCET/xip//ch8xGUvtr3i44X9LVyWwQlRMTN3pwSA==}
     engines: {node: '>=10'}
 
   possible-typed-array-names@1.1.0:
@@ -9818,7 +9818,7 @@ snapshots:
       '@floating-ui/dom': 1.7.6
       darkreader: 4.9.117
       lodash: 4.18.1
-      polished: 4.2.2
+      polished: 4.3.1
       react: 17.0.2
       react-datepicker: 4.25.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react-dom: 17.0.2(react@17.0.2)
@@ -13432,7 +13432,7 @@ snapshots:
       pvutils: 1.1.5
       tslib: 2.8.1
 
-  polished@4.2.2:
+  polished@4.3.1:
     dependencies:
       '@babel/runtime': 7.29.2
 
