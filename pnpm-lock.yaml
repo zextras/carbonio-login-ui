@@ -21,8 +21,8 @@ importers:
         specifier: 7.1.0
         version: 7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.7)(react@17.0.2))
       core-js:
-        specifier: 3.37.1
-        version: 3.37.1
+        specifier: 3.50.0
+        version: 3.50.0
       darkreader:
         specifier: 4.9.117
         version: 4.9.117
@@ -3057,8 +3057,8 @@ packages:
   core-js-compat@3.49.0:
     resolution: {integrity: sha512-VQXt1jr9cBz03b331DFDCCP90b3fanciLkgiOoy8SBHy06gNf+vQ1A3WFLqG7I8TipYIKeYK9wxd0tUrvHcOZA==}
 
-  core-js@3.37.1:
-    resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
+  core-js@3.50.0:
+    resolution: {integrity: sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==}
 
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -10690,7 +10690,7 @@ snapshots:
     dependencies:
       browserslist: 4.28.4
 
-  core-js@3.37.1: {}
+  core-js@3.50.0: {}
 
   core-util-is@1.0.2: {}
 

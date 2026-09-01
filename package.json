@@ -104,7 +104,7 @@
 		"@emotion/react": "11.14.0",
 		"@emotion/styled": "11.14.1",
 		"@zextras/carbonio-design-system": "7.1.0",
-		"core-js": "3.37.1",
+		"core-js": "3.50.0",
 		"darkreader": "4.9.117",
 		"i18next": "22.5.1",
 		"i18next-browser-languagedetector": "6.1.8",
