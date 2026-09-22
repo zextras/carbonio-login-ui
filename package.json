@@ -39,7 +39,7 @@
 		"@testing-library/jest-dom": "6.9.1",
 		"@testing-library/react": "12.1.5",
 		"@testing-library/react-hooks": "8.0.1",
-		"@testing-library/user-event": "14.6.1",
+		"@testing-library/user-event": "14.6.7",
 		"@types/dotenv-webpack": "7.0.8",
 		"@types/faker": "5.5.9",
 		"@types/history": "4.7.11",
