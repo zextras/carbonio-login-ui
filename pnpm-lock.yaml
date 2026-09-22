@@ -124,8 +124,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(@types/react@17.0.93)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       '@testing-library/user-event':
-        specifier: 14.6.1
-        version: 14.6.1(@testing-library/dom@8.20.1)
+        specifier: 14.6.7
+        version: 14.6.7(@testing-library/dom@8.20.1)
       '@types/dotenv-webpack':
         specifier: 7.0.8
         version: 7.0.8(postcss@8.5.15)(webpack-cli@5.1.4)
@@ -1754,8 +1754,8 @@ packages:
       react: <18.0.0
       react-dom: <18.0.0
 
-  '@testing-library/user-event@14.6.1':
-    resolution: {integrity: sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==}
+  '@testing-library/user-event@14.6.7':
+    resolution: {integrity: sha512-MPCpX8bxe8zS+JmmTwLp8jd0dy1rAm60Te/SL8JrQM3qvQJcBOs1d7IefJMyZzqM3EWBrDn/LWDt1BCGu4ASfg==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
@@ -9244,7 +9244,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@testing-library/user-event@14.6.1(@testing-library/dom@8.20.1)':
+  '@testing-library/user-event@14.6.7(@testing-library/dom@8.20.1)':
     dependencies:
       '@testing-library/dom': 8.20.1
 
