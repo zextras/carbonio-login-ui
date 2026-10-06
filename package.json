@@ -81,7 +81,7 @@
 		"protractor-react-selector": "2.2.4",
 		"react-hot-loader": "4.13.1",
 		"sonarqube-scanner": "4.4.0",
-		"standard-version": "9.5.0",
+		"commit-and-tag-version": "9.5.0",
 		"style-loader": "2.0.0",
 		"ts-node": "10.9.2",
 		"typescript": "5.5.3",
