@@ -74,7 +74,7 @@
 		"husky": "9.1.7",
 		"is-ci": "2.0.0",
 		"jsdom": "25.0.1",
-		"msw": "2.14.6",
+		"msw": "2.15.0",
 		"postcss": "8.5.15",
 		"postcss-loader": "6.2.1",
 		"protractor": "7.0.0",
