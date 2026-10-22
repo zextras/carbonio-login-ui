@@ -18,8 +18,8 @@ importers:
         specifier: 11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@17.0.93)(react@17.0.2))(@types/react@17.0.93)(react@17.0.2)
       '@zextras/carbonio-design-system':
-        specifier: 7.1.0
-        version: 7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.3.1)(react@17.0.2))
+        specifier: 9.0.0
+        version: 9.0.0(date-fns@3.6.0)(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.3.1)(react@17.0.2))
       core-js:
         specifier: 3.37.1
         version: 3.37.1
@@ -1138,6 +1138,18 @@ packages:
   '@floating-ui/dom@1.8.0':
     resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
 
+  '@floating-ui/react-dom@2.1.9':
+    resolution: {integrity: sha512-JDjEFGCpImxDCA7JJKviA0M9+RtmJdj0m/NVU5IMgBK+AmZouAQQ7/+2GLH0GXXY0YMw9oXPB8hKdbPYg5QLYg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@floating-ui/react@0.27.20':
+    resolution: {integrity: sha512-CMqMy7OaXl9W0eq1Uy7L7i2Y/anPvHmFmESd2CEw0t5YvZhcVCeo4MBevAmswRllX7Y2dEidA4ozGPunLSTQpw==}
+    peerDependencies:
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
+
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
@@ -1528,9 +1540,6 @@ packages:
   '@pnpm/npm-conf@3.0.3':
     resolution: {integrity: sha512-//0sR/cow/s4ICQaYoAobOl4aU8cjU6x/V24V7XkKotb9+O+3zySIYp146vpaobYHnxa4pZX8NkV54Z5AwbDKA==}
     engines: {node: '>=12'}
-
-  '@popperjs/core@2.11.8':
-    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
   '@rolldown/binding-android-arm-eabi@1.2.14':
     resolution: {integrity: sha512-aWR+XKH9+rW7m5fWq/5360J3mHycrx/o6xZM2DQFdJnTMdyP7/WzxPjhtLbVWdKo2y612/4U1bWqb3HQhiF7vg==}
@@ -2293,13 +2302,14 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zextras/carbonio-design-system@7.1.0':
-    resolution: {integrity: sha512-opMbJXF9TgUnHPzwyJNuLSlMGK76OqfoXPcBh6uY2hQHsWM1l8XqpaN8Bb9PM1dY0VD1aQr/KINgGhauWmhKrQ==}
+  '@zextras/carbonio-design-system@9.0.0':
+    resolution: {integrity: sha512-3hp4pVwxS3Ig1c67cVPpKcxQAB6Ox5HvGBysR3SLXmhTctm3nbfmaPvoTBor+OBzP2j2KP/ZrYH6kaj/RFn5Ng==}
     peerDependencies:
+      date-fns: ^4.1.0
       lodash: ^4.17.21
-      react: ^17.0.2
-      react-dom: ^17.0.2
-      styled-components: ^5.3.11
+      react: ^18.3.1
+      react-dom: ^18.3.1
+      styled-components: ^6.1.13
 
   '@zextras/carbonio-ui-configs@1.0.4':
     resolution: {integrity: sha512-WVbOPU2BhUSbDX0DsdZgx6m4Zrq9Yfn5O/5hQlcYitsow07fa1S4V8EMDl2i7ACd5gCHP7qVDHfsh+9p0N0w5w==}
@@ -2798,9 +2808,6 @@ packages:
     resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
     engines: {node: '>=8'}
 
-  classnames@2.5.1:
-    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
-
   clean-css@4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
@@ -2852,6 +2859,10 @@ packages:
 
   clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
+    engines: {node: '>=6'}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
   color-convert@1.9.3:
@@ -3083,6 +3094,9 @@ packages:
   core-js@3.37.1:
     resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
 
+  core-js@3.51.0:
+    resolution: {integrity: sha512-7bDKx/5jm5MxzsXxc93g6Z2+4ZsuT/MddrfRmTDJNAkWsYWHU8EVNEsBiIEWnMAMCHMmRfUEjkuo3jeNBOIHRw==}
+
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
 
@@ -3199,9 +3213,8 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
-  date-fns@2.30.0:
-    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
-    engines: {node: '>=0.11'}
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
   dateformat@3.0.3:
     resolution: {integrity: sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==}
@@ -5749,6 +5762,10 @@ packages:
     resolution: {integrity: sha512-Sz2Lkdxz6F2Pgnpi9U5Ng/WdWAUZxmHrNPoVlm3aAemxoy2Qy7LGjQg4uf8qKelDAUW94F4np3iH2YPf2qefcQ==}
     engines: {node: '>=10'}
 
+  polished@4.3.1:
+    resolution: {integrity: sha512-OBatVyC/N7SCW/FaDHrSd+vn0o5cS855TOmYi4OkdWUMSJCET/xip//ch8xGUvtr3i44X9LVyWwQlRMTN3pwSA==}
+    engines: {node: '>=10'}
+
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
@@ -5955,11 +5972,11 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
-  react-datepicker@4.25.0:
-    resolution: {integrity: sha512-zB7CSi44SJ0sqo8hUQ3BF1saE/knn7u25qEMTO1CQGofY1VAKahO8k9drZtp0cfW1DMfoYLR3uSY1/uMvbEzbg==}
+  react-datepicker@7.6.0:
+    resolution: {integrity: sha512-9cQH6Z/qa4LrGhzdc3XoHbhrxNcMi9MKjZmYgF/1MNNaJwvdSjv3Xd+jjvrEEbKEf71ZgCA3n7fQbdwd70qCRw==}
     peerDependencies:
-      react: ^16.9.0 || ^17 || ^18
-      react-dom: ^16.9.0 || ^17 || ^18
+      react: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
   react-device-detect@2.2.3:
     resolution: {integrity: sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==}
@@ -5977,9 +5994,6 @@ packages:
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       react: '>=16.13.1'
-
-  react-fast-compare@3.2.2:
-    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
   react-hot-loader@4.13.1:
     resolution: {integrity: sha512-ZlqCfVRqDJmMXTulUGic4lN7Ic1SXgHAFw7y/Jb7t25GBgTR0fYAJ8uY4mrpxjRyWGWmqw77qJQGnYbzCvBU7g==}
@@ -6019,19 +6033,6 @@ packages:
 
   react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
-
-  react-onclickoutside@6.13.2:
-    resolution: {integrity: sha512-h6Hbf1c8b7tIYY4u90mDdBLY4+AGQVMFtIE89HgC0DtVCh/JfKl477gYqUtGLmjZBKK3MJxomP/lFiLbz4sq9A==}
-    peerDependencies:
-      react: ^15.5.x || ^16.x || ^17.x || ^18.x
-      react-dom: ^15.5.x || ^16.x || ^17.x || ^18.x
-
-  react-popper@2.3.0:
-    resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
-    peerDependencies:
-      '@popperjs/core': ^2.0.0
-      react: ^16.8.0 || ^17 || ^18
-      react-dom: ^16.8.0 || ^17 || ^18
 
   react-refresh@0.18.0:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
@@ -6680,6 +6681,9 @@ packages:
     resolution: {integrity: sha512-U+/AXT6LWsxnj2vz9HeUuPWBNgdWxjyIEjEPdbJARC9txmgPzo2VEdqnFo4hHaNyMPtycyVJrSaQYeQv/PoyyA==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  tabbable@6.5.0:
+    resolution: {integrity: sha512-wieBHXygIm7OyQOu5hQlkk62/WyCFYGlWg7L6/ZCUZwx0o398Zkn4pVmMyfYhfMG8kGrj/Krt8eIk6UKC6VzwA==}
+
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
@@ -7172,9 +7176,6 @@ packages:
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
-
-  warning@4.0.3:
-    resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
 
   watchpack@2.6.3:
     resolution: {integrity: sha512-s3NZy0QpTY9qGqzc0wtz4qI28z3+5qKbbAec4MV4G9N3CfgZ9wgvQRr0cl2jh/tqkWG1NWHkmVMHZpCamev5Wg==}
@@ -8576,6 +8577,20 @@ snapshots:
       '@floating-ui/core': 1.8.0
       '@floating-ui/utils': 0.2.12
 
+  '@floating-ui/react-dom@2.1.9(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+    dependencies:
+      '@floating-ui/dom': 1.8.0
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+
+  '@floating-ui/react@0.27.20(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.9(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@floating-ui/utils': 0.2.12
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      tabbable: 6.5.0
+
   '@floating-ui/utils@0.2.12': {}
 
   '@humanwhocodes/config-array@0.13.0':
@@ -9027,8 +9042,6 @@ snapshots:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
-
-  '@popperjs/core@2.11.8': {}
 
   '@rolldown/binding-android-arm-eabi@1.2.14':
     optional: true
@@ -9889,14 +9902,16 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zextras/carbonio-design-system@7.1.0(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.3.1)(react@17.0.2))':
+  '@zextras/carbonio-design-system@9.0.0(date-fns@3.6.0)(lodash@4.18.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.3.1)(react@17.0.2))':
     dependencies:
       '@floating-ui/dom': 1.8.0
+      core-js: 3.51.0
       darkreader: 4.9.117
+      date-fns: 3.6.0
       lodash: 4.18.1
-      polished: 4.2.2
+      polished: 4.3.1
       react: 17.0.2
-      react-datepicker: 4.25.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      react-datepicker: 7.6.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react-dom: 17.0.2(react@17.0.2)
       styled-components: 5.3.11(@babel/core@7.29.0)(react-dom@17.0.2(react@17.0.2))(react-is@19.3.1)(react@17.0.2)
 
@@ -10450,8 +10465,6 @@ snapshots:
 
   ci-info@4.4.0: {}
 
-  classnames@2.5.1: {}
-
   clean-css@4.2.4:
     dependencies:
       source-map: 0.6.1
@@ -10517,6 +10530,8 @@ snapshots:
       is-plain-object: 2.0.4
       kind-of: 6.0.3
       shallow-clone: 3.0.1
+
+  clsx@2.1.1: {}
 
   color-convert@1.9.3:
     dependencies:
@@ -10772,6 +10787,8 @@ snapshots:
 
   core-js@3.37.1: {}
 
+  core-js@3.51.0: {}
+
   core-util-is@1.0.2: {}
 
   core-util-is@1.0.3: {}
@@ -10908,9 +10925,7 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
-  date-fns@2.30.0:
-    dependencies:
-      '@babel/runtime': 7.29.2
+  date-fns@3.6.0: {}
 
   dateformat@3.0.3: {}
 
@@ -13538,6 +13553,10 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.2
 
+  polished@4.3.1:
+    dependencies:
+      '@babel/runtime': 7.29.2
+
   possible-typed-array-names@1.1.0: {}
 
   postcss-loader@6.2.1(postcss@8.5.15)(webpack@5.112.0):
@@ -13742,16 +13761,13 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-datepicker@4.25.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-datepicker@7.6.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
-      '@popperjs/core': 2.11.8
-      classnames: 2.5.1
-      date-fns: 2.30.0
-      prop-types: 15.8.1
+      '@floating-ui/react': 0.27.20(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      clsx: 2.1.1
+      date-fns: 3.6.0
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      react-onclickoutside: 6.13.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
 
   react-device-detect@2.2.3(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
@@ -13770,8 +13786,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.2
       react: 17.0.2
-
-  react-fast-compare@3.2.2: {}
 
   react-hot-loader@4.13.1(@types/react@17.0.93)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
@@ -13806,19 +13820,6 @@ snapshots:
   react-is@19.3.1: {}
 
   react-lifecycles-compat@3.0.4: {}
-
-  react-onclickoutside@6.13.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-
-  react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
-    dependencies:
-      '@popperjs/core': 2.11.8
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-fast-compare: 3.2.2
-      warning: 4.0.3
 
   react-refresh@0.18.0: {}
 
@@ -14683,6 +14684,8 @@ snapshots:
       '@dual-bundle/import-meta-resolve': 4.2.1
       '@pkgr/core': 0.3.6
 
+  tabbable@6.5.0: {}
+
   tagged-tag@1.0.0: {}
 
   tapable@2.3.3: {}
@@ -15138,10 +15141,6 @@ snapshots:
   w3c-xmlserializer@5.0.0:
     dependencies:
       xml-name-validator: 5.0.0
-
-  warning@4.0.3:
-    dependencies:
-      loose-envify: 1.4.0
 
   watchpack@2.6.3:
     dependencies:
