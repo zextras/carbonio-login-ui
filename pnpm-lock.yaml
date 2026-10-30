@@ -27,8 +27,8 @@ importers:
         specifier: 4.9.117
         version: 4.9.117
       i18next:
-        specifier: 22.5.1
-        version: 22.5.1
+        specifier: 23.16.8
+        version: 23.16.8
       i18next-browser-languagedetector:
         specifier: 6.1.8
         version: 6.1.8
@@ -61,7 +61,7 @@ importers:
         version: 17.0.2(react@17.0.2)
       react-i18next:
         specifier: 11.18.6
-        version: 11.18.6(i18next@22.5.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 11.18.6(i18next@23.16.8)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react-router-dom:
         specifier: 5.3.4
         version: 5.3.4(react@17.0.2)
@@ -4335,9 +4335,6 @@ packages:
 
   i18next-http-backend@1.4.5:
     resolution: {integrity: sha512-tLuHWuLWl6CmS07o+UB6EcQCaUjrZ1yhdseIN7sfq0u7phsMePJ8pqlGhIAdRDPF/q7ooyo5MID5DRFBCH+x5w==}
-
-  i18next@22.5.1:
-    resolution: {integrity: sha512-8TGPgM3pAD+VRsMtUMNknRz3kzqwp/gPALrWMsDnmC1mKqJwpWyooQRLMcbTwq8z8YwSmuj+ZYvc+xCuEpkssA==}
 
   i18next@23.16.8:
     resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
@@ -12297,10 +12294,6 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  i18next@22.5.1:
-    dependencies:
-      '@babel/runtime': 7.29.2
-
   i18next@23.16.8:
     dependencies:
       '@babel/runtime': 7.29.2
@@ -13788,11 +13781,11 @@ snapshots:
     optionalDependencies:
       '@types/react': 17.0.93
 
-  react-i18next@11.18.6(i18next@22.5.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-i18next@11.18.6(i18next@23.16.8)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
       '@babel/runtime': 7.29.2
       html-parse-stringify: 3.1.0
-      i18next: 22.5.1
+      i18next: 23.16.8
       react: 17.0.2
     optionalDependencies:
       react-dom: 17.0.2(react@17.0.2)
